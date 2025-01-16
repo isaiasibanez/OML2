@@ -5,9 +5,9 @@ format:
   live-html:
     pyodide:
       cell-options:
-        edit: false
-      packages:
-        - matplotlib
+        # edit: true
+        # include: true
+        fig-dpi: 50
 ---
 
 
