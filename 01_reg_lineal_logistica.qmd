@@ -34,6 +34,8 @@ $$
 
 # Regresión lineal
 
+ver
+
 ## Interpretación probabilística
 
 En el modelo de regresión lineal, las variables predictoras $\XX\in\RR^p$ se relacionan con la variable respuesta $Y\in\RR$ mediante la ecuación
