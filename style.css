@@ -30,29 +30,3 @@ pre {
   line-height: 1.5; /* Mejor separación entre líneas */
   margin: 15px 0; /* Separación vertical */
 }
-
-/* Bloques de código fuente (ajusta según la clase identificada) */
-pre.sourceCode {
-  font-family: "Fira Code", monospace;
-  font-size: 14px; /* Tamaño del código fuente */
-  background-color: #2e3440; /* Fondo oscuro */
-  color: #d8dee9; /* Texto claro */
-  padding: 10px;
-  border-radius: 5px;
-}
-
-/* Estilo para la salida de Pyodide (ajusta según la clase identificada) */
-div.pyodide-output pre, div.output pre {
-  font-family: "Courier New", monospace;
-  font-size: 14px; /* Tamaño del texto en la salida */
-  background-color: #f4f4f4; /* Fondo claro */
-  color: #333; /* Texto oscuro */
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  overflow-x: auto;
-}
-
-.sourceCode {
-  display: none !important;
-}

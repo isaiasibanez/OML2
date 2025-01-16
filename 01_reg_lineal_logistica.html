@@ -253,7 +253,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBw
 </script>
 </div>
 <p>La clase <code>LinearRegression</code> usa la ecuación normal <span class="math inline">\(\hat{\bftheta}=(X^TX)^{-1}X^T\vec{y}\)</span>. Para usar descenso de gradiente, la alternativa es la clase <code>SGDRegressor</code>: esta efectúa <strong>descenso de gradiente estocástico</strong>, que consiste en calcular el gradiente utilizando un dato a la vez.</p>
-<div id="a9e1c672" class="cell" data-execution_count="1">
+<div id="bc6f755a" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -317,7 +317,7 @@ h_\bftheta(\xx) = g(\bftheta^T \xx) = \frac{1}{1 + e^{-\bftheta^T \xx}},
 <section id="gráfico-de-la-función-logística" class="level3" data-number="2.1.1">
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="gráfico-de-la-función-logística"><span class="header-section-number">2.1.1</span> Gráfico de la función logística</h3>
 <p>La siguiente es una representación de <span class="math inline">\(g(z)\)</span>. Observar que <span class="math inline">\(g(z)\)</span> tiende hacia 1 cuando <span class="math inline">\(z \to \infty\)</span>, mientras que tiende hacia 0 cuando <span class="math inline">\(z \to -\infty\)</span>. Además, <span class="math inline">\(g(z)\)</span> está acotada entre 0 y 1.</p>
-<div id="cc39697d" class="cell" data-execution_count="2">
+<div id="49849e96" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -420,7 +420,7 @@ g(\bftheta^T \xx) (1 - g(\bftheta^T \xx)) x_j
 <section id="ejemplo-1" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="ejemplo-1"><span class="header-section-number">2.3</span> Ejemplo</h2>
 <p>El conjunto de datos <code>Breast Cancer</code> contiene información sobre 569 muestras de tejido mamario, con 30 características que describen propiedades de las células nucleares de los tumores. El objetivo principal es clasificar los tumores como benignos o malignos.</p>
-<div id="6b8a6de5" class="cell" data-execution_count="3">
+<div id="20230aa4" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
