@@ -1,5 +1,5 @@
 ---
-title: "Regresión lineal y logística"
+title: "Modelos Lineales Generalizados"
 lang: es
 format:
   live-html:
@@ -12,6 +12,7 @@ format:
     toc-depth: 3
     toc-location: left
     toc-floating: true
+number-sections: true
 ---
 
 
@@ -23,6 +24,13 @@ $$
 \def\bftheta{\boldsymbol{\theta}}
    $$ 
 :::
+
+
+<hr style="border: 1px solid rgba(50, 0, 0, 1);">
+
+
+
+
 
 # Regresión lineal
 

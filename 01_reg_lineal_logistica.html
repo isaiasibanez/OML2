@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Regresión lineal y logística</title>
+<title>Modelos Lineales Generalizados</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -79,27 +79,27 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#regresión-lineal" id="toc-regresión-lineal" class="nav-link active" data-scroll-target="#regresión-lineal">Regresión lineal</a>
+  <li><a href="#regresión-lineal" id="toc-regresión-lineal" class="nav-link active" data-scroll-target="#regresión-lineal"><span class="header-section-number">1</span> Regresión lineal</a>
   <ul class="collapse">
-  <li><a href="#interpretación-probabilística" id="toc-interpretación-probabilística" class="nav-link" data-scroll-target="#interpretación-probabilística">Interpretación probabilística</a>
+  <li><a href="#interpretación-probabilística" id="toc-interpretación-probabilística" class="nav-link" data-scroll-target="#interpretación-probabilística"><span class="header-section-number">1.1</span> Interpretación probabilística</a>
   <ul class="collapse">
-  <li><a href="#función-de-verosimilitud" id="toc-función-de-verosimilitud" class="nav-link" data-scroll-target="#función-de-verosimilitud">Función de verosimilitud</a></li>
+  <li><a href="#función-de-verosimilitud" id="toc-función-de-verosimilitud" class="nav-link" data-scroll-target="#función-de-verosimilitud"><span class="header-section-number">1.1.1</span> Función de verosimilitud</a></li>
   </ul></li>
-  <li><a href="#algoritmo-lms" id="toc-algoritmo-lms" class="nav-link" data-scroll-target="#algoritmo-lms">Algoritmo LMS</a></li>
-  <li><a href="#ejemplo" id="toc-ejemplo" class="nav-link" data-scroll-target="#ejemplo">Ejemplo</a></li>
+  <li><a href="#algoritmo-lms" id="toc-algoritmo-lms" class="nav-link" data-scroll-target="#algoritmo-lms"><span class="header-section-number">1.2</span> Algoritmo LMS</a></li>
+  <li><a href="#ejemplo" id="toc-ejemplo" class="nav-link" data-scroll-target="#ejemplo"><span class="header-section-number">1.3</span> Ejemplo</a></li>
   </ul></li>
-  <li><a href="#regresión-logística" id="toc-regresión-logística" class="nav-link" data-scroll-target="#regresión-logística">Regresión logística</a>
+  <li><a href="#regresión-logística" id="toc-regresión-logística" class="nav-link" data-scroll-target="#regresión-logística"><span class="header-section-number">2</span> Regresión logística</a>
   <ul class="collapse">
-  <li><a href="#función-logística" id="toc-función-logística" class="nav-link" data-scroll-target="#función-logística">Función logística</a>
+  <li><a href="#función-logística" id="toc-función-logística" class="nav-link" data-scroll-target="#función-logística"><span class="header-section-number">2.1</span> Función logística</a>
   <ul class="collapse">
-  <li><a href="#gráfico-de-la-función-logística" id="toc-gráfico-de-la-función-logística" class="nav-link" data-scroll-target="#gráfico-de-la-función-logística">Gráfico de la función logística</a></li>
+  <li><a href="#gráfico-de-la-función-logística" id="toc-gráfico-de-la-función-logística" class="nav-link" data-scroll-target="#gráfico-de-la-función-logística"><span class="header-section-number">2.1.1</span> Gráfico de la función logística</a></li>
   </ul></li>
-  <li><a href="#estimación-de-parámetros" id="toc-estimación-de-parámetros" class="nav-link" data-scroll-target="#estimación-de-parámetros">Estimación de parámetros</a>
+  <li><a href="#estimación-de-parámetros" id="toc-estimación-de-parámetros" class="nav-link" data-scroll-target="#estimación-de-parámetros"><span class="header-section-number">2.2</span> Estimación de parámetros</a>
   <ul class="collapse">
-  <li><a href="#función-de-verosimilitud-1" id="toc-función-de-verosimilitud-1" class="nav-link" data-scroll-target="#función-de-verosimilitud-1">Función de verosimilitud</a></li>
-  <li><a href="#regla-de-ascenso-por-gradiente" id="toc-regla-de-ascenso-por-gradiente" class="nav-link" data-scroll-target="#regla-de-ascenso-por-gradiente">Regla de ascenso por Gradiente</a></li>
+  <li><a href="#función-de-verosimilitud-1" id="toc-función-de-verosimilitud-1" class="nav-link" data-scroll-target="#función-de-verosimilitud-1"><span class="header-section-number">2.2.1</span> Función de verosimilitud</a></li>
+  <li><a href="#regla-de-ascenso-por-gradiente" id="toc-regla-de-ascenso-por-gradiente" class="nav-link" data-scroll-target="#regla-de-ascenso-por-gradiente"><span class="header-section-number">2.2.2</span> Regla de ascenso por Gradiente</a></li>
   </ul></li>
-  <li><a href="#ejemplo-1" id="toc-ejemplo-1" class="nav-link" data-scroll-target="#ejemplo-1">Ejemplo</a></li>
+  <li><a href="#ejemplo-1" id="toc-ejemplo-1" class="nav-link" data-scroll-target="#ejemplo-1"><span class="header-section-number">2.3</span> Ejemplo</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -110,7 +110,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Regresión lineal y logística</h1>
+<h1 class="title">Modelos Lineales Generalizados</h1>
 </div>
 
 
@@ -135,10 +135,11 @@ window.Quarto = {
 \def\bftheta{\boldsymbol{\theta}}
    \]</span></p>
 </div>
-<section id="regresión-lineal" class="level1">
-<h1>Regresión lineal</h1>
-<section id="interpretación-probabilística" class="level2">
-<h2 class="anchored" data-anchor-id="interpretación-probabilística">Interpretación probabilística</h2>
+<hr style="border: 1px solid rgba(50, 0, 0, 1);">
+<section id="regresión-lineal" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Regresión lineal</h1>
+<section id="interpretación-probabilística" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="interpretación-probabilística"><span class="header-section-number">1.1</span> Interpretación probabilística</h2>
 <p>En el modelo de regresión lineal, las variables predictoras <span class="math inline">\(\XX\in\RR^p\)</span> se relacionan con la variable respuesta <span class="math inline">\(Y\in\RR\)</span> mediante la ecuación</p>
 <p><span class="math display">\[
 Y = \theta_0+\theta_1 X_1+\theta_2 X_2+\cdots+\theta_p X_p + \varepsilon,
@@ -160,8 +161,8 @@ p(\varepsilon) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{\varepsilon^2}
 p(y |\xx; \bftheta) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{(y-\bftheta^T \xx)^2}{2 \sigma^2}\right).
 \]</span></p>
 <hr>
-<section id="función-de-verosimilitud" class="level3">
-<h3 class="anchored" data-anchor-id="función-de-verosimilitud">Función de verosimilitud</h3>
+<section id="función-de-verosimilitud" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="función-de-verosimilitud"><span class="header-section-number">1.1.1</span> Función de verosimilitud</h3>
 <p>Para un conjunto de datos <span class="math inline">\(\{\xx_i, y_i\}_{i=1}^n\)</span> i.i.d., la función de verosimilitud es</p>
 <p><span class="math display">\[
 L(\bftheta) = \prod_{i=1}^{n} \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{(y_i - \bftheta^T\xx_i)^2}{2 \sigma^2}\right).
@@ -184,8 +185,8 @@ J(\bftheta)=\frac{1}{2} \sum_{i=1}^{n} (y_i - \bftheta^T \xx_i)^2,
 <p>donde <span class="math inline">\(X\in\RR^{n\times p}\)</span> es la matriz de datos y <span class="math inline">\(\vec{y}\)</span> el vector de respuestas.</p>
 </section>
 </section>
-<section id="algoritmo-lms" class="level2">
-<h2 class="anchored" data-anchor-id="algoritmo-lms">Algoritmo LMS</h2>
+<section id="algoritmo-lms" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="algoritmo-lms"><span class="header-section-number">1.2</span> Algoritmo LMS</h2>
 <p>Un algoritmo de búsqueda del minimizador de <span class="math inline">\(J(\bftheta)\)</span> comienza con un valor inicial para <span class="math inline">\(\bftheta\)</span> y, luego, realiza una actualización iterativa de <span class="math inline">\(\bftheta\)</span> que pretende hacer el valor de <span class="math inline">\(J(\bftheta)\)</span> cada vez más pequeño. Específicamente, consideremos el algoritmo de <strong>descenso de gradiente</strong> que utiliza la siguiente actualización:</p>
 <p><span class="math display">\[
 \theta_j := \theta_j - \alpha \frac{\partial}{\partial \theta_j} J(\bftheta).
@@ -207,8 +208,8 @@ J(\bftheta)=\frac{1}{2} \sum_{i=1}^{n} (y_i - \bftheta^T \xx_i)^2,
 \]</span></p>
 <p>Este método analiza cada ejemplo en todo el conjunto de entrenamiento en cada paso y se denomina <strong>descenso de gradiente por lotes</strong> (<em>batch gradient descent</em>).</p>
 </section>
-<section id="ejemplo" class="level2">
-<h2 class="anchored" data-anchor-id="ejemplo">Ejemplo</h2>
+<section id="ejemplo" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="ejemplo"><span class="header-section-number">1.3</span> Ejemplo</h2>
 <p>El conjunto de datos <code>California Housing</code> incluye información detallada sobre diversas características socioeconómicas y geográficas de diferentes áreas residenciales en California. El objetivo es predecir el valor medio de las viviendas en cada zona, a partir de factores como la densidad poblacional y los ingresos medios de los hogares, entre otros.</p>
 <div>
 <div id="pyodide-1" class="exercise-cell">
@@ -229,14 +230,14 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiaW1w
 </div>
 </section>
 </section>
-<section id="regresión-logística" class="level1">
-<h1>Regresión logística</h1>
+<section id="regresión-logística" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Regresión logística</h1>
 <p>Ahora hablemos sobre el problema de clasificación. En este caso, la variable respuesta toma valores discretos, es decir <span class="math inline">\(Y\in\{0,1,\cdots,r\}\)</span>. En particular, nos enfocaremos en el problema de <strong>clasificación binaria</strong> en el que <span class="math inline">\(Y\in\{0,1\}\)</span>.</p>
 <p>Por ejemplo, si estamos tratando de construir un clasificador de spam para correos electrónicos, entonces una observación <span class="math inline">\(\xx\)</span> contendrá características de un correo electrónico, mientras que su <strong>etiqueta</strong> <span class="math inline">\(y\)</span> será 1 si es spam o 0 en caso contrario.</p>
 <p>Podríamos abordar el problema de clasificación ignorando el hecho de que <span class="math inline">\(y\)</span> toma valores discretos, y usar nuestro antiguo algoritmo de regresión lineal para tratar de predecir <span class="math inline">\(y\)</span> dado <span class="math inline">\(\xx\)</span>. Sin embargo, esto suele tener un pobre desempeño y además no tiene sentido que la predicción para un valor de <span class="math inline">\(\xx\)</span> sea un valor fuera del rango de 0 y 1.</p>
 <p>Para resolver este problema, podemos usar la <strong>regresión logística</strong>, donde la predicción se realiza con una función logística o sigmoide.</p>
-<section id="función-logística" class="level2">
-<h2 class="anchored" data-anchor-id="función-logística">Función logística</h2>
+<section id="función-logística" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="función-logística"><span class="header-section-number">2.1</span> Función logística</h2>
 <p>En vez de trabajar con <span class="math inline">\(h(\xx)=\bftheta^T\xx\)</span> (regresión lineal), utilizaremos la siguiente expresión:</p>
 <p><span class="math display">\[
 h_\bftheta(\xx) = g(\bftheta^T \xx) = \frac{1}{1 + e^{-\bftheta^T \xx}},
@@ -244,8 +245,8 @@ h_\bftheta(\xx) = g(\bftheta^T \xx) = \frac{1}{1 + e^{-\bftheta^T \xx}},
 <p>donde</p>
 <p><span class="math display">\[ g(z) = \frac{1}{1 + e^{-z}} \]</span></p>
 <p>se llama <strong>función logística</strong> o <strong>función sigmoide</strong>.</p>
-<section id="gráfico-de-la-función-logística" class="level3">
-<h3 class="anchored" data-anchor-id="gráfico-de-la-función-logística">Gráfico de la función logística</h3>
+<section id="gráfico-de-la-función-logística" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="gráfico-de-la-función-logística"><span class="header-section-number">2.1.1</span> Gráfico de la función logística</h3>
 <p>La siguiente es una representación de <span class="math inline">\(g(z)\)</span>. Observar que <span class="math inline">\(g(z)\)</span> tiende hacia 1 cuando <span class="math inline">\(z \to \infty\)</span>, mientras que tiende hacia 0 cuando <span class="math inline">\(z \to -\infty\)</span>. Además, <span class="math inline">\(g(z)\)</span> está acotada entre 0 y 1.</p>
 <div>
 <div id="pyodide-3" class="exercise-cell">
@@ -258,8 +259,8 @@ eyJhdHRyIjp7ImVkaXQiOmZhbHNlLCJldmFsIjp0cnVlLCJpbmNsdWRlIjp0cnVlfSwiY29kZSI6Imlt
 <p><br> <span style="color: red;">Lo de la derivada de la función logística mejor como ejercicio ?.</span></p>
 </section>
 </section>
-<section id="estimación-de-parámetros" class="level2">
-<h2 class="anchored" data-anchor-id="estimación-de-parámetros">Estimación de parámetros</h2>
+<section id="estimación-de-parámetros" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="estimación-de-parámetros"><span class="header-section-number">2.2</span> Estimación de parámetros</h2>
 <p>Entonces, dado el modelo de regresión logística, ¿cómo ajustamos <span class="math inline">\(\bftheta\)</span>? Como antes, obtengamos el estimador de máxima verosimilitud a partir de un conjunto de supuestos probabilísticos. Supongamos que</p>
 <p><span class="math display">\[
 \begin{align*}
@@ -272,8 +273,8 @@ P(y = 0 | \xx; \bftheta) &amp;= 1 - h_\theta(\xx).
 <p><span class="math display">\[
 p(y | \xx; \bftheta) = \left( h_\bftheta(\xx) \right)^y \left( 1 - h_\bftheta(\xx) \right)^{1-y}.
 \]</span></p>
-<section id="función-de-verosimilitud-1" class="level3">
-<h3 class="anchored" data-anchor-id="función-de-verosimilitud-1">Función de verosimilitud</h3>
+<section id="función-de-verosimilitud-1" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="función-de-verosimilitud-1"><span class="header-section-number">2.2.1</span> Función de verosimilitud</h3>
 <p>Para un conjunto de datos <span class="math inline">\(\{\xx_i, y_i\}_{i=1}^n\)</span> i.i.d., la función de verosimilitud es</p>
 <p><span class="math display">\[
 \begin{align*}
@@ -288,8 +289,8 @@ L(\bftheta) = \prod_{i=1}^n \left( h_\bftheta(\xx_i) \right)^{y_i} \left( 1 - h_
 \end{align*}
 \]</span></p>
 </section>
-<section id="regla-de-ascenso-por-gradiente" class="level3">
-<h3 class="anchored" data-anchor-id="regla-de-ascenso-por-gradiente">Regla de ascenso por Gradiente</h3>
+<section id="regla-de-ascenso-por-gradiente" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="regla-de-ascenso-por-gradiente"><span class="header-section-number">2.2.2</span> Regla de ascenso por Gradiente</h3>
 <p>¿Cómo maximizamos la verosimilitud? Similar a nuestra derivación en el caso de la regresión lineal, podemos usar <strong>ascenso por gradiente</strong>. Las actualizaciones estarán dadas por</p>
 <p><span class="math display">\[
 \bftheta := \bftheta + \alpha \nabla_\bftheta \ell(\bftheta).
@@ -320,8 +321,8 @@ g(\bftheta^T \xx) (1 - g(\bftheta^T \xx)) x_j
 <p>donde <span class="math inline">\(x_{ij}\)</span> es el <span class="math inline">\(j\)</span>-ésimo elemento de la observación <span class="math inline">\(\xx_i\)</span>. Si comparamos esto con la regla de actualización de LMS, podemos notar una cierta similaridad entre los factores <span class="math inline">\((y_i-\bftheta^T\xx_i)\)</span> y <span class="math inline">\((y_i-h_\bftheta(\xx))\)</span>. ¿Es esto coincidencia? Veremos este hecho cuando veamos los modelos lineales generalizados.</p>
 </section>
 </section>
-<section id="ejemplo-1" class="level2">
-<h2 class="anchored" data-anchor-id="ejemplo-1">Ejemplo</h2>
+<section id="ejemplo-1" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="ejemplo-1"><span class="header-section-number">2.3</span> Ejemplo</h2>
 <p>El conjunto de datos <code>Breast Cancer</code> contiene información sobre 569 muestras de tejido mamario, con 30 características que describen propiedades de las células nucleares de los tumores. El objetivo principal es clasificar los tumores como benignos o malignos.</p>
 <div>
 <div id="pyodide-4" class="exercise-cell">
