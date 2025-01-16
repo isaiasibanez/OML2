@@ -3,19 +3,11 @@ title: "Regresión lineal y logística"
 lang: es
 format:
   live-html:
-    css: style.css
-    toc: true
-    toc-depth: 3
-    toc-location: left
-    toc-floating: true
-    theme: cosmo
-    execute:
-      echo: true            # Muestra el código ejecutado (si es necesario)
-      warning: false
-    number-sections: true
     pyodide:
       cell-options:
         edit: false
+      packages:
+        - matplotlib
 ---
 
 
