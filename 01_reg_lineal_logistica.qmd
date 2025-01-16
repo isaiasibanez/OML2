@@ -8,8 +8,9 @@ format:
     toc-depth: 3
     toc-location: left
     toc-floating: true
-    code-fold: true
     code-tools: true
+    code-fold: true
+    code-copy: true
     code-highlight: true
     code-theme: monokai
     theme: cosmo

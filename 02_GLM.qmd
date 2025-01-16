@@ -2,7 +2,7 @@
 title: "Modelos lineales generalizados"
 lang: es
 format:
-  html:
+  live-html:
     css: style.css
     toc: true
     toc-depth: 3
