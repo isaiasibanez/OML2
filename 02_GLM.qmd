@@ -1,0 +1,775 @@
+---
+title: "Modelos lineales generalizados"
+lang: es
+format:
+  html:
+    css: style.css
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    toc-floating: true
+    code-fold: true
+    code-tools: true
+    code-highlight: true
+    code-theme: monokai
+    theme: cosmo
+    execute:
+      echo: true
+      warning: false
+number-sections: true
+---
+
+
+::: {.hidden} 
+$$
+\def\RR{\mathbb{R}}
+\def\media{\mathbb{E}}
+\def\xx{{\bf x}}
+\def\XX{{\bf X}}
+\def\TT{{\bf T}}
+\def\bftheta{\boldsymbol{\theta}}
+\def\bfeta{\boldsymbol{\eta}}
+   $$ 
+:::
+
+
+
+Tanto en el modelo de regresión lineal como en el de regresión logística, asumimos una cierta distribución condicional para $Y|\XX$ que depende de un conjunto de parámetros $\bftheta$. 
+
+- En regresión lineal, suponemos $Y|\XX\sim\mathcal{N}(\mu,\sigma^2)$ con $\mu=\bftheta^T\XX$.
+
+- En regresión logística, que recordemos está pensado para problemas de clasificación, suponemos $Y|\XX\sim\text{Bernoulli}(\phi)$ con $\phi=g(\bftheta^T\XX)$, donde $g(z)=1/(1+e^{-z})$.
+
+En esta sección mostraremos que ambos métodos son casos especiales de una familia más amplia de modelos, llamados **Modelos Lineales Generalizados (GLMs)**. También mostraremos cómo otros modelos en GLM pueden derivarse y aplicarse a otros problemas de regresión y clasificación. 
+
+
+# La familia exponencial
+
+::: {.definicion}
+**Definición:**  Decimos que una clase de distribuciones pertenece a la familia exponencial si se puede escribir en la forma
+
+$$p(y; \bfeta) = b(y) \exp\left(\bfeta^T \TT(y) - a(\bfeta)\right)$$
+:::
+
+
+- $\bfeta$ se llama **parámetro natural** de la distribución.
+- $\TT(y)$ es el **estadístico suficiente**.
+- $a(\bfeta)$ es la **función de partición logarítmica** que normaliza la expresión para que la distribución sea válida (es decir, integre a 1).
+
+
+Una elección fija de $\TT$, $a$ y $b$ define un conjunto de distribuciones parametrizadas por $\bfeta$, de manera que al variar $\bfeta$ obtenemos diferentes distribuciones dentro de esta familia.
+
+
+## Ejemplos
+
+Mostraremos que las distribuciones Bernoulli y Normal son ejemplos de distribuciones de la familia exponencial.
+
+### Distribución Bernoulli
+
+Sea $Y\in\{0,1\}$ tal que $Y\sim\text{Bernoulli}(\phi)$. Entonces
+
+
+$$
+\begin{align*}
+p(y; \phi) &= \phi^y (1 - \phi)^{1-y} \\ 
+& = \exp\left( y \log\phi + (1-y)\log(1-\phi) \right) \\
+& = \exp\left(\log\left(\frac{\phi}{1-\phi}\right)y+\log(1-\phi)\right) \\
+& = \exp\left(\log\left(\frac{\phi}{1-\phi}\right)y+\log(1-\phi)\right)
+\end{align*}
+$$
+
+Reconocemos el parámetro natural
+$$\eta=\log\left(\frac{\phi}{1-\phi}\right)$$
+
+mientras que el resto de los elementos son:
+$$T(y)=y, \qquad a(\eta)=-\log(1-\phi)=\log(1+e^\eta), \qquad b(y)=1.$$
+
+
+
+### Distribución Gaussiana
+
+Sea $Y\in\RR$ tal que $Y\sim\mathcal{N}(\mu,\sigma^2)$. Entonces
+
+$$
+\begin{align*}
+p(y; \mu, \sigma^2) & = \frac{1}{\sqrt{2\pi}\sigma} \exp\left(-\frac{(y - \mu)^2}{2\sigma^2}\right) \\
+& = \frac{1}{\sqrt{2\pi}}\exp\left(-\frac{1}{2\sigma^2}y^2+\frac{\mu}{\sigma^2}y-\frac{\mu^2}{2\sigma^2}-\log\sigma\right) \\
+& = \frac{1}{\sqrt{2\pi}}\exp\left(\left(\frac{\mu}{\sigma^2},-\frac{1}{2\sigma^2}\right)^T(y,y^2)-\frac{\mu^2}{2\sigma^2}-\log\sigma\right)
+\end{align*}
+$$
+
+El parámetro natural es el vector
+
+$$\bfeta=\left(\frac{\mu}{\sigma^2},-\frac{1}{2\sigma^2}\right)$$
+
+y el resto de los elementos son
+$$\TT(y)=(y,y^2), \qquad a(\bfeta)=\frac{\mu^2}{2\sigma^2}+\log\sigma=-\frac{\eta_1^2}{4\eta_2}+\frac{1}{2}\log(-2\eta_2), \qquad b(y)=\frac{1}{\sqrt{2\pi}}.$$
+
+
+---
+
+Existen muchas otras distribuciones que son miembros de la familia exponencial: la multinomial (que veremos más adelante), la Poisson (para modelar datos de conteo), la gamma y la exponencial (para modelar variables continuas no negativas, como intervalos de tiempo); la beta y la Dirichlet (para distribuciones sobre probabilidades); y muchas más. 
+
+En la próxima sección, describiremos una "receta" general para construir modelos en los cuales $y$ (dado $\xx$ y $\theta$) proviene de cualquiera de estas distribuciones.
+
+
+# Construcción de GLMs
+
+Supongamos que deseas construir un modelo para estimar el número $y$ de clientes que llegan a tu tienda (o el número de visitas a páginas web en tu sitio) en una hora determinada, basándote en ciertas características como promociones en la tienda, publicidad reciente, clima, día de la semana, etc. Sabemos que la distribución Poisson usualmente proporciona un buen modelo para el número de visitantes. Sabiendo esto, ¿cómo podemos proponer un modelo para nuestro problema? Afortunadamente, la Poisson es una distribución de la familia exponencial, por lo que podemos aplicar un Modelo Lineal Generalizado (GLM). En esta sección, describiremos un método para construir modelos GLM para problemas como este.
+
+Más generalmente, consideremos un problema de regresión o clasificación o regresión donde queremos predecir el valor de alguna variable aleatoria $y$ como función de $\xx$. Para derivar un GLM para este problema, haremos las siguientes tres suposiciones:
+
+::: {.highlight}
+**Suposición 1:**  $y|\xx;\bftheta\sim\text{FamiliaExponencial}(\bfeta)$.
+
+**Suposición 2:** Dado $\xx$, el objetivo es predecir $\media[T(y)|\xx]$.
+
+**Suposición 3:** El parámetro natural $\bfeta$ y las predictoras $\xx$ están relacionadas linealmente; esto es, $\bfeta=\bftheta^T\xx$.
+:::
+
+
+Generalmente $T(y)=y$ y, en tal caso, la suposición 2 significa que queremos que la predicción sea $h(\xx)=\media[\xx]$. Por otra parte, si el parámetro natural $\bfeta$ es un vector, observar que la suposición 3 implica que $\bftheta$ debe ser una matriz. Esta última suposición podría parecer la menos justificada de las anteriores, y podría considerarse más como una "elección de diseño" en nuestra receta para diseñar GLMs, en lugar de una suposición como tal. 
+
+Estas tres suposiciones o elecciones de diseño nos permitirán derivar una clase muy elegante de algoritmos de aprendizaje, a saber, los GLMs, que tienen muchas propiedades deseables, como la facilidad de aprendizaje. Además, los modelos resultantes son frecuentemente muy efectivos.
+
+
+ 
+## Mínimos Cuadrados Ordinarios
+
+Para demostrar que los mínimos cuadrados ordinarios son un caso especial de la familia de modelos GLM, consideremos el escenario en el que la variable objetivo $y$ (también llamada *variable de respuesta* en la terminología GLM) es continua, y modelamos la distribución condicional de $y$ dado $x$ como una Gaussiana $\mathcal{N}(\mu, \sigma^2)$. (Aquí, $\mu$ puede depender de $x$.) Por lo tanto, tomamos la distribución $\text{ExponentialFamily}(\eta)$ sobre la distribución Gaussiana anterior. Como vimos previamente, en la formulación de la distribución Gaussiana como una distribución de la familia exponencial, tenemos $\mu = \eta$. Así que tenemos:
+
+$$
+\begin{align*}
+h_\theta(x) &= \mathbb{E}[y | x; \theta] \\
+&= \mu \\ &= \eta \\&= \theta^T x.
+\end{align*}
+$$
+
+La primera igualdad se deduce de la Suposición 2 mencionada anteriormente; la segunda igualdad se deduce del hecho de que $y | x; \theta \sim \mathcal{N}(\mu, \sigma^2)$, y por lo tanto su valor esperado está dado por $\mu$; la tercera igualdad se deduce de la Suposición 1 (y nuestra derivación anterior mostrando que $\mu = \eta$ en la formulación de la Gaussiana como una distribución de la familia exponencial); y la última igualdad se deduce de la Suposición 3.
+
+
+PARA MI ESSTos ejempLOS VAN DEPSUES DE DECIR COMO SE ESTIMAN LOS PARAMETROS EN GENERAL EN LOS MODELOS GENERALIZADOS.
+
+## Ejemplo en Python: Mínimos Cuadrados Ordinarios
+
+A continuación, implementamos un modelo de regresión lineal que ilustra cómo se ajustan los datos siguiendo un enfoque de mínimos cuadrados ordinarios.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+# Generar datos simulados
+np.random.seed(42)
+n_samples = 100
+X = 2 * np.random.rand(n_samples, 1)  # Características (una variable predictora)
+y = 4 + 3 * X + np.random.randn(n_samples, 1)  # Respuesta con ruido
+
+# Dividir en entrenamiento y prueba
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Ajustar un modelo de regresión lineal
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Predicciones
+y_pred = model.predict(X_test)
+
+# Parámetros ajustados
+theta_0 = model.intercept_  # Intercepto
+theta_1 = model.coef_       # Pendiente
+
+# Visualizar los resultados
+plt.figure(figsize=(8, 6))
+plt.scatter(X_test, y_test, color="blue", label="Datos reales")
+plt.plot(X_test, y_pred, color="red", label=f"Modelo ajustado: $y = {theta_0[0]:.2f} + {theta_1[0][0]:.2f}x$")
+plt.xlabel("Variable predictora (X)")
+plt.ylabel("Variable respuesta (y)")
+plt.title("Mínimos Cuadrados Ordinarios")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Evaluar el modelo
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+print(f"Error cuadrático medio (MSE): {mse:.4f}")
+print(f"Coeficiente de determinación (R^2): {r2:.4f}")
+```
+
+
+## Regresión Logística
+
+Ahora consideramos la regresión logística. Aquí estamos interesados en la clasificación binaria, por lo que $y \in \{0, 1\}$. Dado que $y$ es un valor binario, parece natural elegir la familia Bernoulli de distribuciones para modelar la distribución condicional de $y$ dado $x$. En nuestra formulación de la distribución Bernoulli como una distribución de la familia exponencial, teníamos $\phi = 1/(1 + e^{-\eta})$. Además, nota que si $y | x; \theta \sim \text{Bernoulli}(\phi)$, entonces $\mathbb{E}[y | x; \theta] = \phi$. Por lo tanto, siguiendo una derivación similar a la de los mínimos cuadrados ordinarios, obtenemos:
+
+$$
+\begin{align*}
+h_\theta(x) = \mathbb{E}[y | x; \theta] = \phi = \frac{1}{1 + e^{-\eta}} = \frac{1}{1 + e^{-\theta^T x}}.
+\end{align*}
+$$
+
+Así, obtenemos funciones hipótesis de la forma:
+
+$$
+h_\theta(x) = \frac{1}{1 + e^{-\theta^T x}}.
+$$
+
+Si alguna vez te preguntaste cómo llegamos a la forma de la función logística $1/(1 + e^{-z})$, esta es la respuesta: Una vez que asumimos que $y$ condicionado en $x$ es Bernoulli, surge como una consecuencia de la definición de los GLMs y las distribuciones de la familia exponencial.
+
+### Terminología
+
+- La **función de respuesta canónica**, $g$, da la media de la distribución como una función del parámetro natural: $g(\eta) = \mathbb{E}[T(y); \eta]$.
+- La inversa de esta función, $g^{-1}$, se llama la **función de enlace canónica**.
+  
+Por ejemplo:
+- Para la familia Gaussiana, la función de respuesta canónica es la función identidad.
+- Para la familia Bernoulli, la función de respuesta canónica es la función logística.
+
+ESTE TAMBIEN , tiene que haber una seccion de como estimar, luego compu
+
+## Ejemplo en Python: Regresión Logística
+
+A continuación, implementamos un ejemplo práctico de regresión logística en un problema de clasificación binaria.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, confusion_matrix
+
+# Generar datos simulados para clasificación binaria
+X, y = make_classification(
+    n_samples=200, n_features=2, n_informative=2, n_redundant=0,
+    random_state=42, class_sep=1.5
+)
+
+# Visualizar los datos
+plt.figure(figsize=(8, 6))
+plt.scatter(X[y == 0, 0], X[y == 0, 1], color="blue", label="Clase 0")
+plt.scatter(X[y == 1, 0], X[y == 1, 1], color="red", label="Clase 1")
+plt.title("Datos de Clasificación Binaria")
+plt.xlabel("Característica 1")
+plt.ylabel("Característica 2")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Dividir datos en entrenamiento y prueba
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Ajustar un modelo de regresión logística
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# Predicciones
+y_pred = model.predict(X_test)
+
+# Visualización de la frontera de decisión
+x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.01),
+                     np.arange(y_min, y_max, 0.01))
+Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
+Z = Z.reshape(xx.shape)
+
+plt.figure(figsize=(8, 6))
+plt.contourf(xx, yy, Z, alpha=0.8, cmap="coolwarm")
+plt.scatter(X[y == 0, 0], X[y == 0, 1], color="blue", label="Clase 0")
+plt.scatter(X[y == 1, 0], X[y == 1, 1], color="red", label="Clase 1")
+plt.title("Frontera de Decisión de Regresión Logística")
+plt.xlabel("Característica 1")
+plt.ylabel("Característica 2")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Evaluación del modelo
+print("Reporte de Clasificación:")
+print(classification_report(y_test, y_pred))
+print("Matriz de Confusión:")
+print(confusion_matrix(y_test, y_pred))
+```
+
+ 
+
+## Regresión Softmax
+
+### Contexto
+
+Consideremos un problema de clasificación en el que la variable de respuesta $yConsideremos un problema de clasificación en el que la variable de respuesta $yConsideremos un problema de clasificación en el que la variable de respuesta $yConsideremos un problema de clasificación en el que la variable de respuesta $y$ puede tomar cualquiera de \(k\) valores, por lo que $y \in \{1, 2, \ldots, k\}$. Por ejemplo, en lugar de clasificar correos electrónicos en dos clases (spam o no spam), podríamos clasificarlos en tres clases: spam, correo personal y correo relacionado con el trabajo. Para modelar esta situación, usaremos la **distribución multinomial** como una distribución de la familia exponencial.
+
+
+### La Multinomial como Distribución de la Familia Exponencial
+
+Derivemos un GLM para datos multinomiales parametrizando la multinomial con $k-1$ parámetros $\phi_1, \dots, \phi_{k-1}$, dado que $\sum_{i=1}^k \phi_i = 1$. Para expresar la multinomial como una distribución de la familia exponencial, definimos:
+
+$$
+\begin{align*}
+T(1)& = \begin{bmatrix} 1 \\ 0 \\ \vdots \\ 0 \end{bmatrix}, \\
+T(2) &= \begin{bmatrix} 0 \\ 1 \\ \vdots \\ 0 \end{bmatrix}, \\ \dots, \\
+T(k) &= \begin{bmatrix} 0 \\ 0 \\ \vdots \\ 0 \end{bmatrix}.
+\end{align*}
+$$
+
+ La distribución multinomial pertenece a la familia exponencial. Tenemos:
+
+$$
+\begin{align*}
+p(y; \phi)& =
+\phi_1^{1\{y=1\}} \phi_2^{1\{y=2\}} \cdots \phi_k^{1\{y=k\}}\\
+&= \phi_1^{(T(y))_1} \phi_2^{(T(y))_2} \cdots \phi_k^{1-\sum_{i=1}^{k-1}(T(y))_i}
+\\
+&= \phi_1^{(T(y))_1} \phi_2^{(T(y))_2} \cdots \phi_{k-1}^{(T(y))_{k-1}} \left(1 - \sum_{i=1}^{k-1} \phi_i\right)^{1-\sum_{i=1}^{k-1}(T(y))_i}
+\\
+&= \exp\left((T(y))_1 \log(\phi_1) + (T(y))_2 \log(\phi_2) + \dots + \left(1 - \sum_{i=1}^{k-1}(T(y))_i\right)\log\left(1 - \sum_{i=1}^{k-1} \phi_i\right)\right).
+\end{align*}
+$$
+
+Finalmente, organizamos los términos en la forma estándar de la familia exponencial:
+
+$$
+p(y; \phi) = b(y) \exp\left(\eta^T T(y) - a(\eta)\right),
+$$
+
+donde:
+
+$$
+\begin{align*}
+\eta &= \begin{bmatrix}
+\log\left(\frac{\phi_1}{\phi_k}\right) \\
+\log\left(\frac{\phi_2}{\phi_k}\right) \\
+\vdots \\
+\log\left(\frac{\phi_{k-1}}{\phi_k}\right)
+\end{bmatrix},
+\\
+a(\eta) &= -\log(\phi_k),
+\\
+b(y)& = 1.
+\end{align*}
+$$
+
+Esto completa nuestra formulación de la multinomial como una distribución de la familia exponencial.
+
+
+La función que mapea \(\eta\) a \(\phi\) se llama la **función softmax**:
+
+### Función de Enlace y Función de Respuesta
+
+La función de enlace está dada (para $i = 1, \dots, k$) por:
+
+$$
+\eta_i = \log\left(\frac{\phi_i}{\phi_k}\right).
+$$
+
+Para conveniencia, también definimos $\eta_k = \log(\phi_k / \phi_k) = 0$. Para invertir la función de enlace y derivar la función de respuesta, tenemos que:
+
+$$
+e^{\eta_i} = \frac{\phi_i}{\phi_k},
+$$
+
+lo que implica:
+
+$$
+\phi_k \sum_{i=1}^k e^{\eta_i} = \sum_{i=1}^k \phi_i = 1.
+$$
+
+Por lo tanto:
+
+$$
+\phi_k = \frac{1}{\sum_{i=1}^k e^{\eta_i}},
+$$
+
+y al sustituir en la ecuación obtenemos la función de respuesta:
+
+$$
+\phi_i = \frac{e^{\eta_i}}{\sum_{j=1}^k e^{\eta_j}}.
+$$
+
+
+
+## Softmax Function y Modelo de Clasificación
+
+La función que mapea de $\eta$ a $\phi$ se llama la función \textit{softmax}. 
+
+Para completar nuestro modelo, usamos la Asunción 3, mencionada previamente, donde los $\eta_i$ están relacionados linealmente con los $x$'s. Así, tenemos $\eta_i = \theta_i^T x$ (para $i = 1, \dots, k - 1$), donde $\theta_1, \dots, \theta_{k-1} \in \mathbb{R}^{d+1}$ son los parámetros de nuestro modelo. Por notación, podemos definir $\theta_k = 0$, de modo que $\eta_k = \theta_k^T x = 0$, como se definió anteriormente. Por lo tanto, nuestro modelo asume que la distribución condicional de $y$ dado $x$ está dada por:
+
+$$
+\begin{align*}
+p(y = i | x; \theta) &= \phi_i\\
+&= \frac{e^{\eta_i}}{\sum_{j=1}^k e^{\eta_j}}\\
+&= \frac{e^{\theta_i^T x}}{\sum_{j=1}^k e^{\theta_j^T x}}, \quad (5)
+\end{align*}
+$$
+
+donde este modelo, que aplica a problemas de clasificación donde $y \in \{1, \dots, k\}$, se llama \textit{regresión softmax}. Es una generalización de la regresión logística.
+
+### Hipótesis del Modelo
+
+Nuestra hipótesis producirá:
+
+$$
+\begin{align*}
+h_\theta(x) &= \mathbb{E}[T(y) | x; \theta]
+\\
+&= \mathbb{E}
+\begin{bmatrix}
+1\{y = 1\} \\
+1\{y = 2\} \\
+\vdots \\
+1\{y = k - 1\}
+\end{bmatrix}
+\\&=
+\begin{bmatrix}
+\phi_1 \\
+\phi_2 \\
+\vdots \\
+\phi_{k-1}
+\end{bmatrix}
+\\&=
+\begin{bmatrix}
+\frac{\exp(\theta_1^T x)}{\sum_{j=1}^k \exp(\theta_j^T x)} \\
+\frac{\exp(\theta_2^T x)}{\sum_{j=1}^k \exp(\theta_j^T x)} \\
+\vdots \\
+\frac{\exp(\theta_{k-1}^T x)}{\sum_{j=1}^k \exp(\theta_j^T x)}
+\end{bmatrix}.
+\end{align*}
+$$
+
+En otras palabras, nuestra hipótesis producirá la probabilidad estimada de que $p(y = i | x; \theta)$ para cada valor $i = 1, \dots, k$. (Aunque $h_\theta(x)$, como se definió arriba, tiene solo $k - 1$ dimensiones, claramente $p(y = k | x; \theta)$ puede obtenerse como $1 - \sum_{i=1}^{k-1} \phi_i$).
+
+
+
+## Ajuste de Parámetros
+
+Por último, discutamos el ajuste de parámetros. Similar a nuestra derivación original de mínimos cuadrados ordinarios y regresión logística, si tenemos un conjunto de entrenamiento de $n$ ejemplos $\{(x^{(i)}, y^{(i)}); i = 1, \dots, n\}$ y deseamos aprender los parámetros $\theta_i$ de este modelo, comenzaríamos escribiendo la log-verosimilitud:
+
+$$
+\begin{align*}
+\ell(\theta) &= \sum_{i=1}^n \log p(y^{(i)} | x^{(i)}; \theta)
+\\
+&= \sum_{i=1}^n \log \prod_{l=1}^k \left( \frac{e^{\theta_l^T x^{(i)}}}{\sum_{j=1}^k e^{\theta_j^T x^{(i)}}} \right)^{1\{y^{(i)} = l\}}.
+\end{align*}
+$$
+
+Para obtener la segunda línea anterior, usamos la definición de $p(y | x; \theta)$ dada en la Ecuación (5). Ahora podemos obtener la estimación de máxima verosimilitud de los parámetros maximizando $\ell(\theta)$ en términos de $\theta$, utilizando un método como ascenso de gradiente o el método de Newton.
+
+
+
+ACA FALTA AJUSTE DE PARAMETROS PARA EL MODELO GLM EN GENERAL
+eso esta en el video de el viejo del 2008 , no esta en el nuevo. 
+seria importante poner algo
+
+
+### Ejemplo Práctico en Python
+
+Implementemos un ejemplo práctico para un problema de clasificación multiclasificación.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, confusion_matrix
+
+# Generar datos simulados para clasificación multiclase
+X, y = make_classification(
+    n_samples=300, n_features=2, n_informative=2, n_redundant=0,
+    n_classes=3, n_clusters_per_class=1, random_state=42
+)
+
+# Visualizar los datos
+plt.figure(figsize=(8, 6))
+scatter = plt.scatter(X[:, 0], X[:, 1], c=y, cmap="viridis")
+plt.title("Datos de Clasificación Multiclase")
+plt.xlabel("Característica 1")
+plt.ylabel("Característica 2")
+plt.colorbar(scatter, label="Clases")
+plt.grid(True)
+plt.show()
+
+# Dividir los datos en entrenamiento y prueba
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Ajustar el modelo de regresión softmax
+model = LogisticRegression(multi_class="multinomial", solver="lbfgs", max_iter=200)
+model.fit(X_train, y_train)
+
+# Predicciones
+y_pred = model.predict(X_test)
+
+# Frontera de decisión
+x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.01),
+                     np.arange(y_min, y_max, 0.01))
+Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
+Z = Z.reshape(xx.shape)
+
+plt.figure(figsize=(8, 6))
+plt.contourf(xx, yy, Z, alpha=0.8, cmap="viridis")
+scatter = plt.scatter(X[:, 0], X[:, 1], c=y, edgecolor="k", cmap="viridis")
+plt.title("Frontera de Decisión: Regresión Softmax")
+plt.xlabel("Característica 1")
+plt.ylabel("Característica 2")
+plt.colorbar(scatter, label="Clases")
+plt.grid(True)
+plt.show()
+
+# Evaluación del modelo
+print("Reporte de Clasificación:")
+print(classification_report(y_test, y_pred))
+print("Matriz de Confusión:")
+print(confusion_matrix(y_test, y_pred))
+```
+
+
+## Ejemplo Poisson
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import PoissonRegressor
+from sklearn.model_selection import train_test_split
+
+# Simular datos
+np.random.seed(42)
+n_samples = 1000
+X = np.random.rand(n_samples, 1) * 10  # Promociones (característica)
+theta = 0.5  # Relación lineal
+y_mean = np.exp(theta * X).flatten()  # Media de Poisson
+y = np.random.poisson(y_mean)  # Datos simulados de Poisson
+
+# Dividir en entrenamiento y prueba
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Ajustar un modelo GLM con Poisson
+model = PoissonRegressor(alpha=0, max_iter=300)
+model.fit(X_train, y_train)
+
+# Predicciones
+y_pred = model.predict(X_test)
+
+# Visualizar los resultados
+plt.figure(figsize=(8, 6))
+plt.scatter(X_test, y_test, color="blue", label="Datos reales")
+plt.scatter(X_test, y_pred, color="red", label="Predicciones")
+plt.xlabel("Promociones (característica)")
+plt.ylabel("Clientes (target)")
+plt.title("Modelo Poisson GLM")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Evaluación del modelo
+score = model.score(X_test, y_test)
+print(f"Coeficiente de determinación (R^2): {score:.4f}")
+```
+
+
+
+
+# Ajuste de Parámetros en Modelos Lineales Generalizados
+
+Los Modelos Lineales Generalizados (GLMs) son una extensión poderosa de los modelos lineales que permite trabajar con una amplia variedad de distribuciones en la familia exponencial. En esta sección, discutiremos en detalle cómo se ajustan los parámetros de un GLM usando el principio de máxima verosimilitud, seguido por un análisis de los casos específicos de las distribuciones Gaussianas, Bernoulli, Multinomial y Poisson.
+
+## El Principio de Máxima Verosimilitud
+
+El ajuste de parámetros en los GLMs se basa en maximizar la log-verosimilitud de los datos observados. Dado un conjunto de entrenamiento $$\{(x^{(i)}, y^{(i)})\}_{i=1}^n$$, la función de verosimilitud está dada por:
+
+$$
+L(\theta) = \prod_{i=1}^n p(y^{(i)} | x^{(i)}; \theta),
+$$
+
+y la log-verosimilitud correspondiente es:
+
+$$
+\ell(\theta) = \log L(\theta) = \sum_{i=1}^n \log p(y^{(i)} | x^{(i)}; \theta).
+$$
+
+Para maximizar $$\ell(\theta)$$, derivamos con respecto a $$\theta$$ para obtener el gradiente. En GLMs, las propiedades de la familia exponencial simplifican esta derivada, que resulta ser:
+
+$$
+\nabla_\theta \ell(\theta) = \sum_{i=1}^n (T(y^{(i)}) - \mathbb{E}[T(y) | x^{(i)}; \theta]) x^{(i)},
+$$
+
+donde $$T(y)$$ es la estadística suficiente de la distribución y $$\mathbb{E}[T(y) | x^{(i)}; \theta]$$ es el valor esperado de $$T(y)$$ dado $$x^{(i)}$$.
+
+## El Método de Newton-Raphson
+
+Para maximizar la log-verosimilitud, usamos un método iterativo como Newton-Raphson. Este método requiere calcular la Hessiana de $$\ell(\theta)$$, que es la matriz de segundas derivadas:
+
+$$
+H(\theta) = \sum_{i=1}^n \left(-\text{Var}[T(y) | x^{(i)}; \theta]\right) x^{(i)} (x^{(i)})^T,
+$$
+
+donde $$\text{Var}[T(y) | x; \theta]$$ es la varianza condicional de $$T(y)$$, que depende de la distribución específica del modelo. El método de Newton-Raphson actualiza $$\theta$$ como:
+
+$$
+\theta^{(t+1)} = \theta^{(t)} - H(\theta^{(t)})^{-1} \nabla_\theta \ell(\theta^{(t)}).
+$$
+
+Aunque este método converge rápidamente en muchas aplicaciones, calcular la Hessiana e invertirla puede ser computacionalmente costoso para modelos de alta dimensionalidad. En tales casos, se prefieren métodos más simples como el descenso por gradiente.
+
+## Casos Específicos de GLMs
+
+### Regresión Lineal (Distribución Gaussiana)
+
+En la regresión lineal, asumimos que $$y | x; \theta \sim \mathcal{N}(\mu, \sigma^2)$$, con $$\mu = \theta^T x$$. Las propiedades de la distribución Gaussiana son:
+
+$$
+T(y) = y, \quad \mathbb{E}[T(y) | x; \theta] = \mu = \theta^T x, \quad \text{Var}[T(y) | x; \theta] = \sigma^2.
+$$
+
+El gradiente de la log-verosimilitud es:
+
+$$
+\nabla_\theta \ell(\theta) = \sum_{i=1}^n (y^{(i)} - \theta^T x^{(i)}) x^{(i)}.
+$$
+
+#### Ejemplo en Python: Regresión Lineal
+
+```{python}
+from sklearn.linear_model import LinearRegression
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Simular datos
+np.random.seed(42)
+X = np.random.rand(100, 1) * 10
+y = 3 * X.flatten() + 5 + np.random.randn(100) * 2
+
+# Ajustar modelo
+model = LinearRegression()
+model.fit(X, y)
+
+# Predicciones
+y_pred = model.predict(X)
+
+# Gráfico
+plt.scatter(X, y, label="Datos reales")
+plt.plot(X, y_pred, color="red", label="Modelo ajustado")
+plt.xlabel("X")
+plt.ylabel("y")
+plt.title("Regresión Lineal")
+plt.legend()
+plt.show()
+```
+
+---
+
+### Regresión Logística (Distribución Bernoulli)
+
+En la regresión logística, $$y | x; \theta \sim \text{Bernoulli}(\phi)$$, con $$\phi = \frac{1}{1 + e^{-\theta^T x}}$$. Las propiedades relevantes son:
+
+$$
+T(y) = y, \quad \mathbb{E}[T(y) | x; \theta] = \phi, \quad \text{Var}[T(y) | x; \theta] = \phi (1 - \phi).
+$$
+
+#### Ejemplo en Python: Regresión Logística
+
+```{python}
+from sklearn.linear_model import LogisticRegression
+
+# Simular datos binarios
+X = np.random.rand(100, 2) * 10
+y = (3 * X[:, 0] + 2 * X[:, 1] + np.random.randn(100) > 15).astype(int)
+
+# Ajustar modelo
+model = LogisticRegression()
+model.fit(X, y)
+
+# Predicciones
+y_pred = model.predict(X)
+
+# Gráfico
+plt.scatter(X[:, 0], y, label="Datos reales")
+plt.scatter(X[:, 0], y_pred, color="red", label="Predicciones")
+plt.xlabel("X")
+plt.ylabel("y")
+plt.title("Regresión Logística")
+plt.legend()
+plt.show()
+```
+
+---
+
+### Regresión Softmax (Distribución Multinomial)
+
+En la regresión softmax, $$y \in \{1, \dots, k\}$$:
+
+$$
+p(y = i | x; \theta) = \frac{\exp(\theta_i^T x)}{\sum_{j=1}^k \exp(\theta_j^T x)}.
+$$
+
+#### Ejemplo en Python: Regresión Softmax
+
+```{python}
+from sklearn.linear_model import LogisticRegression
+
+# Simular datos multinomiales
+X = np.random.rand(150, 2) * 10
+y = np.random.choice([0, 1, 2], size=150)
+
+# Ajustar modelo
+model = LogisticRegression(multi_class='multinomial', solver='lbfgs')
+model.fit(X, y)
+
+# Predicciones
+y_pred = model.predict(X)
+
+# Gráfico
+plt.scatter(X[:, 0], y, label="Datos reales")
+plt.scatter(X[:, 0], y_pred, color="red", label="Predicciones")
+plt.xlabel("X")
+plt.ylabel("y")
+plt.title("Regresión Softmax")
+plt.legend()
+plt.show()
+```
+
+---
+
+### Regresión Poisson
+
+En la regresión Poisson, $$y | x; \theta \sim \text{Poisson}(\lambda)$$, con $$\lambda = \exp(\theta^T x)$$. Las propiedades relevantes son:
+
+$$
+T(y) = y, \quad \mathbb{E}[T(y) | x; \theta] = \lambda = \exp(\theta^T x), \quad \text{Var}[T(y) | x; \theta] = \lambda.
+$$
+
+#### Ejemplo en Python: Regresión Poisson
+
+```{python}
+from sklearn.linear_model import PoissonRegressor
+
+# Simular datos de Poisson
+X = np.random.rand(100, 1) * 10
+y = np.random.poisson(lam=np.exp(0.5 * X.flatten()))
+
+# Ajustar modelo
+model = PoissonRegressor(alpha=0)
+model.fit(X, y)
+
+# Predicciones
+y_pred = model.predict(X)
+
+# Gráfico
+plt.scatter(X, y, label="Datos reales")
+plt.plot(X, y_pred, color="red", label="Modelo ajustado")
+plt.xlabel("X")
+plt.ylabel("y")
+plt.title("Regresión Poisson")
+plt.legend()
+plt.show()
+```
+
+---
+
+## Conclusión
+
+El ajuste de parámetros en los GLMs se basa en maximizar la log-verosimilitud. Este marco unificado permite abordar una amplia variedad de problemas de clasificación y regresión usando distribuciones específicas de la familia exponencial.
