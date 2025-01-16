@@ -8,18 +8,14 @@ format:
     toc-depth: 3
     toc-location: left
     toc-floating: true
-    code-tools: false        # Mantiene las herramientas de código (copiar y plegar)
-    code-copy: true         # Habilita la opción de copiar código
-    code-fold: true         # Habilita el plegado de código
-    code-highlight: true    # Habilita el resaltado de sintaxis
-    code-theme: monokai
     theme: cosmo
     execute:
       echo: true            # Muestra el código ejecutado (si es necesario)
       warning: false
     number-sections: true
-    view-source: false      # Desactiva la opción "Ver código fuente"
-
+    cell-options:
+      pyodide:
+        edit: false
 ---
 
 
