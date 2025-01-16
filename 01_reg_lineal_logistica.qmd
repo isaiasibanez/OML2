@@ -13,8 +13,8 @@ format:
       echo: true            # Muestra el código ejecutado (si es necesario)
       warning: false
     number-sections: true
-    cell-options:
-      pyodide:
+    pyodide:
+      cell-options:
         edit: false
 ---
 
