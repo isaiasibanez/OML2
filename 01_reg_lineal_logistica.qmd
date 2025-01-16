@@ -5,9 +5,13 @@ format:
   live-html:
     pyodide:
       cell-options:
-        # edit: true
-        # include: true
-        fig-dpi: 50
+        edit: true
+        include: true
+    css: style.css
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    toc-floating: true
 ---
 
 
@@ -237,6 +241,7 @@ se llama  **función logística** o **función sigmoide**.
 La siguiente es una representación de $g(z)$. Observar que $g(z)$ tiende hacia 1 cuando $z \to \infty$, mientras que tiende hacia 0 cuando $z \to -\infty$. Además, $g(z)$ está acotada entre 0 y 1.
 
 ```{pyodide}
+#| edit: false
 import numpy as np
 import matplotlib.pyplot as plt
 
