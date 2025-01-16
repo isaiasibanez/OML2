@@ -8,7 +8,7 @@ format:
     toc-depth: 3
     toc-location: left
     toc-floating: true
-    code-tools: true        # Mantiene las herramientas de código (copiar y plegar)
+    code-tools: false        # Mantiene las herramientas de código (copiar y plegar)
     code-copy: true         # Habilita la opción de copiar código
     code-fold: true         # Habilita el plegado de código
     code-highlight: true    # Habilita el resaltado de sintaxis
@@ -182,7 +182,7 @@ print(f"Coeficientes del modelo: {theta}")
 
 La clase `LinearRegression` usa la ecuación normal $\hat{\bftheta}=(X^TX)^{-1}X^T\vec{y}$. Para usar descenso de gradiente, la alternativa es la clase `SGDRegressor`: esta efectúa **descenso de gradiente estocástico**, que consiste en calcular el gradiente utilizando un dato a la vez.
 
-```{python}
+```{pyodide}
 import pandas as pd
 from sklearn.linear_model import SGDRegressor
 from sklearn.model_selection import train_test_split
@@ -248,7 +248,7 @@ se llama  **función logística** o **función sigmoide**.
 
 La siguiente es una representación de $g(z)$. Observar que $g(z)$ tiende hacia 1 cuando $z \to \infty$, mientras que tiende hacia 0 cuando $z \to -\infty$. Además, $g(z)$ está acotada entre 0 y 1.
 
-```{python}
+```{pyodide}
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -361,7 +361,7 @@ donde $x_{ij}$ es el $j$-ésimo elemento de la observación $\xx_i$. Si comparam
 
 El conjunto de datos `Breast Cancer` contiene información sobre 569 muestras de tejido mamario, con 30 características que describen propiedades de las células nucleares de los tumores. El objetivo principal es clasificar los tumores como benignos o malignos.
 
-```{python}
+```{pyodide}
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
