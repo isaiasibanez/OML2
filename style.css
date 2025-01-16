@@ -53,3 +53,6 @@ div.pyodide-output pre, div.output pre {
   overflow-x: auto;
 }
 
+.sourceCode {
+  display: none !important;
+}
