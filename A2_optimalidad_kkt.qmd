@@ -64,15 +64,15 @@ $$
 \nabla f(x)=\mathbf{0}.
 $$
 
-::: {.details}
-### Prueba
+<details>
+<summary>Detalles opcionales</summary>
 
-Aquí puedes escribir contenido que será opcional de ver. El lector puede expandir o contraer esta sección.
+Aquí tienes más información que es opcional para ver.
 
-- Punto 1
-- Punto 2
-- Punto 3
-:::
+- Detalle 1
+- Detalle 2
+
+</details>
 
 Pero cuidado: es **solo una condición necesaria** que todos los puntos óptimos deben cumplir pero no implica que cualquier punto que la satisfaga sea automáticamente óptimo. En otras palabras, las soluciones de $\nabla f(x) = 0$ forman una lista de puntos candidatos para minimizar, llamados *puntos críticos*.
 
