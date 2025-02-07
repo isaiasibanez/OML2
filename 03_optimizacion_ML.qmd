@@ -1,0 +1,39 @@
+---
+title: "Optimización en regresión y clasificación"
+lang: es
+format:
+  live-html:
+    pyodide:
+      cell-options:
+        edit: true
+        include: true
+    css: style.css
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    toc-floating: true
+number-sections: true
+---
+
+
+::: {.hidden} 
+$$
+\def\RR{\mathbb{R}}
+\def\media{\mathbb{E}}
+\def\xx{{\bf x}}
+\def\XX{{\bf X}}
+\def\TT{{\bf T}}
+\def\bftheta{\boldsymbol{\theta}}
+\def\bfeta{\boldsymbol{\eta}}
+\def\bfone{\mathbf{1}}
+$$ 
+:::
+
+
+<hr style="border: 1px solid rgba(50, 0, 0, 1);">
+
+
+
+
+
+# First

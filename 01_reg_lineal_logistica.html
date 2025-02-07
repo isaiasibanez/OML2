@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Modelos Lineales Generalizados</title>
+<title>Regresión lineal y logística</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -97,7 +97,7 @@ window.Quarto = {
   <li><a href="#estimación-de-parámetros" id="toc-estimación-de-parámetros" class="nav-link" data-scroll-target="#estimación-de-parámetros"><span class="header-section-number">2.2</span> Estimación de parámetros</a>
   <ul class="collapse">
   <li><a href="#función-de-verosimilitud-1" id="toc-función-de-verosimilitud-1" class="nav-link" data-scroll-target="#función-de-verosimilitud-1"><span class="header-section-number">2.2.1</span> Función de verosimilitud</a></li>
-  <li><a href="#regla-de-ascenso-por-gradiente" id="toc-regla-de-ascenso-por-gradiente" class="nav-link" data-scroll-target="#regla-de-ascenso-por-gradiente"><span class="header-section-number">2.2.2</span> Regla de ascenso por Gradiente</a></li>
+  <li><a href="#regla-de-ascenso-por-gradiente" id="toc-regla-de-ascenso-por-gradiente" class="nav-link" data-scroll-target="#regla-de-ascenso-por-gradiente"><span class="header-section-number">2.2.2</span> Regla de ascenso por gradiente</a></li>
   </ul></li>
   <li><a href="#ejemplo-1" id="toc-ejemplo-1" class="nav-link" data-scroll-target="#ejemplo-1"><span class="header-section-number">2.3</span> Ejemplo</a></li>
   </ul></li>
@@ -110,7 +110,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Modelos Lineales Generalizados</h1>
+<h1 class="title">Regresión lineal y logística</h1>
 </div>
 
 
@@ -130,10 +130,14 @@ window.Quarto = {
 <div class="hidden">
 <p><span class="math display">\[
 \def\RR{\mathbb{R}}
+\def\media{\mathbb{E}}
 \def\xx{{\bf x}}
 \def\XX{{\bf X}}
+\def\TT{{\bf T}}
 \def\bftheta{\boldsymbol{\theta}}
-   \]</span></p>
+\def\bfeta{\boldsymbol{\eta}}
+\def\bfone{\mathbf{1}}
+\]</span></p>
 </div>
 <hr style="border: 1px solid rgba(50, 0, 0, 1);">
 <section id="regresión-lineal" class="level1" data-number="1">
@@ -256,7 +260,6 @@ h_\bftheta(\xx) = g(\bftheta^T \xx) = \frac{1}{1 + e^{-\bftheta^T \xx}},
 eyJhdHRyIjp7ImVkaXQiOmZhbHNlLCJldmFsIjp0cnVlLCJpbmNsdWRlIjp0cnVlfSwiY29kZSI6ImltcG9ydCBudW1weSBhcyBucFxuaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdFxuXG4jIERlZmluaXIgbGEgZnVuY2nDs24gc2lnbW9pZGVcbmRlZiBzaWdtb2lkKHopOlxuICAgIHJldHVybiAxIC8gKDEgKyBucC5leHAoLXopKVxuXG4jIENyZWFyIHZhbG9yZXMgZGUgeiBwYXJhIGdyYWZpY2FyXG56ID0gbnAubGluc3BhY2UoLTEwLCAxMCwgNTAwKVxuZ196ID0gc2lnbW9pZCh6KVxuXG4jIEdyYWZpY2FyIGxhIGZ1bmNpw7NuIHNpZ21vaWRlXG5wbHQuZmlndXJlKGZpZ3NpemU9KDgsIDUpKVxucGx0LnBsb3QoeiwgZ196LCBsYWJlbD1cIiRnKHopID0gXFxcXGZyYWN7MX17MSArIGVeey16fX0kXCIpXG5wbHQuYXhobGluZSgxLCBjb2xvcj1cImdyYXlcIiwgbGluZXN0eWxlPVwiLS1cIiwgbGluZXdpZHRoPTAuNylcbnBsdC5heGhsaW5lKDAsIGNvbG9yPVwiZ3JheVwiLCBsaW5lc3R5bGU9XCItLVwiLCBsaW5ld2lkdGg9MC43KVxucGx0LmF4dmxpbmUoMCwgY29sb3I9XCJncmF5XCIsIGxpbmVzdHlsZT1cIi0tXCIsIGxpbmV3aWR0aD0wLjcpXG5wbHQudGl0bGUoXCJGdW5jacOzbiBMb2fDrXN0aWNhIChTaWdtb2lkZSlcIilcbnBsdC54bGFiZWwoXCIkeiRcIilcbnBsdC55bGFiZWwoXCIkZyh6KSRcIilcbnBsdC5sZWdlbmQoKVxucGx0LmdyaWQoKVxucGx0LnNob3coKSJ9
 </script>
 </div>
-<p><br> <span style="color: red;">Lo de la derivada de la función logística mejor como ejercicio ?.</span></p>
 </section>
 </section>
 <section id="estimación-de-parámetros" class="level2" data-number="2.2">
@@ -290,7 +293,7 @@ L(\bftheta) = \prod_{i=1}^n \left( h_\bftheta(\xx_i) \right)^{y_i} \left( 1 - h_
 \]</span></p>
 </section>
 <section id="regla-de-ascenso-por-gradiente" class="level3" data-number="2.2.2">
-<h3 data-number="2.2.2" class="anchored" data-anchor-id="regla-de-ascenso-por-gradiente"><span class="header-section-number">2.2.2</span> Regla de ascenso por Gradiente</h3>
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="regla-de-ascenso-por-gradiente"><span class="header-section-number">2.2.2</span> Regla de ascenso por gradiente</h3>
 <p>¿Cómo maximizamos la verosimilitud? Similar a nuestra derivación en el caso de la regresión lineal, podemos usar <strong>ascenso por gradiente</strong>. Las actualizaciones estarán dadas por</p>
 <p><span class="math display">\[
 \bftheta := \bftheta + \alpha \nabla_\bftheta \ell(\bftheta).
@@ -332,7 +335,16 @@ g(\bftheta^T \xx) (1 - g(\bftheta^T \xx)) x_j
 eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBwZFxuZnJvbSBza2xlYXJuLmxpbmVhcl9tb2RlbCBpbXBvcnQgTG9naXN0aWNSZWdyZXNzaW9uXG5mcm9tIHNrbGVhcm4ubW9kZWxfc2VsZWN0aW9uIGltcG9ydCB0cmFpbl90ZXN0X3NwbGl0XG5mcm9tIHNrbGVhcm4ucHJlcHJvY2Vzc2luZyBpbXBvcnQgU3RhbmRhcmRTY2FsZXJcbmZyb20gc2tsZWFybi5tZXRyaWNzIGltcG9ydCBhY2N1cmFjeV9zY29yZVxuZnJvbSBza2xlYXJuLmRhdGFzZXRzIGltcG9ydCBsb2FkX2JyZWFzdF9jYW5jZXJcblxuIyBDYXJnYXIgbG9zIGRhdG9zXG5jYW5jZXIgPSBsb2FkX2JyZWFzdF9jYW5jZXIoKVxuWCA9IHBkLkRhdGFGcmFtZShjYW5jZXIuZGF0YSwgY29sdW1ucz1jYW5jZXIuZmVhdHVyZV9uYW1lcylcbnkgPSBwZC5TZXJpZXMoY2FuY2VyLnRhcmdldCwgbmFtZT0nTWFsaWduYW50JylcblxuIyBUcmFpbi10ZXN0IHNwbGl0IHkgZXNjYWxhZG86XG5YX3RyYWluLCBYX3Rlc3QsIHlfdHJhaW4sIHlfdGVzdCA9IHRyYWluX3Rlc3Rfc3BsaXQoWCwgeSwgdGVzdF9zaXplPTAuMiwgcmFuZG9tX3N0YXRlPTQyKVxuXG5zY2FsZXIgPSBTdGFuZGFyZFNjYWxlcigpXG5YX3RyYWluX3NjYWxlZCA9IHNjYWxlci5maXRfdHJhbnNmb3JtKFhfdHJhaW4pXG5YX3Rlc3Rfc2NhbGVkID0gc2NhbGVyLnRyYW5zZm9ybShYX3Rlc3QpXG5cbiMgUmVncmVzacOzbiBsb2fDrXN0aWNhOlxubW9kZWxvID0gTG9naXN0aWNSZWdyZXNzaW9uKG1heF9pdGVyPTEwMDAwKVxuXG5tb2RlbG8uZml0KFhfdHJhaW5fc2NhbGVkLCB5X3RyYWluKSAgIyBFbnRyZW5hbWllbnRvXG55X3Rlc3RfZml0ID0gbW9kZWxvLnByZWRpY3QoWF90ZXN0X3NjYWxlZCkgICMgUHJlZGljY2nDs25cblxuIyBFdmFsdWFjacOzbjpcbmFjY3VyYWN5ID0gYWNjdXJhY3lfc2NvcmUoeV90ZXN0LCB5X3Rlc3RfZml0KVxuXG4jIFJlc3VsdGFkb3M6XG5jb2VmaWNpZW50ZXMgPSBtb2RlbG8uY29lZl9cbmludGVyY2VwdG8gPSBtb2RlbG8uaW50ZXJjZXB0X1xuXG5wcmludChmXCJDYW50aWRhZCBkZSBwcmVkaWN0b3Jlczoge1guc2hhcGVbMV19XCIpXG5wcmludChmXCJJbnRlcmNlcHRvOiB7aW50ZXJjZXB0b31cIilcbnByaW50KGZcIkNvZWZpY2llbnRlcyBkZWwgbW9kZWxvOiB7Y29lZmljaWVudGVzfVwiKVxucHJpbnQoZlwiUHJlY2lzaW9uIGRlbCBtb2RlbG86IHthY2N1cmFjeX1cIikifQ==
 </script>
 </div>
-<p><br> <span style="color: red;">El método de Newton tal vez sea mejor plantearlo en actividad teórica?</span></p>
+<hr>
+<h2 class="anchored">
+Ejercicios
+</h2>
+<ol type="1">
+<li><p>Probar que la derivada de la función logística <span class="math inline">\(g(z)=1/(1+e^{-z})\)</span> verifica <span class="math display">\[g'(z)(1-g(z)).\]</span></p></li>
+<li><p>Mostrar que en los GLMs la derivada de la log-likelihood es <span class="math display">\[
+\nabla_\theta \ell(\theta) = \sum_{i=1}^n (T(y^{(i)}) - \mathbb{E}[T(y) | \xx^{(i)}; \theta]) \xx^{(i)}.
+\]</span></p></li>
+</ol>
 <script type="pyodide-data">
 eyJvcHRpb25zIjp7ImVudiI6eyJQTE9UTFlfUkVOREVSRVIiOiJwbG90bHlfbWltZXR5cGUifSwiaW5kZXhVUkwiOiJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvcHlvZGlkZS92MC4yNy4wL2Z1bGwvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsicHlvZGlkZV9odHRwIiwibWljcm9waXAiLCJpcHl0aG9uIl19fQ==
 </script>

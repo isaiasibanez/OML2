@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Modelos generativos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="04_modelos_generativos_files/libs/clipboard/clipboard.min.js"></script>
+<script src="04_modelos_generativos_files/libs/quarto-html/quarto.js"></script>
+<script src="04_modelos_generativos_files/libs/quarto-html/popper.min.js"></script>
+<script src="04_modelos_generativos_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="04_modelos_generativos_files/libs/quarto-html/anchor.min.js"></script>
+<link href="04_modelos_generativos_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="04_modelos_generativos_files/libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="04_modelos_generativos_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="04_modelos_generativos_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="04_modelos_generativos_files/libs/bootstrap/bootstrap-8a79a254b8e706d3c925cde0a310d4f0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="04_modelos_generativos_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="04_modelos_generativos_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
+<script type="module" src="04_modelos_generativos_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="04_modelos_generativos_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#análisis-discriminante-gaussiano-gda" id="toc-análisis-discriminante-gaussiano-gda" class="nav-link active" data-scroll-target="#análisis-discriminante-gaussiano-gda"><span class="header-section-number">1</span> Análisis discriminante gaussiano (GDA)</a>
+  <ul class="collapse">
+  <li><a href="#análisis-discriminante-lineal-lda" id="toc-análisis-discriminante-lineal-lda" class="nav-link" data-scroll-target="#análisis-discriminante-lineal-lda"><span class="header-section-number">1.1</span> Análisis discriminante lineal (LDA)</a>
+  <ul class="collapse">
+  <li><a href="#función-de-verosimilitud" id="toc-función-de-verosimilitud" class="nav-link" data-scroll-target="#función-de-verosimilitud"><span class="header-section-number">1.1.1</span> Función de verosimilitud</a></li>
+  <li><a href="#clasificador-final" id="toc-clasificador-final" class="nav-link" data-scroll-target="#clasificador-final"><span class="header-section-number">1.1.2</span> Clasificador final</a></li>
+  </ul></li>
+  <li><a href="#análisis-discriminante-cuadrático-qda" id="toc-análisis-discriminante-cuadrático-qda" class="nav-link" data-scroll-target="#análisis-discriminante-cuadrático-qda"><span class="header-section-number">1.2</span> Análisis discriminante cuadrático (QDA)</a>
+  <ul class="collapse">
+  <li><a href="#función-de-verosimilitud-1" id="toc-función-de-verosimilitud-1" class="nav-link" data-scroll-target="#función-de-verosimilitud-1"><span class="header-section-number">1.2.1</span> Función de verosimilitud</a></li>
+  <li><a href="#clasificador-final-1" id="toc-clasificador-final-1" class="nav-link" data-scroll-target="#clasificador-final-1"><span class="header-section-number">1.2.2</span> Clasificador final</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#naive-bayes" id="toc-naive-bayes" class="nav-link" data-scroll-target="#naive-bayes"><span class="header-section-number">2</span> Naive Bayes</a>
+  <ul class="collapse">
+  <li><a href="#tipos-de-clasificadores-naive-bayes" id="toc-tipos-de-clasificadores-naive-bayes" class="nav-link" data-scroll-target="#tipos-de-clasificadores-naive-bayes"><span class="header-section-number">2.1</span> Tipos de clasificadores Naive Bayes</a>
+  <ul class="collapse">
+  <li><a href="#naive-bayes-bernoulli" id="toc-naive-bayes-bernoulli" class="nav-link" data-scroll-target="#naive-bayes-bernoulli"><span class="header-section-number">2.1.1</span> Naive Bayes Bernoulli</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Modelos generativos</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="hidden">
+<p><span class="math display">\[
+\def\RR{\mathbb{R}}
+\def\media{\mathbb{E}}
+\def\xx{{\bf x}}
+\def\XX{{\bf X}}
+\def\TT{{\bf T}}
+\def\bftheta{\boldsymbol{\theta}}
+\def\bfeta{\boldsymbol{\eta}}
+\def\bfmu{\boldsymbol{\mu}}
+\def\bfSigma{\boldsymbol{\Sigma}}
+\def\bfone{\mathbf{1}}
+\def\argmin{\mathop{\mathrm{arg\,min\,}}}
+\def\argmax{\mathop{\mathrm{arg\,max\,}}}
+\]</span></p>
+</div>
+<hr style="border: 1px solid rgba(50, 0, 0, 1);">
+<p>Hasta ahora, hemos hablado principalmente sobre algoritmos de aprendizaje que modelan <span class="math inline">\(p(y|\xx; \bftheta)\)</span>; esto es, la distribución condicional de <span class="math inline">\(y\)</span> dado <span class="math inline">\(\xx\)</span> parametrizada por <span class="math inline">\(\bftheta\)</span>. El objetivo es aprender un clasificador que asocie a una entrada <span class="math inline">\(\xx\)</span> una etiqueta. Nos referiremos a estos algoritmos como <strong>aprendizaje discriminativo</strong>.</p>
+<p>En esta sección, hablaremos sobre algoritmos de <strong>aprendizaje generativo</strong>, en el cual se pone foco en <span class="math inline">\(p(\xx|y)\)</span>. Para entender la idea, consideremos un problema de clasificación en el que queremos aprender a distinguir entre elefantes (<span class="math inline">\(y=1\)</span>) y perros (<span class="math inline">\(y=0\)</span>), basado en algunas características del animal. Una posibilidad es construir un modelo de cómo son los elefantes, <span class="math inline">\(p(\xx|y=1)\)</span>, y un modelo separado para los perros, <span class="math inline">\(p(\xx|y=0)\)</span>, de tal manera que al final del día clasificar un nuevo animal dependa de si se parece más a los elefantes o más a los perros del conjunto de entrenamiento.</p>
+<p>Después de modelar <span class="math inline">\(p(\xx|y)\)</span> y también la distribución <em>a priori</em> <span class="math inline">\(p(y)\)</span>, la regla de Bayes permite obtener la distribución <em>a posteriori</em>:</p>
+<p><span class="math display">\[
+p(y|\xx) = \frac{p(\xx|y)p(y)}{p(\xx)}.
+\]</span></p>
+<p>Observar que el denominador se obtiene mediante la regla <span class="math display">\[p(\xx) = p(\xx|y=1)p(y=1) + p(\xx|y=0)p(y=0).\]</span></p>
+<p>Sin embargo, al momento de hacer una predicción el denominador no es necesario ya que <span class="math display">\[
+\argmax_y p(y|\xx) = \argmax_y \frac{p(\xx|y)p(y)}{p(\xx)} = \argmax_y p(\xx|y)p(y).
+\]</span></p>
+<section id="análisis-discriminante-gaussiano-gda" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Análisis discriminante gaussiano (GDA)</h1>
+<p>En este modelo generativo, se asume que <span class="math inline">\(p(\xx|y)\)</span> se distribuye de acuerdo con una distribución normal multivariada. Hay dos casos: suponer las matrices de covarianza de los grupos iguales o distintas, lo cual da lugar a dos variantes, el <strong>Análisis Discriminante Lineal</strong> (LDA) y el <strong>Análisis Discriminante Cuadrático</strong> (QDA), respectivamente.</p>
+<section id="análisis-discriminante-lineal-lda" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="análisis-discriminante-lineal-lda"><span class="header-section-number">1.1</span> Análisis discriminante lineal (LDA)</h2>
+<p>El modelo es:</p>
+<p><span class="math display">\[
+\begin{align*}
+y &amp;\sim \text{Bernoulli}(\phi) \\
+\xx|y=0 &amp;\sim \mathcal{N}(\bfmu_0, \bfSigma) \\
+x|y=1 &amp;\sim \mathcal{N}(\bfmu_1, \bfSigma)
+\end{align*}
+\]</span></p>
+<p>Los parámetros del modelo son <span class="math inline">\(\phi\)</span>, <span class="math inline">\(\bfmu_0\)</span>, <span class="math inline">\(\bfmu_1\)</span> y <span class="math inline">\(\bfSigma\)</span>.</p>
+<div id="dc12bf98" class="cell" data-edit="false" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_modelos_generativos_files/figure-html/cell-2-output-1.png" width="666" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>En la figura se muestran datos de entrenamiento correspondientes a dos clases y las curvas de nivel de las gaussianas que generan ambas clases. Se puede observar que ambas gaussianas tienen la misma forma y orientación, ya que comparten una matriz de covarianza <span class="math inline">\(\bfSigma\)</span> en común. También se muestra en la figura la línea recta que representa la frontera de decisión al momento de clasificar un nuevo dato. Dicha frontera corresponde a la ecuación <span class="math inline">\(p(y=1|\xx) = 0.5\)</span>.</p>
+<section id="función-de-verosimilitud" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="función-de-verosimilitud"><span class="header-section-number">1.1.1</span> Función de verosimilitud</h3>
+<p>Para un conjunto de datos <span class="math inline">\(\{\xx^{(i)}, y^{(i)}\}_{i=1}^n\)</span> i.i.d., la función de log-verosimilitud es</p>
+<p><span class="math display">\[
+\begin{align*}
+\ell(\phi, \bfmu_0, \bfmu_1, \bfSigma) &amp;= \log \prod_{i=1}^n p(\xx^{(i)}, y^{(i)}; \phi, \bfmu_0, \bfmu_1, \bfSigma)\\
+&amp;= \log \prod_{i=1}^n p(\xx^{(i)}| y^{(i)}; \phi, \bfmu_0, \bfmu_1, \bfSigma) p(y^{(i)}; \phi)\\
+\end{align*}
+\]</span></p>
+<p>Maximizando <span class="math inline">\(\ell\)</span> con respecto a los parámetros, encontramos las estimaciones de máxima verosimilitud:</p>
+<p><span class="math display">\[
+\begin{align*}
+\hat{\phi} &amp;= \frac{1}{n} \sum_{i=1}^n \bfone\{y^{(i)} = 1\} \\
+\hat{\bfmu}_0 &amp;= \frac{\sum_{i=1}^n \bfone\{y^{(i)} = 0\} \xx^{(i)}}{\sum_{i=1}^n \bfone\{y^{(i)} = 0\}} \\
+\hat{\bfmu}_1 &amp;= \frac{\sum_{i=1}^n \bfone\{y^{(i)} = 1\} \xx^{(i)}}{\sum_{i=1}^n \bfone\{y^{(i)} = 1\}} \\
+\hat{\bfSigma} &amp;= \frac{1}{n} \sum_{i=1}^n (\xx^{(i)} - \bfmu_{y^{(i)}})(\xx^{(i)} - \bfmu_{y^{(i)}})^T
+\end{align*}
+\]</span></p>
+</section>
+<section id="clasificador-final" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="clasificador-final"><span class="header-section-number">1.1.2</span> Clasificador final</h3>
+<p>Una observación <span class="math inline">\(\xx\)</span> se etiquetará con <span class="math inline">\(y=0\)</span> si</p>
+<p><span class="math display">\[
+\begin{align*}
+\log\left(\frac{p(y=0|\xx)}{p(y=1|\xx)}\right)&amp;&gt;0\\
+\log\left(\frac{p(\xx|y=0)p(y=0)}{p(\xx|y=1)p(y=1)}\right)&amp;&gt;0\\
+\log\left(\frac{(1-\hat{\phi})\,\mathcal{N}(\xx|\hat{\bfmu}_0,\hat{\bfSigma})}{\hat{\phi}\,\mathcal{N}(\xx|\hat{\bfmu}_1,\hat{\bfSigma})}\right)&amp;&gt;0
+\end{align*}.
+\]</span></p>
+<p>Si se desarrolla el argumento del logaritmo en la expresión anterior, es decir el cociente de verosimilitudes, se puede deducir que la frontera de decisión es efectivamente una función lineal. <span style="color: red;">¿Ejercicio?</span></p>
+</section>
+</section>
+<section id="análisis-discriminante-cuadrático-qda" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="análisis-discriminante-cuadrático-qda"><span class="header-section-number">1.2</span> Análisis discriminante cuadrático (QDA)</h2>
+<p>El modelo es:</p>
+<p><span class="math display">\[
+\begin{align*}
+y &amp;\sim \text{Bernoulli}(\phi) \\
+\xx|y=0 &amp;\sim \mathcal{N}(\bfmu_0, \bfSigma_0) \\
+x|y=1 &amp;\sim \mathcal{N}(\bfmu_1, \bfSigma_1)
+\end{align*}
+\]</span></p>
+<p>Los parámetros del modelo son <span class="math inline">\(\phi\)</span>, <span class="math inline">\(\bfmu_0\)</span>, <span class="math inline">\(\bfmu_1\)</span>, <span class="math inline">\(\bfSigma_0\)</span> y <span class="math inline">\(\bfSigma_1\)</span>.</p>
+<div id="4047723b" class="cell" data-edit="false" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_modelos_generativos_files/figure-html/cell-3-output-1.png" width="655" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>En la figura se observa como en este caso, a diferencia de LDA, las gaussianas tienen diferente forma y orientación debido a que se asume que las matrices de covarianza no son iguales. Además, la frontera de decisión no es lineal.</p>
+<section id="función-de-verosimilitud-1" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="función-de-verosimilitud-1"><span class="header-section-number">1.2.1</span> Función de verosimilitud</h3>
+<p>Para un conjunto de datos <span class="math inline">\(\{\xx^{(i)}, y^{(i)}\}_{i=1}^n\)</span> i.i.d., la función de log-verosimilitud es</p>
+<p><span class="math display">\[
+\ell(\phi, \bfmu_0, \bfmu_1, \bfSigma_0,\bfSigma_1) = \log \prod_{i=1}^n p(\xx^{(i)}| y^{(i)}; \phi, \bfmu_0, \bfmu_1, \bfSigma_1,\bfSigma_2) p(y^{(i)}; \phi).
+\]</span></p>
+<p>Los estimadores de máxima verosimilitud de <span class="math inline">\(\phi\)</span>, <span class="math inline">\(\bfmu_0\)</span> y <span class="math inline">\(\bfmu_1\)</span> son idénticos al que se obtiene en LDA. Para las matrices de covarianza, resulta</p>
+<p><span class="math display">\[
+\hat{\bfSigma}_0 = \frac{\sum_{i=1}^n \bfone\{y^{(i)}=0\}(\xx^{(i)} - \hat{\bfmu}_0)(\xx^{(i)} - \hat{\bfmu}_0)^T}{\sum_{i=1}^n\bfone\{y^{(i)}=0\}}
+\]</span></p>
+<p><span class="math display">\[
+\hat{\bfSigma}_1 = \frac{\sum_{i=1}^n \bfone\{y^{(i)}=1\}(\xx^{(i)} - \hat{\bfmu}_1)(\xx^{(i)} - \hat{\bfmu}_1)^T}{\sum_{i=1}^n\bfone\{y^{(i)}=1\}}
+\]</span></p>
+</section>
+<section id="clasificador-final-1" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="clasificador-final-1"><span class="header-section-number">1.2.2</span> Clasificador final</h3>
+<p>Una observación <span class="math inline">\(\xx\)</span> se etiquetará con <span class="math inline">\(y=0\)</span> si</p>
+<p><span class="math display">\[\log\left(\frac{(1-\hat{\phi})\,\mathcal{N}(\xx|\hat{\bfmu}_0,\hat{\bfSigma}_0)}{\hat{\phi}\,\mathcal{N}(\xx|\hat{\bfmu}_1,\hat{\bfSigma}_1)}\right)&gt;0.\]</span></p>
+<p>En este caso, el desarrollo del cociente de verosimilitudes permite deducir que la frontera de decisión es una función cuadrática. <span style="color: red;">¿Ejercicio?</span></p>
+</section>
+</section>
+</section>
+<section id="naive-bayes" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Naive Bayes</h1>
+<p>En GDA, las características <span class="math inline">\(\xx\)</span> se asumen continuas. Ahora veremos un método de aprendizaje generativo en el cual las características toman valores discretos.</p>
+<p>Por ejemplo, consideremos la construcción de un filtro de spam para correos electrónicos, que defina si son o no spam, en base a las palabras que contiene. De esta manera, el vector de características tendrá longitud igual a la cantidad de palabras en un diccionario. En particular, si un correo contiene la <span class="math inline">\(j\)</span>-ésima palabra del diccionario, se define <span class="math inline">\(x_j=1\)</span>; de lo contrario, <span class="math inline">\(x_j=0\)</span>. En consecuencia, una posible observación sería de la forma</p>
+<p><span class="math display">\[
+\xx=(1,0,0,\cdots,1,\cdots,0)^T,
+\]</span></p>
+<p>en la cual los valores no nulos representan las palabras que contiene dicho correo. Ahora bien, hay un problema con esta situación. Si el diccionario tiene 50000 palabras, entonces modelar <span class="math inline">\(p(\xx|y)\)</span> implica determinar explícitamente la distribución para los <span class="math inline">\(2^{5000}\)</span> posibles resultados, lo cual deriva $2^{50000}-1 parámetros.</p>
+<p>Para modelar <span class="math inline">\(p(x|y)\)</span>, por lo tanto, haremos una suposición muy fuerte, denominada <strong>suposición de Naive Bayes</strong>, que consiste en asumir que los <span class="math inline">\(x_i\)</span> son condicionalmente independientes dado <span class="math inline">\(y\)</span>. Por supuesto que esto es ingenuo, pues implica que conocer la presencia o no de una determinada palabra no afecta la creencia sobre la presencia o no de otra palabra. Esto es, asumir que <span class="math display">\[p(x_i|y)=p(x_i|y,x_j),\quad \forall i\neq j.\]</span></p>
+<p>Así, si <span class="math inline">\(\XX\in\{0,1\}^p\)</span>, es fácil ver que la suposición de Naive Bayes implica que</p>
+<p><span class="math display">\[p(x_1, \ldots, x_{50000}|y) = \prod_{i=1}^p p(x_j| y).
+\]</span></p>
+<p>Esta última igualdad permite derivar en un método de clasificación, asumiendo distribuciones para cada <span class="math inline">\(p(x_i|y)\)</span>. Para el ejemplo anterior, la alternativa más conveniente es asumir que cada una de ellas es una distribución Bernoulli. Desarrollaremos este caso más en detalle, pero antes es importante mencionar que hay diferentes modelos, incluso para el caso en que <span class="math inline">\(\XX\)</span> sea continua.</p>
+<section id="tipos-de-clasificadores-naive-bayes" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="tipos-de-clasificadores-naive-bayes"><span class="header-section-number">2.1</span> Tipos de clasificadores Naive Bayes</h2>
+<p>No existe solo un tipo de clasificador Naïve Bayes. Los tipos más comunes se diferencian según las distribuciones de los valores de las características. Algunos de estos son:</p>
+<ul>
+<li><p><strong>Naive Bayes Gaussiano:</strong> Este es un tipo de clasificador Naïve Bayes que se utiliza con distribuciones gaussianas, es decir, distribuciones normales y variables continuas. Este modelo se ajusta encontrando la media y la desviación estándar de cada clase.</p></li>
+<li><p><strong>Naive Bayes Multinomial:</strong> Este tipo de clasificador Naïve Bayes asume que las características provienen de distribuciones multinomiales. Esta variante es útil cuando se trabaja con datos discretos, como conteos de frecuencia, y se aplica típicamente en casos de uso de procesamiento de lenguaje natural, como la clasificación de spam.</p></li>
+<li><p><strong>Naïve Bayes Bernoulli:</strong> Esta es otra variante del clasificador Naïve Bayes, que se utiliza con variables booleanas, es decir, variables con dos valores, como Verdadero y Falso o 1 y 0.</p></li>
+</ul>
+<section id="naive-bayes-bernoulli" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored"><span class="header-section-number">2.1.1</span> Naive Bayes Bernoulli</h3>
+<p>Las suposiciones son:</p>
+<p><span class="math display">\[y\sim\text{Bernoulli}(\phi),\]</span> <span class="math display">\[x_j|y=0\sim\text{Bernoulli}(\phi_{j|y=0}),\]</span> <span class="math display">\[x_j|y=1\sim\text{Bernoulli}(\phi_{j|y=1}),\]</span></p>
+<p>Los parámetros del modelo son <span class="math display">\[\phi=p(y=1),\quad \phi_{j|y=0}=p(x_j=1|y=0),\quad \phi_{j|y=1}=p(x_j=1|y=1).\]</span></p>
+<section id="función-de-verosimilitud-2" class="level4" data-number="2.1.1.1">
+<h4 data-number="2.1.1.1" class="anchored"><span class="header-section-number">2.1.1.1</span> Función de verosimilitud</h4>
+<p>Para un conjunto de datos <span class="math inline">\(\{\xx^{(i)}, y^{(i)}\}_{i=1}^n\)</span> i.i.d., la función de verosimilitud es <span class="math display">\[
+\mathcal{L}(\phi, \phi_{j|y=0}, \phi_{j|y=1}) = \prod_{i=1}^n p(\xx^{(i)}, y^{(i)})
+\]</span></p>
+<p>Los estimadores de máxima verosimilitud resultan:</p>
+<p><span class="math display">\[\phi = \frac{\sum_{i=1}^n \bfone\{y^{(i)} = 1\}}{n},\]</span> <span class="math display">\[\phi_{j|y=1} = \frac{\sum_{i=1}^n \bfone\{\xx_j^{(i)} = 1 \land y^{(i)} = 1\}}{\sum_{i=1}^n \bfone\{y^{(i)} = 1\}},\]</span> <span class="math display">\[\phi_{j|y=0} = \frac{\sum_{i=1}^n \bfone\{\xx_j^{(i)} = 1 \land y^{(i)} = 0\}}{\sum_{i=1}^n \bfone\{y^{(i)} = 0\}}.\]</span></p>
+<p>A pesar de que pueda parecer engorroso a simple vista, estas estimaciones tienen una interpretación muy natural. Por ejemplo, <span class="math inline">\(\phi_{j|y=1}\)</span> es simplemente la fracción de correos etiquetados como spam (<span class="math inline">\(y=1\)</span>) en los que aparece la palabra <span class="math inline">\(j\)</span>.</p>
+<hr>
+<h2 class="anchored" data-anchor-id="función-de-verosimilitud-2">
+Ejercicios
+</h2>
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+W10=
+</script>
+</section>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../..";
+window._ojs.paths.runtimeToRoot = "../../..";
+window._ojs.paths.docToRoot = "";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

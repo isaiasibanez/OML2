@@ -1,0 +1,124 @@
+---
+title: "Condiciones de optimalidad en Optimización"
+lang: es
+format:
+  live-html:
+    pyodide:
+      cell-options:
+        edit: true
+        include: true
+    css: style.css
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    toc-floating: true
+number-sections: true
+---
+
+
+::: {.hidden} 
+$$
+\def\RR{\mathbb{R}}
+\def\media{\mathbb{E}}
+\def\xx{{\bf x}}
+\def\XX{{\bf X}}
+\def\TT{{\bf T}}
+\def\bftheta{\boldsymbol{\theta}}
+\def\bfeta{\boldsymbol{\eta}}
+\def\bfmu{\boldsymbol{\mu}}
+\def\bfSigma{\boldsymbol{\Sigma}}
+\def\bfone{\mathbf{1}}
+\def\argmin{\mathop{\mathrm{arg\,min\,}}}
+\def\argmax{\mathop{\mathrm{arg\,max\,}}}
+$$ 
+:::
+
+<hr style="border: 1px solid rgba(50, 0, 0, 1);">
+
+
+En un problema de optimización
+$$
+\min_{x} f(x)
+$$
+$$
+\text{s.t.}\; x\in\Omega=\left\{x\in\RR^n\left|\begin{array}{rl}
+g_i(x)\leq 0,& i=1,\cdots,r.\\
+h_j(x)=0, & j=1,\cdots,m.
+\end{array}\right.\right\},
+$$
+
+las condiciones de optimalidad de primer orden definen los requisitos que deben cumplir los puntos óptimos. En lo que sigue, asumiremos que trabajamos con funciones diferenciables.
+
+
+
+# Optimización con restricciones
+
+De cursos anteriores recordemos que, para un problema de optimización de la forma
+
+$$
+\min_{x \in \mathbb{R}^n} f(x),
+$$
+
+una condición necesaria para que un punto sea óptimo es que verifique 
+$$
+\nabla f(x)=\mathbf{0}.
+$$
+
+::: {.details}
+### Prueba
+
+Aquí puedes escribir contenido que será opcional de ver. El lector puede expandir o contraer esta sección.
+
+- Punto 1
+- Punto 2
+- Punto 3
+:::
+
+Pero cuidado: es **solo una condición necesaria** que todos los puntos óptimos deben cumplir pero no implica que cualquier punto que la satisfaga sea automáticamente óptimo. En otras palabras, las soluciones de $\nabla f(x) = 0$ forman una lista de puntos candidatos para minimizar, llamados *puntos críticos*.
+
+De inmediato surgen dos preguntas claves:
+
+- ¿Cuál es la generalización correcta de la condición necesaria $\nabla f(x) = 0$ cuando enfrentamos un **problema de optimización con restricciones**?
+- ¿Bajo qué circunstancias $\nabla f(x) = 0$ también se convierte en una condición suficiente para la optimalidad?
+
+Antes, veamos cómo surge la condición $\nabla f(x)=\mathbf{0}$ para problemas de optimización sin restricciones.
+
+## Prueba de condición necesaria $\nabla f(x)=\mathbf{0}$
+
+La idea es muy simple: si $x$ es un minimizador de la función, observemos los valores de la función $f: {R}^n \to {R}$ a lo largo de la dirección $d$. Claramente, si $x$ es un minimizador, se cumple:
+
+$$
+f(x + t \cdot d) \geq f(x) \quad \text{para todo } t \geq 0.
+$$
+
+De esta manera, la **derivada direccional** $f'(x; d)$ de $f$ en $x$ a lo largo de la dirección $d$ es:
+
+$$
+f'(x; d) = \lim_{t \to 0} \frac{f(x + t \cdot d) - f(x)}{t} \geq 0,
+$$
+
+ya que el límite de una sucesión no negativa debe ser no negativo.
+
+Por definición del gradiente, sabemos que:
+
+$$
+f'(x; d) = \langle \nabla f(x), d \rangle,
+$$
+
+por lo que la desigualdad anterior se puede reescribir como:
+
+$$
+\langle \nabla f(x), d \rangle \geq 0 \quad \forall d \in {R}^n.
+$$
+
+Dado que esta desigualdad debe cumplirse para todas las direcciones $d \in {R}^n$, en particular, debe cumplirse para $d = -\nabla f(x)$. Esto nos lleva a:
+
+$$
+-\|\nabla f(x)\|^2 \geq 0 \quad \Longleftrightarrow \quad \nabla f(x) = 0.
+$$
+
+Este resultado confirma que un punto óptimo en un problema de optimización sin restricciones debe cumplir con la condición $\nabla f(x) = 0$.
+
+
+# Optimización con restricciones
+

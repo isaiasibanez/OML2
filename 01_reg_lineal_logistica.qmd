@@ -1,5 +1,5 @@
 ---
-title: "Modelos Lineales Generalizados"
+title: "Regresión lineal y logística"
 lang: es
 format:
   live-html:
@@ -19,16 +19,17 @@ number-sections: true
 ::: {.hidden} 
 $$
 \def\RR{\mathbb{R}}
+\def\media{\mathbb{E}}
 \def\xx{{\bf x}}
 \def\XX{{\bf X}}
+\def\TT{{\bf T}}
 \def\bftheta{\boldsymbol{\theta}}
-   $$ 
+\def\bfeta{\boldsymbol{\eta}}
+\def\bfone{\mathbf{1}}
+$$ 
 :::
 
-
 <hr style="border: 1px solid rgba(50, 0, 0, 1);">
-
-
 
 
 
@@ -275,8 +276,6 @@ plt.grid()
 plt.show()
 ```
 
-<br>
-<span style="color: red;">Lo de la derivada de la función logística mejor como ejercicio ?.</span> 
 
 
 ## Estimación de parámetros
@@ -319,7 +318,7 @@ $$
 $$
 
 
-### Regla de ascenso por Gradiente
+### Regla de ascenso por gradiente
 
 ¿Cómo maximizamos la verosimilitud? Similar a nuestra derivación en el caso de la regresión lineal, podemos usar **ascenso por gradiente**. Las actualizaciones estarán dadas por
 
@@ -403,5 +402,22 @@ print(f"Precision del modelo: {accuracy}")
 ```
 
 
-<br>
-<span style="color: red;">El método de Newton tal vez sea mejor plantearlo en actividad teórica?</span> 
+
+
+
+
+
+
+
+
+---
+
+<h2>Ejercicios</h2>
+
+1. Probar que la derivada de la función logística $g(z)=1/(1+e^{-z})$ verifica
+$$g'(z)(1-g(z)).$$
+
+1. Mostrar que en los GLMs la derivada de la log-likelihood es
+$$
+\nabla_\theta \ell(\theta) = \sum_{i=1}^n (T(y^{(i)}) - \mathbb{E}[T(y) | \xx^{(i)}; \theta]) \xx^{(i)}.
+$$
