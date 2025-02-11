@@ -175,3 +175,6 @@ $$
 **Teorema 3.** 
 Acá va el teorema 1.1 de la Lectura 5
 :::
+
+
+VER
