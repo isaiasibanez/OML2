@@ -79,11 +79,14 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#optimización-con-restricciones" id="toc-optimización-con-restricciones" class="nav-link active" data-scroll-target="#optimización-con-restricciones"><span class="header-section-number">1</span> Optimización con restricciones</a>
+  <li><a href="#optimización-sin-restricciones" id="toc-optimización-sin-restricciones" class="nav-link active" data-scroll-target="#optimización-sin-restricciones"><span class="header-section-number">1</span> Optimización sin restricciones</a>
   <ul class="collapse">
   <li><a href="#prueba-de-condición-necesaria-nabla-fxmathbf0" id="toc-prueba-de-condición-necesaria-nabla-fxmathbf0" class="nav-link" data-scroll-target="#prueba-de-condición-necesaria-nabla-fxmathbf0"><span class="header-section-number">1.1</span> Prueba de condición necesaria <span class="math inline">\(\nabla f(x)=\mathbf{0}\)</span></a></li>
   </ul></li>
-  <li><a href="#optimización-con-restricciones-1" id="toc-optimización-con-restricciones-1" class="nav-link" data-scroll-target="#optimización-con-restricciones-1"><span class="header-section-number">2</span> Optimización con restricciones</a></li>
+  <li><a href="#optimización-con-restricciones" id="toc-optimización-con-restricciones" class="nav-link" data-scroll-target="#optimización-con-restricciones"><span class="header-section-number">2</span> Optimización con restricciones</a>
+  <ul class="collapse">
+  <li><a href="#restricciones-lineales" id="toc-restricciones-lineales" class="nav-link" data-scroll-target="#restricciones-lineales"><span class="header-section-number">2.1</span> Restricciones lineales</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -127,7 +130,7 @@ window.Quarto = {
 \]</span></p>
 </div>
 <hr style="border: 1px solid rgba(50, 0, 0, 1);">
-<p>En un problema de optimización <span class="math display">\[
+<p>En un problema de optimización general <span class="math display">\[
 \min_{x} f(x)
 \]</span> <span class="math display">\[
 \text{s.t.}\; x\in\Omega=\left\{x\in\RR^n\left|\begin{array}{rl}
@@ -136,8 +139,8 @@ h_j(x)=0, &amp; j=1,\cdots,m.
 \end{array}\right.\right\},
 \]</span></p>
 <p>las condiciones de optimalidad de primer orden definen los requisitos que deben cumplir los puntos óptimos. En lo que sigue, asumiremos que trabajamos con funciones diferenciables.</p>
-<section id="optimización-con-restricciones" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Optimización con restricciones</h1>
+<section id="optimización-sin-restricciones" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Optimización sin restricciones</h1>
 <p>De cursos anteriores recordemos que, para un problema de optimización de la forma</p>
 <p><span class="math display">\[
 \min_{x \in \mathbb{R}^n} f(x),
@@ -145,16 +148,6 @@ h_j(x)=0, &amp; j=1,\cdots,m.
 <p>una condición necesaria para que un punto sea óptimo es que verifique <span class="math display">\[
 \nabla f(x)=\mathbf{0}.
 \]</span></p>
-<details>
-<summary>
-Detalles opcionales
-</summary>
-<p>Aquí tienes más información que es opcional para ver.</p>
-<ul>
-<li>Detalle 1</li>
-<li>Detalle 2</li>
-</ul>
-</details>
 <p>Pero cuidado: es <strong>solo una condición necesaria</strong> que todos los puntos óptimos deben cumplir pero no implica que cualquier punto que la satisfaga sea automáticamente óptimo. En otras palabras, las soluciones de <span class="math inline">\(\nabla f(x) = 0\)</span> forman una lista de puntos candidatos para minimizar, llamados <em>puntos críticos</em>.</p>
 <p>De inmediato surgen dos preguntas claves:</p>
 <ul>
@@ -164,32 +157,68 @@ Detalles opcionales
 <p>Antes, veamos cómo surge la condición <span class="math inline">\(\nabla f(x)=\mathbf{0}\)</span> para problemas de optimización sin restricciones.</p>
 <section id="prueba-de-condición-necesaria-nabla-fxmathbf0" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="prueba-de-condición-necesaria-nabla-fxmathbf0"><span class="header-section-number">1.1</span> Prueba de condición necesaria <span class="math inline">\(\nabla f(x)=\mathbf{0}\)</span></h2>
-<p>La idea es muy simple: si <span class="math inline">\(x\)</span> es un minimizador de la función, observemos los valores de la función <span class="math inline">\(f: {R}^n \to {R}\)</span> a lo largo de la dirección <span class="math inline">\(d\)</span>. Claramente, si <span class="math inline">\(x\)</span> es un minimizador, se cumple:</p>
+<p>Sea <span class="math inline">\(x\in\RR^n\)</span> es un minimizador de la función <span class="math inline">\(f: {R}^n \to {R}\)</span> y sea <span class="math inline">\(d\in\RR^n\)</span> una dirección arbitraria. Entonces se cumple</p>
 <p><span class="math display">\[
 f(x + t \cdot d) \geq f(x) \quad \text{para todo } t \geq 0.
 \]</span></p>
-<p>De esta manera, la <strong>derivada direccional</strong> <span class="math inline">\(f'(x; d)\)</span> de <span class="math inline">\(f\)</span> en <span class="math inline">\(x\)</span> a lo largo de la dirección <span class="math inline">\(d\)</span> es:</p>
+<p>En consecuencia, la derivada direccional de <span class="math inline">\(f\)</span> en <span class="math inline">\(x\)</span> a lo largo de <span class="math inline">\(d\)</span> es</p>
 <p><span class="math display">\[
-f'(x; d) = \lim_{t \to 0} \frac{f(x + t \cdot d) - f(x)}{t} \geq 0,
+\frac{\partial f}{\partial d}(x)= \lim_{t \to 0} \frac{f(x + t \cdot d) - f(x)}{t} \geq 0.
 \]</span></p>
-<p>ya que el límite de una sucesión no negativa debe ser no negativo.</p>
-<p>Por definición del gradiente, sabemos que:</p>
-<p><span class="math display">\[
-f'(x; d) = \langle \nabla f(x), d \rangle,
-\]</span></p>
-<p>por lo que la desigualdad anterior se puede reescribir como:</p>
+<p>Ahora bien, como <span class="math inline">\(f\)</span> es diferenciable, se verifica la propiedad <span class="math inline">\(\frac{\partial f}{\partial d}(x)=\langle \nabla f(x),d\rangle\)</span>, por lo que la desigualdad anterior se puede reescribir como:</p>
 <p><span class="math display">\[
 \langle \nabla f(x), d \rangle \geq 0 \quad \forall d \in {R}^n.
 \]</span></p>
-<p>Dado que esta desigualdad debe cumplirse para todas las direcciones <span class="math inline">\(d \in {R}^n\)</span>, en particular, debe cumplirse para <span class="math inline">\(d = -\nabla f(x)\)</span>. Esto nos lleva a:</p>
-<p><span class="math display">\[
--\|\nabla f(x)\|^2 \geq 0 \quad \Longleftrightarrow \quad \nabla f(x) = 0.
-\]</span></p>
-<p>Este resultado confirma que un punto óptimo en un problema de optimización sin restricciones debe cumplir con la condición <span class="math inline">\(\nabla f(x) = 0\)</span>.</p>
+<p>En particular, eligiendo <span class="math inline">\(d = -\nabla f(x)\)</span>, resulta <span class="math inline">\(-\|\nabla f(x)\|^2\geq 0\)</span>, lo cual es cierto si y sólo si <span class="math inline">\(\nabla f(x)=\mathbf{0}\)</span>.</p>
 </section>
 </section>
-<section id="optimización-con-restricciones-1" class="level1" data-number="2">
+<section id="optimización-con-restricciones" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Optimización con restricciones</h1>
+<p>La clave para generalizar la condición <span class="math inline">\(\nabla f(x)=\mathbf{0}\)</span> al caso de optimización con restricciones surge de la prueba anterior, más precisamente de la desigualdad <span class="math inline">\(\langle\nabla f(x),d\rangle\geq 0\)</span>.</p>
+<p>La diferencia principal con el caso sin restricciones es que, en un conjunto restringido, podríamos estar limitados en la elección de las direcciones <span class="math inline">\(d\)</span> a lo largo de las cuales podemos aproximarnos a <span class="math inline">\(x\)</span> sin salirnos del conjunto.</p>
+<p>No obstante, para cualquier dirección <span class="math inline">\(d\)</span> tal que <span class="math inline">\(x + t \cdot d \in \Omega\)</span> para todo <span class="math inline">\(t \geq 0\)</span> suficientemente pequeño, el mismo argumento aplicado anteriormente sigue siendo válido. Por lo tanto, podemos concluir que necesariamente:</p>
+<p><span class="math display">\[
+\langle \nabla f(x), d \rangle \geq 0 \quad \text{para todo } d \in  {R}^n \text{ que permanezca en } \Omega \text{ desde } x.
+\]</span></p>
+<p>Para aplicar esta condición, se requieren dos pasos:</p>
+<ol type="1">
+<li><p>Determinar el conjunto de direcciones <span class="math inline">\(d\)</span> que permanecen en <span class="math inline">\(\Omega\)</span> desde <span class="math inline">\(x\)</span>*.</p></li>
+<li><p>A partir de esas direcciones, ver de qué manera imponen restricciones sobre <span class="math inline">\(\nabla f(x)\)</span>.</p></li>
+</ol>
+<p>De estos dos pasos, el primero suele ser el más sencillo. En todos los casos de interés, podemos determinar el conjunto de direcciones permitidas simplemente considerando cualquier otro punto <span class="math inline">\(y \in \Omega\)</span> y observando la dirección de <span class="math inline">\(x\)</span> a <span class="math inline">\(y\)</span>. Esta propiedad se cumple trivialmente si todos los segmentos de línea entre <span class="math inline">\(x\)</span> y cualquier punto en <span class="math inline">\(\Omega\)</span> están contenidos en <span class="math inline">\(\Omega\)</span>, lo cual es siempre cierto para conjuntos convexos.</p>
+<div class="teorema">
+<p><strong>Teorema 1.</strong> (Condición necesaria de optimalidad de primer orden para un conjunto factible convexo) Sea <span class="math inline">\(\Omega \subseteq  {R}^n\)</span> convexo y sea <span class="math inline">\(f:  {R}^n \to  {R}\)</span> una función diferenciable. Si <span class="math inline">\(x \in \Omega\)</span> es un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, entonces <span class="math display">\[
+\langle \nabla f(x), y - x \rangle \geq 0 \quad \forall y \in \Omega.
+\]</span></p>
+</div>
+<details>
+<summary>
+Interpretación geométrica
+</summary>
+<p>La condición del Teorema 1 se verifica si el vector gradiente de <span class="math inline">\(f\)</span> en una solución <span class="math inline">\(x\in\Omega\)</span> forma un ángulo agudo con todas las direcciones <span class="math inline">\(y-x\)</span>, donde <span class="math inline">\(y\in\Omega\)</span>.</p>
+<p>Ahora bien, a la hora de buscar un minimizador, la dirección que realmente nos importa es <span class="math inline">\(-\nabla f(x)\)</span>. Así, el Teorema 1 nos dice que <span class="math inline">\(-\nabla f(x)\)</span> debe formar un ángulo obtuso con las direcciones <span class="math inline">\(y-x\)</span>. En otras palabras, la condición dada es equivalente a escribir</p>
+<p><span class="math display">\[
+-\nabla f(x)\in N_{\Omega}(x),
+\]</span></p>
+<p>donde <span class="math inline">\(N_{\Omega}(x)\)</span> es el cono normal a <span class="math inline">\(\Omega\)</span> en <span class="math inline">\(x\)</span>.</p>
+<p>Es importante observar que si <span class="math inline">\(x\)</span> es un punto interior de <span class="math inline">\(\Omega\)</span>, sabemos que <span class="math inline">\(N_{\Omega}(x)=\{\mathbf{0}\}\)</span> y, en consecuencia, debe ser <span class="math inline">\(\nabla f(x)=\mathbf{0}\)</span>. Esto es consistente con la condición de optimalidad de los problemas sin restricciones.</p>
+<p>No obstante, la importancia del Teorema 1 radica en cómo tratar los puntos en la frontera de <span class="math inline">\(\Omega\)</span>. A partir de los ejemplos previamente estudiados sobre el cono normal, podemos ver que la interpretación del Teorema 1 es bastante intuitiva. Por ejemplo, si <span class="math inline">\(\Omega\)</span> es un polígono y <span class="math inline">\(x\in\Omega\)</span> es una solución, el vector <span class="math inline">\(-\nabla f(x)\)</span> es perpendicular a <span class="math inline">\(\Omega\)</span> y apunta hacia afuera, lo cual significa que no hay posibilidad de “moverse” en dirección opuesta al gradiente sin salirse de <span class="math inline">\(\Omega\)</span>.</p>
+</details>
+<p>¡Cuidado! La condición provista por el Teorema 1 es necesaria pero no suficiente. Podría verificarse la condición en otros puntos críticos de <span class="math inline">\(\Omega\)</span> que no sean un mínimo global de <span class="math inline">\(f\)</span> en dicho conjunto. Sin embargo, para el notable caso de las funciones convexas dicha condición sí es suficiente.</p>
+<div class="teorema">
+<p><strong>Teorema 2.</strong> (Condición necesaria de optimalidad de primer orden para un conjunto factible convexo y una función objetivo convexa) Sea <span class="math inline">\(\Omega \subseteq  {R}^n\)</span> convexo y sea <span class="math inline">\(f:  {R}^n \to  {R}\)</span> una función diferenciable convexa. Entonces <span class="math display">\[
+-\nabla f(x)\in N_{\Omega}(x)\Leftrightarrow x\text{ es un minimizador de }f\text{ en }\Omega.
+\]</span></p>
+</div>
+<section id="restricciones-lineales" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="restricciones-lineales"><span class="header-section-number">2.1</span> Restricciones lineales</h2>
+<p>Sea <span class="math inline">\(\Omega\)</span> un polítopo convexo, esto es, el conjunto convexo definido por la intersección de un número finito de subespacios (desigualdades lineales):</p>
+<p><span class="math display">\[
+\Omega=\{x\in\RR^n|Ax\leq b\}.
+\]</span></p>
+<div class="teorema">
+<p><strong>Teorema 3.</strong> Acá va el teorema 1.1 de la Lectura 5</p>
+</div>
 <script type="ojs-module-contents">
 eyJjb250ZW50cyI6W119
 </script>
@@ -204,6 +233,7 @@ eyJjb250ZW50cyI6W119
 <script type="vfs-file">
 W10=
 </script>
+</section>
 </section>
 
 </main>

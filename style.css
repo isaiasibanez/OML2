@@ -2,10 +2,21 @@
   background-color: #f9f9f9; /* Fondo gris claro */
   border: 2px solid #4CAF50; /* Borde verde */
   padding: 15px;            /* Espaciado interno */
+  padding-bottom: 2px;
   border-radius: 8px;       /* Bordes redondeados */
   margin: 15px 0;           /* Margen arriba y abajo */
   font-family: Arial, sans-serif; /* Fuente opcional */
 }
+
+.teorema {
+  background-color: #ffeaec;  /* Fondo rojo suave */
+  border: 2px solid #dc3545;   /* Borde rojo intenso (bordó) */
+  padding: 15px;               /* Espaciado interno */
+  padding-bottom: 2px;
+  border-radius: 8px;          /* Bordes redondeados */
+  margin: 15px 0;              /* Margen arriba y abajo */
+}
+
 
 
 .highlight {
