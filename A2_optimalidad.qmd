@@ -1,0 +1,199 @@
+---
+title: "Condiciones de optimalidad en Optimización"
+lang: es
+format:
+  live-html:
+    pyodide:
+      cell-options:
+        edit: true
+        include: true
+    css: style.css
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    toc-floating: true
+number-sections: true
+---
+
+
+::: {.hidden} 
+$$
+\def\RR{\mathbb{R}}
+\def\media{\mathbb{E}}
+\def\xx{{\bf x}}
+\def\XX{{\bf X}}
+\def\TT{{\bf T}}
+\def\bftheta{\boldsymbol{\theta}}
+\def\bfeta{\boldsymbol{\eta}}
+\def\bfmu{\boldsymbol{\mu}}
+\def\bfSigma{\boldsymbol{\Sigma}}
+\def\bfone{\mathbf{1}}
+\def\argmin{\mathop{\mathrm{arg\,min\,}}}
+\def\argmax{\mathop{\mathrm{arg\,max\,}}}
+$$ 
+:::
+
+<hr style="border: 1px solid rgba(50, 0, 0, 1);">
+
+
+En un problema de optimización general
+$$
+\min_{x} f(x)
+$$
+$$
+\text{s.t.}\; x\in\Omega=\left\{x\in\RR^n\left|\begin{array}{rl}
+g_i(x)\leq 0,& i=1,\cdots,r.\\
+h_j(x)=0, & j=1,\cdots,m.
+\end{array}\right.\right\},
+$$
+
+las condiciones de optimalidad de primer orden definen los requisitos que deben cumplir los puntos óptimos. En lo que sigue, asumiremos que trabajamos con funciones diferenciables.
+
+
+
+# Condición necesaria de optimalidad
+
+## Optimización sin restricciones
+
+De cursos anteriores recordemos que, para un problema de optimización de la forma
+
+$$
+\min_{x \in \mathbb{R}^n} f(x),
+$$
+
+una condición necesaria para que un punto sea óptimo es que verifique 
+$$
+\nabla f(x)=\mathbf{0}.
+$$
+
+Pero cuidado: es **solo una condición necesaria** que todos los puntos óptimos deben cumplir pero no implica que cualquier punto que la satisfaga sea automáticamente óptimo. En otras palabras, las soluciones de $\nabla f(x) = 0$ forman una lista de puntos candidatos para minimizar, llamados *puntos críticos*.
+
+De inmediato surgen dos preguntas claves:
+
+- ¿Cuál es la generalización correcta de la condición necesaria $\nabla f(x) = 0$ cuando enfrentamos un **problema de optimización con restricciones**?
+- ¿Bajo qué circunstancias $\nabla f(x) = 0$ también se convierte en una condición suficiente para la optimalidad?
+
+Antes, veamos cómo surge la condición $\nabla f(x)=\mathbf{0}$ para problemas de optimización sin restricciones.
+
+### Prueba de condición necesaria $\nabla f(x)=\mathbf{0}$
+
+Sea $x\in\RR^n$ es un minimizador de la función $f: {R}^n \to {R}$ y sea $d\in\RR^n$ una dirección arbitraria. Entonces se cumple
+
+$$
+f(x + t \cdot d) \geq f(x) \quad \text{para todo } t \geq 0.
+$$
+
+En consecuencia, la derivada direccional de $f$ en $x$ a lo largo de $d$ es
+
+$$
+\frac{\partial f}{\partial d}(x)= \lim_{t \to 0} \frac{f(x + t \cdot d) - f(x)}{t} \geq 0.
+$$
+
+Ahora bien, como $f$ es diferenciable, se verifica la propiedad $\frac{\partial f}{\partial d}(x)=\langle \nabla f(x),d\rangle$, por lo que la desigualdad anterior se puede reescribir como:
+
+$$
+\langle \nabla f(x), d \rangle \geq 0 \quad \forall d \in {R}^n.
+$$
+
+En particular, eligiendo $d = -\nabla f(x)$, resulta $-\|\nabla f(x)\|^2\geq 0$, lo cual es cierto si y sólo si $\nabla f(x)=\mathbf{0}$.
+
+
+
+## Optimización con restricciones
+
+La clave para generalizar la condición $\nabla f(x)=\mathbf{0}$ al caso de optimización con restricciones surge de la prueba anterior, más precisamente de la desigualdad $\langle\nabla f(x),d\rangle\geq 0$.
+
+La diferencia principal con el caso sin restricciones es que, en un conjunto restringido, podríamos estar limitados en la elección de las direcciones $d$ a lo largo de las cuales podemos aproximarnos a $x$ sin salirnos del conjunto.
+
+No obstante, para cualquier dirección $d$ tal que $x + t \cdot d \in \Omega$ para todo $t \geq 0$ suficientemente pequeño, el mismo argumento aplicado anteriormente sigue siendo válido. Por lo tanto, podemos concluir que necesariamente:
+
+$$
+\langle \nabla f(x), d \rangle \geq 0 \quad \text{para todo } d \in  {R}^n \text{ que permanezca en } \Omega \text{ desde } x.
+$$
+
+Para aplicar esta condición, se requieren dos pasos:
+
+1. Determinar el conjunto de direcciones $d$ que permanecen en $\Omega$ desde $x$*.
+
+2. A partir de esas direcciones, ver de qué manera imponen restricciones sobre $\nabla f(x)$. 
+
+De estos dos pasos, el primero suele ser el más sencillo. En todos los casos de interés, podemos determinar el conjunto de direcciones permitidas simplemente considerando cualquier otro punto $y \in \Omega$ y observando la dirección de $x$ a $y$. Esta propiedad se cumple trivialmente si todos los segmentos de línea entre $x$ y cualquier punto en $\Omega$ están contenidos en $\Omega$, lo cual es siempre cierto para conjuntos convexos.
+
+
+::: {.teorema}
+**Teorema 1.** (Condición necesaria de optimalidad de primer orden para un conjunto factible convexo) 
+Sea $\Omega \subseteq  {R}^n$ convexo y sea $f:  {R}^n \to  {R}$ una función diferenciable. Si $x \in \Omega$ es un minimizador de $f$ sobre $\Omega$, entonces
+$$
+\langle \nabla f(x), y - x \rangle \geq 0 \quad \forall y \in \Omega.
+$$  
+:::
+
+
+<details>
+<summary>Interpretación geométrica</summary>
+<hr>
+La condición del Teorema 1 se verifica si el vector gradiente de $f$ en una solución $x\in\Omega$ forma un ángulo agudo con todas las direcciones $y-x$, donde $y\in\Omega$.
+
+Ahora bien, a la hora de buscar un minimizador, la dirección que realmente nos importa es $-\nabla f(x)$. Así, el Teorema 1 nos dice que $-\nabla f(x)$ debe formar un ángulo obtuso con las direcciones $y-x$. En otras palabras, la condición dada es equivalente a escribir
+
+$$
+-\nabla f(x)\in N_{\Omega}(x),
+$$
+
+donde $N_{\Omega}(x)$ es el cono normal a $\Omega$ en $x$.
+
+Es importante observar que si $x$ es un punto interior de $\Omega$, sabemos que $N_{\Omega}(x)=\{\mathbf{0}\}$ y, en consecuencia, debe ser $\nabla f(x)=\mathbf{0}$. Esto es consistente con la condición de optimalidad de los problemas sin restricciones.
+
+No obstante, la importancia del Teorema 1 radica en cómo tratar los puntos en la frontera de $\Omega$. A partir de los ejemplos previamente estudiados sobre el cono normal, podemos ver que la interpretación del Teorema 1 es bastante intuitiva. Por ejemplo, si $\Omega$ es un polígono y $x\in\Omega$ es una solución, el vector $-\nabla f(x)$ es perpendicular a $\Omega$ y apunta hacia afuera, lo cual significa que no hay posibilidad de "moverse" en dirección opuesta al gradiente sin salirse de $\Omega$.
+---
+</details>
+
+
+¡Cuidado! La condición provista por el Teorema 1 es necesaria pero no suficiente. Podría verificarse la condición en otros puntos críticos de $\Omega$ que no sean un mínimo global de $f$ en dicho conjunto. Sin embargo, para el notable caso de las funciones convexas dicha condición sí es suficiente.
+
+
+::: {.teorema}
+**Teorema 2.** (Condición necesaria de optimalidad de primer orden para un conjunto factible convexo y una función  objetivo convexa) 
+Sea $\Omega \subseteq  {R}^n$ convexo y sea $f:  {R}^n \to  {R}$ una función diferenciable convexa. Entonces
+$$
+-\nabla f(x)\in N_{\Omega}(x)\Leftrightarrow x\text{ es un minimizador de }f\text{ en }\Omega.
+$$  
+:::
+
+
+# Condiciones de Karush-Kuhn-Tucker (KKT)
+
+
+
+## El caso particular de restricciones lineales
+
+Sea $\Omega$ un polítopo convexo, esto es, el conjunto convexo definido por la intersección de un número finito de subespacios (desigualdades lineales):
+
+$$
+\Omega=\{x\in\RR^n|Ax\leq b\}.
+$$
+
+
+
+
+
+::: {.teorema}
+**Teorema 3.** 
+Acá va el teorema 1.1 de la Lectura 5
+:::
+
+
+
+## Generalización
+
+
+## Cualificación de restricciones
+
+
+# Dualidad
+
+## Función dual de Lagrange
+
+## El problema dual de Lagrange
+
+## Relación entre dualidad y KKT
