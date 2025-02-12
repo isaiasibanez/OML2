@@ -79,7 +79,7 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#condición-necesaria-de-optimalidad" id="toc-condición-necesaria-de-optimalidad" class="nav-link active" data-scroll-target="#condición-necesaria-de-optimalidad"><span class="header-section-number">1</span> Condición necesaria de optimalidad</a>
+  <li><a href="#condiciones-de-optimalidad-de-primer-orden" id="toc-condiciones-de-optimalidad-de-primer-orden" class="nav-link active" data-scroll-target="#condiciones-de-optimalidad-de-primer-orden"><span class="header-section-number">1</span> Condiciones de optimalidad de primer orden</a>
   <ul class="collapse">
   <li><a href="#optimización-sin-restricciones" id="toc-optimización-sin-restricciones" class="nav-link" data-scroll-target="#optimización-sin-restricciones"><span class="header-section-number">1.1</span> Optimización sin restricciones</a>
   <ul class="collapse">
@@ -129,10 +129,13 @@ window.Quarto = {
 <p><span class="math display">\[
 \def\RR{\mathbb{R}}
 \def\media{\mathbb{E}}
+\def\bfa{{\bf a}}
+\def\bfb{{\bf b}}
 \def\xx{{\bf x}}
 \def\XX{{\bf X}}
 \def\TT{{\bf T}}
 \def\bftheta{\boldsymbol{\theta}}
+\def\bflambda{\boldsymbol{\lambda}}
 \def\bfeta{\boldsymbol{\eta}}
 \def\bfmu{\boldsymbol{\mu}}
 \def\bfSigma{\boldsymbol{\Sigma}}
@@ -150,19 +153,15 @@ g_i(x)\leq 0,&amp; i=1,\cdots,r.\\
 h_j(x)=0, &amp; j=1,\cdots,m.
 \end{array}\right.\right\},
 \]</span></p>
-<p>las condiciones de optimalidad de primer orden definen los requisitos que deben cumplir los puntos óptimos. En lo que sigue, asumiremos que trabajamos con funciones diferenciables.</p>
-<section id="condición-necesaria-de-optimalidad" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Condición necesaria de optimalidad</h1>
+<p>las condiciones de optimalidad definen los requisitos que deben cumplir los puntos óptimos. En lo que sigue, asumiremos que trabajamos con funciones diferenciables.</p>
+<section id="condiciones-de-optimalidad-de-primer-orden" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Condiciones de optimalidad de primer orden</h1>
 <section id="optimización-sin-restricciones" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="optimización-sin-restricciones"><span class="header-section-number">1.1</span> Optimización sin restricciones</h2>
-<p>De cursos anteriores recordemos que, para un problema de optimización de la forma</p>
-<p><span class="math display">\[
-\min_{x \in \mathbb{R}^n} f(x),
-\]</span></p>
-<p>una condición necesaria para que un punto sea óptimo es que verifique <span class="math display">\[
+<p>De cursos anteriores recordemos que, cuando se pretende optimizar una función <span class="math inline">\(f\)</span> respecto a <span class="math inline">\(x\in\RR^n\)</span>, una condición necesaria para que un punto sea óptimo es que verifique <span class="math display">\[
 \nabla f(x)=\mathbf{0}.
 \]</span></p>
-<p>Pero cuidado: es <strong>solo una condición necesaria</strong> que todos los puntos óptimos deben cumplir pero no implica que cualquier punto que la satisfaga sea automáticamente óptimo. En otras palabras, las soluciones de <span class="math inline">\(\nabla f(x) = 0\)</span> forman una lista de puntos candidatos para minimizar, llamados <em>puntos críticos</em>.</p>
+<p>Pero cuidado: es <strong>solo una condición necesaria</strong> que todos los puntos óptimos deben cumplir, pero no implica que cualquier punto que la satisfaga sea automáticamente óptimo. En otras palabras, las soluciones de <span class="math inline">\(\nabla f(x) = 0\)</span> forman una lista de puntos candidatos para minimizar, llamados <em>puntos críticos</em>.</p>
 <p>De inmediato surgen dos preguntas claves:</p>
 <ul>
 <li>¿Cuál es la generalización correcta de la condición necesaria <span class="math inline">\(\nabla f(x) = 0\)</span> cuando enfrentamos un <strong>problema de optimización con restricciones</strong>?</li>
@@ -171,7 +170,7 @@ h_j(x)=0, &amp; j=1,\cdots,m.
 <p>Antes, veamos cómo surge la condición <span class="math inline">\(\nabla f(x)=\mathbf{0}\)</span> para problemas de optimización sin restricciones.</p>
 <section id="prueba-de-condición-necesaria-nabla-fxmathbf0" class="level3" data-number="1.1.1">
 <h3 data-number="1.1.1" class="anchored" data-anchor-id="prueba-de-condición-necesaria-nabla-fxmathbf0"><span class="header-section-number">1.1.1</span> Prueba de condición necesaria <span class="math inline">\(\nabla f(x)=\mathbf{0}\)</span></h3>
-<p>Sea <span class="math inline">\(x\in\RR^n\)</span> es un minimizador de la función <span class="math inline">\(f: {R}^n \to {R}\)</span> y sea <span class="math inline">\(d\in\RR^n\)</span> una dirección arbitraria. Entonces se cumple</p>
+<p>Sea <span class="math inline">\(x\in\RR^n\)</span> es un minimizador de la función <span class="math inline">\(f: \RR^n \to \RR\)</span> y sea <span class="math inline">\(d\in\RR^n\)</span> una dirección arbitraria. Entonces se cumple</p>
 <p><span class="math display">\[
 f(x + t \cdot d) \geq f(x) \quad \text{para todo } t \geq 0.
 \]</span></p>
@@ -217,13 +216,13 @@ Interpretación geométrica
 \]</span></p>
 <p>donde <span class="math inline">\(N_{\Omega}(x)\)</span> es el cono normal a <span class="math inline">\(\Omega\)</span> en <span class="math inline">\(x\)</span>.</p>
 <p>Es importante observar que si <span class="math inline">\(x\)</span> es un punto interior de <span class="math inline">\(\Omega\)</span>, sabemos que <span class="math inline">\(N_{\Omega}(x)=\{\mathbf{0}\}\)</span> y, en consecuencia, debe ser <span class="math inline">\(\nabla f(x)=\mathbf{0}\)</span>. Esto es consistente con la condición de optimalidad de los problemas sin restricciones.</p>
-<p>No obstante, la importancia del Teorema 1 radica en cómo tratar los puntos en la frontera de <span class="math inline">\(\Omega\)</span>. A partir de los ejemplos previamente estudiados sobre el cono normal, podemos ver que la interpretación del Teorema 1 es bastante intuitiva. Por ejemplo, si <span class="math inline">\(\Omega\)</span> es un polígono y <span class="math inline">\(x\in\Omega\)</span> es una solución, el vector <span class="math inline">\(-\nabla f(x)\)</span> es perpendicular a <span class="math inline">\(\Omega\)</span> y apunta hacia afuera, lo cual significa que no hay posibilidad de “moverse” en dirección opuesta al gradiente sin salirse de <span class="math inline">\(\Omega\)</span>.</p>
+No obstante, la importancia del Teorema 1 radica en cómo tratar los puntos en la frontera de <span class="math inline">\(\Omega\)</span>. A partir de los ejemplos previamente estudiados sobre el cono normal, podemos ver que la interpretación del Teorema 1 es bastante intuitiva. Por ejemplo, si <span class="math inline">\(\Omega\)</span> es un polígono y <span class="math inline">\(x\in\Omega\)</span> es una solución, el vector <span class="math inline">\(-\nabla f(x)\)</span> es perpendicular a <span class="math inline">\(\Omega\)</span> y apunta hacia afuera, lo cual significa que no hay posibilidad de “moverse” en dirección opuesta al gradiente sin salirse de <span class="math inline">\(\Omega\)</span>.
 <hr>
 </details>
 <p>¡Cuidado! La condición provista por el Teorema 1 es necesaria pero no suficiente. Podría verificarse la condición en otros puntos críticos de <span class="math inline">\(\Omega\)</span> que no sean un mínimo global de <span class="math inline">\(f\)</span> en dicho conjunto. Sin embargo, para el notable caso de las funciones convexas dicha condición sí es suficiente.</p>
 <div class="teorema">
 <p><strong>Teorema 2.</strong> (Condición necesaria de optimalidad de primer orden para un conjunto factible convexo y una función objetivo convexa) Sea <span class="math inline">\(\Omega \subseteq  {R}^n\)</span> convexo y sea <span class="math inline">\(f:  {R}^n \to  {R}\)</span> una función diferenciable convexa. Entonces <span class="math display">\[
--\nabla f(x)\in N_{\Omega}(x)\Leftrightarrow x\text{ es un minimizador de }f\text{ en }\Omega.
+-\nabla f(x)\in N_{\Omega}(x)\Leftrightarrow x \text{ es un minimizador de }f\text{ en }\Omega.
 \]</span></p>
 </div>
 </section>
@@ -232,16 +231,87 @@ Interpretación geométrica
 <h1 data-number="2"><span class="header-section-number">2</span> Condiciones de Karush-Kuhn-Tucker (KKT)</h1>
 <section id="el-caso-particular-de-restricciones-lineales" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="el-caso-particular-de-restricciones-lineales"><span class="header-section-number">2.1</span> El caso particular de restricciones lineales</h2>
-<p>Sea <span class="math inline">\(\Omega\)</span> un polítopo convexo, esto es, el conjunto convexo definido por la intersección de un número finito de subespacios (desigualdades lineales):</p>
+<p>Vamos a considerar el caso en que <span class="math inline">\(\Omega\)</span> un polítopo convexo, esto es, el conjunto convexo definido por la intersección de un número finito de medios espacios (desigualdades lineales):</p>
 <p><span class="math display">\[
-\Omega=\{x\in\RR^n|Ax\leq b\}.
+\Omega=\{\xx\in\RR^n|A\xx\leq \bfb\},
 \]</span></p>
+<p>donde <span class="math inline">\(A\in\RR^{m\times n}\)</span> es una matriz, cuyas filas denotaremos con <span class="math inline">\(\bfa_j\)</span>, <span class="math inline">\(j=1,\cdots,m\)</span>, y <span class="math inline">\(\bfb\in\RR^m\)</span>.</p>
+<p>En el ejemplo … (<span style="color: red;">Agregar ejemplo 3.6 de Lecture 2 a ‘Intro’</span>) hemos visto que el cono normal en un punto en la intersección de dos medios espacios es la envolvente cónica de las direcciones ortogonales a dichos subespacios.</p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/conic_hull_halfspaces_intersection.png" alt="Conic Hull" width="200px" class="figure-img">
+<figcaption>
+Envolvente cónica de la intersección de dos subespacios <span class="math inline">\(\bfa_1^T\xx\leq b_1\)</span> y <span class="math inline">\(\bfa_2^T\xx\leq b_2\)</span>.
+</figcaption>
+</figure>
+<p>Por otra parte, los otros casos también ya han sido vistos:</p>
+<ul>
+<li>Si <span class="math inline">\(\xx\)</span> pertenece al interior de <span class="math inline">\(\Omega\)</span>, entonces <span class="math inline">\(N_{\Omega}(\xx)=\{\mathbf{0}\}\)</span>.</li>
+<li>Si <span class="math inline">\(\xx\)</span> pertenece a la frontera de un único medio espacio, a saber <span class="math inline">\(\bfa_k^T\xx=b_k\)</span>, entonces <span class="math inline">\(N_{\Omega}(\xx)=\{\lambda \bfa_k:\lambda\geq 0\}\)</span>.</li>
+</ul>
+<p>La generalización al caso de <span class="math inline">\(m\)</span> medios espacios se presenta en el siguiente teorema.</p>
 <div class="teorema">
-<p><strong>Teorema 3.</strong> Acá va el teorema 1.1 de la Lectura 5</p>
+<p><strong>Teorema 3.</strong> Sea <span class="math inline">\(\Omega=\{x\in\RR^n\}\)</span> la intersección de <span class="math inline">\(m\)</span> medios espacios <span class="math inline">\(\bfa_j^T\xx\leq b_j\)</span>. Dado un punto <span class="math inline">\(x\in\Omega\)</span>, se define el conjunto de índices de las <em>restricciones activas</em> mediante</p>
+<p><span class="math display">\[
+I(\xx):=\left\{j\in\{1,\cdots,m\}:\bfa_j^T\xx=b_j\right\}.
+\]</span> Entonces, el cono normal en <span class="math inline">\(\xx\)</span> está dado por</p>
+<p><span class="math display">\[
+N_{\Omega}(\xx)=\left\{\sum_{j\in I(\xx)}\lambda_j\bfa_j:\lambda_j\geq 0\right\}.
+\]</span></p>
 </div>
+<details>
+<summary>
+Interpretación
+</summary>
+<hr>
+<p>Si <span class="math inline">\(\xx\)</span> pertenece al interior de <span class="math inline">\(\Omega\)</span>, entonces no hay restricciones activas. Esto se corresponde con el hecho de que el cono normal es <span class="math inline">\(N_{\Omega}(\xx)=\{\mathbf{0}\}\)</span>.</p>
+<p>Por su parte, si <span class="math inline">\(\xx\)</span> pertenece a la frontera de <span class="math inline">\(\Omega\)</span>, entonces el cono normal es la envolvente cónica de las direcciones ortogonales a las restricciones activas.</p>
+<p>Observar que la condición de optimalidad <span class="math inline">\(-\nabla f(\xx)\in N_{\Omega}(\xx)\)</span> se traduce como</p>
+<p><span class="math display">\[
+-\nabla f(\xx)=\sum_{j\in I(\xx)}\lambda_j\bfa_j,
+\]</span></p>
+<p>y, en consecuencia, se puede escribir</p>
+<p><span class="math display">\[
+\nabla f(\xx)-\sum_{j\in I(\xx)}\lambda_j \nabla g_j(\xx)=0,
+\]</span></p>
+con <span class="math inline">\(g_j(\xx)=\bfa_j^T\xx-b\)</span>. Los coeficientes <span class="math inline">\(\lambda_j\)</span> se denominan tipicamente <em>multiplicadores de Lagrange</em>.
+<hr>
+</details>
+<p>La suma en la expresión del cono normal puede ser reescrita sin restringir <span class="math inline">\(j\in I(\xx)\)</span>, simplemente imponiendo <span class="math inline">\(\lambda_j=0\)</span> para todo <span class="math inline">\(j\notin I(\xx)\)</span>. Esta imposición queda ímplicita de forma inmediata si se escribe</p>
+<p><span class="math display">\[
+\sum_{j=1}^m\lambda_j\left(\bfa_j^T\xx-b_j\right)=0.
+\]</span></p>
+<p>En forma vectorial, esto es <span class="math inline">\(\bflambda^T\left(A\xx-\bfb\right)=0\)</span>, donde <span class="math inline">\(\bflambda=(\lambda_1,\cdots,\lambda_m)^T\)</span>. Con esta notación, el resultado del Teorema 3 puede reescribirse como</p>
+<p><span class="math display">\[
+N_{\Omega}(\xx)=\left\{A^T\bflambda:\bflambda^T(A\xx-\bfb)=0,\bflambda\in\RR^m_{\geq 0}\right\}.
+\]</span></p>
+<p>Para concluir este análisis, y teniendo en cuenta lo expuesto hasta aquí, podemos hacer énfasis en tres condiciones necesarias para que una solución sea óptima en este caso particular de restricciones lineales.</p>
+<div class="highlight">
+<p>Para que <span class="math inline">\(\xx\in\Omega\)</span> sea un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, debe cumplir:</p>
+<ul>
+<li><p><strong>Estacionariedad</strong>: El gradiente debe ser una combinación lineal de los gradientes de las restricciones activas. <span class="math display">\[
+\nabla f(\xx)-\sum_{j=1}^{m}\lambda_j(\bfa_j^T\xx-b_j).
+\]</span></p></li>
+<li><p><strong>Factibilidad dual</strong>: Los multiplicadores de Lagrange asociados a las restricciones de desigualdad deben ser no negativos. <span class="math display">\[
+\lambda_j\geq 0 \quad \forall j=1,\cdots,m.
+\]</span></p></li>
+<li><p><strong>Holgura complementaria</strong>: Los multiplicadores de Lagrange solo pueden ser positivos si la restricción está activa. <span class="math display">\[
+\lambda_j\left(\bfa_j^T\xx-b_j\right)=0 \quad \forall j=1,\cdots,m.
+\]</span></p></li>
+</ul>
+</div>
+<p><br> Las condiciones mencionadas se conocen como <strong>condiciones de Karush-Kuhn-Tucker</strong> y son una consecuencia de la caracterización del cono normal para conjuntos definidos como interseccion de restricciones lineales, provista por el Teorema 3. Ya estamos en condiciones de abordar el problema de optimización general.</p>
 </section>
 <section id="generalización" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="generalización"><span class="header-section-number">2.2</span> Generalización</h2>
+<p>Consideremos el problema de optimización general <span class="math display">\[
+\min_{x} f(x)
+\]</span> <span class="math display">\[
+\text{s.t.}\; x\in\Omega=\left\{x\in\RR^n\left|\begin{array}{rl}
+g_i(x)\leq 0,&amp; i=1,\cdots,r.\\
+h_j(x)=0, &amp; j=1,\cdots,m.
+\end{array}\right.\right\},
+\]</span></p>
+<p>donde <span class="math inline">\(\Omega\)</span> está definido como una intersección de restricciones funcionales diferenciables.</p>
 </section>
 <section id="cualificación-de-restricciones" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="cualificación-de-restricciones"><span class="header-section-number">2.3</span> Cualificación de restricciones</h2>

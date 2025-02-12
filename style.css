@@ -9,22 +9,25 @@
 }
 
 .teorema {
-  background-color: #ffeaec;  /* Fondo rojo suave */
-  border: 2px solid #dc3545;   /* Borde rojo intenso (bordó) */
-  padding: 15px;               /* Espaciado interno */
+  background-color: #fffafa;  /* Fondo más claro */
+  border: 2px solid #b22222;  /* Borde más oscuro */
+  padding: 15px;
   padding-bottom: 2px;
-  border-radius: 8px;          /* Bordes redondeados */
-  margin: 15px 0;              /* Margen arriba y abajo */
+  border-radius: 8px;
+  margin: 15px 0;
 }
 
 .highlight {
-  background-color: #fff8e1; /* Fondo amarillo claro */
+  background-color: #fffdf5; /* Fondo muy suave */
   border: 2px solid #ffa726; /* Borde naranja */
   padding: 10px;            /* Espaciado interno */
   border-radius: 5px;       /* Bordes suavemente redondeados */
   margin: 10px 0;           /* Margen arriba y abajo */
   font-family: Arial, sans-serif; /* Fuente opcional */
 }
+
+
+
 
 /* Estilo para bloques de código preformateado (<pre>) */
 pre {
@@ -39,3 +42,5 @@ pre {
   line-height: 1.5; /* Mejor separación entre líneas */
   margin: 15px 0; /* Separación vertical */
 }
+
+

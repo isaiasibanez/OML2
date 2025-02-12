@@ -20,10 +20,13 @@ number-sections: true
 $$
 \def\RR{\mathbb{R}}
 \def\media{\mathbb{E}}
+\def\bfa{{\bf a}}
+\def\bfb{{\bf b}}
 \def\xx{{\bf x}}
 \def\XX{{\bf X}}
 \def\TT{{\bf T}}
 \def\bftheta{\boldsymbol{\theta}}
+\def\bflambda{\boldsymbol{\lambda}}
 \def\bfeta{\boldsymbol{\eta}}
 \def\bfmu{\boldsymbol{\mu}}
 \def\bfSigma{\boldsymbol{\Sigma}}
@@ -47,26 +50,20 @@ h_j(x)=0, & j=1,\cdots,m.
 \end{array}\right.\right\},
 $$
 
-las condiciones de optimalidad de primer orden definen los requisitos que deben cumplir los puntos óptimos. En lo que sigue, asumiremos que trabajamos con funciones diferenciables.
+las condiciones de optimalidad definen los requisitos que deben cumplir los puntos óptimos. En lo que sigue, asumiremos que trabajamos con funciones diferenciables.
 
 
 
-# Condición necesaria de optimalidad
+# Condiciones de optimalidad de primer orden
 
 ## Optimización sin restricciones
 
-De cursos anteriores recordemos que, para un problema de optimización de la forma
-
-$$
-\min_{x \in \mathbb{R}^n} f(x),
-$$
-
-una condición necesaria para que un punto sea óptimo es que verifique 
+De cursos anteriores recordemos que, cuando se pretende optimizar una función $f$ respecto a $x\in\RR^n$, una condición necesaria para que un punto sea óptimo es que verifique 
 $$
 \nabla f(x)=\mathbf{0}.
 $$
 
-Pero cuidado: es **solo una condición necesaria** que todos los puntos óptimos deben cumplir pero no implica que cualquier punto que la satisfaga sea automáticamente óptimo. En otras palabras, las soluciones de $\nabla f(x) = 0$ forman una lista de puntos candidatos para minimizar, llamados *puntos críticos*.
+Pero cuidado: es **solo una condición necesaria** que todos los puntos óptimos deben cumplir, pero no implica que cualquier punto que la satisfaga sea automáticamente óptimo. En otras palabras, las soluciones de $\nabla f(x) = 0$ forman una lista de puntos candidatos para minimizar, llamados *puntos críticos*.
 
 De inmediato surgen dos preguntas claves:
 
@@ -77,7 +74,7 @@ Antes, veamos cómo surge la condición $\nabla f(x)=\mathbf{0}$ para problemas 
 
 ### Prueba de condición necesaria $\nabla f(x)=\mathbf{0}$
 
-Sea $x\in\RR^n$ es un minimizador de la función $f: {R}^n \to {R}$ y sea $d\in\RR^n$ una dirección arbitraria. Entonces se cumple
+Sea $x\in\RR^n$ es un minimizador de la función $f: \RR^n \to \RR$ y sea $d\in\RR^n$ una dirección arbitraria. Entonces se cumple
 
 $$
 f(x + t \cdot d) \geq f(x) \quad \text{para todo } t \geq 0.
@@ -145,7 +142,7 @@ donde $N_{\Omega}(x)$ es el cono normal a $\Omega$ en $x$.
 Es importante observar que si $x$ es un punto interior de $\Omega$, sabemos que $N_{\Omega}(x)=\{\mathbf{0}\}$ y, en consecuencia, debe ser $\nabla f(x)=\mathbf{0}$. Esto es consistente con la condición de optimalidad de los problemas sin restricciones.
 
 No obstante, la importancia del Teorema 1 radica en cómo tratar los puntos en la frontera de $\Omega$. A partir de los ejemplos previamente estudiados sobre el cono normal, podemos ver que la interpretación del Teorema 1 es bastante intuitiva. Por ejemplo, si $\Omega$ es un polígono y $x\in\Omega$ es una solución, el vector $-\nabla f(x)$ es perpendicular a $\Omega$ y apunta hacia afuera, lo cual significa que no hay posibilidad de "moverse" en dirección opuesta al gradiente sin salirse de $\Omega$.
----
+<hr>
 </details>
 
 
@@ -156,38 +153,148 @@ No obstante, la importancia del Teorema 1 radica en cómo tratar los puntos en l
 **Teorema 2.** (Condición necesaria de optimalidad de primer orden para un conjunto factible convexo y una función  objetivo convexa) 
 Sea $\Omega \subseteq  {R}^n$ convexo y sea $f:  {R}^n \to  {R}$ una función diferenciable convexa. Entonces
 $$
--\nabla f(x)\in N_{\Omega}(x)\Leftrightarrow x\text{ es un minimizador de }f\text{ en }\Omega.
+-\nabla f(x)\in N_{\Omega}(x)\Leftrightarrow x \text{ es un minimizador de }f\text{ en }\Omega.
 $$  
 :::
 
 
+
 # Condiciones de Karush-Kuhn-Tucker (KKT)
-
-
 
 ## El caso particular de restricciones lineales
 
-Sea $\Omega$ un polítopo convexo, esto es, el conjunto convexo definido por la intersección de un número finito de subespacios (desigualdades lineales):
+Vamos a considerar el caso en que $\Omega$ un polítopo convexo, esto es, el conjunto convexo definido por la intersección de un número finito de medios espacios (desigualdades lineales):
 
 $$
-\Omega=\{x\in\RR^n|Ax\leq b\}.
+\Omega=\{\xx\in\RR^n|A\xx\leq \bfb\},
 $$
 
+donde $A\in\RR^{m\times n}$ es una matriz, cuyas filas denotaremos con $\bfa_j$, $j=1,\cdots,m$, y $\bfb\in\RR^m$.
 
 
+
+
+
+
+En el ejemplo ... (<span style="color: red;">Agregar ejemplo 3.6 de Lecture 2 a 'Intro'</span>)
+hemos visto que el cono normal en un punto en la intersección de dos medios espacios es la envolvente cónica de las direcciones ortogonales a dichos subespacios.
+
+<figure style="text-align: center;">
+  <img src="figuras/conic_hull_halfspaces_intersection.png" alt="Conic Hull" width="200px">
+  <figcaption>Envolvente cónica de la intersección de dos subespacios $\bfa_1^T\xx\leq b_1$ y $\bfa_2^T\xx\leq b_2$.</figcaption>
+</figure>
+
+
+Por otra parte, los otros casos también ya han sido vistos:
+
+- Si $\xx$ pertenece al interior de $\Omega$, entonces $N_{\Omega}(\xx)=\{\mathbf{0}\}$.
+- Si $\xx$ pertenece a la frontera de un único medio espacio, a saber $\bfa_k^T\xx=b_k$, entonces $N_{\Omega}(\xx)=\{\lambda \bfa_k:\lambda\geq 0\}$.
+
+
+La generalización al caso de $m$ medios espacios se presenta en el siguiente teorema.
 
 
 ::: {.teorema}
 **Teorema 3.** 
-Acá va el teorema 1.1 de la Lectura 5
+Sea $\Omega=\{x\in\RR^n\}$ la intersección de $m$ medios espacios $\bfa_j^T\xx\leq b_j$. Dado un punto $x\in\Omega$, se define el conjunto de índices de las *restricciones activas* mediante
+
+$$
+I(\xx):=\left\{j\in\{1,\cdots,m\}:\bfa_j^T\xx=b_j\right\}.
+$$
+Entonces, el cono normal en $\xx$ está dado por
+
+$$
+N_{\Omega}(\xx)=\left\{\sum_{j\in I(\xx)}\lambda_j\bfa_j:\lambda_j\geq 0\right\}.
+$$
 :::
 
+
+<details>
+<summary>Interpretación</summary>
+<hr>
+
+Si $\xx$ pertenece al interior de $\Omega$, entonces no hay restricciones activas. Esto se corresponde con el hecho de que el cono normal es $N_{\Omega}(\xx)=\{\mathbf{0}\}$.
+
+Por su parte, si $\xx$ pertenece a la frontera de $\Omega$, entonces el cono normal es la envolvente cónica de las direcciones ortogonales a las restricciones activas.
+
+Observar que la condición de optimalidad $-\nabla f(\xx)\in N_{\Omega}(\xx)$ se traduce como
+
+$$
+-\nabla f(\xx)=\sum_{j\in I(\xx)}\lambda_j\bfa_j,
+$$
+
+y, en consecuencia, se puede escribir
+
+$$
+\nabla f(\xx)-\sum_{j\in I(\xx)}\lambda_j \nabla g_j(\xx)=0,
+$$
+
+con $g_j(\xx)=\bfa_j^T\xx-b$. Los coeficientes $\lambda_j$ se denominan tipicamente *multiplicadores de Lagrange*.
+<hr>
+</details>
+
+
+La suma en la expresión del cono normal puede ser reescrita sin restringir $j\in I(\xx)$, simplemente imponiendo $\lambda_j=0$ para todo $j\notin I(\xx)$. Esta imposición queda ímplicita de forma inmediata si se escribe
+
+$$
+\sum_{j=1}^m\lambda_j\left(\bfa_j^T\xx-b_j\right)=0.
+$$
+
+En forma vectorial, esto es $\bflambda^T\left(A\xx-\bfb\right)=0$, donde $\bflambda=(\lambda_1,\cdots,\lambda_m)^T$. Con esta notación, el resultado del Teorema 3 puede reescribirse como
+
+$$
+N_{\Omega}(\xx)=\left\{A^T\bflambda:\bflambda^T(A\xx-\bfb)=0,\bflambda\in\RR^m_{\geq 0}\right\}.
+$$
+
+
+Para concluir este análisis, y teniendo en cuenta lo expuesto hasta aquí, podemos hacer énfasis en tres condiciones necesarias para que una solución sea óptima en este caso particular de restricciones lineales.
+
+::: {.highlight}
+
+Para que $\xx\in\Omega$ sea un minimizador de $f$ sobre $\Omega$, debe cumplir:
+
+
+- **Estacionariedad**: El gradiente debe ser una combinación lineal de los gradientes de las restricciones activas.
+$$
+\nabla f(\xx)-\sum_{j=1}^{m}\lambda_j(\bfa_j^T\xx-b_j).
+$$
+
+- **Factibilidad dual**: Los multiplicadores de Lagrange asociados a las restricciones de desigualdad deben ser no negativos.
+$$
+\lambda_j\geq 0 \quad \forall j=1,\cdots,m.
+$$
+
+- **Holgura complementaria**: Los multiplicadores de Lagrange solo pueden ser positivos si la restricción está activa.
+$$
+\lambda_j\left(\bfa_j^T\xx-b_j\right)=0 \quad \forall j=1,\cdots,m.
+$$
+:::
+
+
+<br>
+Las condiciones mencionadas se conocen como **condiciones de Karush-Kuhn-Tucker** y son una consecuencia de la caracterización del cono normal para conjuntos definidos como interseccion de restricciones lineales, provista por el Teorema 3. Ya estamos en condiciones de abordar el problema de optimización general.
 
 
 ## Generalización
 
+Consideremos el problema de optimización general
+$$
+\min_{x} f(x)
+$$
+$$
+\text{s.t.}\; x\in\Omega=\left\{x\in\RR^n\left|\begin{array}{rl}
+g_i(x)\leq 0,& i=1,\cdots,r.\\
+h_j(x)=0, & j=1,\cdots,m.
+\end{array}\right.\right\},
+$$
+
+donde $\Omega$ está definido como una intersección de restricciones funcionales diferenciables.
+
+
 
 ## Cualificación de restricciones
+
+
 
 
 # Dualidad
