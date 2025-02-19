@@ -283,12 +283,89 @@ $$
 $$
 $$
 \text{s.t.}\; x\in\Omega=\left\{x\in\RR^n\left|\begin{array}{rl}
-g_i(x)\leq 0,& i=1,\cdots,r.\\
-h_j(x)=0, & j=1,\cdots,m.
+h_i(x)= 0,& i=1,\cdots,r.\\
+g_j(x)\leq 0, & j=1,\cdots,m.
 \end{array}\right.\right\},
 $$
 
 donde $\Omega$ está definido como una intersección de restricciones funcionales diferenciables.
+
+
+Supongamos que $\xx^*$ es un punto óptimo en la frontera del conjunto factible $\Omega$ correspondiente a tres condiciones de desigualdad $g_i(x) \le 0$ para $i=1,2,3$ (ver figura abajo). La idea principal es la siguiente:
+
+> *El conjunto de direcciones que forma un ángulo obtuso con todas las direcciones desde $\xx^*$ que permanecen en $\Omega$ coincide con el cono normal de la linearización de las restricciones activas en $\xx^*$.*
+
+<figure style="text-align: center;">
+  <img src="figuras/conic_hull_generalization.png" alt="Conic Hull" width="400px">
+  <figcaption>Envolvente cónica de la intersección de restricciones $g_i(\xx)\leq 0$, para $i=1,2,3$.</figcaption>
+</figure>
+
+
+Si aplicamos la idea anterior a $-\nabla f(\xx)$ y consideramos el Teorema 3, obtenemos la generalización de las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT). Denominemos $\tilde{\Omega}$ la linearización de $\Omega$, dado por la linearización de las restricciones en un punto óptimo $\xx^*$:
+
+$$
+h_i(\xx^*)+\nabla h_i(\xx^*)\cdot (\xx-\xx^*)=0,
+$$
+
+$$
+g_i(\xx^*)+\nabla g_i(\xx^*)\cdot (\xx-\xx^*)\leq 0.
+$$
+
+Entonces, por Teorema 3, resulta
+
+$$
+N_{\tilde{\Omega}}(\xx^*)=\left\{\sum_{i=1}^m\lambda_i\nabla h_i(\xx^*)+\sum_{j\in I(\xx^*)}\mu_j\nabla g_j(\xx^*): \lambda_i\in\RR, \mu_j\in\RR_{\geq 0}\right\},
+$$
+
+donde $I(\xx^*):=\left\{j\in\{1,\cdots,m\}: g_j(\xx^*)=0\right\}$. Por supuesto, puede reformularse la condición $j\in I(\xx^*) utilizando holgura complementaria, tal como antes.
+
+Si bien no estamos aún en condiciones de extender el Teorema 3, puesto que el desarrollo previo fue más bien intuitivo, podemos establecer las condiciones KKT mediante una definición formal de la siguiente manera.
+
+
+::: {.definicion}
+**Definición 1.** (Condiciones de Karush-Kuhn-Tucker (KKT) 
+Sea un problema de optimización no lineal con función objetivo diferenciable y restricciones funcionales, de la forma
+$$
+\text{s.t.}\; x\in\Omega=\left\{x\in\RR^n\left|\begin{array}{rl}
+h_i(x)= 0,& i=1,\cdots,r.\\
+g_j(x)\leq 0, & j=1,\cdots,m.
+\end{array}\right.\right\},
+$$
+
+y sea $\xx\in\Omega$ (**factibilidad primal**). Las *condiciones KKT* en $\xx$ están dadas por:
+
+- **Estacionariedad**:
+$$
+-\nabla f(\xx)=\sum_{i=1}^r\lambda_i\nabla h_i(\xx)+\sum_{j=1}^m\mu_j\nabla g_j(\xx).
+$$
+
+- **Factibilidad dual**:
+$$
+\lambda_i\in\RR, \mu_j\in\RR_{\geq 0}\quad\forall i=1,\cdots,r, \forall j=1,\cdots, m.
+$$
+
+- **Holgura complementaria**:
+$$
+\mu_j g_j(\xx)=0\quad \forall j=1,\cdots,m.
+$$
+:::
+
+Es importante remarcar que:
+
+- Las condiciones KKT indican que -$\nabla f(\xx)$ debe estar en el cono normal a la linearización del conjunto de restricciones.
+
+- La condición de holgura compelementaria se resume en "si la restricción $g_j(\xx)\leq 0$ no está activa, entonces $\mu_j=0$".
+
+- Las condiciones KKT a menudo son necesarias para la optimalidad, pero no siempre. 
+
+
+A continuación, veremos un ejemplo donde las condiciones KKT fallan. Luego, en la siguiente sección veremos en qué escenarios las condiciones KKT son efectivamente una condición necesaria de optimalidad.
+
+
+
+
+
+
 
 
 
