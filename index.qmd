@@ -1,0 +1,23 @@
+---
+title: "Página de Inicio"
+format: html
+navbar:
+  left:
+    - href: index.html
+      text: "Página de Inicio"
+    - text: "CAPÍTULO 1"
+      submenu:
+        - href: CAPITULO_1/A1_intro_optimizacion.html
+          text: "Introducción a la Optimización"
+        - href: CAPITULO_1/A2_optimalidad.html
+          text: "Condiciones de optimalidad"
+---
+
+# Página de Inicio
+
+Bienvenidos al curso de Optimización. Aquí encontrarás los capítulos y secciones.
+
+## CAPÍTULO 1
+
+- [Sección 1: A1_intro_optimizacion](CAPITULO_1/A1_intro_optimizacion.html)
+- [Sección 2: A2_optimalidad](CAPITULO_1/A2_optimalidad.html)

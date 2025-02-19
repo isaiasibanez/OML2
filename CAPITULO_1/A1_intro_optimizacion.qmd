@@ -1,0 +1,11 @@
+---
+title: "Introducción a la Optimización"
+---
+
+<hr style="border: 1px solid rgba(50, 0, 0, 1);">
+
+{{< include ../macros.qmd >}}
+
+Lala
+
+
