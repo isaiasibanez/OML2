@@ -4,7 +4,7 @@
     "href": "macros.html",
     "title": "Mi Sitio en Quarto",
     "section": "",
-    "text": "\\[\n\\def\\RR{\\mathbb{R}}\n\\def\\media{\\mathbb{E}}\n\\def\\xx{{\\bf x}}\n\\def\\XX{{\\bf X}}\n\\def\\TT{{\\bf T}}\n\\def\\bfa{\\boldsymbol{a}}\n\\def\\bfb{\\boldsymbol{b}}\n\\def\\bftheta{\\boldsymbol{\\theta}}\n\\def\\bflambda{\\boldsymbol{\\lambda}}\n\\def\\bfeta{\\boldsymbol{\\eta}}\n\\def\\bfmu{\\boldsymbol{\\mu}}\n\\def\\bfSigma{\\boldsymbol{\\Sigma}}\n\\def\\bfone{\\mathbf{1}}\n\\def\\argmin{\\mathop{\\mathrm{arg\\,min\\,}}}\n\\def\\argmax{\\mathop{\\mathrm{arg\\,max\\,}}}\n\\]"
+    "text": "\\[\n\\def\\RR{\\mathbb{R}}\n\\def\\media{\\mathbb{E}}\n\\def\\xx{{\\bf x}}\n\\def\\XX{{\\bf X}}\n\\def\\TT{{\\bf T}}\n\\def\\bfa{\\boldsymbol{a}}\n\\def\\bfb{\\boldsymbol{b}}\n\\def\\bftheta{\\boldsymbol{\\theta}}\n\\def\\bflambda{\\boldsymbol{\\lambda}}\n\\def\\bfeta{\\boldsymbol{\\eta}}\n\\def\\bfmu{\\boldsymbol{\\mu}}\n\\def\\bfnu{\\boldsymbol{\\nu}}\n\\def\\bfSigma{\\boldsymbol{\\Sigma}}\n\\def\\bfone{\\mathbf{1}}\n\\def\\argmin{\\mathop{\\mathrm{arg\\,min\\,}}}\n\\def\\argmax{\\mathop{\\mathrm{arg\\,max\\,}}}\n\\]"
   },
   {
     "objectID": "CAPITULO_2/06_EM.html",
@@ -144,7 +144,7 @@
     "href": "CAPITULO_1/A2_optimalidad.html#función-dual-de-lagrange",
     "title": "Condiciones de optimalidad en Optimización",
     "section": "3.1 Función dual de Lagrange",
-    "text": "3.1 Función dual de Lagrange"
+    "text": "3.1 Función dual de Lagrange\n\nDefinición 2. (Lagrangiano) Sea el problema de optimización general \\[\n\\min f(\\xx)\n\\] \\[\n\\text{sujeto a}\\; \\xx\\in\\Omega=\\left\\{\\xx\\in\\RR^n\\left|\\begin{array}{rl}\nh_i(\\xx)= 0,& i=1,\\cdots,p\\\\\ng_j(\\xx)\\leq 0, & j=1,\\cdots,q\n\\end{array}\\right.\\right\\}.\n\\]\nSe denomina Lagrangiano a la función \\(L:\\RR^n\\times\\RR^p\\times\\RR^q\\to\\RR\\) definida por \\[\nL(\\xx,\\bflambda,\\bfmu)=f(\\xx)+\\sum_{i=1}^r\\lambda_i h_i(\\xx)+\\sum_{i=1}^m\\mu_i g_j(\\xx).\n\\]\n\nLos vectores \\(\\bflambda\\) y \\(\\bfmu\\), cuyas componentes son los multiplicadores de Lagrange, se denominan variables duales del problema de optimización y son el argumento de la función definida a continuación. A su vez, al problema de optimización original se lo denomina problema primal.\n\nDefinición 3. (Función dual) Sea \\(L(\\xx,\\bflambda,\\bfmu)\\) el Lagrangiano de la Definición 2. Se denomina función dual de Lagrange a \\(g:\\RR^p\\times\\RR^q\\to\\RR\\) definida por \\[\ng(\\bflambda,\\bfmu)=\\inf_{\\xx}L(\\xx,\\bflambda,\\bfmu).\n\\]\nCuando el Lagrangiano no está acotado inferiormente en \\(\\xx\\), se asume el valor \\(-\\infty\\).\n\nDado que la función dual es el ínfimo puntual de una familia de funciones afínes de \\((\\bflambda,\\bfmu)\\), es cóncava, aún cuando el problema primal no sea convexo (ver Ejercicio …).\nLa propiedad más importante de la función dual es que es una cota inferior del valor óptimo \\(p^*\\) del problema primal. Es decir, para todo \\(\\bflambda\\geq 0\\) y cualquier \\(\\bfmu\\), resulta \\[\ng(\\bflamda,\\bfmu)\\leq p^*.\n\\]\n\n\nVerificación\n\n\nSea \\(\\tilde{\\xx}\\) un punto factible del problema primal."
   },
   {
     "objectID": "CAPITULO_1/A2_optimalidad.html#el-problema-dual-de-lagrange",
@@ -165,7 +165,7 @@
     "href": "CAPITULO_1/A1_intro_optimizacion.html",
     "title": "Introducción a la Optimización",
     "section": "",
-    "text": "\\[\n\\def\\RR{\\mathbb{R}}\n\\def\\media{\\mathbb{E}}\n\\def\\xx{{\\bf x}}\n\\def\\XX{{\\bf X}}\n\\def\\TT{{\\bf T}}\n\\def\\bfa{\\boldsymbol{a}}\n\\def\\bfb{\\boldsymbol{b}}\n\\def\\bftheta{\\boldsymbol{\\theta}}\n\\def\\bflambda{\\boldsymbol{\\lambda}}\n\\def\\bfeta{\\boldsymbol{\\eta}}\n\\def\\bfmu{\\boldsymbol{\\mu}}\n\\def\\bfSigma{\\boldsymbol{\\Sigma}}\n\\def\\bfone{\\mathbf{1}}\n\\def\\argmin{\\mathop{\\mathrm{arg\\,min\\,}}}\n\\def\\argmax{\\mathop{\\mathrm{arg\\,max\\,}}}\n\\]\n\nLala"
+    "text": "\\[\n\\def\\RR{\\mathbb{R}}\n\\def\\media{\\mathbb{E}}\n\\def\\xx{{\\bf x}}\n\\def\\XX{{\\bf X}}\n\\def\\TT{{\\bf T}}\n\\def\\bfa{\\boldsymbol{a}}\n\\def\\bfb{\\boldsymbol{b}}\n\\def\\bftheta{\\boldsymbol{\\theta}}\n\\def\\bflambda{\\boldsymbol{\\lambda}}\n\\def\\bfeta{\\boldsymbol{\\eta}}\n\\def\\bfmu{\\boldsymbol{\\mu}}\n\\def\\bfnu{\\boldsymbol{\\nu}}\n\\def\\bfSigma{\\boldsymbol{\\Sigma}}\n\\def\\bfone{\\mathbf{1}}\n\\def\\argmin{\\mathop{\\mathrm{arg\\,min\\,}}}\n\\def\\argmax{\\mathop{\\mathrm{arg\\,max\\,}}}\n\\]\n\nLala"
   },
   {
     "objectID": "CAPITULO_2/01_reg_lineal_logistica.html",

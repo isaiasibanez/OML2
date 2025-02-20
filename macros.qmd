@@ -11,6 +11,7 @@ $$
 \def\bflambda{\boldsymbol{\lambda}}
 \def\bfeta{\boldsymbol{\eta}}
 \def\bfmu{\boldsymbol{\mu}}
+\def\bfnu{\boldsymbol{\nu}}
 \def\bfSigma{\boldsymbol{\Sigma}}
 \def\bfone{\mathbf{1}}
 \def\argmin{\mathop{\mathrm{arg\,min\,}}}

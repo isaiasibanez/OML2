@@ -218,6 +218,7 @@ window.Quarto = {
 \def\bflambda{\boldsymbol{\lambda}}
 \def\bfeta{\boldsymbol{\eta}}
 \def\bfmu{\boldsymbol{\mu}}
+\def\bfnu{\boldsymbol{\nu}}
 \def\bfSigma{\boldsymbol{\Sigma}}
 \def\bfone{\mathbf{1}}
 \def\argmin{\mathop{\mathrm{arg\,min\,}}}
@@ -448,8 +449,41 @@ g_j(x)\leq 0, &amp; j=1,\cdots,m.
 </section>
 <section id="dualidad" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Dualidad</h1>
+<p>La teoría de la dualidad juega un papel fundamental en la optimización, permitiendo reformular problemas en términos de funciones duales que pueden proporcionar información valiosa sobre la solución óptima.</p>
 <section id="función-dual-de-lagrange" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="función-dual-de-lagrange"><span class="header-section-number">3.1</span> Función dual de Lagrange</h2>
+<div class="definicion">
+<p><strong>Definición 2.</strong> (Lagrangiano) Sea el problema de optimización general <span class="math display">\[
+\min f(\xx)
+\]</span> <span class="math display">\[
+\text{sujeto a}\; \xx\in\Omega=\left\{\xx\in\RR^n\left|\begin{array}{rl}
+h_i(\xx)= 0,&amp; i=1,\cdots,p\\
+g_j(\xx)\leq 0, &amp; j=1,\cdots,q
+\end{array}\right.\right\}.
+\]</span></p>
+<p>Se denomina <em>Lagrangiano</em> a la función <span class="math inline">\(L:\RR^n\times\RR^p\times\RR^q\to\RR\)</span> definida por <span class="math display">\[
+L(\xx,\bflambda,\bfmu)=f(\xx)+\sum_{i=1}^r\lambda_i h_i(\xx)+\sum_{i=1}^m\mu_i g_j(\xx).
+\]</span></p>
+</div>
+<p>Los vectores <span class="math inline">\(\bflambda\)</span> y <span class="math inline">\(\bfmu\)</span>, cuyas componentes son los multiplicadores de Lagrange, se denominan <em>variables duales</em> del problema de optimización y son el argumento de la función definida a continuación. A su vez, al problema de optimización original se lo denomina <strong>problema primal</strong>.</p>
+<div class="definicion">
+<p><strong>Definición 3.</strong> (Función dual) Sea <span class="math inline">\(L(\xx,\bflambda,\bfmu)\)</span> el Lagrangiano de la Definición 2. Se denomina <em>función dual de Lagrange</em> a <span class="math inline">\(g:\RR^p\times\RR^q\to\RR\)</span> definida por <span class="math display">\[
+g(\bflambda,\bfmu)=\inf_{\xx}L(\xx,\bflambda,\bfmu).
+\]</span></p>
+<p>Cuando el Lagrangiano no está acotado inferiormente en <span class="math inline">\(\xx\)</span>, se asume el valor <span class="math inline">\(-\infty\)</span>.</p>
+</div>
+<p>Dado que la función dual es el ínfimo puntual de una familia de funciones afínes de <span class="math inline">\((\bflambda,\bfmu)\)</span>, es cóncava, aún cuando el problema primal no sea convexo (<span style="color: #800020;">ver Ejercicio …</span>).</p>
+<p>La propiedad más importante de la función dual es que es una cota inferior del valor óptimo <span class="math inline">\(p^*\)</span> del problema primal. Es decir, para todo <span class="math inline">\(\bflambda\geq 0\)</span> y cualquier <span class="math inline">\(\bfmu\)</span>, resulta <span class="math display">\[
+g(\bflamda,\bfmu)\leq p^*.
+\]</span></p>
+<details>
+<summary>
+Verificación
+</summary>
+<hr>
+Sea <span class="math inline">\(\tilde{\xx}\)</span> un punto factible del problema primal.
+<hr>
+</details>
 </section>
 <section id="el-problema-dual-de-lagrange" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="el-problema-dual-de-lagrange"><span class="header-section-number">3.2</span> El problema dual de Lagrange</h2>

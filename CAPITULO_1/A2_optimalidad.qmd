@@ -345,7 +345,61 @@ A continuación, veremos un ejemplo donde las condiciones KKT fallan. Luego, en 
 
 # Dualidad
 
+La teoría de la dualidad juega un papel fundamental en la optimización, permitiendo reformular problemas en términos de funciones duales que pueden proporcionar información valiosa sobre la solución óptima.
+
 ## Función dual de Lagrange
+
+::: {.definicion}
+**Definición 2.** (Lagrangiano) Sea el problema de optimización general
+$$
+\min f(\xx)
+$$
+$$
+\text{sujeto a}\; \xx\in\Omega=\left\{\xx\in\RR^n\left|\begin{array}{rl}
+h_i(\xx)= 0,& i=1,\cdots,p\\
+g_j(\xx)\leq 0, & j=1,\cdots,q
+\end{array}\right.\right\}.
+$$
+
+Se denomina *Lagrangiano* a la función $L:\RR^n\times\RR^p\times\RR^q\to\RR$ definida por
+$$
+L(\xx,\bflambda,\bfmu)=f(\xx)+\sum_{i=1}^r\lambda_i h_i(\xx)+\sum_{i=1}^m\mu_i g_j(\xx).
+$$
+:::
+
+
+Los vectores $\bflambda$ y $\bfmu$, cuyas componentes son los multiplicadores de Lagrange, se denominan *variables duales* del problema de optimización y son el argumento de la función definida a continuación. A su vez, al problema de optimización original se lo denomina **problema primal**.
+
+
+::: {.definicion}
+**Definición 3.** (Función dual) Sea $L(\xx,\bflambda,\bfmu)$ el Lagrangiano de la Definición 2. Se denomina *función dual de Lagrange* a $g:\RR^p\times\RR^q\to\RR$ definida por
+$$
+g(\bflambda,\bfmu)=\inf_{\xx}L(\xx,\bflambda,\bfmu).
+$$
+
+Cuando el Lagrangiano no está acotado inferiormente en $\xx$, se asume el valor $-\infty$.
+:::
+
+Dado que la función dual es el ínfimo puntual de una familia de funciones afínes de $(\bflambda,\bfmu)$, es cóncava, aún cuando el problema primal no sea convexo (<span style="color: #800020;">ver Ejercicio ...</span>).
+
+La propiedad más importante de la función dual es que es una cota inferior del valor óptimo $p^*$ del problema primal. Es decir, para todo $\bflambda\geq 0$ y cualquier $\bfmu$, resulta
+$$
+g(\bflamda,\bfmu)\leq p^*.
+$$
+
+<details>
+<summary>Verificación</summary>
+<hr>
+Sea $\tilde{\xx}$ un punto factible del problema primal.
+<hr>
+</details>
+
+
+
+
+
+
+
 
 ## El problema dual de Lagrange
 
