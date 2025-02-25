@@ -173,7 +173,9 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#función-dual-de-lagrange" id="toc-función-dual-de-lagrange" class="nav-link" data-scroll-target="#función-dual-de-lagrange"><span class="header-section-number">3.1</span> Función dual de Lagrange</a></li>
   <li><a href="#el-problema-dual-de-lagrange" id="toc-el-problema-dual-de-lagrange" class="nav-link" data-scroll-target="#el-problema-dual-de-lagrange"><span class="header-section-number">3.2</span> El problema dual de Lagrange</a></li>
-  <li><a href="#relación-entre-dualidad-y-kkt" id="toc-relación-entre-dualidad-y-kkt" class="nav-link" data-scroll-target="#relación-entre-dualidad-y-kkt"><span class="header-section-number">3.3</span> Relación entre dualidad y KKT</a></li>
+  <li><a href="#suboptimalidad-y-criterio-de-parada" id="toc-suboptimalidad-y-criterio-de-parada" class="nav-link" data-scroll-target="#suboptimalidad-y-criterio-de-parada"><span class="header-section-number">3.3</span> Suboptimalidad y criterio de parada</a></li>
+  <li><a href="#holgura-complementaria" id="toc-holgura-complementaria" class="nav-link" data-scroll-target="#holgura-complementaria"><span class="header-section-number">3.4</span> Holgura complementaria</a></li>
+  <li><a href="#relación-entre-dualidad-y-kkt" id="toc-relación-entre-dualidad-y-kkt" class="nav-link" data-scroll-target="#relación-entre-dualidad-y-kkt"><span class="header-section-number">3.5</span> Relación entre dualidad y KKT</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -456,40 +458,123 @@ g_j(x)\leq 0, &amp; j=1,\cdots,m.
 <p><strong>Definición 2.</strong> (Lagrangiano) Sea el problema de optimización general <span class="math display">\[
 \min f(\xx)
 \]</span> <span class="math display">\[
-\text{sujeto a}\; \xx\in\Omega=\left\{\xx\in\RR^n\left|\begin{array}{rl}
-h_i(\xx)= 0,&amp; i=1,\cdots,p\\
-g_j(\xx)\leq 0, &amp; j=1,\cdots,q
+\text{sujeto a}\; \xx\in\Omega=\left\{\xx\in\RR^p\left|\begin{array}{rl}
+g_i(\xx)\leq 0,&amp; i=1,\cdots,q\\
+h_j(\xx)= 0, &amp; j=1,\cdots,r
 \end{array}\right.\right\}.
 \]</span></p>
-<p>Se denomina <em>Lagrangiano</em> a la función <span class="math inline">\(L:\RR^n\times\RR^p\times\RR^q\to\RR\)</span> definida por <span class="math display">\[
-L(\xx,\bflambda,\bfmu)=f(\xx)+\sum_{i=1}^r\lambda_i h_i(\xx)+\sum_{i=1}^m\mu_i g_j(\xx).
+<p>Se denomina <em>Lagrangiano</em> a la función <span class="math inline">\(\calL:\RR^p\times\RR^q\times\RR^r\to\RR\)</span> definida por <span class="math display">\[
+\calL(\xx,\bflambda,\bfnu)=f(\xx)+\sum_{i=1}^q\lambda_i g_i(\xx)+\sum_{j=1}^r\nu_j h_j(\xx).
 \]</span></p>
 </div>
-<p>Los vectores <span class="math inline">\(\bflambda\)</span> y <span class="math inline">\(\bfmu\)</span>, cuyas componentes son los multiplicadores de Lagrange, se denominan <em>variables duales</em> del problema de optimización y son el argumento de la función definida a continuación. A su vez, al problema de optimización original se lo denomina <strong>problema primal</strong>.</p>
+<p>Los vectores <span class="math inline">\(\bflambda\)</span> y <span class="math inline">\(\bfnu\)</span>, cuyas componentes son multiplicadores de Lagrange, se denominan <em>variables duales</em> del problema de optimización y son el argumento de la función definida a continuación. A su vez, al problema de optimización original se lo denomina <strong>problema primal</strong>.</p>
 <div class="definicion">
-<p><strong>Definición 3.</strong> (Función dual) Sea <span class="math inline">\(L(\xx,\bflambda,\bfmu)\)</span> el Lagrangiano de la Definición 2. Se denomina <em>función dual de Lagrange</em> a <span class="math inline">\(g:\RR^p\times\RR^q\to\RR\)</span> definida por <span class="math display">\[
-g(\bflambda,\bfmu)=\inf_{\xx}L(\xx,\bflambda,\bfmu).
+<p><strong>Definición 3.</strong> (Función dual) Sea <span class="math inline">\(\calL\)</span> el Lagrangiano de la Definición 2. Se denomina <em>función dual de Lagrange</em> a <span class="math inline">\(\calG:\RR^q\times\RR^r\to\RR\)</span> definida por <span class="math display">\[
+\calG(\bflambda,\bfmu)=\inf_{\xx}\calL(\xx,\bflambda,\bfnu).
 \]</span></p>
 <p>Cuando el Lagrangiano no está acotado inferiormente en <span class="math inline">\(\xx\)</span>, se asume el valor <span class="math inline">\(-\infty\)</span>.</p>
 </div>
-<p>Dado que la función dual es el ínfimo puntual de una familia de funciones afínes de <span class="math inline">\((\bflambda,\bfmu)\)</span>, es cóncava, aún cuando el problema primal no sea convexo (<span style="color: #800020;">ver Ejercicio …</span>).</p>
-<p>La propiedad más importante de la función dual es que es una cota inferior del valor óptimo <span class="math inline">\(p^*\)</span> del problema primal. Es decir, para todo <span class="math inline">\(\bflambda\geq 0\)</span> y cualquier <span class="math inline">\(\bfmu\)</span>, resulta <span class="math display">\[
-g(\bflamda,\bfmu)\leq p^*.
+<p>Dado que la función dual es el ínfimo puntual de una familia de funciones afínes de <span class="math inline">\((\bflambda,\bfnu)\)</span>, es cóncava, aún cuando el problema primal no sea convexo <span style="color: #800020;">[ver Ejercicio …]</span>.</p>
+<p>La propiedad más importante de la función dual es que es una cota inferior del valor óptimo <span class="math inline">\(p^*\)</span> del problema primal. Es decir, para todo <span class="math inline">\(\bflambda\geq 0\)</span> y cualquier <span class="math inline">\(\bfnu\)</span>, resulta <span class="math display">\[
+\calG(\bflambda,\bfnu)\leq p^*.
 \]</span></p>
 <details>
 <summary>
 Verificación
 </summary>
 <hr>
-Sea <span class="math inline">\(\tilde{\xx}\)</span> un punto factible del problema primal.
+<p>Sea <span class="math inline">\(\tilde{\xx}\)</span> un punto factible del problema primal. Entonces <span class="math inline">\(g_i(\tilde{\xx})\leq 0\)</span> y <span class="math inline">\(h_j(\tilde{\xx})=0\)</span> para todo <span class="math inline">\(i=1,\cdots,q\)</span> y <span class="math inline">\(j=1,\cdots,r\)</span>, respectivamente. Por lo tanto, para <span class="math inline">\(\bflambda\geq 0\)</span> se tiene que <span class="math display">\[
+\sum_{i=1}^q\lambda_ig_i(\tilde{\xx})+\sum_{j=1}^r\nu_j h_j(\tilde{\xx})\geq 0.
+\]</span></p>
+<p>Sumando <span class="math inline">\(f(\tilde{\xx})\)</span> a ambos miembros, se obtiene <span class="math inline">\(\calL(\xx,\bflambda,\bfnu)\leq f(\tilde{\xx})\)</span>. Luego, por propiedad del ínfimo, resulta <span class="math display">\[
+\calG(\bflambda,\bfnu)\leq f(\tilde{\xx}).
+\]</span></p>
+<p>Finalmente, dado que <span class="math inline">\(\tilde{\xx}\)</span> es cualquier punto factible, en particular la desigualdad anterior es cierta para un punto óptimo <span class="math inline">\(\xx^*\)</span> tal que <span class="math inline">\(f(\xx^*)=p^*\)</span>.</p>
 <hr>
 </details>
 </section>
 <section id="el-problema-dual-de-lagrange" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="el-problema-dual-de-lagrange"><span class="header-section-number">3.2</span> El problema dual de Lagrange</h2>
+<p>Inmediatamente nos podemos preguntar: ¿cual es el valor máximo <span class="math inline">\(d^*\)</span> de <span class="math inline">\(\calG(\bflambda,\bfnu)\)</span> si asumimos <span class="math inline">\(\bflambda\geq 0\)</span>? Esto da lugar al problema que definiremos a continuación. Observar que la desigualdad <span class="math inline">\(\calG(\bflambda,\bfnu)\leq p^*\)</span> implica <span class="math display">\[
+d^*\leq p^*.
+\]</span></p>
+<div class="definicion">
+<p><strong>Definición 3.</strong> (Problema dual) Sea <span class="math inline">\(\calG\)</span> la función dual de Lagrange asociado al problema primal de la Definición 2. El <em>problema dual de Lagrange</em> es <span class="math display">\[
+\max \calG(\bflambda,\bfnu)
+\]</span> <span class="math display">\[
+\text{sujeto a }\; \bflambda\geq 0.
+\]</span></p>
+</div>
+<p>En línea con la notación anterior, denominaremos <em>multiplicadores óptimos</em> a un par <span class="math inline">\((\bflambda^*,\bfnu^*)\)</span> que es solución del problema dual. Es decir, verifican <span class="math inline">\(\calG(\bflambda^*,\bfnu^*)=d^*\)</span>.</p>
+<p>El problema dual de Lagrange es un problema de optimización convexo, independientemente de que el problema primal sea convexo o no. Esto se debe a que la función a maximizar es cóncava y la restricción es un conjunto convexo.</p>
 </section>
-<section id="relación-entre-dualidad-y-kkt" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="relación-entre-dualidad-y-kkt"><span class="header-section-number">3.3</span> Relación entre dualidad y KKT</h2>
+<section id="suboptimalidad-y-criterio-de-parada" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="suboptimalidad-y-criterio-de-parada"><span class="header-section-number">3.3</span> Suboptimalidad y criterio de parada</h2>
+<p>Los puntos factibles duales nos permiten acotar cuán subóptimo es un punto factible dado, sin conocer el valor exacto de <span class="math inline">\(p^{*}\)</span>. De hecho, si <span class="math inline">\(\xx\)</span> es factible primal y <span class="math inline">\((\bflambda, \bfnu)\)</span> es factible dual, entonces se cumple la siguiente desigualdad: <span class="math display">\[
+f(\xx) - p^{*} \leq f(\xx)-\calG(\bflambda, \bfnu).
+\]</span></p>
+<p>En particular, esto establece que <span class="math inline">\(\xx\)</span> es <span class="math inline">\(\epsilon\)</span>-subóptimo, con <span class="math display">\[\epsilon = f(\xx) - g(\bflambda, \bfnu).
+\]</span></p>
+<p>La brecha <span class="math inline">\(\epsilon\)</span> se conoce como <em>brecha de dualidad</em> para los puntos factibles <span class="math inline">\(\xx\)</span> y <span class="math inline">\((\bflambda,\bfnu)\)</span>. Para dichos puntos, los valores óptimos de los problemas primal y dual verifican <span class="math display">\[
+p^*,d^*\in\left[g(\bflambda,\bfnu), f(\xx)\right],
+\]</span> donde el ancho del intervalo es justamente la brecha de dualidad. Observar que si <span class="math inline">\(\epsilon=0\)</span>, entonces <span class="math inline">\(\xx\)</span> es óptimo primal y <span class="math inline">\((\bflambda,\bfnu)\)</span> es óptimo dual.</p>
+<p>El concepto de brecha de dualidad puede usarse en algoritmos de optimización para proporcionar criterios de parada no heurísticos. Supongamos que un algoritmo produce una secuencia de puntos factibles primales <span class="math inline">\(\xx^{(k)}\)</span> y puntos factibles duales <span class="math inline">\((\bflambda^{(k)}, \bfnu^{(k)})\)</span>, para <span class="math inline">\(k = 1, 2, \ldots\)</span>, y sea <span class="math inline">\(\epsilon_{\text{abs}} &gt; 0\)</span> una precisión absoluta requerida. Entonces, el criterio de parada <span class="math display">\[
+f(\xx^{(k)}) - g(\bflambda^{(k)}, \bfnu^{(k)}) \leq \epsilon_{\text{abs}}
+\]</span></p>
+<p><strong>garantiza</strong> que, cuando el algoritmo termina, <span class="math inline">\(\xx^{(k)}\)</span> es <span class="math inline">\(\epsilon_{\text{abs}}\)</span>-subóptimo. Por supuesto, la dualidad fuerte debe cumplirse si se pretende que este método funcione para tolerancias <span class="math inline">\(\epsilon_{\text{abs}}\)</span> arbitrariamente pequeñas.</p>
+</section>
+<section id="holgura-complementaria" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="holgura-complementaria"><span class="header-section-number">3.4</span> Holgura complementaria</h2>
+<p>Supongamos que los valores óptimos primal y dual se alcanzan y son iguales. Esto es, se cumple la desigualdad fuerte <span class="math inline">\(p^*=d^*\)</span>. Esto significa que para puntos óptimos <span class="math inline">\(\xx^*\)</span> y <span class="math inline">\((\bflambda^*,\bfnu^*)\)</span> se verifica <span class="math display">\[
+\begin{align*}
+f(\xx^{*}) &amp;= \calG(\bflambda^{*}, \bfnu^{*}) \\
+&amp;= \inf_{x} \left( f(\xx) + \sum_{i=1}^{q} \lambda_{i}^{*} g_{i}(x) + \sum_{j=1}^{r} \nu_{j}^{*} h_{j}(\xx) \right)\\
+&amp; \leq f(\xx^{*}) + \sum_{i=1}^{q} \lambda_{i}^{*} g_{i}(\xx^{*}) + \sum_{j=1}^{r} \nu_{j}^{*} h_{j}(\xx^{*}) \\&amp;\leq f(\xx^{*}).
+\end{align*}
+\]</span></p>
+<p>La justificación de cada uno los pasos es sencilla <span style="color: #800020;">[Ejercicio …]</span>. Concluimos que las dos desigualdades en esta cadena se cumplen con igualdad. En particular, la última igualdad</p>
+<p><span class="math display">\[
+f(\xx^*)+ \sum_{i=1}^{q} \lambda_{i}^{*} g_{i}(\xx^{*}) + \sum_{j=1}^{r} \nu_{j}^{*} h_{j}(\xx^{*})=f(\xx^*)
+\]</span></p>
+<p>implica que</p>
+<p><span class="math display">\[
+\sum_{i=1}^{q} \lambda_{i}^{*} g_{i}(\xx^{*}) = 0.
+\]</span></p>
+<p>Pero cada término en esta suma es no positivo, por lo tanto debe verificarse</p>
+<p><span class="math display">\[
+\boxed{\lambda_{i}^{*} g_{i}(\xx^{*}) = 0, \quad \forall i = 1, \ldots, q.}
+\]</span></p>
+<p>Esta es la <em>condición de holgura complementaria</em> que hemos visto en la sección anterior. Se cumple para cualquier punto óptimo primal <span class="math inline">\(\xx^{*}\)</span> y cualquier punto óptimo dual <span class="math inline">\((\bflambda^{*}, \bfnu^{*})\)</span> bajo dualidad fuerte. Recordemos que, en términos generales, esta condición significa que el <span class="math inline">\(i\)</span>-ésimo multiplicador de Lagrange óptimo es cero salvo que la <span class="math inline">\(i\)</span>-ésima restricción esté activa.</p>
+</section>
+<section id="relación-entre-dualidad-y-kkt" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="relación-entre-dualidad-y-kkt"><span class="header-section-number">3.5</span> Relación entre dualidad y KKT</h2>
+<p>Los conceptos de Lagrangiano y su función dual han permitido caracterizar la relación entre los valores óptimos <span class="math inline">\(p^*\)</span> y <span class="math inline">\(d^*\)</span>. En particular, las condiciones de <em>factibilidad dual</em> y de <em>holgura complementaria</em> de la Definición 1 (Condiciones de Karush-Kuhn-Tucker) han permitido primero escribir la desigualdad <span class="math inline">\(\calG(\bflambda,\bfmu)\leq p^*\)</span> y luego analizar qué sucede cuando <span class="math inline">\(p^*=q^*\)</span>.</p>
+<p>Veamos ahora cómo surge la <em>estacionariedad</em> en este contexto. Podemos afirmar que</p>
+<p><span class="math display">\[
+f(\xx^*)\leq f(\xx)+\sum_{i=1}^{q} \lambda_{i}^{*} g_{i}(\xx) + \sum_{j=1}^{r} \nu_{j}^{*} h_{j}(\xx)
+\]</span></p>
+<p>para todo punto factible <span class="math inline">\(\xx\)</span>, con igualdad si <span class="math inline">\(\xx=\xx^*\)</span>. El lado derecho es el Lagrangiano <span class="math inline">\(L(\xx,\bflambda^*,\bfnu^*)\)</span>, del cual podemos afirmar que <span class="math inline">\(\xx\)</span> es un minimizador. En consecuencia, debe verificarse</p>
+<p><span class="math display">\[
+\begin{align*}
+  \nabla L(\xx^*,\bflambda^*,\bfnu^*)&amp;=0\\
+  \nabla f(\xx^*)+\sum_{i=1}^q\lambda_i^*\nabla g_i(\xx^*)+\sum_{j=1}^r\nu_j^*\nabla h_j(\xx^*)&amp;=0.
+\end{align*}
+\]</span></p>
+<div class="teorema">
+<p><strong>Teorema 4.</strong> (Dualidad y KKT) Sea <span class="math inline">\(\xx^*\)</span> un punto óptimo primal y <span class="math inline">\((\bflambda^*,\bfnu^*)\)</span> un punto óptimo dual. Si <span class="math inline">\(p^*=q^*\)</span>, entonces <span class="math inline">\((\xx^*,\bflambda^*,\bfnu^*)\)</span> satisfacen las condiciones de Karush-Kuhn-Tucker.</p>
+</div>
+<br>
+<hr style="border: 2.5px solid black;">
+<h2 class="anchored">
+Ejercicios
+</h2>
+<ol type="1">
+<li><p>Considere el problema <span class="math display">\[
+\min x^2\quad\text{sujeto a}\quad 2-x\leq 0.
+\]</span> Obtenga la función dual de Lagrange y verifique graficamente su convexidad. ¿Cuál es el valor de <span class="math inline">\(d^*\)</span>?</p></li>
+<li><p>Probar que la función dual de Lagrange <span class="math inline">\(\calG(\bflambda,\bfmu)\)</span> es cóncava.</p></li>
+<li><p>Mostrar que, si <span class="math inline">\(\xx\)</span> es factible primal y <span class="math inline">\((\bflambda,\bfnu)\)</span> es factible dual, entonces <span class="math inline">\((\bflambda,\bfnu)\)</span> es <span class="math inline">\(\epsilon\)</span>-subóptimo para el problema dual.</p></li>
+</ol>
 
 
 <script type="ojs-module-contents">
