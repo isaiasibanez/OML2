@@ -4,7 +4,9 @@ $$
 \def\media{\mathbb{E}}
 \def\calL{\mathcal{L}}
 \def\calG{\mathcal{G}}
+\def\bb{{\bf b}}
 \def\xx{{\bf x}}
+\def\yy{{\bf y}}
 \def\XX{{\bf X}}
 \def\TT{{\bf T}}
 \def\bfa{\boldsymbol{a}}

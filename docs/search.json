@@ -25,7 +25,7 @@
     "href": "macros.html",
     "title": "Mi Sitio en Quarto",
     "section": "",
-    "text": "\\[\n\\def\\RR{\\mathbb{R}}\n\\def\\media{\\mathbb{E}}\n\\def\\calL{\\mathcal{L}}\n\\def\\calG{\\mathcal{G}}\n\\def\\xx{{\\bf x}}\n\\def\\XX{{\\bf X}}\n\\def\\TT{{\\bf T}}\n\\def\\bfa{\\boldsymbol{a}}\n\\def\\bfb{\\boldsymbol{b}}\n\\def\\bftheta{\\boldsymbol{\\theta}}\n\\def\\bflambda{\\boldsymbol{\\lambda}}\n\\def\\bfeta{\\boldsymbol{\\eta}}\n\\def\\bfmu{\\boldsymbol{\\mu}}\n\\def\\bfnu{\\boldsymbol{\\nu}}\n\\def\\bfSigma{\\boldsymbol{\\Sigma}}\n\\def\\bfone{\\mathbf{1}}\n\\def\\argmin{\\mathop{\\mathrm{arg\\,min\\,}}}\n\\def\\argmax{\\mathop{\\mathrm{arg\\,max\\,}}}\n\\]"
+    "text": "\\[\n\\def\\RR{\\mathbb{R}}\n\\def\\media{\\mathbb{E}}\n\\def\\calL{\\mathcal{L}}\n\\def\\calG{\\mathcal{G}}\n\\def\\bb{{\\bf b}}\n\\def\\xx{{\\bf x}}\n\\def\\yy{{\\bf y}}\n\\def\\XX{{\\bf X}}\n\\def\\TT{{\\bf T}}\n\\def\\bfa{\\boldsymbol{a}}\n\\def\\bfb{\\boldsymbol{b}}\n\\def\\bftheta{\\boldsymbol{\\theta}}\n\\def\\bflambda{\\boldsymbol{\\lambda}}\n\\def\\bfeta{\\boldsymbol{\\eta}}\n\\def\\bfmu{\\boldsymbol{\\mu}}\n\\def\\bfnu{\\boldsymbol{\\nu}}\n\\def\\bfSigma{\\boldsymbol{\\Sigma}}\n\\def\\bfone{\\mathbf{1}}\n\\def\\argmin{\\mathop{\\mathrm{arg\\,min\\,}}}\n\\def\\argmax{\\mathop{\\mathrm{arg\\,max\\,}}}\n\\]"
   },
   {
     "objectID": "CAPITULO_2/06_EM.html",
