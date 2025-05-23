@@ -3,14 +3,16 @@ title: "Página de Inicio"
 format: html
 navbar:
   left:
-    - href: index.html
+    - href: index.qmd
       text: "Página de Inicio"
     - text: "CAPÍTULO 1"
       submenu:
-        - href: CAPITULO_1/A1_intro_optimizacion.html
+        - href: CAPITULO_1/A1_intro_optimizacion.qmd
           text: "Introducción a la Optimización"
-        - href: CAPITULO_1/A2_optimalidad.html
+        - href: CAPITULO_1/A2_optimalidad.qmd
           text: "Condiciones de optimalidad"
+        - href: CAPITULO_1/A3_metodos_optimizacion.qmd
+          text: "Métodos de optimización"
 ---
 
 # Página de Inicio
@@ -19,5 +21,6 @@ Bienvenidos al curso de Optimización. Aquí encontrarás los capítulos y secci
 
 ## CAPÍTULO 1
 
-- [Sección 1: A1_intro_optimizacion](CAPITULO_1/A1_intro_optimizacion.html)
-- [Sección 2: A2_optimalidad](CAPITULO_1/A2_optimalidad.html)
+- [Sección 1: A1_intro_optimizacion](CAPITULO_1/A1_intro_optimizacion.qmd)
+- [Sección 2: A2_optimalidad](CAPITULO_1/A2_optimalidad.qmd)
+- [Sección 3: A3_metodos_optimizacion](CAPITULO_1/A3_metodos_optimizacion.qmd)
