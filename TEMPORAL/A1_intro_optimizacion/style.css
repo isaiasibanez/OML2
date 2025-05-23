@@ -1,0 +1,46 @@
+.definicion {
+  background-color: #f9f9f9; /* Fondo gris claro */
+  border: 2px solid #4CAF50; /* Borde verde */
+  padding: 15px;            /* Espaciado interno */
+  padding-bottom: 2px;
+  border-radius: 8px;       /* Bordes redondeados */
+  margin: 15px 0;           /* Margen arriba y abajo */
+  font-family: Arial, sans-serif; /* Fuente opcional */
+}
+
+.teorema {
+  background-color: #fffafa;  /* Fondo más claro */
+  border: 2px solid #b22222;  /* Borde más oscuro */
+  padding: 15px;
+  padding-bottom: 2px;
+  border-radius: 8px;
+  margin: 15px 0;
+}
+
+.highlight {
+  background-color: #fffdf5; /* Fondo muy suave */
+  border: 2px solid #ffa726; /* Borde naranja */
+  padding: 10px;            /* Espaciado interno */
+  border-radius: 5px;       /* Bordes suavemente redondeados */
+  margin: 10px 0;           /* Margen arriba y abajo */
+  font-family: Arial, sans-serif; /* Fuente opcional */
+}
+
+
+
+
+/* Estilo para bloques de código preformateado (<pre>) */
+pre {
+  font-family: "Fira Code", "Courier New", monospace; /* Fuente monoespaciada */
+  font-size: 15px; /* Tamaño de fuente */
+  background-color: #2e3440; /* Fondo oscuro */
+  color: #d8dee9; /* Texto claro */
+  padding: 15px; /* Espaciado interno */
+  border-radius: 8px; /* Bordes redondeados */
+  border: 1px solid #4c566a; /* Borde sutil */
+  overflow-x: auto; /* Barra de desplazamiento horizontal si es necesario */
+  line-height: 1.5; /* Mejor separación entre líneas */
+  margin: 15px 0; /* Separación vertical */
+}
+
+

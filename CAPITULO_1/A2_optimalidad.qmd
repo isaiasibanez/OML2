@@ -1,5 +1,5 @@
 ---
-title: "Condiciones de optimalidad en Optimización"
+title: "Condiciones de optimalidad"
 ---
 
 <hr style="border: 1px solid rgba(50, 0, 0, 1);">

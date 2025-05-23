@@ -1,0 +1,460 @@
+---
+title: "Introducción a la optimización"
+format: 
+ live-html:
+   toc: true
+   jupyter: python
+   code-fold: true
+   css: style.css
+header-includes:
+  - \usepackage{amsmath}
+  - \usepackage{amssymb}
+---
+
+<hr style="border: 1px solid rgba(50, 0, 0, 1);">
+
+{{< include macros.qmd >}}
+
+
+
+# Conjuntos convexos
+
+Una gran parte del éxito de los métodos de optimización convexa radica en una idea geométrica simple pero poderosa: la convexidad del conjunto de soluciones factibles.
+
+Un conjunto convexo es, en pocas palabras, un conjunto en el cual, si tomamos dos puntos cualesquiera, el segmento que los une queda completamente contenido dentro del conjunto. Esta propiedad, que a primera vista parece modesta, es en realidad central para garantizar que los problemas de optimización tengan buen comportamiento.
+
+Para entender y construir modelos de optimización robustos, necesitamos comprender cómo son estos conjuntos y cómo se comportan bajo transformaciones y operaciones comunes. A continuación, vamos a introducir esta base teórica con precisión y describir ejemplos relevantes.
+
+
+## Definiciones básicas
+
+En esta sección introduciremos tres tipos fundamentales de conjuntos que aparecen en optimización: conjuntos afines, conjuntos convexos y conos. Antes, es necesario recordar la forma parámetrica de *rectas* y *segmentos de recta*. 
+
+Sean $\xx_{1} \neq \xx_{2}$ dos puntos en $\RR^{n}$. La recta que pasa por $\xx_1$ y $\xx_2$ queda determinada por 
+$$
+\yy = \theta \xx_{1} + (1 - \theta) \xx_{2},\qquad \theta\in\RR.
+$$
+
+Mientras que, si restringimos el valor del parámetro a $0\leq \theta\leq 1$, obtenemos el segmento de recta (cerrado) entre ambos puntos. Una expresión alternativa es
+
+$$
+\yy=\xx_2+\theta(\xx_1-\xx_2),
+$$
+
+la cual permite interpretar a $\yy$ en términos del punto inicial $\xx_2$ y la dirección $\xx_1-\xx_2$. Así, $\theta$ indica la fracción del camino desde $\xx_2$ hasta $\xx_1$ donde se encuentra $\yy$. Esto se ilustra en la (<span style="color: red;">figura 2.1</span>).
+
+### Conjuntos afines
+
+::: {.definicion}
+**Definición 1.** (Conjunto afín) Un conjunto $C \subseteq \RR^{n}$ es *afín* si la línea que pasa por cualquier par de puntos distintos en $C$ está contenida en $C$. Es decir, si se verifica
+$$
+\theta \xx_1+(1-\theta)\xx_2\in C\qquad\forall \xx_1,\xx_2\in C, \forall\theta\in\RR.
+$$
+:::
+
+
+Observar que $\theta \xx_1+(1-\theta)\xx_2$ es una combinación lineal entre los puntos $\xx_1$ y $\xx_2$ que verifica que la suma de sus coeficientes sea uno. Esta idea se puede generalizar a más de dos puntos: un punto de la forma
+$$
+\theta_1\xx_1+\cdots+\theta_k\xx_k,\qquad \sum_{i=1}^k\theta_i=1
+$$
+se denomina *combinación afín* de los puntos $\xx_1,\ldots,\xx_k$. Es fácil ver que un conjunto afín $C$ contiene todas las combinaciones afines de sus puntos.
+
+Por otro lado, dado un conjunto afín $C$ y un punto $\xx_0\in C$, el conjunto
+$$
+V:= C-\xx_0=\{\xx-\xx_0 \mid \xx\in C\}
+$$
+
+es un subespacio vectorial, que permite expresar el conjunto afín $C$ como
+$$
+C=V+\xx_0=\{v+\xx_0 \mid v\in V\}.
+$$
+
+
+El subespacio $V$ asociado con el conjunto afín $C$ no depende de la elección de $x_{0}$, por lo que $x_{0}$ puede elegirse como cualquier punto en $C$. Definimos la *dimensión* de $C$ como
+$$
+\dim C:=\dim V=\dim C-\xx_0,\quad \xx_0\in C.
+$$
+
+
+ 
+### Conjuntos convexos
+
+::: {.definicion}
+**Definición 1.** (Conjunto convexo) Un conjunto $C \subseteq \RR^{n}$ es *convexo* si el segmento de línea entre cualquier par de puntos distintos en $C$ está contenido en $C$. Es decir, si se verifica
+$$
+\theta \xx_1+(1-\theta)\xx_2\in C\qquad\forall \xx_1,\xx_2\in C, \forall\theta\in[0,1].
+$$
+:::
+
+Claramente, todo conjunto afín también es convexo, ya que contiene toda la recta que pasa por cualquier par de puntos distintos en él y, por lo tanto, también el segmento de línea entre los puntos. La (<span style="color: red;">figura 2.2</span>) ilustra algunos conjuntos convexos y no convexos en $\RR^{2}$.
+
+
+Llamamos *combinación convexa* a un punto de la forma 
+$$
+\theta_{1} \xx_{1} + \cdots + \theta_{k} \xx_{k},\qquad \sum_{i=1}^k\theta_i = 1, \theta_{i} \geq 0.
+$$
+
+A diferencia de una combinación afín, una combinación convexa requiere la no negatividad de los coeficientes $\theta_i$, lo cual significa que puede ser interpretada como un *promedio ponderado* de los puntos $\xx_i$.
+
+::: {.definicion}
+**Definición 1.** (Envolvente convexa) La *envolvente convexa* de un conjunto $C$ es el conjunto de todas las combinaciones convexas de puntos en $C$. Esto es
+$$
+\text{conv}\, C = \left\{\theta_{1} x_{1} + \cdots + \theta_{k} x_{k}\;\Big|\; x_{i} \in C, \theta_{i} \geq 0, \sum_{i=1}^k\theta_{i} = 1\right\}.
+$$
+:::
+
+Como su nombre lo indica, la envolvente convexa $\text{conv}\, C$ es siempre un conjunto convexo. Más aún, es el conjunto convexo más pequeño que contiene a $C$: si $B$ es cualquier conjunto convexo que contiene a $C$, entonces $\text{conv}\, C \subseteq B$. La (<span style="color: red;">figura 2.3</span>) ilustra la definición de casco convexo.
+
+### Conos
+
+::: {.definicion}
+**Definición 1.** (Cono) Un conjunto $C\in\RR^n$ se denomina *cono* si verifica
+$$
+\theta\xx\in C,\qquad\forall \xx\in C, \forall \theta\geq 0.
+$$
+:::
+
+Un conjunto $C$ es un *cono convexo* si es convexo y es un cono, lo que significa que 
+$$
+\theta_1\xx_1+\theta_2\xx_2\in C,\qquad\forall \xx_1,\xx_2\in C, \forall \theta_1, \theta_2\geq 0.
+$$
+
+Los puntos de esta forma pueden describirse geométricamente como formando una "rebanada de pastel" bidimensional con vértice en $0$ y bordes que pasan por $x_{1}$ y $x_{2}$. (<span style="color: red;">figura 2.4</span>).
+
+Llamamos *combinación cónica* a un punto de la forma
+$$
+\theta_1\xx_1+\cdot+\theta_k\xx_j,\qquad \theta_i\geq 0.
+$$ 
+
+
+::: {.definicion}
+**Definición 1.** (Envolvente cónica) La *envolvente cónica* de un conjunto $C$ es el conjunto de todas las combinaciones cónicas de puntos en $C$. Esto es
+$$
+\text{cone}\, C = \left\{\theta_{1} \xx_{1} + \cdots + \theta_{k} \xx_{k}\;\Big|\; x_{i} \in C, \theta_{i} \geq 0\right\}.
+$$
+:::
+
+
+De manera análoga a la envolvente convexa, la envolvente cónica de un conjunto $C$ es el conjunto de todas las combinación cónicas de puntos en $C$ y, además, es el cono convexo más pequeño que contiene a $C$. <span style="color: red;">figura 2.5</span>)
+
+
+
+
+
+
+
+
+<div style="height:10cm;"></div>
+
+
+
+
+
+
+
+
+## Operaciones que preservan convexidad
+
+En esta sección describimos algunas operaciones que preservan la convexidad de conjuntos o nos permiten construir conjuntos convexos a partir de otros. Estas operaciones, junto con los ejemplos simples descritos en §2.2, forman un cálculo de conjuntos convexos que es útil para determinar o establecer la convexidad de conjuntos.
+
+
+### Intersección
+
+La convexidad se preserva bajo intersección: si $S_{1}$ y $S_{2}$ son convexos, entonces $S_{1} \cap S_{2}$ es convexo. Esta propiedad se extiende a la intersección de un número infinito de conjuntos: si $S_{\alpha}$ es convexo para cada $\alpha \in \mathcal{A}$, entonces $\bigcap_{\alpha \in \mathcal{A}} S_{\alpha}$ es convexo. (Los subespacios, conjuntos afines y conos convexos también son cerrados bajo intersecciones arbitrarias). Como ejemplo simple, un poliedro es la intersección de semiespacios e hiperplanos (que son convexos), y por lo tanto es convexo.
+
+**Ejemplo 2.7**: El cono semidefinido positivo $\mathbb{S}^{n}_{+}$ puede expresarse como
+
+$$
+\bigcap_{z \neq 0} \{X \in \mathbb{S}^{n} \mid z^{T} X z \geq 0\}.
+$$
+
+Para cada $z \neq 0$, $z^{T} X z$ es una función lineal (no idénticamente cero) de $X$, por lo que los conjuntos
+
+$$
+\{X \in \mathbb{S}^{n} \mid z^{T} X z \geq 0\}
+$$
+
+son, de hecho, semiespacios en $\mathbb{S}^{n}$. Por lo tanto, el cono semidefinido positivo es la intersección de un número infinito de semiespacios, y por lo tanto es convexo.
+
+**Ejemplo 2.8**: Consideramos el conjunto
+
+$$
+S = \{x \in \mathbf{R}^{m} \mid |p(t)| \leq 1 \text{ para } |t| \leq \pi/3\}, \quad (2.10)
+$$
+
+donde $p(t) = \sum_{k=1}^{m} x_{k} \cos kt$. El conjunto $S$ puede expresarse como la intersección de un número infinito de **lajas**: $S = \bigcap_{|t| \leq \pi/3} S_{t}$, donde
+
+$$
+S_{t} = \{x \mid -1 \leq (\cos t, \ldots, \cos mt)^{T} x \leq 1\},
+$$
+
+y por lo tanto es convexo. La definición y el conjunto se ilustran en las figuras 2.13 y 2.14, para $m = 2$.
+
+En los ejemplos anteriores establecemos la convexidad de un conjunto expresándolo como una intersección (posiblemente infinita) de semiespacios. Veremos en §2.5.1 que se cumple lo contrario: **todo** conjunto convexo cerrado $S$ es una intersección (generalmente infinita) de semiespacios. De hecho, un conjunto convexo cerrado $S$ es la intersección de todos los semiespacios que lo contienen:
+
+$$
+S = \bigcap \{\mathcal{H} \mid \mathcal{H} \text{ semiespacio, } S \subseteq \mathcal{H}\}.
+$$
+
+### 2.3.2 Funciones afines
+
+Recordemos que una función $f: \mathbf{R}^{n} \rightarrow \mathbf{R}^{m}$ es **afín** si es una suma de una función lineal y una constante, es decir, si tiene la forma $f(x) = A x + b$, donde $A \in \mathbf{R}^{m \times n}$ y $b \in \mathbf{R}^{m}$. Supongamos que $S \subseteq \mathbf{R}^{n}$ es convexo y $f: \mathbf{R}^{n} \rightarrow \mathbf{R}^{m}$ es una función afín. Entonces, la imagen de $S$ bajo $f$,
+
+
+![](2-10-1.png){fig-align="center" width=70%}
+
+
+$$
+f(S) = \{f(x) \mid x \in S\},
+$$
+
+es convexa. De manera similar, si $f: \mathbf{R}^{k} \rightarrow \mathbf{R}^{n}$ es una función afín, la **imagen inversa** de $S$ bajo $f$,
+
+$$
+f^{-1}(S) = \{x \mid f(x) \in S\},
+$$
+
+es convexa.
+
+Dos ejemplos simples son la **escalación** y la **traslación**. Si $S \subseteq \mathbf{R}^{n}$ es convexo, $\alpha \in \mathbf{R}$, y $a \in \mathbf{R}^{n}$, entonces los conjuntos $\alpha S$ y $S + a$ son convexos, donde
+
+$$
+\alpha S = \{\alpha x \mid x \in S\}, \qquad S + a = \{x + a \mid x \in S\}.
+$$
+
+La **proyección** de un conjunto convexo sobre algunas de sus coordenadas es convexa: si $S \subseteq \mathbf{R}^{m} \times \mathbf{R}^{n}$ es convexo, entonces
+
+$$
+T = \{x_{1} \in \mathbf{R}^{m} \mid (x_{1}, x_{2}) \in S \text{ para algún } x_{2} \in \mathbf{R}^{n}\}
+$$
+
+es convexo.
+
+La **suma** de dos conjuntos se define como
+
+$$
+S_{1} + S_{2} = \{x + y \mid x \in S_{1}, y \in S_{2}\}.
+$$
+
+Si $S_{1}$ y $S_{2}$ son convexos, entonces $S_{1} + S_{2}$ es convexo. Para ver esto, si $S_{1}$ y $S_{2}$ son convexos, entonces el producto directo o cartesiano
+
+$$
+S_{1} \times S_{2} = \{(x_{1}, x_{2}) \mid x_{1} \in S_{1}, x_{2} \in S_{2}\}
+$$
+
+también es convexo. La imagen de este conjunto bajo la función lineal $f(x_{1}, x_{2}) = x_{1} + x_{2}$ es la suma $S_{1} + S_{2}$.
+
+También podemos considerar la **suma parcial** de $S_{1}, S_{2} \in \mathbf{R}^{n} \times \mathbf{R}^{m}$, definida como
+
+$$
+S = \{(x, y_{1} + y_{2}) \mid (x, y_{1}) \in S_{1}, (x, y_{2}) \in S_{2}\},
+$$
+
+donde $x \in \mathbf{R}^{n}$ y $y_{i} \in \mathbf{R}^{m}$. Para $m = 0$, la suma parcial da la intersección de $S_{1}$ y $S_{2}$; para $n = 0$, es la suma de conjuntos. Las sumas parciales de conjuntos convexos son convexas (ver ejercicio 2.16).
+
+**Ejemplo 2.9**: *Poliedro*. El poliedro $\{x \mid A x \preceq b, C x = d\}$ puede expresarse como la imagen inversa del producto cartesiano del ortante no negativo y el origen bajo la función afín $f(x) = (b - A x, d - C x)$:
+
+$$
+\{x \mid A x \preceq b, C x = d\} = \{x \mid f(x) \in \mathbf{R}_{+}^{m} \times \{0\}\}.
+$$
+
+**Ejemplo 2.10**: *Conjunto solución de una desigualdad matricial lineal*. La condición
+
+$$
+A(x) = x_{1} A_{1} + \cdots + x_{n} A_{n} \preceq B, \quad (2.11)
+$$
+
+donde $B, A_{i} \in \mathbf{S}^{m}$, se llama **desigualdad matricial lineal** (LMI) en $x$ (nota la similitud con una desigualdad lineal ordinaria,
+
+$$
+a^{T} x = x_{1} a_{1} + \cdots + x_{n} a_{n} \leq b,
+$$
+
+con $b, a_{i} \in \mathbf{R}$).
+
+El conjunto solución de una desigualdad matricial lineal, $\{x \mid A(x) \preceq B\}$, es convexo. De hecho, es la imagen inversa del cono semidefinido positivo bajo la función afín $f: \mathbf{R}^{n} \rightarrow \mathbf{S}^{m}$ dada por $f(x) = B - A(x)$.
+
+### 2.3.3 Funciones lineales-fraccionales y perspectivas
+
+En esta sección exploramos una clase de funciones, llamadas **lineales-fraccionales**, que es más general que las funciones afines pero aún preserva la convexidad.
+
+
+![](2-11-1.png){fig-align="center" width=70%}
+
+#### Función perspectiva
+
+Definimos la **función perspectiva** $P: \mathbf{R}^{n+1} \rightarrow \mathbf{R}^{n}$, con dominio $\mathbf{dom}\, P = \mathbf{R}^{n} \times \mathbf{R}_{++}$, como $P(z, t) = z / t$. (Aquí $\mathbf{R}_{++}$ denota el conjunto de números positivos: $\mathbf{R}_{++} = \{x \in \mathbf{R} \mid x > 0\}$). La función perspectiva escala o normaliza vectores de modo que la última componente sea uno, y luego elimina la última componente.
+
+**Observación 2.1**: Podemos interpretar la función perspectiva como la acción de una **cámara estenopeica**. Una cámara estenopeica (en $\mathbf{R}^{3}$) consiste en un plano horizontal opaco $x_{3} = 0$, con un único agujero en el origen, a través del cual puede pasar la luz, y un plano de imagen horizontal $x_{3} = -1$. Un objeto en $x$, por encima de la cámara (es decir, con $x_{3} > 0$), forma una imagen en el punto $-(x_{1} / x_{3}, x_{2} / x_{3}, 1)$ en el plano de imagen. Eliminando la última componente del punto de imagen (ya que siempre es $-1$), la imagen de un punto en $x$ aparece en $y = -(x_{1} / x_{3}, x_{2} / x_{3}) = -P(x)$ en el plano de imagen. Esto se ilustra en la figura 2.15.
+
+Si $C \subseteq \mathbf{dom}\, P$ es convexo, entonces su imagen
+
+$$
+P(C) = \{P(x) \mid x \in C\}
+$$
+
+
+![](12.png){fig-align="center" width=70%}
+
+es convexa. Este resultado es ciertamente intuitivo: un objeto convexo, visto a través de una cámara estenopeica, produce una imagen convexa. Para establecer este hecho, mostramos que los segmentos de línea se mapean a segmentos de línea bajo la función perspectiva. (Esto también tiene sentido: un segmento de línea, visto a través de una cámara estenopeica, produce una imagen de segmento de línea). Supongamos que $x = (\tilde{x}, x_{n+1})$, $y = (\tilde{y}, y_{n+1}) \in \mathbf{R}^{n+1}$ con $x_{n+1} > 0$, $y_{n+1} > 0$. Entonces, para $0 \leq \theta \leq 1$,
+
+$$
+P(\theta x + (1 - \theta) y) = \frac{\theta \tilde{x} + (1 - \theta) \tilde{y}}{\theta x_{n+1} + (1 - \theta) y_{n+1}} = \mu P(x) + (1 - \mu) P(y),
+$$
+
+donde
+
+$$
+\mu = \frac{\theta x_{n+1}}{\theta x_{n+1} + (1 - \theta) y_{n+1}} \in [0, 1].
+$$
+
+Esta correspondencia entre $\theta$ y $\mu$ es monótona: a medida que $\theta$ varía entre 0 y 1 (lo que recorre el segmento de línea $[x, y]$), $\mu$ varía entre 0 y 1 (lo que recorre el segmento de línea $[P(x), P(y)]$). Esto muestra que $P([x, y]) = [P(x), P(y)]$.
+
+Ahora supongamos que $C$ es convexo con $C \subseteq \mathbf{dom}\, P$ (es decir, $x_{n+1} > 0$ para todo $x \in C$), y $x, y \in C$. Para establecer la convexidad de $P(C)$, necesitamos mostrar que el segmento de línea $[P(x), P(y)]$ está en $P(C)$. Pero este segmento de línea es la imagen del segmento de línea $[x, y]$ bajo $P$, y por lo tanto está en $P(C)$.
+
+La imagen inversa de un conjunto convexo bajo la función perspectiva también es convexa: si $C \subseteq \mathbf{R}^{n}$ es convexo, entonces
+
+$$
+P^{-1}(C) = \{(x, t) \in \mathbf{R}^{n+1} \mid x / t \in C, t > 0\}
+$$
+
+es convexo. Para mostrar esto, supongamos que $(x, t) \in P^{-1}(C)$, $(y, s) \in P^{-1}(C)$, y $0 \leq \theta \leq 1$. Necesitamos mostrar que
+
+$$
+\theta (x, t) + (1 - \theta) (y, s) \in P^{-1}(C),
+$$
+
+es decir, que
+
+$$
+\frac{\theta x + (1 - \theta) y}{\theta t + (1 - \theta) s} \in C
+$$
+
+($\theta t + (1 - \theta) s > 0$ es obvio). Esto se sigue de
+
+$$
+\frac{\theta x + (1 - \theta) y}{\theta t + (1 - \theta) s} = \mu (x / t) + (1 - \mu) (y / s),
+$$
+
+donde
+
+$$
+\mu = \frac{\theta t}{\theta t + (1 - \theta) s} \in [0, 1].
+$$
+
+#### Funciones lineales-fraccionales
+
+Una **función lineal-fraccional** se forma componiendo la función perspectiva con una función afín. Supongamos que $g: \mathbf{R}^{n} \rightarrow \mathbf{R}^{m+1}$ es afín, es decir,
+
+$$
+g(x) = \left[\begin{array}{c}A\\ c^{T}\end{array}\right] x + \left[\begin{array}{c}b\\ d\end{array}\right], \quad (2.12)
+$$
+
+donde $A \in \mathbf{R}^{m \times n}$, $b \in \mathbf{R}^{m}$, $c \in \mathbf{R}^{n}$, y $d \in \mathbf{R}$. La función $f: \mathbf{R}^{n} \rightarrow \mathbf{R}^{m}$ dada por $f = P \circ g$, es decir,
+
+$$
+f(x) = (A x + b) / (c^{T} x + d), \qquad \mathbf{dom}\, f = \{x \mid c^{T} x + d > 0\}, \quad (2.13)
+$$
+
+se llama **función lineal-fraccional** (o **proyectiva**). Si $c = 0$ y $d > 0$, el dominio de $f$ es $\mathbf{R}^{n}$, y $f$ es una función afín. Por lo tanto, podemos pensar en las funciones afines y lineales como casos especiales de funciones lineales-fraccionales.
+
+**Observación 2.2**: *Interpretación proyectiva*. A menudo es conveniente representar una función lineal-fraccional como una matriz
+
+$$
+Q = \left[\begin{array}{cc}A & b\\ c^{T} & d\end{array}\right] \in \mathbf{R}^{(m+1) \times (n+1)} \quad (2.14)
+$$
+
+que actúa sobre (multiplica) puntos de la forma $(x, 1)$, lo que produce $(A x + b, c^{T} x + d)$. Este resultado se escala o normaliza de modo que su última componente sea uno, lo que produce $(f(x), 1)$.
+
+Esta representación puede interpretarse geométricamente asociando $\mathbf{R}^{n}$ con un conjunto de rayos en $\mathbf{R}^{n+1}$ de la siguiente manera. Con cada punto $z$ en $\mathbf{R}^{n}$ asociamos el rayo (abierto) $\mathcal{P}(z) = \{(t z, 1) \mid t > 0\}$ en $\mathbf{R}^{n+1}$. La última componente de este rayo toma valores positivos. A la inversa, cualquier rayo en $\mathbf{R}^{n+1}$, con base en el origen y última componente que toma valores positivos, puede escribirse como $\mathcal{P}(v) = \{t (v, 1) \mid t \geq 0\}$ para algún $v \in \mathbf{R}^{n}$. Esta correspondencia (proyectiva) $\mathcal{P}$ entre $\mathbf{R}^{n}$ y el semiespacio de rayos con última componente positiva es biyectiva.
+
+La función lineal-fraccional (2.13) puede expresarse como
+
+$$
+f(x) = \mathcal{P}^{-1}(Q \mathcal{P}(x)).
+$$
+
+Así, comenzamos con $x \in \mathbf{dom}\, f$, es decir, $c^{T} x + d > 0$. Luego formamos el rayo $\mathcal{P}(x)$ en $\mathbf{R}^{n+1}$. La transformación lineal con matriz $Q$ actúa sobre este rayo para producir otro rayo $Q \mathcal{P}(x)$. Dado que $x \in \mathbf{dom}\, f$, la última componente de este rayo asume valores positivos. Finalmente, tomamos la transformación proyectiva inversa para recuperar $f(x)$
+
+ 
+Al igual que la función de perspectiva, las funciones lineales-fraccionales preservan la convexidad. Si $C$ es convexo y se encuentra en el dominio de $f$ (\textit{es decir}, $c^T x + d > 0$ para $x \in C$), entonces la imagen $f(C)$ es convexa. Esto se sigue inmediatamente de los resultados anteriores: la imagen de $C$ bajo la transformación afín (2.12) es convexa, y la imagen del conjunto resultante bajo la función de perspectiva $P$, que produce $f(C)$, es convexa. De manera similar, si $C \subseteq \mathbb{R}^m$ es convexo, entonces la imagen inversa $f^{-1}(C)$ es convexa.
+
+ 
+
+**Ejemplo 2.13 \quad Probabilidades condicionales.** Supongamos que $u$ y $v$ son variables aleatorias que toman valores en $\{1, \dots, n\}$ y $\{1, \dots, m\}$, respectivamente, y que $p_{ij}$ denota $\operatorname{prob}(u = i, v = j)$. Entonces, la probabilidad condicional $f_{ij} = \operatorname{prob}(u = i | v = j)$ está dada por
+
+$$
+f_{ij} = \frac{p_{ij}}{\sum_{k=1}^{n} p_{kj}}.
+$$
+
+Así, $f$ se obtiene a partir de una transformación lineal-fraccional de $p$.
+
+Se sigue que si $C$ es un conjunto convexo de probabilidades conjuntas para $(u, v)$, entonces el conjunto asociado de probabilidades condicionales de $u$ dado $v$ también es convexo.
+
+ 
+
+La Figura 2.16 muestra un conjunto $C \subseteq \mathbb{R}^2$ y su imagen bajo la función lineal-fraccional
+
+$$
+f(x) = \frac{1}{x_1 + x_2 + 1} x,
+$$
+
+$$
+\operatorname{dom} f = \{ (x_1, x_2) \mid x_1 + x_2 + 1 > 0 \}.
+$$
+
+ 
+
+
+
+
+
+
+
+
+<div style="height:10cm;"></div>
+
+
+# Funciones convexas
+
+
+# Problemas de optimización convexa
+
+
+
+
+
+<div style="height:10cm;"></div>
+
+
+
+
+
+
+
+
+
+
+<br>
+<hr style="border: 2.5px solid black;">
+
+<h2>Ejercicios</h2>
+
+1. Mostrar que un conjunto afin contiene cualquier combinación afin de sus puntos.
+
+1. Probar que, si $C$ es un conjunto afín y $\xx_0\in C$, entonces $V:= C-\xx_0$ es un subespacio vectorial que no depende de la elección de $\xx_0\in C$.
+
+1. Mostrar que un conjunto es convexo contiene cualquier combinación convexa de sus puntos.
+
+1. Probar que el conjunto solución de un sistema de ecuaciones lineales,
+$$
+C=\{x \mid A\xx=\bb\},\qquad A\in\RR^{m\times n}, \bb\in\RR^m,
+$$
+es un conjunto afin.
+
+1. Probar que decir que un conjunto $C$ es un cono convexo es equivalente a la condición
+$$
+\theta_1\xx_1+\theta_2\xx_2\in C,\qquad\forall \xx_1,\xx_2\in C, \forall \theta_1, \theta_2\geq 0.
+$$
+
+1. Mostrar que un cono convexo contiene cualquier combinación cónica de sus puntos.

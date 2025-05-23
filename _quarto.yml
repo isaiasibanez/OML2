@@ -13,7 +13,9 @@ website:
           - href: CAPITULO_1/A1_intro_optimizacion.qmd
             text: "Introducción a la Optimización"
           - href: CAPITULO_1/A2_optimalidad.qmd
-            text: "Condiciones de Optimalidad"
+            text: "Condiciones de optimalidad"
+          - href: CAPITULO_1/A3_metodos_optimizacion.qmd
+            text: "Métodos de optimización"
   page-navigation: true  # Activar navegación entre páginas
 
 format:
