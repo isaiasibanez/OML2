@@ -4,7 +4,7 @@
     "href": "macros.html",
     "title": "Optimización y Aprendizaje Automático II",
     "section": "",
-    "text": "\\[\n\\def\\RR{\\mathbb{R}}\n\\def\\media{\\mathbb{E}}\n\\def\\calL{\\mathcal{L}}\n\\def\\calG{\\mathcal{G}}\n\\def\\aa{{\\bf a}}\n\\def\\bb{{\\bf b}}\n\\def\\xx{{\\bf x}}\n\\def\\yy{{\\bf y}}\n\\def\\vv{{\\bf v}}\n\\def\\XX{{\\bf X}}\n\\def\\TT{{\\bf T}}\n\\def\\SS{{\\bf S}}\n\\def\\bftheta{\\boldsymbol{\\theta}}\n\\def\\bflambda{\\boldsymbol{\\lambda}}\n\\def\\bfeta{\\boldsymbol{\\eta}}\n\\def\\bfmu{\\boldsymbol{\\mu}}\n\\def\\bfnu{\\boldsymbol{\\nu}}\n\\def\\bfSigma{\\boldsymbol{\\Sigma}}\n\\def\\bfone{\\mathbf{1}}\n\\def\\argmin{\\mathop{\\mathrm{arg\\,min\\,}}}\n\\def\\argmax{\\mathop{\\mathrm{arg\\,max\\,}}}\n\\]"
+    "text": "\\[\n\\def\\RR{\\mathbb{R}}\n\\def\\media{\\mathbb{E}}\n\\def\\calL{\\mathcal{L}}\n\\def\\calG{\\mathcal{G}}\n\\def\\aa{{\\bf a}}\n\\def\\bb{{\\bf b}}\n\\def\\bfa{{\\bf a}}\n\\def\\bfb{{\\bf b}}\n\\def\\xx{{\\bf x}}\n\\def\\yy{{\\bf y}}\n\\def\\vv{{\\bf v}}\n\\def\\XX{{\\bf X}}\n\\def\\TT{{\\bf T}}\n\\def\\SS{{\\bf S}}\n\\def\\bftheta{\\boldsymbol{\\theta}}\n\\def\\bflambda{\\boldsymbol{\\lambda}}\n\\def\\bfeta{\\boldsymbol{\\eta}}\n\\def\\bfmu{\\boldsymbol{\\mu}}\n\\def\\bfnu{\\boldsymbol{\\nu}}\n\\def\\bfSigma{\\boldsymbol{\\Sigma}}\n\\def\\bfone{\\mathbf{1}}\n\\def\\argmin{\\mathop{\\mathrm{arg\\,min\\,}}}\n\\def\\argmax{\\mathop{\\mathrm{arg\\,max\\,}}}\n\\]"
   },
   {
     "objectID": "CAPITULO_1/A3_metodos_optimizacion.html",
