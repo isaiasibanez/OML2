@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Introducción a la Optimización – Optimización y Aprendizaje Automático II</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-d4be639c637f3db3c684c66cefad7e0c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Optimización y Aprendizaje Automático II</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Página de Inicio</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-capítulo-1" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">CAPÍTULO 1</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-capítulo-1">    
+        <li>
+    <a class="dropdown-item" href="../CAPITULO_1/A1_intro_optimizacion.html">
+ <span class="dropdown-text">Introducción a la Optimización</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../CAPITULO_1/A2_optimalidad.html">
+ <span class="dropdown-text">Condiciones de optimalidad</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../CAPITULO_1/A3_metodos_optimizacion.html">
+ <span class="dropdown-text">Métodos de optimización</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#conjuntos-convexos" id="toc-conjuntos-convexos" class="nav-link active" data-scroll-target="#conjuntos-convexos"><span class="header-section-number">1</span> Conjuntos convexos</a>
+  <ul class="collapse">
+  <li><a href="#definiciones-básicas" id="toc-definiciones-básicas" class="nav-link" data-scroll-target="#definiciones-básicas"><span class="header-section-number">1.1</span> Definiciones básicas</a>
+  <ul class="collapse">
+  <li><a href="#conjuntos-afines" id="toc-conjuntos-afines" class="nav-link" data-scroll-target="#conjuntos-afines"><span class="header-section-number">1.1.1</span> Conjuntos afines</a></li>
+  <li><a href="#conjuntos-convexos-1" id="toc-conjuntos-convexos-1" class="nav-link" data-scroll-target="#conjuntos-convexos-1"><span class="header-section-number">1.1.2</span> Conjuntos convexos</a></li>
+  <li><a href="#conos" id="toc-conos" class="nav-link" data-scroll-target="#conos"><span class="header-section-number">1.1.3</span> Conos</a></li>
+  </ul></li>
+  <li><a href="#operaciones-que-preservan-convexidad" id="toc-operaciones-que-preservan-convexidad" class="nav-link" data-scroll-target="#operaciones-que-preservan-convexidad"><span class="header-section-number">1.2</span> Operaciones que preservan convexidad</a>
+  <ul class="collapse">
+  <li><a href="#intersección" id="toc-intersección" class="nav-link" data-scroll-target="#intersección"><span class="header-section-number">1.2.1</span> Intersección</a></li>
+  <li><a href="#funciones-afines" id="toc-funciones-afines" class="nav-link" data-scroll-target="#funciones-afines"><span class="header-section-number">1.2.2</span> 2.3.2 Funciones afines</a></li>
+  <li><a href="#funciones-lineales-fraccionales-y-perspectivas" id="toc-funciones-lineales-fraccionales-y-perspectivas" class="nav-link" data-scroll-target="#funciones-lineales-fraccionales-y-perspectivas"><span class="header-section-number">1.2.3</span> 2.3.3 Funciones lineales-fraccionales y perspectivas</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#funciones-convexas" id="toc-funciones-convexas" class="nav-link" data-scroll-target="#funciones-convexas"><span class="header-section-number">2</span> Funciones convexas</a>
+  <ul class="collapse">
+  <li><a href="#condiciones-de-convexidad" id="toc-condiciones-de-convexidad" class="nav-link" data-scroll-target="#condiciones-de-convexidad"><span class="header-section-number">2.1</span> Condiciones de convexidad</a></li>
+  <li><a href="#operaciones-que-preservan-convexidad-1" id="toc-operaciones-que-preservan-convexidad-1" class="nav-link" data-scroll-target="#operaciones-que-preservan-convexidad-1"><span class="header-section-number">2.2</span> Operaciones que preservan convexidad</a></li>
+  </ul></li>
+  <li><a href="#problemas-de-optimización-convexa" id="toc-problemas-de-optimización-convexa" class="nav-link" data-scroll-target="#problemas-de-optimización-convexa"><span class="header-section-number">3</span> Problemas de optimización convexa</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Introducción a la Optimización</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<hr style="border: 1px solid rgba(50, 0, 0, 1);">
+<div class="hidden">
+<p><span class="math display">\[
+\def\RR{\mathbb{R}}
+\def\media{\mathbb{E}}
+\def\calL{\mathcal{L}}
+\def\calG{\mathcal{G}}
+\def\bb{{\bf b}}
+\def\xx{{\bf x}}
+\def\yy{{\bf y}}
+\def\vv{{\bf v}}
+\def\XX{{\bf X}}
+\def\TT{{\bf T}}
+\def\SS{{\bf S}}
+\def\bfa{\boldsymbol{a}}
+\def\bfb{\boldsymbol{b}}
+\def\bftheta{\boldsymbol{\theta}}
+\def\bflambda{\boldsymbol{\lambda}}
+\def\bfeta{\boldsymbol{\eta}}
+\def\bfmu{\boldsymbol{\mu}}
+\def\bfnu{\boldsymbol{\nu}}
+\def\bfSigma{\boldsymbol{\Sigma}}
+\def\bfone{\mathbf{1}}
+\def\argmin{\mathop{\mathrm{arg\,min\,}}}
+\def\argmax{\mathop{\mathrm{arg\,max\,}}}
+\]</span></p>
+</div>
+<section id="conjuntos-convexos" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Conjuntos convexos</h1>
+<p>Una gran parte del éxito de los métodos de optimización convexa radica en una idea geométrica simple pero poderosa: la convexidad del conjunto de soluciones factibles.</p>
+<p>Un conjunto convexo es, en pocas palabras, un conjunto en el cual, si tomamos dos puntos cualesquiera, el segmento que los une queda completamente contenido dentro del conjunto. Esta propiedad, que a primera vista parece modesta, es en realidad central para garantizar que los problemas de optimización tengan buen comportamiento.</p>
+<p>Para entender y construir modelos de optimización robustos, necesitamos comprender cómo son estos conjuntos y cómo se comportan bajo transformaciones y operaciones comunes. A continuación, vamos a introducir esta base teórica con precisión y describir ejemplos relevantes.</p>
+<section id="definiciones-básicas" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="definiciones-básicas"><span class="header-section-number">1.1</span> Definiciones básicas</h2>
+<p>En esta sección introduciremos tres tipos fundamentales de conjuntos que aparecen en optimización: conjuntos afines, conjuntos convexos y conos. Antes, es necesario recordar la forma parámetrica de <em>rectas</em> y <em>segmentos de recta</em>.</p>
+<p>Sean <span class="math inline">\(\xx_{1} \neq \xx_{2}\)</span> dos puntos en <span class="math inline">\(\RR^{n}\)</span>. La recta que pasa por <span class="math inline">\(\xx_1\)</span> y <span class="math inline">\(\xx_2\)</span> queda determinada por <span class="math display">\[
+\yy = \theta \xx_{1} + (1 - \theta) \xx_{2},\qquad \theta\in\RR.
+\]</span></p>
+<p>Mientras que, si restringimos el valor del parámetro a <span class="math inline">\(0\leq \theta\leq 1\)</span>, obtenemos el segmento de recta (cerrado) entre ambos puntos. Una expresión alternativa es</p>
+<p><span class="math display">\[
+\yy=\xx_2+\theta(\xx_1-\xx_2),
+\]</span></p>
+<p>la cual permite interpretar a <span class="math inline">\(\yy\)</span> en términos del punto inicial <span class="math inline">\(\xx_2\)</span> y la dirección <span class="math inline">\(\xx_1-\xx_2\)</span>. Así, <span class="math inline">\(\theta\)</span> indica la fracción del camino desde <span class="math inline">\(\xx_2\)</span> hasta <span class="math inline">\(\xx_1\)</span> donde se encuentra <span class="math inline">\(\yy\)</span>. Esto se ilustra en la (<span style="color: red;">figura 2.1</span>).</p>
+<section id="conjuntos-afines" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="conjuntos-afines"><span class="header-section-number">1.1.1</span> Conjuntos afines</h3>
+<div class="definicion">
+<p><strong>Definición 1.</strong> (Conjunto afín) Un conjunto <span class="math inline">\(C \subseteq \RR^{n}\)</span> es <em>afín</em> si la línea que pasa por cualquier par de puntos distintos en <span class="math inline">\(C\)</span> está contenida en <span class="math inline">\(C\)</span>. Es decir, si se verifica <span class="math display">\[
+\theta \xx_1+(1-\theta)\xx_2\in C\qquad\forall \xx_1,\xx_2\in C, \forall\theta\in\RR.
+\]</span></p>
+</div>
+<p>Observar que <span class="math inline">\(\theta \xx_1+(1-\theta)\xx_2\)</span> es una combinación lineal entre los puntos <span class="math inline">\(\xx_1\)</span> y <span class="math inline">\(\xx_2\)</span> que verifica que la suma de sus coeficientes sea uno. Esta idea se puede generalizar a más de dos puntos: un punto de la forma <span class="math display">\[
+\theta_1\xx_1+\cdots+\theta_k\xx_k,\qquad \sum_{i=1}^k\theta_i=1
+\]</span> se denomina <em>combinación afín</em> de los puntos <span class="math inline">\(\xx_1,\ldots,\xx_k\)</span>. Es fácil ver que un conjunto afín <span class="math inline">\(C\)</span> contiene todas las combinaciones afines de sus puntos.</p>
+<p>Por otro lado, dado un conjunto afín <span class="math inline">\(C\)</span> y un punto <span class="math inline">\(\xx_0\in C\)</span>, el conjunto <span class="math display">\[
+V:= C-\xx_0=\{\xx-\xx_0 \mid \xx\in C\}
+\]</span></p>
+<p>es un subespacio vectorial, que permite expresar el conjunto afín <span class="math inline">\(C\)</span> como <span class="math display">\[
+C=V+\xx_0=\{v+\xx_0 \mid v\in V\}.
+\]</span></p>
+<p>El subespacio <span class="math inline">\(V\)</span> asociado con el conjunto afín <span class="math inline">\(C\)</span> no depende de la elección de <span class="math inline">\(x_{0}\)</span>, por lo que <span class="math inline">\(x_{0}\)</span> puede elegirse como cualquier punto en <span class="math inline">\(C\)</span>. Definimos la <em>dimensión</em> de <span class="math inline">\(C\)</span> como <span class="math display">\[
+\dim C:=\dim V=\dim C-\xx_0,\quad \xx_0\in C.
+\]</span></p>
+</section>
+<section id="conjuntos-convexos-1" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="conjuntos-convexos-1"><span class="header-section-number">1.1.2</span> Conjuntos convexos</h3>
+<div class="definicion">
+<p><strong>Definición 1.</strong> (Conjunto convexo) Un conjunto <span class="math inline">\(C \subseteq \RR^{n}\)</span> es <em>convexo</em> si el segmento de línea entre cualquier par de puntos distintos en <span class="math inline">\(C\)</span> está contenido en <span class="math inline">\(C\)</span>. Es decir, si se verifica <span class="math display">\[
+\theta \xx_1+(1-\theta)\xx_2\in C\qquad\forall \xx_1,\xx_2\in C, \forall\theta\in[0,1].
+\]</span></p>
+</div>
+<p>Claramente, todo conjunto afín también es convexo, ya que contiene toda la recta que pasa por cualquier par de puntos distintos en él y, por lo tanto, también el segmento de línea entre los puntos. La (<span style="color: red;">figura 2.2</span>) ilustra algunos conjuntos convexos y no convexos en <span class="math inline">\(\RR^{2}\)</span>.</p>
+<p>Llamamos <em>combinación convexa</em> a un punto de la forma <span class="math display">\[
+\theta_{1} \xx_{1} + \cdots + \theta_{k} \xx_{k},\qquad \sum_{i=1}^k\theta_i = 1, \theta_{i} \geq 0.
+\]</span></p>
+<p>A diferencia de una combinación afín, una combinación convexa requiere la no negatividad de los coeficientes <span class="math inline">\(\theta_i\)</span>, lo cual significa que puede ser interpretada como un <em>promedio ponderado</em> de los puntos <span class="math inline">\(\xx_i\)</span>.</p>
+<div class="definicion">
+<p><strong>Definición 1.</strong> (Envolvente convexa) La <em>envolvente convexa</em> de un conjunto <span class="math inline">\(C\)</span> es el conjunto de todas las combinaciones convexas de puntos en <span class="math inline">\(C\)</span>. Esto es <span class="math display">\[
+\text{conv}\, C = \left\{\theta_{1} x_{1} + \cdots + \theta_{k} x_{k}\;\Big|\; x_{i} \in C, \theta_{i} \geq 0, \sum_{i=1}^k\theta_{i} = 1\right\}.
+\]</span></p>
+</div>
+<p>Como su nombre lo indica, la envolvente convexa <span class="math inline">\(\text{conv}\, C\)</span> es siempre un conjunto convexo. Más aún, es el conjunto convexo más pequeño que contiene a <span class="math inline">\(C\)</span>: si <span class="math inline">\(B\)</span> es cualquier conjunto convexo que contiene a <span class="math inline">\(C\)</span>, entonces <span class="math inline">\(\text{conv}\, C \subseteq B\)</span>. La (<span style="color: red;">figura 2.3</span>) ilustra la definición de casco convexo.</p>
+</section>
+<section id="conos" class="level3" data-number="1.1.3">
+<h3 data-number="1.1.3" class="anchored" data-anchor-id="conos"><span class="header-section-number">1.1.3</span> Conos</h3>
+<div class="definicion">
+<p><strong>Definición 1.</strong> (Cono) Un conjunto <span class="math inline">\(C\in\RR^n\)</span> se denomina <em>cono</em> si verifica <span class="math display">\[
+\theta\xx\in C,\qquad\forall \xx\in C, \forall \theta\geq 0.
+\]</span></p>
+</div>
+<p>Un conjunto <span class="math inline">\(C\)</span> es un <em>cono convexo</em> si es convexo y es un cono, lo que significa que <span class="math display">\[
+\theta_1\xx_1+\theta_2\xx_2\in C,\qquad\forall \xx_1,\xx_2\in C, \forall \theta_1, \theta_2\geq 0.
+\]</span></p>
+<p>Los puntos de esta forma pueden describirse geométricamente como formando una “rebanada de pastel” bidimensional con vértice en <span class="math inline">\(0\)</span> y bordes que pasan por <span class="math inline">\(x_{1}\)</span> y <span class="math inline">\(x_{2}\)</span>. (<span style="color: red;">figura 2.4</span>).</p>
+<p>Llamamos <em>combinación cónica</em> a un punto de la forma <span class="math display">\[
+\theta_1\xx_1+\cdot+\theta_k\xx_j,\qquad \theta_i\geq 0.
+\]</span></p>
+<div class="definicion">
+<p><strong>Definición 1.</strong> (Envolvente cónica) La <em>envolvente cónica</em> de un conjunto <span class="math inline">\(C\)</span> es el conjunto de todas las combinaciones cónicas de puntos en <span class="math inline">\(C\)</span>. Esto es <span class="math display">\[
+\text{cone}\, C = \left\{\theta_{1} \xx_{1} + \cdots + \theta_{k} \xx_{k}\;\Big|\; x_{i} \in C, \theta_{i} \geq 0\right\}.
+\]</span></p>
+</div>
+<p>De manera análoga a la envolvente convexa, la envolvente cónica de un conjunto <span class="math inline">\(C\)</span> es el conjunto de todas las combinación cónicas de puntos en <span class="math inline">\(C\)</span> y, además, es el cono convexo más pequeño que contiene a <span class="math inline">\(C\)</span>. <span style="color: red;">figura 2.5</span>)</p>
+<div style="height:10cm;">
+
+</div>
+</section>
+</section>
+<section id="operaciones-que-preservan-convexidad" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="operaciones-que-preservan-convexidad"><span class="header-section-number">1.2</span> Operaciones que preservan convexidad</h2>
+<p>En esta sección describimos algunas operaciones que preservan la convexidad de conjuntos o nos permiten construir conjuntos convexos a partir de otros. Estas operaciones, junto con los ejemplos simples descritos en §2.2, forman un cálculo de conjuntos convexos que es útil para determinar o establecer la convexidad de conjuntos.</p>
+<section id="intersección" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="intersección"><span class="header-section-number">1.2.1</span> Intersección</h3>
+<p>La convexidad se preserva bajo intersección: si <span class="math inline">\(S_{1}\)</span> y <span class="math inline">\(S_{2}\)</span> son convexos, entonces <span class="math inline">\(S_{1} \cap S_{2}\)</span> es convexo. Esta propiedad se extiende a la intersección de un número infinito de conjuntos: si <span class="math inline">\(S_{\alpha}\)</span> es convexo para cada <span class="math inline">\(\alpha \in \mathcal{A}\)</span>, entonces <span class="math inline">\(\bigcap_{\alpha \in \mathcal{A}} S_{\alpha}\)</span> es convexo. (Los subespacios, conjuntos afines y conos convexos también son cerrados bajo intersecciones arbitrarias). Como ejemplo simple, un poliedro es la intersección de semiespacios e hiperplanos (que son convexos), y por lo tanto es convexo.</p>
+<p><strong>Ejemplo 2.7</strong>: El cono semidefinido positivo <span class="math inline">\(\mathbb{S}^{n}_{+}\)</span> puede expresarse como</p>
+<p><span class="math display">\[
+\bigcap_{z \neq 0} \{X \in \mathbb{S}^{n} \mid z^{T} X z \geq 0\}.
+\]</span></p>
+<p>Para cada <span class="math inline">\(z \neq 0\)</span>, <span class="math inline">\(z^{T} X z\)</span> es una función lineal (no idénticamente cero) de <span class="math inline">\(X\)</span>, por lo que los conjuntos</p>
+<p><span class="math display">\[
+\{X \in \mathbb{S}^{n} \mid z^{T} X z \geq 0\}
+\]</span></p>
+<p>son, de hecho, semiespacios en <span class="math inline">\(\mathbb{S}^{n}\)</span>. Por lo tanto, el cono semidefinido positivo es la intersección de un número infinito de semiespacios, y por lo tanto es convexo.</p>
+<p><strong>Ejemplo 2.8</strong>: Consideramos el conjunto</p>
+<p><span class="math display">\[
+S = \{x \in \mathbf{R}^{m} \mid |p(t)| \leq 1 \text{ para } |t| \leq \pi/3\}, \quad (2.10)
+\]</span></p>
+<p>donde <span class="math inline">\(p(t) = \sum_{k=1}^{m} x_{k} \cos kt\)</span>. El conjunto <span class="math inline">\(S\)</span> puede expresarse como la intersección de un número infinito de <strong>lajas</strong>: <span class="math inline">\(S = \bigcap_{|t| \leq \pi/3} S_{t}\)</span>, donde</p>
+<p><span class="math display">\[
+S_{t} = \{x \mid -1 \leq (\cos t, \ldots, \cos mt)^{T} x \leq 1\},
+\]</span></p>
+<p>y por lo tanto es convexo. La definición y el conjunto se ilustran en las figuras 2.13 y 2.14, para <span class="math inline">\(m = 2\)</span>.</p>
+<p>En los ejemplos anteriores establecemos la convexidad de un conjunto expresándolo como una intersección (posiblemente infinita) de semiespacios. Veremos en §2.5.1 que se cumple lo contrario: <strong>todo</strong> conjunto convexo cerrado <span class="math inline">\(S\)</span> es una intersección (generalmente infinita) de semiespacios. De hecho, un conjunto convexo cerrado <span class="math inline">\(S\)</span> es la intersección de todos los semiespacios que lo contienen:</p>
+<p><span class="math display">\[
+S = \bigcap \{\mathcal{H} \mid \mathcal{H} \text{ semiespacio, } S \subseteq \mathcal{H}\}.
+\]</span></p>
+</section>
+<section id="funciones-afines" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="funciones-afines"><span class="header-section-number">1.2.2</span> 2.3.2 Funciones afines</h3>
+<p>Recordemos que una función <span class="math inline">\(f: \mathbf{R}^{n} \rightarrow \mathbf{R}^{m}\)</span> es <strong>afín</strong> si es una suma de una función lineal y una constante, es decir, si tiene la forma <span class="math inline">\(f(x) = A x + b\)</span>, donde <span class="math inline">\(A \in \mathbf{R}^{m \times n}\)</span> y <span class="math inline">\(b \in \mathbf{R}^{m}\)</span>. Supongamos que <span class="math inline">\(S \subseteq \mathbf{R}^{n}\)</span> es convexo y <span class="math inline">\(f: \mathbf{R}^{n} \rightarrow \mathbf{R}^{m}\)</span> es una función afín. Entonces, la imagen de <span class="math inline">\(S\)</span> bajo <span class="math inline">\(f\)</span>,</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2-10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+<p><span class="math display">\[
+f(S) = \{f(x) \mid x \in S\},
+\]</span></p>
+<p>es convexa. De manera similar, si <span class="math inline">\(f: \mathbf{R}^{k} \rightarrow \mathbf{R}^{n}\)</span> es una función afín, la <strong>imagen inversa</strong> de <span class="math inline">\(S\)</span> bajo <span class="math inline">\(f\)</span>,</p>
+<p><span class="math display">\[
+f^{-1}(S) = \{x \mid f(x) \in S\},
+\]</span></p>
+<p>es convexa.</p>
+<p>Dos ejemplos simples son la <strong>escalación</strong> y la <strong>traslación</strong>. Si <span class="math inline">\(S \subseteq \mathbf{R}^{n}\)</span> es convexo, <span class="math inline">\(\alpha \in \mathbf{R}\)</span>, y <span class="math inline">\(a \in \mathbf{R}^{n}\)</span>, entonces los conjuntos <span class="math inline">\(\alpha S\)</span> y <span class="math inline">\(S + a\)</span> son convexos, donde</p>
+<p><span class="math display">\[
+\alpha S = \{\alpha x \mid x \in S\}, \qquad S + a = \{x + a \mid x \in S\}.
+\]</span></p>
+<p>La <strong>proyección</strong> de un conjunto convexo sobre algunas de sus coordenadas es convexa: si <span class="math inline">\(S \subseteq \mathbf{R}^{m} \times \mathbf{R}^{n}\)</span> es convexo, entonces</p>
+<p><span class="math display">\[
+T = \{x_{1} \in \mathbf{R}^{m} \mid (x_{1}, x_{2}) \in S \text{ para algún } x_{2} \in \mathbf{R}^{n}\}
+\]</span></p>
+<p>es convexo.</p>
+<p>La <strong>suma</strong> de dos conjuntos se define como</p>
+<p><span class="math display">\[
+S_{1} + S_{2} = \{x + y \mid x \in S_{1}, y \in S_{2}\}.
+\]</span></p>
+<p>Si <span class="math inline">\(S_{1}\)</span> y <span class="math inline">\(S_{2}\)</span> son convexos, entonces <span class="math inline">\(S_{1} + S_{2}\)</span> es convexo. Para ver esto, si <span class="math inline">\(S_{1}\)</span> y <span class="math inline">\(S_{2}\)</span> son convexos, entonces el producto directo o cartesiano</p>
+<p><span class="math display">\[
+S_{1} \times S_{2} = \{(x_{1}, x_{2}) \mid x_{1} \in S_{1}, x_{2} \in S_{2}\}
+\]</span></p>
+<p>también es convexo. La imagen de este conjunto bajo la función lineal <span class="math inline">\(f(x_{1}, x_{2}) = x_{1} + x_{2}\)</span> es la suma <span class="math inline">\(S_{1} + S_{2}\)</span>.</p>
+<p>También podemos considerar la <strong>suma parcial</strong> de <span class="math inline">\(S_{1}, S_{2} \in \mathbf{R}^{n} \times \mathbf{R}^{m}\)</span>, definida como</p>
+<p><span class="math display">\[
+S = \{(x, y_{1} + y_{2}) \mid (x, y_{1}) \in S_{1}, (x, y_{2}) \in S_{2}\},
+\]</span></p>
+<p>donde <span class="math inline">\(x \in \mathbf{R}^{n}\)</span> y <span class="math inline">\(y_{i} \in \mathbf{R}^{m}\)</span>. Para <span class="math inline">\(m = 0\)</span>, la suma parcial da la intersección de <span class="math inline">\(S_{1}\)</span> y <span class="math inline">\(S_{2}\)</span>; para <span class="math inline">\(n = 0\)</span>, es la suma de conjuntos. Las sumas parciales de conjuntos convexos son convexas (ver ejercicio 2.16).</p>
+<p><strong>Ejemplo 2.9</strong>: <em>Poliedro</em>. El poliedro <span class="math inline">\(\{x \mid A x \preceq b, C x = d\}\)</span> puede expresarse como la imagen inversa del producto cartesiano del ortante no negativo y el origen bajo la función afín <span class="math inline">\(f(x) = (b - A x, d - C x)\)</span>:</p>
+<p><span class="math display">\[
+\{x \mid A x \preceq b, C x = d\} = \{x \mid f(x) \in \mathbf{R}_{+}^{m} \times \{0\}\}.
+\]</span></p>
+<p><strong>Ejemplo 2.10</strong>: <em>Conjunto solución de una desigualdad matricial lineal</em>. La condición</p>
+<p><span class="math display">\[
+A(x) = x_{1} A_{1} + \cdots + x_{n} A_{n} \preceq B, \quad (2.11)
+\]</span></p>
+<p>donde <span class="math inline">\(B, A_{i} \in \mathbf{S}^{m}\)</span>, se llama <strong>desigualdad matricial lineal</strong> (LMI) en <span class="math inline">\(x\)</span> (nota la similitud con una desigualdad lineal ordinaria,</p>
+<p><span class="math display">\[
+a^{T} x = x_{1} a_{1} + \cdots + x_{n} a_{n} \leq b,
+\]</span></p>
+<p>con <span class="math inline">\(b, a_{i} \in \mathbf{R}\)</span>).</p>
+<p>El conjunto solución de una desigualdad matricial lineal, <span class="math inline">\(\{x \mid A(x) \preceq B\}\)</span>, es convexo. De hecho, es la imagen inversa del cono semidefinido positivo bajo la función afín <span class="math inline">\(f: \mathbf{R}^{n} \rightarrow \mathbf{S}^{m}\)</span> dada por <span class="math inline">\(f(x) = B - A(x)\)</span>.</p>
+</section>
+<section id="funciones-lineales-fraccionales-y-perspectivas" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="funciones-lineales-fraccionales-y-perspectivas"><span class="header-section-number">1.2.3</span> 2.3.3 Funciones lineales-fraccionales y perspectivas</h3>
+<p>En esta sección exploramos una clase de funciones, llamadas <strong>lineales-fraccionales</strong>, que es más general que las funciones afines pero aún preserva la convexidad.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2-11-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+<section id="función-perspectiva" class="level4" data-number="1.2.3.1">
+<h4 data-number="1.2.3.1" class="anchored" data-anchor-id="función-perspectiva"><span class="header-section-number">1.2.3.1</span> Función perspectiva</h4>
+<p>Definimos la <strong>función perspectiva</strong> <span class="math inline">\(P: \mathbf{R}^{n+1} \rightarrow \mathbf{R}^{n}\)</span>, con dominio <span class="math inline">\(\mathbf{dom}\, P = \mathbf{R}^{n} \times \mathbf{R}_{++}\)</span>, como <span class="math inline">\(P(z, t) = z / t\)</span>. (Aquí <span class="math inline">\(\mathbf{R}_{++}\)</span> denota el conjunto de números positivos: <span class="math inline">\(\mathbf{R}_{++} = \{x \in \mathbf{R} \mid x &gt; 0\}\)</span>). La función perspectiva escala o normaliza vectores de modo que la última componente sea uno, y luego elimina la última componente.</p>
+<p><strong>Observación 2.1</strong>: Podemos interpretar la función perspectiva como la acción de una <strong>cámara estenopeica</strong>. Una cámara estenopeica (en <span class="math inline">\(\mathbf{R}^{3}\)</span>) consiste en un plano horizontal opaco <span class="math inline">\(x_{3} = 0\)</span>, con un único agujero en el origen, a través del cual puede pasar la luz, y un plano de imagen horizontal <span class="math inline">\(x_{3} = -1\)</span>. Un objeto en <span class="math inline">\(x\)</span>, por encima de la cámara (es decir, con <span class="math inline">\(x_{3} &gt; 0\)</span>), forma una imagen en el punto <span class="math inline">\(-(x_{1} / x_{3}, x_{2} / x_{3}, 1)\)</span> en el plano de imagen. Eliminando la última componente del punto de imagen (ya que siempre es <span class="math inline">\(-1\)</span>), la imagen de un punto en <span class="math inline">\(x\)</span> aparece en <span class="math inline">\(y = -(x_{1} / x_{3}, x_{2} / x_{3}) = -P(x)\)</span> en el plano de imagen. Esto se ilustra en la figura 2.15.</p>
+<p>Si <span class="math inline">\(C \subseteq \mathbf{dom}\, P\)</span> es convexo, entonces su imagen</p>
+<p><span class="math display">\[
+P(C) = \{P(x) \mid x \in C\}
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="12.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+<p>es convexa. Este resultado es ciertamente intuitivo: un objeto convexo, visto a través de una cámara estenopeica, produce una imagen convexa. Para establecer este hecho, mostramos que los segmentos de línea se mapean a segmentos de línea bajo la función perspectiva. (Esto también tiene sentido: un segmento de línea, visto a través de una cámara estenopeica, produce una imagen de segmento de línea). Supongamos que <span class="math inline">\(x = (\tilde{x}, x_{n+1})\)</span>, <span class="math inline">\(y = (\tilde{y}, y_{n+1}) \in \mathbf{R}^{n+1}\)</span> con <span class="math inline">\(x_{n+1} &gt; 0\)</span>, <span class="math inline">\(y_{n+1} &gt; 0\)</span>. Entonces, para <span class="math inline">\(0 \leq \theta \leq 1\)</span>,</p>
+<p><span class="math display">\[
+P(\theta x + (1 - \theta) y) = \frac{\theta \tilde{x} + (1 - \theta) \tilde{y}}{\theta x_{n+1} + (1 - \theta) y_{n+1}} = \mu P(x) + (1 - \mu) P(y),
+\]</span></p>
+<p>donde</p>
+<p><span class="math display">\[
+\mu = \frac{\theta x_{n+1}}{\theta x_{n+1} + (1 - \theta) y_{n+1}} \in [0, 1].
+\]</span></p>
+<p>Esta correspondencia entre <span class="math inline">\(\theta\)</span> y <span class="math inline">\(\mu\)</span> es monótona: a medida que <span class="math inline">\(\theta\)</span> varía entre 0 y 1 (lo que recorre el segmento de línea <span class="math inline">\([x, y]\)</span>), <span class="math inline">\(\mu\)</span> varía entre 0 y 1 (lo que recorre el segmento de línea <span class="math inline">\([P(x), P(y)]\)</span>). Esto muestra que <span class="math inline">\(P([x, y]) = [P(x), P(y)]\)</span>.</p>
+<p>Ahora supongamos que <span class="math inline">\(C\)</span> es convexo con <span class="math inline">\(C \subseteq \mathbf{dom}\, P\)</span> (es decir, <span class="math inline">\(x_{n+1} &gt; 0\)</span> para todo <span class="math inline">\(x \in C\)</span>), y <span class="math inline">\(x, y \in C\)</span>. Para establecer la convexidad de <span class="math inline">\(P(C)\)</span>, necesitamos mostrar que el segmento de línea <span class="math inline">\([P(x), P(y)]\)</span> está en <span class="math inline">\(P(C)\)</span>. Pero este segmento de línea es la imagen del segmento de línea <span class="math inline">\([x, y]\)</span> bajo <span class="math inline">\(P\)</span>, y por lo tanto está en <span class="math inline">\(P(C)\)</span>.</p>
+<p>La imagen inversa de un conjunto convexo bajo la función perspectiva también es convexa: si <span class="math inline">\(C \subseteq \mathbf{R}^{n}\)</span> es convexo, entonces</p>
+<p><span class="math display">\[
+P^{-1}(C) = \{(x, t) \in \mathbf{R}^{n+1} \mid x / t \in C, t &gt; 0\}
+\]</span></p>
+<p>es convexo. Para mostrar esto, supongamos que <span class="math inline">\((x, t) \in P^{-1}(C)\)</span>, <span class="math inline">\((y, s) \in P^{-1}(C)\)</span>, y <span class="math inline">\(0 \leq \theta \leq 1\)</span>. Necesitamos mostrar que</p>
+<p><span class="math display">\[
+\theta (x, t) + (1 - \theta) (y, s) \in P^{-1}(C),
+\]</span></p>
+<p>es decir, que</p>
+<p><span class="math display">\[
+\frac{\theta x + (1 - \theta) y}{\theta t + (1 - \theta) s} \in C
+\]</span></p>
+<p>(<span class="math inline">\(\theta t + (1 - \theta) s &gt; 0\)</span> es obvio). Esto se sigue de</p>
+<p><span class="math display">\[
+\frac{\theta x + (1 - \theta) y}{\theta t + (1 - \theta) s} = \mu (x / t) + (1 - \mu) (y / s),
+\]</span></p>
+<p>donde</p>
+<p><span class="math display">\[
+\mu = \frac{\theta t}{\theta t + (1 - \theta) s} \in [0, 1].
+\]</span></p>
+</section>
+<section id="funciones-lineales-fraccionales" class="level4" data-number="1.2.3.2">
+<h4 data-number="1.2.3.2" class="anchored" data-anchor-id="funciones-lineales-fraccionales"><span class="header-section-number">1.2.3.2</span> Funciones lineales-fraccionales</h4>
+<p>Una <strong>función lineal-fraccional</strong> se forma componiendo la función perspectiva con una función afín. Supongamos que <span class="math inline">\(g: \mathbf{R}^{n} \rightarrow \mathbf{R}^{m+1}\)</span> es afín, es decir,</p>
+<p><span class="math display">\[
+g(x) = \left[\begin{array}{c}A\\ c^{T}\end{array}\right] x + \left[\begin{array}{c}b\\ d\end{array}\right], \quad (2.12)
+\]</span></p>
+<p>donde <span class="math inline">\(A \in \mathbf{R}^{m \times n}\)</span>, <span class="math inline">\(b \in \mathbf{R}^{m}\)</span>, <span class="math inline">\(c \in \mathbf{R}^{n}\)</span>, y <span class="math inline">\(d \in \mathbf{R}\)</span>. La función <span class="math inline">\(f: \mathbf{R}^{n} \rightarrow \mathbf{R}^{m}\)</span> dada por <span class="math inline">\(f = P \circ g\)</span>, es decir,</p>
+<p><span class="math display">\[
+f(x) = (A x + b) / (c^{T} x + d), \qquad \mathbf{dom}\, f = \{x \mid c^{T} x + d &gt; 0\}, \quad (2.13)
+\]</span></p>
+<p>se llama <strong>función lineal-fraccional</strong> (o <strong>proyectiva</strong>). Si <span class="math inline">\(c = 0\)</span> y <span class="math inline">\(d &gt; 0\)</span>, el dominio de <span class="math inline">\(f\)</span> es <span class="math inline">\(\mathbf{R}^{n}\)</span>, y <span class="math inline">\(f\)</span> es una función afín. Por lo tanto, podemos pensar en las funciones afines y lineales como casos especiales de funciones lineales-fraccionales.</p>
+<p><strong>Observación 2.2</strong>: <em>Interpretación proyectiva</em>. A menudo es conveniente representar una función lineal-fraccional como una matriz</p>
+<p><span class="math display">\[
+Q = \left[\begin{array}{cc}A &amp; b\\ c^{T} &amp; d\end{array}\right] \in \mathbf{R}^{(m+1) \times (n+1)} \quad (2.14)
+\]</span></p>
+<p>que actúa sobre (multiplica) puntos de la forma <span class="math inline">\((x, 1)\)</span>, lo que produce <span class="math inline">\((A x + b, c^{T} x + d)\)</span>. Este resultado se escala o normaliza de modo que su última componente sea uno, lo que produce <span class="math inline">\((f(x), 1)\)</span>.</p>
+<p>Esta representación puede interpretarse geométricamente asociando <span class="math inline">\(\mathbf{R}^{n}\)</span> con un conjunto de rayos en <span class="math inline">\(\mathbf{R}^{n+1}\)</span> de la siguiente manera. Con cada punto <span class="math inline">\(z\)</span> en <span class="math inline">\(\mathbf{R}^{n}\)</span> asociamos el rayo (abierto) <span class="math inline">\(\mathcal{P}(z) = \{(t z, 1) \mid t &gt; 0\}\)</span> en <span class="math inline">\(\mathbf{R}^{n+1}\)</span>. La última componente de este rayo toma valores positivos. A la inversa, cualquier rayo en <span class="math inline">\(\mathbf{R}^{n+1}\)</span>, con base en el origen y última componente que toma valores positivos, puede escribirse como <span class="math inline">\(\mathcal{P}(v) = \{t (v, 1) \mid t \geq 0\}\)</span> para algún <span class="math inline">\(v \in \mathbf{R}^{n}\)</span>. Esta correspondencia (proyectiva) <span class="math inline">\(\mathcal{P}\)</span> entre <span class="math inline">\(\mathbf{R}^{n}\)</span> y el semiespacio de rayos con última componente positiva es biyectiva.</p>
+<p>La función lineal-fraccional (2.13) puede expresarse como</p>
+<p><span class="math display">\[
+f(x) = \mathcal{P}^{-1}(Q \mathcal{P}(x)).
+\]</span></p>
+<p>Así, comenzamos con <span class="math inline">\(x \in \mathbf{dom}\, f\)</span>, es decir, <span class="math inline">\(c^{T} x + d &gt; 0\)</span>. Luego formamos el rayo <span class="math inline">\(\mathcal{P}(x)\)</span> en <span class="math inline">\(\mathbf{R}^{n+1}\)</span>. La transformación lineal con matriz <span class="math inline">\(Q\)</span> actúa sobre este rayo para producir otro rayo <span class="math inline">\(Q \mathcal{P}(x)\)</span>. Dado que <span class="math inline">\(x \in \mathbf{dom}\, f\)</span>, la última componente de este rayo asume valores positivos. Finalmente, tomamos la transformación proyectiva inversa para recuperar <span class="math inline">\(f(x)\)</span></p>
+<p>Al igual que la función de perspectiva, las funciones lineales-fraccionales preservan la convexidad. Si <span class="math inline">\(C\)</span> es convexo y se encuentra en el dominio de <span class="math inline">\(f\)</span> (, <span class="math inline">\(c^T x + d &gt; 0\)</span> para <span class="math inline">\(x \in C\)</span>), entonces la imagen <span class="math inline">\(f(C)\)</span> es convexa. Esto se sigue inmediatamente de los resultados anteriores: la imagen de <span class="math inline">\(C\)</span> bajo la transformación afín (2.12) es convexa, y la imagen del conjunto resultante bajo la función de perspectiva <span class="math inline">\(P\)</span>, que produce <span class="math inline">\(f(C)\)</span>, es convexa. De manera similar, si <span class="math inline">\(C \subseteq \mathbb{R}^m\)</span> es convexo, entonces la imagen inversa <span class="math inline">\(f^{-1}(C)\)</span> es convexa.</p>
+<p><strong>Ejemplo 2.13 Probabilidades condicionales.</strong> Supongamos que <span class="math inline">\(u\)</span> y <span class="math inline">\(v\)</span> son variables aleatorias que toman valores en <span class="math inline">\(\{1, \dots, n\}\)</span> y <span class="math inline">\(\{1, \dots, m\}\)</span>, respectivamente, y que <span class="math inline">\(p_{ij}\)</span> denota <span class="math inline">\(\operatorname{prob}(u = i, v = j)\)</span>. Entonces, la probabilidad condicional <span class="math inline">\(f_{ij} = \operatorname{prob}(u = i | v = j)\)</span> está dada por</p>
+<p><span class="math display">\[
+f_{ij} = \frac{p_{ij}}{\sum_{k=1}^{n} p_{kj}}.
+\]</span></p>
+<p>Así, <span class="math inline">\(f\)</span> se obtiene a partir de una transformación lineal-fraccional de <span class="math inline">\(p\)</span>.</p>
+<p>Se sigue que si <span class="math inline">\(C\)</span> es un conjunto convexo de probabilidades conjuntas para <span class="math inline">\((u, v)\)</span>, entonces el conjunto asociado de probabilidades condicionales de <span class="math inline">\(u\)</span> dado <span class="math inline">\(v\)</span> también es convexo.</p>
+<p>La Figura 2.16 muestra un conjunto <span class="math inline">\(C \subseteq \mathbb{R}^2\)</span> y su imagen bajo la función lineal-fraccional</p>
+<p><span class="math display">\[
+f(x) = \frac{1}{x_1 + x_2 + 1} x,
+\]</span></p>
+<p><span class="math display">\[
+\operatorname{dom} f = \{ (x_1, x_2) \mid x_1 + x_2 + 1 &gt; 0 \}.
+\]</span></p>
+<div style="height:10cm;">
+
+</div>
+</section>
+</section>
+</section>
+</section>
+<section id="funciones-convexas" class="level1 page-columns page-full" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Funciones convexas</h1>
+<div class="definicion">
+<p><strong>Definición 1.</strong> (Función convexa) Una función <span class="math inline">\(f:\RR^n\rightarrow\RR\)</span> es <em>convexa</em> si <span class="math inline">\(\text{dom}\,f\)</span> es un conjunto convexo y si verifica <span class="math display">\[
+f(\theta \xx_1 + (1 - \theta)\xx_2) \leq \theta f(\xx_1) + (1 - \theta)f(\xx_2),\qquad\forall\xx_1,\xx_2\in\text{dom}\,f,\; \forall\theta\in[0,1].
+\]</span></p>
+<p>Si la desigualdad es estricta para <span class="math inline">\(\xx_1\neq \xx_2\)</span> y <span class="math inline">\(0&lt;\theta&lt;1\)</span>, se dice que <span class="math inline">\(f\)</span> es <em>estrictamente convexa</em>. Además, se dice que <span class="math inline">\(f\)</span> es <em>cóncava</em> (o <em>estrictamente cóncava</em>) si <span class="math inline">\(-f\)</span> es convexa (o estrictamente convexa).</p>
+</div>
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<hr>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Interpretación geométrica</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Observaciones</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>La desigualdad de la definición significa que el segmento de línea entre los puntos <span class="math inline">\((\xx_1, f(\xx_1))\)</span> y <span class="math inline">\((\xx_2, f(\xx_2))\)</span> se encuentra por encima de la gráfica de <span class="math inline">\(f\)</span>.</p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/funcion_convexa_01.png" alt="Grafo de una función convexa" width="400px" class="figure-img">
+<figcaption>
+Grafo de una función convexa.
+</figcaption>
+</figure>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<ul>
+<li><p>Una función afín verifica la igualdad en la definición, por lo que todas las funciones afínes (y, por lo tanto, también las lineales) son tanto convexas como cóncavas. Recíprocamente, una función que es tanto convexa como cóncava es siempre una función afín.</p></li>
+<li><p>Una función es convexa si y solo si, para todo <span class="math inline">\(\xx\in\text{dom}\,f\)</span> y <span class="math inline">\(\vv\in\RR^n\)</span>, la restricción <span class="math inline">\(g(t)=f(\xx+t\vv)\)</span> es convexa en su dominio <span class="math inline">\(\{t \mid \xx+t\vv\in\text{dom}\,f\}\)</span>.</p></li>
+<li><p>El <em>epígrafo</em> de una función <span class="math inline">\(f:\RR^n\to\RR\)</span> se define como <span class="math display">\[
+\text{epi } f = \{(\xx, t) \mid \xx \in \text{dom } f, f(\xx) \leq t\},
+\]</span></p></li>
+</ul>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/epigrafo_01.png" alt="Epígrafo de una función" width="350px" class="figure-img">
+<figcaption>
+Epígrafo de una función <span class="math inline">\(f\)</span>.
+</figcaption>
+</figure>
+<p>La relación entre conjuntos convexos y funciones convexas es a través del epígrafo: Una función es convexa si y solo si su epígrafo es un conjunto convexo. Por su parte, una función es cóncava si y solo si su <em>hipógrafo</em>, definido como <span class="math display">\[
+\text{hypo } f = \{(\xx, t) \mid t \leq f(\xx)\},
+\]</span> es un conjunto convexo.</p>
+</div>
+</div>
+</div>
+<hr>
+</details>
+<section id="condiciones-de-convexidad" class="level2 page-columns page-full" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="condiciones-de-convexidad"><span class="header-section-number">2.1</span> Condiciones de convexidad</h2>
+<p>Para verificar si una función es convexa, además de recurrir a la definición, existen criterios basados en sus derivadas. Estos permiten caracterizar la convexidad en términos del comportamiento local de la función, ya sea a través del gradiente (primera derivada) o de la matriz hessiana (segunda derivada). Para ello, debemos imponer condiciones a <span class="math inline">\(f\)</span> en relación con su diferenciabilidad.</p>
+<p><span class="badge bg-warning text-dark">Importante</span> Diremos que <span class="math inline">\(f\)</span> es <em>diferenciable</em> si su gradiente <span class="math inline">\(\nabla f\)</span> existe en todo su dominio, y que es <em>dos veces diferenciable</em> si además su hessiana <span class="math inline">\(\nabla^2 f\)</span> existe en todo el dominio. En ambos casos, asumimos que dicho dominio es un conjunto abierto.</p>
+<div class="teorema">
+<p><strong>Teorema 1.</strong> (Condición de primer orden para convexidad) Sea <span class="math inline">\(f:\RR^n\to\RR\)</span> una función diferenciable. <span class="math inline">\(f\)</span> es convexa si y solo si <span class="math inline">\(\text{dom}\,f\)</span> es convexo y <span class="math display">\[
+f(\xx_2)\geq f(\xx_1)+\langle\nabla f(\xx_1),\xx_2-\xx_1\rangle,\qquad\forall\xx_1,\xx_2\in\text{dom}\,f.
+\]</span></p>
+</div>
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<hr>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Interpretación geométrica</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Observaciones</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Demostración</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p>La función afín de <span class="math inline">\(\xx_2\)</span>, definida por <span class="math inline">\(f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle\)</span>, es la aproximación lineal de <span class="math inline">\(f\)</span> cerca de <span class="math inline">\(\xx_1\)</span>. En consecuencia, la desigualdad del teorema implica que la aproximación lineal de <span class="math inline">\(f\)</span> en <span class="math inline">\(\xx_1\)</span> es un <em>subestimador global</em> de <span class="math inline">\(f\)</span>.</p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/condicion_convexidad_01.png" alt="Condición de primer orden para convexidad" width="500px" class="figure-img">
+<figcaption>
+Grafo de una función convexa <span class="math inline">\(f\)</span> y su aproximación lineal.
+</figcaption>
+</figure>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<ul>
+<li><p>Observar que, si <span class="math inline">\(\nabla f(\xx_1) = 0\)</span>, entonces la desigualdad del teorema implica <span class="math inline">\(f(\xx_2) \geq f(\xx_1)\)</span> para todo <span class="math inline">\(\xx_2 \in \text{dom} f\)</span>. Es decir, en tal caso <span class="math inline">\(\xx_1\)</span> es un minimizador global de la función <span class="math inline">\(f\)</span>.</p></li>
+<li><p>La convexidad estricta también puede caracterizarse por una condición de primer orden: <span class="math inline">\(f\)</span> es estrictamente convexa si y solo si <span class="math inline">\(\text{dom} f\)</span> es convexo y <span class="math display">\[
+f(\xx_2) &gt; f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle
+\]</span> para todo <span class="math inline">\(\xx_1, \xx_2 \in \text{dom} f\)</span>, con <span class="math inline">\(\xx_1 \neq \xx_2\)</span>.</p></li>
+<li><p>Para funciones cóncavas, tenemos la caracterización correspondiente: <span class="math inline">\(f\)</span> es cóncava si y solo si <span class="math inline">\(\text{dom} f\)</span> es convexo y <span class="math display">\[
+f(\xx_2) \leq f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle
+\]</span> para todo <span class="math inline">\(\xx_1, \xx_2 \in \text{dom} f\)</span>.</p></li>
+</ul>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<p>Supongamos que <span class="math inline">\(f\)</span> es convexa y sean <span class="math inline">\(\xx_1,\xx_2\in\text{dom}\,f\)</span>. Entonces, por definición, <span class="math inline">\(\text{dom}\,f\)</span> es convexo; en consecuencia <span class="math inline">\(\xx_1+t(\xx_2-\xx_1)\in\text{dom}\,f\)</span> para todo <span class="math inline">\(0&lt;t\leq 1\)</span>. La convexidad de <span class="math inline">\(f\)</span> nos permite escribir</p>
+<p><span class="math display">\[
+f(\xx_1+t(\xx_2-\xx_1))=f((1-t)\xx_1+t\xx_2)\leq (1-t)f(\xx_1)+tf(\xx_2).
+\]</span></p>
+<p>Diviendo ambos lados de la desigualdad por <span class="math inline">\(t\)</span>, resulta</p>
+<p><span class="math display">\[
+f(\xx_2)\geq f(\xx_1)+\frac{f(\xx_1+t(\xx_2-\xx_1))-f(\xx_1)}{t}.
+\]</span></p>
+<p>Al tomar límite cuando <span class="math inline">\(t\to 0\)</span>, el cociente incremental del lado derecho es la derivada direccional de <span class="math inline">\(f\)</span> en <span class="math inline">\(\xx_1\)</span> en la dirección del vector <span class="math inline">\(\xx_2-\xx_1\)</span>, lo cual es equivalente a <span class="math inline">\(\langle \nabla f(\xx_1),\xx_2-\xx_1\rangle\)</span> en virtud de la diferenciabilidad de <span class="math inline">\(f\)</span>. Luego,</p>
+<p><span class="math display">\[
+f(\xx_2)\geq f(\xx_1)+\langle\nabla f(\xx_1),\xx_2-\xx_1\rangle.
+\]</span></p>
+<p>Para probar la suficiencia, vamos a asumir que sí se cumple para funciones de una variable (se deja como ejercicio). Sean <span class="math inline">\(\xx_1,\xx_2\in\text{dom}\,f\)</span> y <span class="math inline">\(t,\tilde{t}\in(0,1]\)</span>. Partimos de la desigualdad</p>
+<p><span class="math display">\[
+f(t\xx_2+(1-t)\xx_1)\geq f(\tilde{t}\xx_2+(1-\tilde{t})\xx_1)+\langle \nabla f(\tilde{t}\xx_2+(1-\tilde{t})\xx_1),(\xx_2-\xx_1)\rangle (t-\tilde{t}).
+\]</span></p>
+<p>Si restringimos <span class="math inline">\(f\)</span> a la recta entre <span class="math inline">\(\xx_1\)</span> y <span class="math inline">\(\xx_2\)</span>, tenemos la función de una variable <span class="math inline">\(g(t)=f(t\xx_2+(1-t)\xx_1)\)</span>. Por regla de la cadena, tenemos <span class="math inline">\(g'(t)\langle \nabla f(t\xx_2+(1-t)\xx_1),\xx_2-\xx_1\rangle\)</span>. En consecuencia, la desigualdad anterior puede reescribirse como</p>
+<p><span class="math display">\[
+g(t)\geq g(\tilde{t})+g'(\tilde{t})(t-\tilde{t}).
+\]</span></p>
+<p>Luego, <span class="math inline">\(g\)</span> es convexa y, dado que la restricción sobre una recta es arbitraria (ver observaciones de la definición de funciones convexas), <span class="math inline">\(f\)</span> es convexa. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+</div>
+<hr>
+</details>
+<div class="teorema">
+<p><strong>Teorema 2.</strong> (Condición de segundo orden para convexidad) Sea <span class="math inline">\(f:\RR^n\to\RR\)</span> una función dos veces diferenciable. <span class="math inline">\(f\)</span> es convexa si y solo si <span class="math inline">\(\text{dom}\,f\)</span> es convexo y <span class="math display">\[
+\nabla^2 f(\xx)\succeq 0,\qquad\forall\xx\in\text{dom}\,f.
+\]</span></p>
+</div>
+<aside>
+<span class="math inline">\(A\succeq 0\)</span> significa que <span class="math inline">\(A\)</span> es <em>semidefinida positiva</em>. Esto es, <span class="math inline">\(\xx^T A\xx\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^n\)</span>.
+</aside>
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<hr>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Observaciones</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<ul>
+<li><p>Para funciones de una variable, la condición se reduce a <span class="math inline">\(f''(x)\geq 0\)</span>, lo cual implica que la derivada <span class="math inline">\(f'(x)\)</span> es no decreciente.</p></li>
+<li><p>La convexidad estricta también puede caracterizarse por una condición de primer orden, pero de manera parcial: si <span class="math inline">\(\text{dom}\,f\)</span> es convexo y <span class="math inline">\(\nabla^2 f\succ 0\)</span> para todo <span class="math inline">\(\xx\in\text{dom}\,f\)</span>, entonces <span class="math inline">\(f\)</span> es estrictamente convexa. El recíproco no es cierto: por ejemplo, <span class="math inline">\(f(x)=x^4\)</span> es estrictamente convexa pero <span class="math inline">\(f''(0)=0\)</span>.</p></li>
+<li><p>Para funciones cóncavas, tenemos la caracterización correspondiente: <span class="math inline">\(f\)</span> es cóncava si y solo si <span class="math inline">\(\text{dom} f\)</span> es convexo y <span class="math inline">\(\nabla^2 f(\xx)\preceq 0\)</span> para todo <span class="math inline">\(\xx\in\text{dom}\,f\)</span>.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+</details>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 1</span> Consideremos la función cuadrática <span class="math inline">\(f:\RR^n\to\RR\)</span> definida por</p>
+<p><span class="math display">\[
+f(\xx)=\frac{1}{2}\xx^TA\xx+\bb^T\xx+c,
+\]</span></p>
+<p>donde <span class="math inline">\(A\in\SS^n:=\{X\in\RR^{n\times n} \mid X=X^T\}\)</span>, <span class="math inline">\(\bb\in\RR^n\)</span> y <span class="math inline">\(c\in\RR\)</span>. Dado que <span class="math inline">\(\nabla^2 f(\xx)=A\)</span> para todo <span class="math inline">\(\xx\)</span>, podemos afirmar que <span class="math inline">\(f\)</span> es convexa si y sólo si <span class="math inline">\(A\succeq 0\)</span>.</p>
+<p>Así, por ejemplo, la función <span class="math inline">\(f:\RR^2\to\RR\)</span> definida por</p>
+<p><span class="math display">\[
+f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
+\]</span></p>
+<p>es convexa, ya que <span class="math inline">\(\xx^TA\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^n\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
+<div id="4df8f08b" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D  <span class="co"># para 3D</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir la matriz A (simétrica)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">1</span>],</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">1</span>, <span class="dv">3</span>]])</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear una malla de puntos en R^2</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">100</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">100</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar la función f(x) = 1/2 x^T A x</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> (A[<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>X<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (A[<span class="dv">0</span>,<span class="dv">1</span>] <span class="op">+</span> A[<span class="dv">1</span>,<span class="dv">0</span>])<span class="op">*</span>X<span class="op">*</span>Y <span class="op">+</span> A[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">*</span>Y<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">6</span>))</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>, projection<span class="op">=</span><span class="st">'3d'</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>ax.plot_surface(X, Y, Z, cmap<span class="op">=</span><span class="st">'viridis'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'y'</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="A1_intro_optimizacion_files/figure-html/cell-2-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="476" height="464"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="operaciones-que-preservan-convexidad-1" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="operaciones-que-preservan-convexidad-1"><span class="header-section-number">2.2</span> Operaciones que preservan convexidad</h2>
+<p>En esta sección describimos algunas operaciones que preservan la convexidad o concavidad de funciones, o que permiten construir nuevas funciones convexas y cóncavas. Las verificaciones se dejan como ejercicio.</p>
+<ul>
+<li><p><strong>Sumas ponderadas no negativas</strong>. Si <span class="math inline">\(f\)</span> es una función convexa y <span class="math inline">\(\alpha \geq 0\)</span>, entonces la función <span class="math inline">\(\alpha f\)</span> es convexa. Si <span class="math inline">\(f_1\)</span> y <span class="math inline">\(f_2\)</span> son ambas funciones convexas, entonces su suma <span class="math inline">\(f_1 + f_2\)</span> también lo es. Combinando estas dos propiedades, se obtiene que el conjunto de funciones convexas es en sí mismo un cono convexo: una suma ponderada no negativa de funciones convexas, <span class="math display">\[
+f = w_1 f_1 + \cdots + w_m f_m,
+\]</span> es convexa. De manera similar, una suma ponderada no negativa de funciones cóncavas es cóncava.</p></li>
+<li><p><strong>Composición con una aplicación afín</strong>. Sean <span class="math inline">\(f:\RR^n\to\RR\)</span>, <span class="math inline">\(A\in\RR^{n\times m}\)</span> y <span class="math inline">\(\bb\in\RR^n\)</span>. Definimos <span class="math inline">\(g:\RR^m\to\RR\)</span> como <span class="math display">\[
+g(\xx):=f(A\xx+\bb)
+\]</span> con <span class="math inline">\(\text{dom}\,g = \{\xx \mid A\xx + \bb \in \text{dom}\, f\}\)</span>. Entonces, <span class="math inline">\(g\)</span> conserva la convexidad o concavidad de <span class="math inline">\(f\)</span>.</p></li>
+<li><p><strong>Máximo puntual</strong>. Si <span class="math inline">\(f_1\)</span> y <span class="math inline">\(f_2\)</span> son funciones convexas, entonces su <em>máximo puntual</em> <span class="math inline">\(f\)</span>, definido por <span class="math display">\[
+f(\xx) = \max\{f_1(\xx), f_2(\xx)\},
+\]</span> con <span class="math inline">\(\text{dom}\,f = \text{dom}\,f_1 \cap \text{dom}\,f_2\)</span>, también es convexa. Además, este resultado se puede extender a: si <span class="math inline">\(f_1,\dots,f_m\)</span> son funciones convexas, entonces su máximo puntual, definido por <span class="math inline">\(f(\xx)=\max\{f_1(\xx), \ldots, f_m(\xx)\}\)</span>, también lo es.</p></li>
+<li><p><strong>Supremo puntual</strong>. La propiedad del máximo puntual se extiende al supremo puntual sobre un conjunto infinito de funciones convexas. Si para $i, donde <span class="math inline">\(\mathcal{A}\)</span> es un conjunto de índices, se tiene que <span class="math inline">\(f_i(\xx)\)</span> es convexa, entonces la función <span class="math inline">\(f\)</span> definida por <span class="math display">\[
+f(\xx) = \sup_{i \in \mathcal{A}} f_i(\xx)
+\]</span> también es convexa en <span class="math inline">\(\xx\)</span>. Aquí, el dominio de <span class="math inline">\(f\)</span> es <span class="math display">\[
+\text{dom}\, f = \{\xx \mid \xx \in \text{dom}\, f_i \text{ para todo } i \in \mathcal{A}, \sup_{i \in \mathcal{A}} f_i(\xx) &lt; \infty\}.
+\]</span> De manera similar, el ínfimo puntual de un conjunto de funciones cóncavas es una función cóncava.</p></li>
+</ul>
+</section>
+</section>
+<section id="problemas-de-optimización-convexa" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Problemas de optimización convexa</h1>
+<div style="height:10cm;">
+
+</div>
+<br>
+<hr style="border: 2.5px solid black;">
+<h2 class="anchored" data-anchor-id="problemas-de-optimización-convexa">
+Ejercicios
+</h2>
+<ol type="1">
+<li><p>Mostrar que un conjunto afin contiene cualquier combinación afin de sus puntos.</p></li>
+<li><p>Probar que, si <span class="math inline">\(C\)</span> es un conjunto afín y <span class="math inline">\(\xx_0\in C\)</span>, entonces <span class="math inline">\(V:= C-\xx_0\)</span> es un subespacio vectorial que no depende de la elección de <span class="math inline">\(\xx_0\in C\)</span>.</p></li>
+<li><p>Mostrar que un conjunto es convexo contiene cualquier combinación convexa de sus puntos.</p></li>
+<li><p>Probar que el conjunto solución de un sistema de ecuaciones lineales, <span class="math display">\[
+C=\{x \mid A\xx=\bb\},\qquad A\in\RR^{m\times n}, \bb\in\RR^m,
+\]</span> es un conjunto afin.</p></li>
+<li><p>Probar que decir que un conjunto <span class="math inline">\(C\)</span> es un cono convexo es equivalente a la condición <span class="math display">\[
+\theta_1\xx_1+\theta_2\xx_2\in C,\qquad\forall \xx_1,\xx_2\in C, \forall \theta_1, \theta_2\geq 0.
+\]</span></p></li>
+<li><p>Mostrar que un cono convexo contiene cualquier combinación cónica de sus puntos.</p></li>
+<li><p>Probar la suficiencia de la condición de primer orden del Teorema 1 para funciones de una variable. [<em>Ayuda: para <span class="math inline">\(x_1\neq x_2\)</span> arbitrarios y <span class="math inline">\(0\leq \theta\leq 1\)</span>, defina <span class="math inline">\(x_3=\theta x_1+(1-\theta) x_2\)</span> y aplique la condición tanto a <span class="math inline">\((x_3,x_1)\)</span> como a <span class="math inline">\((x_3,x_2)\)</span></em>].</p></li>
+<li><p>El requisito separado de que <span class="math inline">\(\text{dom}\, f\)</span> sea convexo no puede eliminarse de las caracterizaciones de primer o segundo orden de convexidad y concavidad de <span class="math inline">\(f\)</span>. Analice el caso <span class="math inline">\(f(x)=1/x^2\)</span>.</p></li>
+<li><p>Dada la función cuadrática <span class="math inline">\(f:\RR^2\to\RR\)</span> definida por <span class="math display">\[
+f(x)=\frac{1}{2}\xx^T A\xx,
+\]</span> proponga distintas matrices <span class="math inline">\(A\)</span>, grafique la función y decida si <span class="math inline">\(A\)</span> es semidefinida positiva, negativa o indefinida. Además, calcule los autovalores de <span class="math inline">\(A\)</span> y explique qué relación observa.</p></li>
+<li><p>La desigualdad de Jensen establece que si <span class="math inline">\(\xx\in\text{dom}\,f\)</span> y <span class="math inline">\(f\)</span> es una función convexa, entonces <span class="math display">\[
+f(\media \xx)\leq \media f(\xx),
+\]</span> siempre que la esperanza exista. Hallar una variable aleatoria <span class="math inline">\(\XX\)</span> que permita recuperar la desigualdad básica de la definición de función convexa a partir de la desigualdad de Jensen.</p></li>
+<li><p>Verifique que las operaciones presentadas efectivamente preservan la convexidad de las funciones. [<em>Ayuda: para el caso de supremo puntual, muestre que <span class="math inline">\(\text{epi}\,f=\bigcap_{i\in\mathcal{A}}\text{epi}\,f_i\)</span></em>.]</p></li>
+<li><p>Determine cuáles de las operaciones que preservan la convexidad siguen preservándola en el caso de funciones estrictamente convexas, ajustando las hipótesis cuando sea necesario.</p></li>
+<li><p>Sean <span class="math inline">\(C\subset\RR^n\)</span> y <span class="math inline">\(\|\cdot\|\)</span> una norma en <span class="math inline">\(\RR^n\)</span>. La <em>distancia al punto más lejano</em> de <span class="math inline">\(C\)</span> está dada por <span class="math display">\[
+f(\xx)=\sup_{\yy\in C}\|\xx-\yy\|.
+\]</span> Probar que <span class="math inline">\(f\)</span> es convexa.</p></li>
+<li><p>Mostrar que la función <span class="math inline">\(f:\mathbf{S}^n\to\RR\)</span>, definida por <span class="math display">\[
+f(X)=\lambda_{\text{max}}(X),
+\]</span> donde <span class="math inline">\(\lambda_{\text{max}}\)</span> es el <em>valor propio máximo</em> de <span class="math inline">\(X\)</span>, es convexa.</p></li>
+</ol>
+
+
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+W10=
+</script>
+</section>
+
+</main> <!-- /main -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../CAPITULO_1";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "..";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
