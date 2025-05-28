@@ -208,7 +208,6 @@ window.Quarto = {
   <li><a href="#condiciones-de-convexidad" id="toc-condiciones-de-convexidad" class="nav-link" data-scroll-target="#condiciones-de-convexidad"><span class="header-section-number">2.1</span> Condiciones de convexidad</a></li>
   <li><a href="#operaciones-que-preservan-convexidad-1" id="toc-operaciones-que-preservan-convexidad-1" class="nav-link" data-scroll-target="#operaciones-que-preservan-convexidad-1"><span class="header-section-number">2.2</span> Operaciones que preservan convexidad</a></li>
   </ul></li>
-  <li><a href="#problemas-de-optimización-convexa" id="toc-problemas-de-optimización-convexa" class="nav-link" data-scroll-target="#problemas-de-optimización-convexa"><span class="header-section-number">3</span> Problemas de optimización convexa</a></li>
   </ul>
 </nav>
 </nav>
@@ -499,7 +498,7 @@ f(\xx)=\frac{1}{2}\xx^TA\xx+\bb^T\xx+c,
 f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
 \]</span></p>
 <p>es convexa, ya que <span class="math inline">\(\xx^TA\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^n\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
-<div id="34f2ca3a" class="cell" data-execution_count="1">
+<div id="66b057f4" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D  <span class="co"># para 3D</span></span>
@@ -552,16 +551,12 @@ f(\xx) = \sup_{i \in \mathcal{A}} f_i(\xx)
 \text{dom}\, f = \{\xx \mid \xx \in \text{dom}\, f_i \text{ para todo } i \in \mathcal{A}, \sup_{i \in \mathcal{A}} f_i(\xx) &lt; \infty\}.
 \]</span> De manera similar, el ínfimo puntual de un conjunto de funciones cóncavas es una función cóncava.</p></li>
 </ul>
-</section>
-</section>
-<section id="problemas-de-optimización-convexa" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Problemas de optimización convexa</h1>
-<div style="height:10cm;">
-
-</div>
 <br>
 <hr style="border: 2.5px solid black;">
-<h2 class="anchored" data-anchor-id="problemas-de-optimización-convexa">
+<div style="height:2cm;">
+
+</div>
+<h2 class="anchored">
 Ejercicios
 </h2>
 <ol type="1">
@@ -608,6 +603,7 @@ eyJjb250ZW50cyI6W119
 <script type="vfs-file">
 W10=
 </script>
+</section>
 </section>
 
 </main> <!-- /main -->
