@@ -7,7 +7,6 @@ title: "Introducción a la Optimización"
 {{< include ../macros.qmd >}}
 
 
-
 # Conjuntos convexos
 
 Una gran parte del éxito de los métodos de optimización convexa radica en una idea geométrica simple pero poderosa: la convexidad del conjunto de soluciones factibles.
@@ -130,17 +129,7 @@ De manera análoga a la envolvente convexa, la envolvente cónica de un conjunto
 
 
 
-
-
-
-
-
 <div style="height:10cm;"></div>
-
-
-
-
-
 
 
 
@@ -408,6 +397,266 @@ $$
 
 # Funciones convexas
 
+::: {.definicion}
+**Definición 1.** (Función convexa) Una función $f:\RR^n\rightarrow\RR$ es *convexa* si $\text{dom}\,f$ es un conjunto convexo y si verifica
+$$
+f(\theta \xx_1 + (1 - \theta)\xx_2) \leq \theta f(\xx_1) + (1 - \theta)f(\xx_2),\qquad\forall\xx_1,\xx_2\in\text{dom}\,f,\; \forall\theta\in[0,1].
+$$
+
+Si la desigualdad es estricta para $\xx_1\neq \xx_2$ y $0<\theta<1$, se dice que $f$ es *estrictamente convexa*. Además, se dice que $f$ es *cóncava* (o *estrictamente cóncava*) si $-f$ es convexa (o estrictamente convexa).
+:::
+
+
+<details>
+<summary>Mostrar detalles</summary>
+<hr>
+
+::: {.panel-tabset}
+
+### Interpretación geométrica
+
+La desigualdad de la definición significa que el segmento de línea entre los puntos $(\xx_1, f(\xx_1))$ y $(\xx_2, f(\xx_2))$ se encuentra por encima de la gráfica de $f$. 
+
+<figure style="text-align: center;">
+  <img src="figuras/funcion_convexa_01.png" alt="Grafo de una función convexa" width="400px">
+  <figcaption>Grafo de una función convexa.</figcaption>
+</figure>
+
+### Observaciones
+
+- Una función afín verifica la igualdad en la definición, por lo que todas las funciones afínes (y, por lo tanto, también las lineales) son tanto convexas como cóncavas. Recíprocamente, una función que es tanto convexa como cóncava es siempre una función afín.
+
+- Una función es convexa si y solo si, para todo $\xx\in\text{dom}\,f$ y $\vv\in\RR^n$, la restricción $g(t)=f(\xx+t\vv)$ es convexa en su dominio $\{t \mid \xx+t\vv\in\text{dom}\,f\}$.
+
+- El *epígrafo* de una función $f:\RR^n\to\RR$ se define como
+$$
+\text{epi } f = \{(\xx, t) \mid \xx \in \text{dom } f, f(\xx) \leq t\},
+$$
+
+<figure style="text-align: center;">
+  <img src="figuras/epigrafo_01.png" alt="Epígrafo de una función" width="350px">
+  <figcaption>Epígrafo de una función $f$.</figcaption>
+</figure>
+
+La relación entre conjuntos convexos y funciones convexas es a través del epígrafo: Una función es convexa si y solo si su epígrafo es un conjunto convexo. Por su parte, una función es cóncava si y solo si su *hipógrafo*, definido como
+$$
+\text{hypo } f = \{(\xx, t) \mid t \leq f(\xx)\},
+$$
+es un conjunto convexo.
+:::
+<hr>
+</details>
+
+
+
+## Condiciones de convexidad
+
+Para verificar si una función es convexa, además de recurrir a la definición, existen criterios basados en sus derivadas. Estos permiten caracterizar la convexidad en términos del comportamiento local de la función, ya sea a través del gradiente (primera derivada) o de la matriz hessiana (segunda derivada). Para ello, debemos imponer condiciones a $f$ en relación con su diferenciabilidad.
+
+<span class="badge bg-warning text-dark">Importante</span> Diremos que $f$ es *diferenciable* si su gradiente $\nabla f$ existe en todo su dominio, y que es *dos veces diferenciable* si además su hessiana $\nabla^2 f$ existe en todo el dominio. En ambos casos, asumimos que dicho dominio es un conjunto abierto.
+
+
+::: {.teorema}
+**Teorema 1.** (Condición de primer orden para convexidad) 
+Sea $f:\RR^n\to\RR$ una función diferenciable. $f$ es convexa si y solo si $\text{dom}\,f$ es convexo y 
+$$
+f(\xx_2)\geq f(\xx_1)+\langle\nabla f(\xx_1),\xx_2-\xx_1\rangle,\qquad\forall\xx_1,\xx_2\in\text{dom}\,f.
+$$
+:::
+
+
+<details>
+<summary>Mostrar detalles</summary>
+<hr>
+
+::: {.panel-tabset}
+
+### Interpretación geométrica
+
+La función afín de $\xx_2$, definida por $f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle$, es la aproximación lineal de $f$ cerca de $\xx_1$. En consecuencia, la desigualdad del teorema implica que la aproximación lineal de $f$ en $\xx_1$ es un *subestimador global* de $f$.
+
+<figure style="text-align: center;">
+  <img src="figuras/condicion_convexidad_01.png" alt="Condición de primer orden para convexidad" width="500px">
+  <figcaption>Grafo de una función convexa $f$ y su aproximación lineal.</figcaption>
+</figure>
+
+### Observaciones
+
+- Observar que, si $\nabla f(\xx_1) = 0$, entonces la desigualdad del teorema implica $f(\xx_2) \geq f(\xx_1)$ para todo $\xx_2 \in \text{dom} f$. Es decir, en tal caso $\xx_1$ es un minimizador global de la función $f$.
+
+- La convexidad estricta también puede caracterizarse por una condición de primer orden: $f$ es estrictamente convexa si y solo si $\text{dom} f$ es convexo y
+$$
+f(\xx_2) > f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle
+$$
+para todo $\xx_1, \xx_2 \in \text{dom} f$, con $\xx_1 \neq \xx_2$.
+
+- Para funciones cóncavas, tenemos la caracterización correspondiente: $f$ es cóncava si y solo si $\text{dom} f$ es convexo y
+$$
+f(\xx_2) \leq f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle
+$$
+para todo $\xx_1, \xx_2 \in \text{dom} f$.
+
+### Demostración
+
+Supongamos que $f$ es convexa y sean $\xx_1,\xx_2\in\text{dom}\,f$. Entonces, por definición, $\text{dom}\,f$ es convexo; en consecuencia $\xx_1+t(\xx_2-\xx_1)\in\text{dom}\,f$ para todo $0<t\leq 1$. La convexidad de $f$ nos permite escribir
+
+$$
+f(\xx_1+t(\xx_2-\xx_1))=f((1-t)\xx_1+t\xx_2)\leq (1-t)f(\xx_1)+tf(\xx_2).
+$$
+
+Diviendo ambos lados de la desigualdad por $t$, resulta
+
+$$
+f(\xx_2)\geq f(\xx_1)+\frac{f(\xx_1+t(\xx_2-\xx_1))-f(\xx_1)}{t}.
+$$
+
+Al tomar límite cuando $t\to 0$, el cociente incremental del lado derecho es la derivada direccional de $f$ en $\xx_1$ en la dirección del vector $\xx_2-\xx_1$, lo cual es equivalente a $\langle \nabla f(\xx_1),\xx_2-\xx_1\rangle$ en virtud de la diferenciabilidad de $f$. Luego,
+
+$$
+f(\xx_2)\geq f(\xx_1)+\langle\nabla f(\xx_1),\xx_2-\xx_1\rangle.
+$$
+
+
+Para probar la suficiencia, vamos a asumir que sí se cumple para funciones de una variable (se deja como ejercicio). Sean $\xx_1,\xx_2\in\text{dom}\,f$ y $t,\tilde{t}\in(0,1]$. Partimos de la desigualdad
+
+$$
+f(t\xx_2+(1-t)\xx_1)\geq f(\tilde{t}\xx_2+(1-\tilde{t})\xx_1)+\langle \nabla f(\tilde{t}\xx_2+(1-\tilde{t})\xx_1),(\xx_2-\xx_1)\rangle (t-\tilde{t}).
+$$
+
+Si restringimos $f$ a la recta entre $\xx_1$ y $\xx_2$, tenemos la función de una variable $g(t)=f(t\xx_2+(1-t)\xx_1)$. Por regla de la cadena, tenemos $g'(t)\langle \nabla f(t\xx_2+(1-t)\xx_1),\xx_2-\xx_1\rangle$. En consecuencia, la desigualdad anterior puede reescribirse como
+
+$$
+g(t)\geq g(\tilde{t})+g'(\tilde{t})(t-\tilde{t}).
+$$
+
+Luego, $g$ es convexa y, dado que la restricción sobre una recta es arbitraria (ver observaciones de la definición de funciones convexas), $f$ es convexa. $\blacksquare$
+
+:::
+
+<hr>
+</details>
+
+
+
+::: {.teorema}
+**Teorema 2.** (Condición de segundo orden para convexidad) 
+Sea $f:\RR^n\to\RR$ una función dos veces diferenciable. $f$ es convexa si y solo si $\text{dom}\,f$ es convexo y 
+$$
+\nabla^2 f(\xx)\succeq 0,\qquad\forall\xx\in\text{dom}\,f.
+$$
+
+:::
+
+
+<aside>
+$A\succeq 0$ significa que $A$ es *semidefinida positiva*. Esto es, $\xx^T A\xx\geq 0$ para todo $\xx\in\RR^n$.
+</aside>
+
+
+<details>
+<summary>Mostrar detalles</summary>
+<hr>
+
+::: {.panel-tabset}
+
+### Observaciones
+
+- Para funciones de una variable, la condición se reduce a $f''(x)\geq 0$, lo cual implica que la derivada $f'(x)$ es no decreciente.
+
+- La convexidad estricta también puede caracterizarse por una condición de primer orden, pero de manera parcial: si $\text{dom}\,f$ es convexo y $\nabla^2 f\succ 0$ para todo $\xx\in\text{dom}\,f$, entonces $f$ es estrictamente convexa. El recíproco no es cierto: por ejemplo, $f(x)=x^4$ es estrictamente convexa pero $f''(0)=0$.
+
+- Para funciones cóncavas, tenemos la caracterización correspondiente: $f$ es cóncava si y solo si $\text{dom} f$ es convexo y $\nabla^2 f(\xx)\preceq 0$ para todo $\xx\in\text{dom}\,f$.
+
+:::
+<hr>
+</details>
+
+
+::: {.callout-example}
+
+<span class="badge bg-primary">Ejemplo 1</span> Consideremos la función cuadrática $f:\RR^n\to\RR$ definida por
+
+$$
+f(\xx)=\frac{1}{2}\xx^TA\xx+\bb^T\xx+c,
+$$
+
+donde $A\in\SS^n:=\{X\in\RR^{n\times n} \mid X=X^T\}$, $\bb\in\RR^n$ y $c\in\RR$. Dado que $\nabla^2 f(\xx)=A$ para todo $\xx$, podemos afirmar que $f$ es convexa si y sólo si $A\succeq 0$. 
+
+Así, por ejemplo, la función $f:\RR^2\to\RR$ definida por
+
+$$
+f(x,y)=\frac{1}{2}\begin{pmatrix}x&y\end{pmatrix}\begin{pmatrix}2&1\\1&3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
+$$
+
+es convexa, ya que $\xx^TA\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0$ para todo $\xx\in\RR^n$, lo cual significa que $A\succeq 0$.
+
+
+```{python}
+#| code-summary: "Mostrar código"
+#| fig-align: "center"
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D  # para 3D
+
+# Definir la matriz A (simétrica)
+A = np.array([[2, 1],
+              [1, 3]])
+
+# Crear una malla de puntos en R^2
+x = np.linspace(-3, 3, 100)
+y = np.linspace(-3, 3, 100)
+X, Y = np.meshgrid(x, y)
+
+# Evaluar la función f(x) = 1/2 x^T A x
+Z = 0.5 * (A[0,0]*X**2 + (A[0,1] + A[1,0])*X*Y + A[1,1]*Y**2)
+
+# Graficar
+fig = plt.figure(figsize=(8,6))
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_surface(X, Y, Z, cmap='viridis', alpha=0.8)
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+plt.show()
+```
+:::
+
+
+
+## Operaciones que preservan convexidad
+
+En esta sección describimos algunas operaciones que preservan la convexidad o concavidad de funciones, o que permiten construir nuevas funciones convexas y cóncavas. Las verificaciones se dejan como ejercicio.
+
+- **Sumas ponderadas no negativas**. Si $f$ es una función convexa y $\alpha \geq 0$, entonces la función $\alpha f$ es convexa. Si $f_1$ y $f_2$ son ambas funciones convexas, entonces su suma $f_1 + f_2$ también lo es. Combinando estas dos propiedades, se obtiene que el conjunto de funciones convexas es en sí mismo un cono convexo: una suma ponderada no negativa de funciones convexas,
+$$
+f = w_1 f_1 + \cdots + w_m f_m,
+$$
+es convexa. De manera similar, una suma ponderada no negativa de funciones cóncavas es cóncava. 
+
+- **Composición con una aplicación afín**. Sean $f:\RR^n\to\RR$, $A\in\RR^{n\times m}$ y $\bb\in\RR^n$. Definimos $g:\RR^m\to\RR$ como
+$$
+g(\xx):=f(A\xx+\bb)
+$$
+con $\text{dom}\,g = \{\xx \mid A\xx + \bb \in \text{dom}\, f\}$. Entonces, $g$ conserva la convexidad o concavidad de $f$.
+
+- **Máximo puntual**. Si $f_1$ y $f_2$ son funciones convexas, entonces su *máximo puntual* $f$, definido por
+$$
+f(\xx) = \max\{f_1(\xx), f_2(\xx)\},
+$$
+con $\text{dom}\,f = \text{dom}\,f_1 \cap \text{dom}\,f_2$, también es convexa. Además, este resultado se puede extender a: si $f_1,\dots,f_m$ son funciones convexas, entonces su máximo puntual, definido por $f(\xx)=\max\{f_1(\xx), \ldots, f_m(\xx)\}$, también lo es.
+
+- **Supremo puntual**. La propiedad del máximo puntual se extiende al supremo puntual sobre un conjunto infinito de funciones convexas. Si para $i\in\mathcal{A}, donde $\mathcal{A}$ es un conjunto de índices, se tiene que $f_i(\xx)$ es convexa, entonces la función $f$ definida por
+$$
+f(\xx) = \sup_{i \in \mathcal{A}} f_i(\xx)
+$$
+también es convexa en $\xx$. Aquí, el dominio de $f$ es
+$$
+\text{dom}\, f = \{\xx \mid \xx \in \text{dom}\, f_i \text{ para todo } i \in \mathcal{A}, \sup_{i \in \mathcal{A}} f_i(\xx) < \infty\}.
+$$
+De manera similar, el ínfimo puntual de un conjunto de funciones cóncavas es una función cóncava. 
+
+
 
 # Problemas de optimización convexa
 
@@ -449,5 +698,49 @@ $$
 $$
 
 1. Mostrar que un cono convexo contiene cualquier combinación cónica de sus puntos.
+
+1. Probar la suficiencia de la condición de primer orden del Teorema 1 para funciones de una variable. [*Ayuda: para $x_1\neq x_2$ arbitrarios y $0\leq \theta\leq 1$, defina $x_3=\theta x_1+(1-\theta) x_2$ y aplique la condición tanto a $(x_3,x_1)$ como a $(x_3,x_2)$*].
+
+
+1. El requisito separado de que $\text{dom}\, f$ sea convexo no puede eliminarse de las caracterizaciones de primer o segundo orden de convexidad y concavidad de $f$. Analice el caso $f(x)=1/x^2$.
+
+
+1. Dada la función cuadrática $f:\RR^2\to\RR$ definida por
+$$
+f(x)=\frac{1}{2}\xx^T A\xx,
+$$
+proponga distintas matrices $A$, grafique la función y decida si $A$ es semidefinida positiva, negativa o indefinida. Además, calcule los autovalores de $A$ y explique qué relación observa.
+
+
+1. La desigualdad de Jensen establece que si $\xx\in\text{dom}\,f$ y $f$ es una función convexa, entonces
+$$
+f(\media \xx)\leq \media f(\xx),
+$$
+siempre que la esperanza exista. Hallar una variable aleatoria $\XX$ que permita recuperar la desigualdad básica de la definición de función convexa a partir de la desigualdad de Jensen.
+
+
+1. Verifique que las operaciones presentadas efectivamente preservan la convexidad de las funciones. [*Ayuda: para el caso de supremo puntual, muestre que $\text{epi}\,f=\bigcap_{i\in\mathcal{A}}\text{epi}\,f_i$*.]
+
+
+1. Determine cuáles de las operaciones que preservan la convexidad siguen preservándola en el caso de funciones estrictamente convexas, ajustando las hipótesis cuando sea necesario.
+
+
+1. Sean $C\subset\RR^n$ y $\|\cdot\|$ una norma en $\RR^n$. La *distancia al punto más lejano* de $C$ está dada por
+$$
+f(\xx)=\sup_{\yy\in C}\|\xx-\yy\|.
+$$
+Probar que $f$ es convexa.
+
+
+1. Mostrar que la función $f:\mathbf{S}^n\to\RR$, definida por
+$$
+f(X)=\lambda_{\text{max}}(X),
+$$ 
+donde $\lambda_{\text{max}}$ es el *valor propio máximo* de $X$, es convexa.
+
+
+
+
+
 
 

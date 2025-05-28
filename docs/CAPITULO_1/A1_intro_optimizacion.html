@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -174,7 +208,11 @@ window.Quarto = {
   <li><a href="#funciones-lineales-fraccionales-y-perspectivas" id="toc-funciones-lineales-fraccionales-y-perspectivas" class="nav-link" data-scroll-target="#funciones-lineales-fraccionales-y-perspectivas"><span class="header-section-number">1.2.3</span> 2.3.3 Funciones lineales-fraccionales y perspectivas</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#funciones-convexas" id="toc-funciones-convexas" class="nav-link" data-scroll-target="#funciones-convexas"><span class="header-section-number">2</span> Funciones convexas</a></li>
+  <li><a href="#funciones-convexas" id="toc-funciones-convexas" class="nav-link" data-scroll-target="#funciones-convexas"><span class="header-section-number">2</span> Funciones convexas</a>
+  <ul class="collapse">
+  <li><a href="#condiciones-de-convexidad" id="toc-condiciones-de-convexidad" class="nav-link" data-scroll-target="#condiciones-de-convexidad"><span class="header-section-number">2.1</span> Condiciones de convexidad</a></li>
+  <li><a href="#operaciones-que-preservan-convexidad-1" id="toc-operaciones-que-preservan-convexidad-1" class="nav-link" data-scroll-target="#operaciones-que-preservan-convexidad-1"><span class="header-section-number">2.2</span> Operaciones que preservan convexidad</a></li>
+  </ul></li>
   <li><a href="#problemas-de-optimización-convexa" id="toc-problemas-de-optimización-convexa" class="nav-link" data-scroll-target="#problemas-de-optimización-convexa"><span class="header-section-number">3</span> Problemas de optimización convexa</a></li>
   </ul>
 </nav>
@@ -184,7 +222,7 @@ window.Quarto = {
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -215,8 +253,10 @@ window.Quarto = {
 \def\bb{{\bf b}}
 \def\xx{{\bf x}}
 \def\yy{{\bf y}}
+\def\vv{{\bf v}}
 \def\XX{{\bf X}}
 \def\TT{{\bf T}}
+\def\SS{{\bf S}}
 \def\bfa{\boldsymbol{a}}
 \def\bfb{\boldsymbol{b}}
 \def\bftheta{\boldsymbol{\theta}}
@@ -488,8 +528,209 @@ f(x) = \frac{1}{x_1 + x_2 + 1} x,
 </section>
 </section>
 </section>
-<section id="funciones-convexas" class="level1" data-number="2">
+<section id="funciones-convexas" class="level1 page-columns page-full" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Funciones convexas</h1>
+<div class="definicion">
+<p><strong>Definición 1.</strong> (Función convexa) Una función <span class="math inline">\(f:\RR^n\rightarrow\RR\)</span> es <em>convexa</em> si <span class="math inline">\(\text{dom}\,f\)</span> es un conjunto convexo y si verifica <span class="math display">\[
+f(\theta \xx_1 + (1 - \theta)\xx_2) \leq \theta f(\xx_1) + (1 - \theta)f(\xx_2),\qquad\forall\xx_1,\xx_2\in\text{dom}\,f,\; \forall\theta\in[0,1].
+\]</span></p>
+<p>Si la desigualdad es estricta para <span class="math inline">\(\xx_1\neq \xx_2\)</span> y <span class="math inline">\(0&lt;\theta&lt;1\)</span>, se dice que <span class="math inline">\(f\)</span> es <em>estrictamente convexa</em>. Además, se dice que <span class="math inline">\(f\)</span> es <em>cóncava</em> (o <em>estrictamente cóncava</em>) si <span class="math inline">\(-f\)</span> es convexa (o estrictamente convexa).</p>
+</div>
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<hr>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Interpretación geométrica</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Observaciones</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>La desigualdad de la definición significa que el segmento de línea entre los puntos <span class="math inline">\((\xx_1, f(\xx_1))\)</span> y <span class="math inline">\((\xx_2, f(\xx_2))\)</span> se encuentra por encima de la gráfica de <span class="math inline">\(f\)</span>.</p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/funcion_convexa_01.png" alt="Grafo de una función convexa" width="400px" class="figure-img">
+<figcaption>
+Grafo de una función convexa.
+</figcaption>
+</figure>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<ul>
+<li><p>Una función afín verifica la igualdad en la definición, por lo que todas las funciones afínes (y, por lo tanto, también las lineales) son tanto convexas como cóncavas. Recíprocamente, una función que es tanto convexa como cóncava es siempre una función afín.</p></li>
+<li><p>Una función es convexa si y solo si, para todo <span class="math inline">\(\xx\in\text{dom}\,f\)</span> y <span class="math inline">\(\vv\in\RR^n\)</span>, la restricción <span class="math inline">\(g(t)=f(\xx+t\vv)\)</span> es convexa en su dominio <span class="math inline">\(\{t \mid \xx+t\vv\in\text{dom}\,f\}\)</span>.</p></li>
+<li><p>El <em>epígrafo</em> de una función <span class="math inline">\(f:\RR^n\to\RR\)</span> se define como <span class="math display">\[
+\text{epi } f = \{(\xx, t) \mid \xx \in \text{dom } f, f(\xx) \leq t\},
+\]</span></p></li>
+</ul>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/epigrafo_01.png" alt="Epígrafo de una función" width="350px" class="figure-img">
+<figcaption>
+Epígrafo de una función <span class="math inline">\(f\)</span>.
+</figcaption>
+</figure>
+<p>La relación entre conjuntos convexos y funciones convexas es a través del epígrafo: Una función es convexa si y solo si su epígrafo es un conjunto convexo. Por su parte, una función es cóncava si y solo si su <em>hipógrafo</em>, definido como <span class="math display">\[
+\text{hypo } f = \{(\xx, t) \mid t \leq f(\xx)\},
+\]</span> es un conjunto convexo.</p>
+</div>
+</div>
+</div>
+<hr>
+</details>
+<section id="condiciones-de-convexidad" class="level2 page-columns page-full" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="condiciones-de-convexidad"><span class="header-section-number">2.1</span> Condiciones de convexidad</h2>
+<p>Para verificar si una función es convexa, además de recurrir a la definición, existen criterios basados en sus derivadas. Estos permiten caracterizar la convexidad en términos del comportamiento local de la función, ya sea a través del gradiente (primera derivada) o de la matriz hessiana (segunda derivada). Para ello, debemos imponer condiciones a <span class="math inline">\(f\)</span> en relación con su diferenciabilidad.</p>
+<p><span class="badge bg-warning text-dark">Importante</span> Diremos que <span class="math inline">\(f\)</span> es <em>diferenciable</em> si su gradiente <span class="math inline">\(\nabla f\)</span> existe en todo su dominio, y que es <em>dos veces diferenciable</em> si además su hessiana <span class="math inline">\(\nabla^2 f\)</span> existe en todo el dominio. En ambos casos, asumimos que dicho dominio es un conjunto abierto.</p>
+<div class="teorema">
+<p><strong>Teorema 1.</strong> (Condición de primer orden para convexidad) Sea <span class="math inline">\(f:\RR^n\to\RR\)</span> una función diferenciable. <span class="math inline">\(f\)</span> es convexa si y solo si <span class="math inline">\(\text{dom}\,f\)</span> es convexo y <span class="math display">\[
+f(\xx_2)\geq f(\xx_1)+\langle\nabla f(\xx_1),\xx_2-\xx_1\rangle,\qquad\forall\xx_1,\xx_2\in\text{dom}\,f.
+\]</span></p>
+</div>
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<hr>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Interpretación geométrica</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Observaciones</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Demostración</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p>La función afín de <span class="math inline">\(\xx_2\)</span>, definida por <span class="math inline">\(f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle\)</span>, es la aproximación lineal de <span class="math inline">\(f\)</span> cerca de <span class="math inline">\(\xx_1\)</span>. En consecuencia, la desigualdad del teorema implica que la aproximación lineal de <span class="math inline">\(f\)</span> en <span class="math inline">\(\xx_1\)</span> es un <em>subestimador global</em> de <span class="math inline">\(f\)</span>.</p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/condicion_convexidad_01.png" alt="Condición de primer orden para convexidad" width="500px" class="figure-img">
+<figcaption>
+Grafo de una función convexa <span class="math inline">\(f\)</span> y su aproximación lineal.
+</figcaption>
+</figure>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<ul>
+<li><p>Observar que, si <span class="math inline">\(\nabla f(\xx_1) = 0\)</span>, entonces la desigualdad del teorema implica <span class="math inline">\(f(\xx_2) \geq f(\xx_1)\)</span> para todo <span class="math inline">\(\xx_2 \in \text{dom} f\)</span>. Es decir, en tal caso <span class="math inline">\(\xx_1\)</span> es un minimizador global de la función <span class="math inline">\(f\)</span>.</p></li>
+<li><p>La convexidad estricta también puede caracterizarse por una condición de primer orden: <span class="math inline">\(f\)</span> es estrictamente convexa si y solo si <span class="math inline">\(\text{dom} f\)</span> es convexo y <span class="math display">\[
+f(\xx_2) &gt; f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle
+\]</span> para todo <span class="math inline">\(\xx_1, \xx_2 \in \text{dom} f\)</span>, con <span class="math inline">\(\xx_1 \neq \xx_2\)</span>.</p></li>
+<li><p>Para funciones cóncavas, tenemos la caracterización correspondiente: <span class="math inline">\(f\)</span> es cóncava si y solo si <span class="math inline">\(\text{dom} f\)</span> es convexo y <span class="math display">\[
+f(\xx_2) \leq f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle
+\]</span> para todo <span class="math inline">\(\xx_1, \xx_2 \in \text{dom} f\)</span>.</p></li>
+</ul>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<p>Supongamos que <span class="math inline">\(f\)</span> es convexa y sean <span class="math inline">\(\xx_1,\xx_2\in\text{dom}\,f\)</span>. Entonces, por definición, <span class="math inline">\(\text{dom}\,f\)</span> es convexo; en consecuencia <span class="math inline">\(\xx_1+t(\xx_2-\xx_1)\in\text{dom}\,f\)</span> para todo <span class="math inline">\(0&lt;t\leq 1\)</span>. La convexidad de <span class="math inline">\(f\)</span> nos permite escribir</p>
+<p><span class="math display">\[
+f(\xx_1+t(\xx_2-\xx_1))=f((1-t)\xx_1+t\xx_2)\leq (1-t)f(\xx_1)+tf(\xx_2).
+\]</span></p>
+<p>Diviendo ambos lados de la desigualdad por <span class="math inline">\(t\)</span>, resulta</p>
+<p><span class="math display">\[
+f(\xx_2)\geq f(\xx_1)+\frac{f(\xx_1+t(\xx_2-\xx_1))-f(\xx_1)}{t}.
+\]</span></p>
+<p>Al tomar límite cuando <span class="math inline">\(t\to 0\)</span>, el cociente incremental del lado derecho es la derivada direccional de <span class="math inline">\(f\)</span> en <span class="math inline">\(\xx_1\)</span> en la dirección del vector <span class="math inline">\(\xx_2-\xx_1\)</span>, lo cual es equivalente a <span class="math inline">\(\langle \nabla f(\xx_1),\xx_2-\xx_1\rangle\)</span> en virtud de la diferenciabilidad de <span class="math inline">\(f\)</span>. Luego,</p>
+<p><span class="math display">\[
+f(\xx_2)\geq f(\xx_1)+\langle\nabla f(\xx_1),\xx_2-\xx_1\rangle.
+\]</span></p>
+<p>Para probar la suficiencia, vamos a asumir que sí se cumple para funciones de una variable (se deja como ejercicio). Sean <span class="math inline">\(\xx_1,\xx_2\in\text{dom}\,f\)</span> y <span class="math inline">\(t,\tilde{t}\in(0,1]\)</span>. Partimos de la desigualdad</p>
+<p><span class="math display">\[
+f(t\xx_2+(1-t)\xx_1)\geq f(\tilde{t}\xx_2+(1-\tilde{t})\xx_1)+\langle \nabla f(\tilde{t}\xx_2+(1-\tilde{t})\xx_1),(\xx_2-\xx_1)\rangle (t-\tilde{t}).
+\]</span></p>
+<p>Si restringimos <span class="math inline">\(f\)</span> a la recta entre <span class="math inline">\(\xx_1\)</span> y <span class="math inline">\(\xx_2\)</span>, tenemos la función de una variable <span class="math inline">\(g(t)=f(t\xx_2+(1-t)\xx_1)\)</span>. Por regla de la cadena, tenemos <span class="math inline">\(g'(t)\langle \nabla f(t\xx_2+(1-t)\xx_1),\xx_2-\xx_1\rangle\)</span>. En consecuencia, la desigualdad anterior puede reescribirse como</p>
+<p><span class="math display">\[
+g(t)\geq g(\tilde{t})+g'(\tilde{t})(t-\tilde{t}).
+\]</span></p>
+<p>Luego, <span class="math inline">\(g\)</span> es convexa y, dado que la restricción sobre una recta es arbitraria (ver observaciones de la definición de funciones convexas), <span class="math inline">\(f\)</span> es convexa. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+</div>
+<hr>
+</details>
+<div class="teorema">
+<p><strong>Teorema 2.</strong> (Condición de segundo orden para convexidad) Sea <span class="math inline">\(f:\RR^n\to\RR\)</span> una función dos veces diferenciable. <span class="math inline">\(f\)</span> es convexa si y solo si <span class="math inline">\(\text{dom}\,f\)</span> es convexo y <span class="math display">\[
+\nabla^2 f(\xx)\succeq 0,\qquad\forall\xx\in\text{dom}\,f.
+\]</span></p>
+</div>
+<aside>
+<span class="math inline">\(A\succeq 0\)</span> significa que <span class="math inline">\(A\)</span> es <em>semidefinida positiva</em>. Esto es, <span class="math inline">\(\xx^T A\xx\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^n\)</span>.
+</aside>
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<hr>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Observaciones</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<ul>
+<li><p>Para funciones de una variable, la condición se reduce a <span class="math inline">\(f''(x)\geq 0\)</span>, lo cual implica que la derivada <span class="math inline">\(f'(x)\)</span> es no decreciente.</p></li>
+<li><p>La convexidad estricta también puede caracterizarse por una condición de primer orden, pero de manera parcial: si <span class="math inline">\(\text{dom}\,f\)</span> es convexo y <span class="math inline">\(\nabla^2 f\succ 0\)</span> para todo <span class="math inline">\(\xx\in\text{dom}\,f\)</span>, entonces <span class="math inline">\(f\)</span> es estrictamente convexa. El recíproco no es cierto: por ejemplo, <span class="math inline">\(f(x)=x^4\)</span> es estrictamente convexa pero <span class="math inline">\(f''(0)=0\)</span>.</p></li>
+<li><p>Para funciones cóncavas, tenemos la caracterización correspondiente: <span class="math inline">\(f\)</span> es cóncava si y solo si <span class="math inline">\(\text{dom} f\)</span> es convexo y <span class="math inline">\(\nabla^2 f(\xx)\preceq 0\)</span> para todo <span class="math inline">\(\xx\in\text{dom}\,f\)</span>.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+</details>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 1</span> Consideremos la función cuadrática <span class="math inline">\(f:\RR^n\to\RR\)</span> definida por</p>
+<p><span class="math display">\[
+f(\xx)=\frac{1}{2}\xx^TA\xx+\bb^T\xx+c,
+\]</span></p>
+<p>donde <span class="math inline">\(A\in\SS^n:=\{X\in\RR^{n\times n} \mid X=X^T\}\)</span>, <span class="math inline">\(\bb\in\RR^n\)</span> y <span class="math inline">\(c\in\RR\)</span>. Dado que <span class="math inline">\(\nabla^2 f(\xx)=A\)</span> para todo <span class="math inline">\(\xx\)</span>, podemos afirmar que <span class="math inline">\(f\)</span> es convexa si y sólo si <span class="math inline">\(A\succeq 0\)</span>.</p>
+<p>Así, por ejemplo, la función <span class="math inline">\(f:\RR^2\to\RR\)</span> definida por</p>
+<p><span class="math display">\[
+f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
+\]</span></p>
+<p>es convexa, ya que <span class="math inline">\(\xx^TA\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^n\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
+<div id="e7dc19da" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D  <span class="co"># para 3D</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir la matriz A (simétrica)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">1</span>],</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">1</span>, <span class="dv">3</span>]])</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear una malla de puntos en R^2</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">100</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">100</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar la función f(x) = 1/2 x^T A x</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> (A[<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>X<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (A[<span class="dv">0</span>,<span class="dv">1</span>] <span class="op">+</span> A[<span class="dv">1</span>,<span class="dv">0</span>])<span class="op">*</span>X<span class="op">*</span>Y <span class="op">+</span> A[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">*</span>Y<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">6</span>))</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>, projection<span class="op">=</span><span class="st">'3d'</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>ax.plot_surface(X, Y, Z, cmap<span class="op">=</span><span class="st">'viridis'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'y'</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="A1_intro_optimizacion_files/figure-html/cell-2-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="476" height="464"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="operaciones-que-preservan-convexidad-1" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="operaciones-que-preservan-convexidad-1"><span class="header-section-number">2.2</span> Operaciones que preservan convexidad</h2>
+<p>En esta sección describimos algunas operaciones que preservan la convexidad o concavidad de funciones, o que permiten construir nuevas funciones convexas y cóncavas. Las verificaciones se dejan como ejercicio.</p>
+<ul>
+<li><p><strong>Sumas ponderadas no negativas</strong>. Si <span class="math inline">\(f\)</span> es una función convexa y <span class="math inline">\(\alpha \geq 0\)</span>, entonces la función <span class="math inline">\(\alpha f\)</span> es convexa. Si <span class="math inline">\(f_1\)</span> y <span class="math inline">\(f_2\)</span> son ambas funciones convexas, entonces su suma <span class="math inline">\(f_1 + f_2\)</span> también lo es. Combinando estas dos propiedades, se obtiene que el conjunto de funciones convexas es en sí mismo un cono convexo: una suma ponderada no negativa de funciones convexas, <span class="math display">\[
+f = w_1 f_1 + \cdots + w_m f_m,
+\]</span> es convexa. De manera similar, una suma ponderada no negativa de funciones cóncavas es cóncava.</p></li>
+<li><p><strong>Composición con una aplicación afín</strong>. Sean <span class="math inline">\(f:\RR^n\to\RR\)</span>, <span class="math inline">\(A\in\RR^{n\times m}\)</span> y <span class="math inline">\(\bb\in\RR^n\)</span>. Definimos <span class="math inline">\(g:\RR^m\to\RR\)</span> como <span class="math display">\[
+g(\xx):=f(A\xx+\bb)
+\]</span> con <span class="math inline">\(\text{dom}\,g = \{\xx \mid A\xx + \bb \in \text{dom}\, f\}\)</span>. Entonces, <span class="math inline">\(g\)</span> conserva la convexidad o concavidad de <span class="math inline">\(f\)</span>.</p></li>
+<li><p><strong>Máximo puntual</strong>. Si <span class="math inline">\(f_1\)</span> y <span class="math inline">\(f_2\)</span> son funciones convexas, entonces su <em>máximo puntual</em> <span class="math inline">\(f\)</span>, definido por <span class="math display">\[
+f(\xx) = \max\{f_1(\xx), f_2(\xx)\},
+\]</span> con <span class="math inline">\(\text{dom}\,f = \text{dom}\,f_1 \cap \text{dom}\,f_2\)</span>, también es convexa. Además, este resultado se puede extender a: si <span class="math inline">\(f_1,\dots,f_m\)</span> son funciones convexas, entonces su máximo puntual, definido por <span class="math inline">\(f(\xx)=\max\{f_1(\xx), \ldots, f_m(\xx)\}\)</span>, también lo es.</p></li>
+<li><p><strong>Supremo puntual</strong>. La propiedad del máximo puntual se extiende al supremo puntual sobre un conjunto infinito de funciones convexas. Si para $i, donde <span class="math inline">\(\mathcal{A}\)</span> es un conjunto de índices, se tiene que <span class="math inline">\(f_i(\xx)\)</span> es convexa, entonces la función <span class="math inline">\(f\)</span> definida por <span class="math display">\[
+f(\xx) = \sup_{i \in \mathcal{A}} f_i(\xx)
+\]</span> también es convexa en <span class="math inline">\(\xx\)</span>. Aquí, el dominio de <span class="math inline">\(f\)</span> es <span class="math display">\[
+\text{dom}\, f = \{\xx \mid \xx \in \text{dom}\, f_i \text{ para todo } i \in \mathcal{A}, \sup_{i \in \mathcal{A}} f_i(\xx) &lt; \infty\}.
+\]</span> De manera similar, el ínfimo puntual de un conjunto de funciones cóncavas es una función cóncava.</p></li>
+</ul>
+</section>
 </section>
 <section id="problemas-de-optimización-convexa" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Problemas de optimización convexa</h1>
@@ -512,6 +753,22 @@ C=\{x \mid A\xx=\bb\},\qquad A\in\RR^{m\times n}, \bb\in\RR^m,
 \theta_1\xx_1+\theta_2\xx_2\in C,\qquad\forall \xx_1,\xx_2\in C, \forall \theta_1, \theta_2\geq 0.
 \]</span></p></li>
 <li><p>Mostrar que un cono convexo contiene cualquier combinación cónica de sus puntos.</p></li>
+<li><p>Probar la suficiencia de la condición de primer orden del Teorema 1 para funciones de una variable. [<em>Ayuda: para <span class="math inline">\(x_1\neq x_2\)</span> arbitrarios y <span class="math inline">\(0\leq \theta\leq 1\)</span>, defina <span class="math inline">\(x_3=\theta x_1+(1-\theta) x_2\)</span> y aplique la condición tanto a <span class="math inline">\((x_3,x_1)\)</span> como a <span class="math inline">\((x_3,x_2)\)</span></em>].</p></li>
+<li><p>El requisito separado de que <span class="math inline">\(\text{dom}\, f\)</span> sea convexo no puede eliminarse de las caracterizaciones de primer o segundo orden de convexidad y concavidad de <span class="math inline">\(f\)</span>. Analice el caso <span class="math inline">\(f(x)=1/x^2\)</span>.</p></li>
+<li><p>Dada la función cuadrática <span class="math inline">\(f:\RR^2\to\RR\)</span> definida por <span class="math display">\[
+f(x)=\frac{1}{2}\xx^T A\xx,
+\]</span> proponga distintas matrices <span class="math inline">\(A\)</span>, grafique la función y decida si <span class="math inline">\(A\)</span> es semidefinida positiva, negativa o indefinida. Además, calcule los autovalores de <span class="math inline">\(A\)</span> y explique qué relación observa.</p></li>
+<li><p>La desigualdad de Jensen establece que si <span class="math inline">\(\xx\in\text{dom}\,f\)</span> y <span class="math inline">\(f\)</span> es una función convexa, entonces <span class="math display">\[
+f(\media \xx)\leq \media f(\xx),
+\]</span> siempre que la esperanza exista. Hallar una variable aleatoria <span class="math inline">\(\XX\)</span> que permita recuperar la desigualdad básica de la definición de función convexa a partir de la desigualdad de Jensen.</p></li>
+<li><p>Verifique que las operaciones presentadas efectivamente preservan la convexidad de las funciones. [<em>Ayuda: para el caso de supremo puntual, muestre que <span class="math inline">\(\text{epi}\,f=\bigcap_{i\in\mathcal{A}}\text{epi}\,f_i\)</span></em>.]</p></li>
+<li><p>Determine cuáles de las operaciones que preservan la convexidad siguen preservándola en el caso de funciones estrictamente convexas, ajustando las hipótesis cuando sea necesario.</p></li>
+<li><p>Sean <span class="math inline">\(C\subset\RR^n\)</span> y <span class="math inline">\(\|\cdot\|\)</span> una norma en <span class="math inline">\(\RR^n\)</span>. La <em>distancia al punto más lejano</em> de <span class="math inline">\(C\)</span> está dada por <span class="math display">\[
+f(\xx)=\sup_{\yy\in C}\|\xx-\yy\|.
+\]</span> Probar que <span class="math inline">\(f\)</span> es convexa.</p></li>
+<li><p>Mostrar que la función <span class="math inline">\(f:\mathbf{S}^n\to\RR\)</span>, definida por <span class="math display">\[
+f(X)=\lambda_{\text{max}}(X),
+\]</span> donde <span class="math inline">\(\lambda_{\text{max}}\)</span> es el <em>valor propio máximo</em> de <span class="math inline">\(X\)</span>, es convexa.</p></li>
 </ol>
 
 
