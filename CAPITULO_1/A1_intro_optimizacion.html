@@ -394,7 +394,7 @@ Envolvente cónica de dos conjuntos: (Izq.) La envolvente convexa de un numero f
 <ul class="page-columns page-full">
 <li><p><strong>Intersección</strong>. Si <span class="math inline">\(S_{1}\)</span> y <span class="math inline">\(S_{2}\)</span> son convexos, entonces <span class="math inline">\(S_{1} \cap S_{2}\)</span> es convexo. Esta propiedad se extiende a la intersección de un número infinito de conjuntos: si <span class="math inline">\(S_{\alpha}\)</span> es convexo para cada <span class="math inline">\(\alpha \in \mathcal{A}\)</span>, entonces <span class="math inline">\(\bigcap_{\alpha \in \mathcal{A}} S_{\alpha}\)</span> es convexo. Como ejemplo simple, un poliedro es la intersección de semiespacios e hiperplanos (que son convexos), y por lo tanto es convexo.</p></li>
 <li class="page-columns page-full"><p><strong>Funciones afínes</strong>. Si <span class="math inline">\(S\subset \RR^{n}\)</span> es convexo y <span class="math inline">\(f: \mathbf{R}^{n} \to \mathbf{R}^{m}\)</span> es una función afín, entonces, la imagen de <span class="math inline">\(S\)</span> bajo <span class="math inline">\(f\)</span>, <span class="math inline">\(f(S) := \{f(\xx) \mid \xx \in S\}\)</span>, es convexa. De manera similar, si <span class="math inline">\(f: \RR^{k} \to \RR^{n}\)</span> es una función afín, la imagen inversa de <span class="math inline">\(S\)</span> bajo <span class="math inline">\(f\)</span>, <span class="math inline">\(f^{-1}(S) := \{\xx \mid f(\xx) \in S\}\)</span>, es convexa.</p>
-<aside style="margin-top: 0; margin-bottom: 0; padding: 0;">
+<aside style="float: right; width: 35%; font-size: 90%; margin-left: 1em; margin-top: 0;">
 <p><span class="math inline">\(f:\RR^n\to\RR^m\)</span> es <em>afín</em> si es de la forma <span class="math inline">\(f(\xx)=A\xx+\bb\)</span>, con <span class="math inline">\(A\in\RR^{n\times m}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span>.</p>
 </aside></li>
 <li><p><strong>Suma</strong>. Si <span class="math inline">\(S_1\)</span> y <span class="math inline">\(S_2\)</span> son conjuntos convexos de <span class="math inline">\(\RR^n\)</span>, entonces <span class="math display">\[
@@ -546,7 +546,7 @@ f(\xx)=\frac{1}{2}\xx^TA\xx+\bb^T\xx+c,
 f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
 \]</span></p>
 <p>es convexa, ya que <span class="math inline">\(\xx^TA\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^n\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
-<div id="fc480e7d" class="cell" data-execution_count="1">
+<div id="0f51ff36" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D  <span class="co"># para 3D</span></span>
