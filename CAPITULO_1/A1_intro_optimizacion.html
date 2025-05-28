@@ -201,12 +201,7 @@ window.Quarto = {
   <li><a href="#conjuntos-convexos-1" id="toc-conjuntos-convexos-1" class="nav-link" data-scroll-target="#conjuntos-convexos-1"><span class="header-section-number">1.1.2</span> Conjuntos convexos</a></li>
   <li><a href="#conos" id="toc-conos" class="nav-link" data-scroll-target="#conos"><span class="header-section-number">1.1.3</span> Conos</a></li>
   </ul></li>
-  <li><a href="#operaciones-que-preservan-convexidad" id="toc-operaciones-que-preservan-convexidad" class="nav-link" data-scroll-target="#operaciones-que-preservan-convexidad"><span class="header-section-number">1.2</span> Operaciones que preservan convexidad</a>
-  <ul class="collapse">
-  <li><a href="#intersección" id="toc-intersección" class="nav-link" data-scroll-target="#intersección"><span class="header-section-number">1.2.1</span> Intersección</a></li>
-  <li><a href="#funciones-afines" id="toc-funciones-afines" class="nav-link" data-scroll-target="#funciones-afines"><span class="header-section-number">1.2.2</span> 2.3.2 Funciones afines</a></li>
-  <li><a href="#funciones-lineales-fraccionales-y-perspectivas" id="toc-funciones-lineales-fraccionales-y-perspectivas" class="nav-link" data-scroll-target="#funciones-lineales-fraccionales-y-perspectivas"><span class="header-section-number">1.2.3</span> 2.3.3 Funciones lineales-fraccionales y perspectivas</a></li>
-  </ul></li>
+  <li><a href="#operaciones-que-preservan-convexidad" id="toc-operaciones-que-preservan-convexidad" class="nav-link" data-scroll-target="#operaciones-que-preservan-convexidad"><span class="header-section-number">1.2</span> Operaciones que preservan convexidad</a></li>
   </ul></li>
   <li><a href="#funciones-convexas" id="toc-funciones-convexas" class="nav-link" data-scroll-target="#funciones-convexas"><span class="header-section-number">2</span> Funciones convexas</a>
   <ul class="collapse">
@@ -353,179 +348,6 @@ C=V+\xx_0=\{v+\xx_0 \mid v\in V\}.
 <section id="operaciones-que-preservan-convexidad" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="operaciones-que-preservan-convexidad"><span class="header-section-number">1.2</span> Operaciones que preservan convexidad</h2>
 <p>En esta sección describimos algunas operaciones que preservan la convexidad de conjuntos o nos permiten construir conjuntos convexos a partir de otros. Estas operaciones, junto con los ejemplos simples descritos en §2.2, forman un cálculo de conjuntos convexos que es útil para determinar o establecer la convexidad de conjuntos.</p>
-<section id="intersección" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1" class="anchored" data-anchor-id="intersección"><span class="header-section-number">1.2.1</span> Intersección</h3>
-<p>La convexidad se preserva bajo intersección: si <span class="math inline">\(S_{1}\)</span> y <span class="math inline">\(S_{2}\)</span> son convexos, entonces <span class="math inline">\(S_{1} \cap S_{2}\)</span> es convexo. Esta propiedad se extiende a la intersección de un número infinito de conjuntos: si <span class="math inline">\(S_{\alpha}\)</span> es convexo para cada <span class="math inline">\(\alpha \in \mathcal{A}\)</span>, entonces <span class="math inline">\(\bigcap_{\alpha \in \mathcal{A}} S_{\alpha}\)</span> es convexo. (Los subespacios, conjuntos afines y conos convexos también son cerrados bajo intersecciones arbitrarias). Como ejemplo simple, un poliedro es la intersección de semiespacios e hiperplanos (que son convexos), y por lo tanto es convexo.</p>
-<p><strong>Ejemplo 2.7</strong>: El cono semidefinido positivo <span class="math inline">\(\mathbb{S}^{n}_{+}\)</span> puede expresarse como</p>
-<p><span class="math display">\[
-\bigcap_{z \neq 0} \{X \in \mathbb{S}^{n} \mid z^{T} X z \geq 0\}.
-\]</span></p>
-<p>Para cada <span class="math inline">\(z \neq 0\)</span>, <span class="math inline">\(z^{T} X z\)</span> es una función lineal (no idénticamente cero) de <span class="math inline">\(X\)</span>, por lo que los conjuntos</p>
-<p><span class="math display">\[
-\{X \in \mathbb{S}^{n} \mid z^{T} X z \geq 0\}
-\]</span></p>
-<p>son, de hecho, semiespacios en <span class="math inline">\(\mathbb{S}^{n}\)</span>. Por lo tanto, el cono semidefinido positivo es la intersección de un número infinito de semiespacios, y por lo tanto es convexo.</p>
-<p><strong>Ejemplo 2.8</strong>: Consideramos el conjunto</p>
-<p><span class="math display">\[
-S = \{x \in \mathbf{R}^{m} \mid |p(t)| \leq 1 \text{ para } |t| \leq \pi/3\}, \quad (2.10)
-\]</span></p>
-<p>donde <span class="math inline">\(p(t) = \sum_{k=1}^{m} x_{k} \cos kt\)</span>. El conjunto <span class="math inline">\(S\)</span> puede expresarse como la intersección de un número infinito de <strong>lajas</strong>: <span class="math inline">\(S = \bigcap_{|t| \leq \pi/3} S_{t}\)</span>, donde</p>
-<p><span class="math display">\[
-S_{t} = \{x \mid -1 \leq (\cos t, \ldots, \cos mt)^{T} x \leq 1\},
-\]</span></p>
-<p>y por lo tanto es convexo. La definición y el conjunto se ilustran en las figuras 2.13 y 2.14, para <span class="math inline">\(m = 2\)</span>.</p>
-<p>En los ejemplos anteriores establecemos la convexidad de un conjunto expresándolo como una intersección (posiblemente infinita) de semiespacios. Veremos en §2.5.1 que se cumple lo contrario: <strong>todo</strong> conjunto convexo cerrado <span class="math inline">\(S\)</span> es una intersección (generalmente infinita) de semiespacios. De hecho, un conjunto convexo cerrado <span class="math inline">\(S\)</span> es la intersección de todos los semiespacios que lo contienen:</p>
-<p><span class="math display">\[
-S = \bigcap \{\mathcal{H} \mid \mathcal{H} \text{ semiespacio, } S \subseteq \mathcal{H}\}.
-\]</span></p>
-</section>
-<section id="funciones-afines" class="level3" data-number="1.2.2">
-<h3 data-number="1.2.2" class="anchored" data-anchor-id="funciones-afines"><span class="header-section-number">1.2.2</span> 2.3.2 Funciones afines</h3>
-<p>Recordemos que una función <span class="math inline">\(f: \mathbf{R}^{n} \rightarrow \mathbf{R}^{m}\)</span> es <strong>afín</strong> si es una suma de una función lineal y una constante, es decir, si tiene la forma <span class="math inline">\(f(x) = A x + b\)</span>, donde <span class="math inline">\(A \in \mathbf{R}^{m \times n}\)</span> y <span class="math inline">\(b \in \mathbf{R}^{m}\)</span>. Supongamos que <span class="math inline">\(S \subseteq \mathbf{R}^{n}\)</span> es convexo y <span class="math inline">\(f: \mathbf{R}^{n} \rightarrow \mathbf{R}^{m}\)</span> es una función afín. Entonces, la imagen de <span class="math inline">\(S\)</span> bajo <span class="math inline">\(f\)</span>,</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="2-10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
-</figure>
-</div>
-<p><span class="math display">\[
-f(S) = \{f(x) \mid x \in S\},
-\]</span></p>
-<p>es convexa. De manera similar, si <span class="math inline">\(f: \mathbf{R}^{k} \rightarrow \mathbf{R}^{n}\)</span> es una función afín, la <strong>imagen inversa</strong> de <span class="math inline">\(S\)</span> bajo <span class="math inline">\(f\)</span>,</p>
-<p><span class="math display">\[
-f^{-1}(S) = \{x \mid f(x) \in S\},
-\]</span></p>
-<p>es convexa.</p>
-<p>Dos ejemplos simples son la <strong>escalación</strong> y la <strong>traslación</strong>. Si <span class="math inline">\(S \subseteq \mathbf{R}^{n}\)</span> es convexo, <span class="math inline">\(\alpha \in \mathbf{R}\)</span>, y <span class="math inline">\(a \in \mathbf{R}^{n}\)</span>, entonces los conjuntos <span class="math inline">\(\alpha S\)</span> y <span class="math inline">\(S + a\)</span> son convexos, donde</p>
-<p><span class="math display">\[
-\alpha S = \{\alpha x \mid x \in S\}, \qquad S + a = \{x + a \mid x \in S\}.
-\]</span></p>
-<p>La <strong>proyección</strong> de un conjunto convexo sobre algunas de sus coordenadas es convexa: si <span class="math inline">\(S \subseteq \mathbf{R}^{m} \times \mathbf{R}^{n}\)</span> es convexo, entonces</p>
-<p><span class="math display">\[
-T = \{x_{1} \in \mathbf{R}^{m} \mid (x_{1}, x_{2}) \in S \text{ para algún } x_{2} \in \mathbf{R}^{n}\}
-\]</span></p>
-<p>es convexo.</p>
-<p>La <strong>suma</strong> de dos conjuntos se define como</p>
-<p><span class="math display">\[
-S_{1} + S_{2} = \{x + y \mid x \in S_{1}, y \in S_{2}\}.
-\]</span></p>
-<p>Si <span class="math inline">\(S_{1}\)</span> y <span class="math inline">\(S_{2}\)</span> son convexos, entonces <span class="math inline">\(S_{1} + S_{2}\)</span> es convexo. Para ver esto, si <span class="math inline">\(S_{1}\)</span> y <span class="math inline">\(S_{2}\)</span> son convexos, entonces el producto directo o cartesiano</p>
-<p><span class="math display">\[
-S_{1} \times S_{2} = \{(x_{1}, x_{2}) \mid x_{1} \in S_{1}, x_{2} \in S_{2}\}
-\]</span></p>
-<p>también es convexo. La imagen de este conjunto bajo la función lineal <span class="math inline">\(f(x_{1}, x_{2}) = x_{1} + x_{2}\)</span> es la suma <span class="math inline">\(S_{1} + S_{2}\)</span>.</p>
-<p>También podemos considerar la <strong>suma parcial</strong> de <span class="math inline">\(S_{1}, S_{2} \in \mathbf{R}^{n} \times \mathbf{R}^{m}\)</span>, definida como</p>
-<p><span class="math display">\[
-S = \{(x, y_{1} + y_{2}) \mid (x, y_{1}) \in S_{1}, (x, y_{2}) \in S_{2}\},
-\]</span></p>
-<p>donde <span class="math inline">\(x \in \mathbf{R}^{n}\)</span> y <span class="math inline">\(y_{i} \in \mathbf{R}^{m}\)</span>. Para <span class="math inline">\(m = 0\)</span>, la suma parcial da la intersección de <span class="math inline">\(S_{1}\)</span> y <span class="math inline">\(S_{2}\)</span>; para <span class="math inline">\(n = 0\)</span>, es la suma de conjuntos. Las sumas parciales de conjuntos convexos son convexas (ver ejercicio 2.16).</p>
-<p><strong>Ejemplo 2.9</strong>: <em>Poliedro</em>. El poliedro <span class="math inline">\(\{x \mid A x \preceq b, C x = d\}\)</span> puede expresarse como la imagen inversa del producto cartesiano del ortante no negativo y el origen bajo la función afín <span class="math inline">\(f(x) = (b - A x, d - C x)\)</span>:</p>
-<p><span class="math display">\[
-\{x \mid A x \preceq b, C x = d\} = \{x \mid f(x) \in \mathbf{R}_{+}^{m} \times \{0\}\}.
-\]</span></p>
-<p><strong>Ejemplo 2.10</strong>: <em>Conjunto solución de una desigualdad matricial lineal</em>. La condición</p>
-<p><span class="math display">\[
-A(x) = x_{1} A_{1} + \cdots + x_{n} A_{n} \preceq B, \quad (2.11)
-\]</span></p>
-<p>donde <span class="math inline">\(B, A_{i} \in \mathbf{S}^{m}\)</span>, se llama <strong>desigualdad matricial lineal</strong> (LMI) en <span class="math inline">\(x\)</span> (nota la similitud con una desigualdad lineal ordinaria,</p>
-<p><span class="math display">\[
-a^{T} x = x_{1} a_{1} + \cdots + x_{n} a_{n} \leq b,
-\]</span></p>
-<p>con <span class="math inline">\(b, a_{i} \in \mathbf{R}\)</span>).</p>
-<p>El conjunto solución de una desigualdad matricial lineal, <span class="math inline">\(\{x \mid A(x) \preceq B\}\)</span>, es convexo. De hecho, es la imagen inversa del cono semidefinido positivo bajo la función afín <span class="math inline">\(f: \mathbf{R}^{n} \rightarrow \mathbf{S}^{m}\)</span> dada por <span class="math inline">\(f(x) = B - A(x)\)</span>.</p>
-</section>
-<section id="funciones-lineales-fraccionales-y-perspectivas" class="level3" data-number="1.2.3">
-<h3 data-number="1.2.3" class="anchored" data-anchor-id="funciones-lineales-fraccionales-y-perspectivas"><span class="header-section-number">1.2.3</span> 2.3.3 Funciones lineales-fraccionales y perspectivas</h3>
-<p>En esta sección exploramos una clase de funciones, llamadas <strong>lineales-fraccionales</strong>, que es más general que las funciones afines pero aún preserva la convexidad.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="2-11-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
-</figure>
-</div>
-<section id="función-perspectiva" class="level4" data-number="1.2.3.1">
-<h4 data-number="1.2.3.1" class="anchored" data-anchor-id="función-perspectiva"><span class="header-section-number">1.2.3.1</span> Función perspectiva</h4>
-<p>Definimos la <strong>función perspectiva</strong> <span class="math inline">\(P: \mathbf{R}^{n+1} \rightarrow \mathbf{R}^{n}\)</span>, con dominio <span class="math inline">\(\mathbf{dom}\, P = \mathbf{R}^{n} \times \mathbf{R}_{++}\)</span>, como <span class="math inline">\(P(z, t) = z / t\)</span>. (Aquí <span class="math inline">\(\mathbf{R}_{++}\)</span> denota el conjunto de números positivos: <span class="math inline">\(\mathbf{R}_{++} = \{x \in \mathbf{R} \mid x &gt; 0\}\)</span>). La función perspectiva escala o normaliza vectores de modo que la última componente sea uno, y luego elimina la última componente.</p>
-<p><strong>Observación 2.1</strong>: Podemos interpretar la función perspectiva como la acción de una <strong>cámara estenopeica</strong>. Una cámara estenopeica (en <span class="math inline">\(\mathbf{R}^{3}\)</span>) consiste en un plano horizontal opaco <span class="math inline">\(x_{3} = 0\)</span>, con un único agujero en el origen, a través del cual puede pasar la luz, y un plano de imagen horizontal <span class="math inline">\(x_{3} = -1\)</span>. Un objeto en <span class="math inline">\(x\)</span>, por encima de la cámara (es decir, con <span class="math inline">\(x_{3} &gt; 0\)</span>), forma una imagen en el punto <span class="math inline">\(-(x_{1} / x_{3}, x_{2} / x_{3}, 1)\)</span> en el plano de imagen. Eliminando la última componente del punto de imagen (ya que siempre es <span class="math inline">\(-1\)</span>), la imagen de un punto en <span class="math inline">\(x\)</span> aparece en <span class="math inline">\(y = -(x_{1} / x_{3}, x_{2} / x_{3}) = -P(x)\)</span> en el plano de imagen. Esto se ilustra en la figura 2.15.</p>
-<p>Si <span class="math inline">\(C \subseteq \mathbf{dom}\, P\)</span> es convexo, entonces su imagen</p>
-<p><span class="math display">\[
-P(C) = \{P(x) \mid x \in C\}
-\]</span></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="12.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
-</figure>
-</div>
-<p>es convexa. Este resultado es ciertamente intuitivo: un objeto convexo, visto a través de una cámara estenopeica, produce una imagen convexa. Para establecer este hecho, mostramos que los segmentos de línea se mapean a segmentos de línea bajo la función perspectiva. (Esto también tiene sentido: un segmento de línea, visto a través de una cámara estenopeica, produce una imagen de segmento de línea). Supongamos que <span class="math inline">\(x = (\tilde{x}, x_{n+1})\)</span>, <span class="math inline">\(y = (\tilde{y}, y_{n+1}) \in \mathbf{R}^{n+1}\)</span> con <span class="math inline">\(x_{n+1} &gt; 0\)</span>, <span class="math inline">\(y_{n+1} &gt; 0\)</span>. Entonces, para <span class="math inline">\(0 \leq \theta \leq 1\)</span>,</p>
-<p><span class="math display">\[
-P(\theta x + (1 - \theta) y) = \frac{\theta \tilde{x} + (1 - \theta) \tilde{y}}{\theta x_{n+1} + (1 - \theta) y_{n+1}} = \mu P(x) + (1 - \mu) P(y),
-\]</span></p>
-<p>donde</p>
-<p><span class="math display">\[
-\mu = \frac{\theta x_{n+1}}{\theta x_{n+1} + (1 - \theta) y_{n+1}} \in [0, 1].
-\]</span></p>
-<p>Esta correspondencia entre <span class="math inline">\(\theta\)</span> y <span class="math inline">\(\mu\)</span> es monótona: a medida que <span class="math inline">\(\theta\)</span> varía entre 0 y 1 (lo que recorre el segmento de línea <span class="math inline">\([x, y]\)</span>), <span class="math inline">\(\mu\)</span> varía entre 0 y 1 (lo que recorre el segmento de línea <span class="math inline">\([P(x), P(y)]\)</span>). Esto muestra que <span class="math inline">\(P([x, y]) = [P(x), P(y)]\)</span>.</p>
-<p>Ahora supongamos que <span class="math inline">\(C\)</span> es convexo con <span class="math inline">\(C \subseteq \mathbf{dom}\, P\)</span> (es decir, <span class="math inline">\(x_{n+1} &gt; 0\)</span> para todo <span class="math inline">\(x \in C\)</span>), y <span class="math inline">\(x, y \in C\)</span>. Para establecer la convexidad de <span class="math inline">\(P(C)\)</span>, necesitamos mostrar que el segmento de línea <span class="math inline">\([P(x), P(y)]\)</span> está en <span class="math inline">\(P(C)\)</span>. Pero este segmento de línea es la imagen del segmento de línea <span class="math inline">\([x, y]\)</span> bajo <span class="math inline">\(P\)</span>, y por lo tanto está en <span class="math inline">\(P(C)\)</span>.</p>
-<p>La imagen inversa de un conjunto convexo bajo la función perspectiva también es convexa: si <span class="math inline">\(C \subseteq \mathbf{R}^{n}\)</span> es convexo, entonces</p>
-<p><span class="math display">\[
-P^{-1}(C) = \{(x, t) \in \mathbf{R}^{n+1} \mid x / t \in C, t &gt; 0\}
-\]</span></p>
-<p>es convexo. Para mostrar esto, supongamos que <span class="math inline">\((x, t) \in P^{-1}(C)\)</span>, <span class="math inline">\((y, s) \in P^{-1}(C)\)</span>, y <span class="math inline">\(0 \leq \theta \leq 1\)</span>. Necesitamos mostrar que</p>
-<p><span class="math display">\[
-\theta (x, t) + (1 - \theta) (y, s) \in P^{-1}(C),
-\]</span></p>
-<p>es decir, que</p>
-<p><span class="math display">\[
-\frac{\theta x + (1 - \theta) y}{\theta t + (1 - \theta) s} \in C
-\]</span></p>
-<p>(<span class="math inline">\(\theta t + (1 - \theta) s &gt; 0\)</span> es obvio). Esto se sigue de</p>
-<p><span class="math display">\[
-\frac{\theta x + (1 - \theta) y}{\theta t + (1 - \theta) s} = \mu (x / t) + (1 - \mu) (y / s),
-\]</span></p>
-<p>donde</p>
-<p><span class="math display">\[
-\mu = \frac{\theta t}{\theta t + (1 - \theta) s} \in [0, 1].
-\]</span></p>
-</section>
-<section id="funciones-lineales-fraccionales" class="level4" data-number="1.2.3.2">
-<h4 data-number="1.2.3.2" class="anchored" data-anchor-id="funciones-lineales-fraccionales"><span class="header-section-number">1.2.3.2</span> Funciones lineales-fraccionales</h4>
-<p>Una <strong>función lineal-fraccional</strong> se forma componiendo la función perspectiva con una función afín. Supongamos que <span class="math inline">\(g: \mathbf{R}^{n} \rightarrow \mathbf{R}^{m+1}\)</span> es afín, es decir,</p>
-<p><span class="math display">\[
-g(x) = \left[\begin{array}{c}A\\ c^{T}\end{array}\right] x + \left[\begin{array}{c}b\\ d\end{array}\right], \quad (2.12)
-\]</span></p>
-<p>donde <span class="math inline">\(A \in \mathbf{R}^{m \times n}\)</span>, <span class="math inline">\(b \in \mathbf{R}^{m}\)</span>, <span class="math inline">\(c \in \mathbf{R}^{n}\)</span>, y <span class="math inline">\(d \in \mathbf{R}\)</span>. La función <span class="math inline">\(f: \mathbf{R}^{n} \rightarrow \mathbf{R}^{m}\)</span> dada por <span class="math inline">\(f = P \circ g\)</span>, es decir,</p>
-<p><span class="math display">\[
-f(x) = (A x + b) / (c^{T} x + d), \qquad \mathbf{dom}\, f = \{x \mid c^{T} x + d &gt; 0\}, \quad (2.13)
-\]</span></p>
-<p>se llama <strong>función lineal-fraccional</strong> (o <strong>proyectiva</strong>). Si <span class="math inline">\(c = 0\)</span> y <span class="math inline">\(d &gt; 0\)</span>, el dominio de <span class="math inline">\(f\)</span> es <span class="math inline">\(\mathbf{R}^{n}\)</span>, y <span class="math inline">\(f\)</span> es una función afín. Por lo tanto, podemos pensar en las funciones afines y lineales como casos especiales de funciones lineales-fraccionales.</p>
-<p><strong>Observación 2.2</strong>: <em>Interpretación proyectiva</em>. A menudo es conveniente representar una función lineal-fraccional como una matriz</p>
-<p><span class="math display">\[
-Q = \left[\begin{array}{cc}A &amp; b\\ c^{T} &amp; d\end{array}\right] \in \mathbf{R}^{(m+1) \times (n+1)} \quad (2.14)
-\]</span></p>
-<p>que actúa sobre (multiplica) puntos de la forma <span class="math inline">\((x, 1)\)</span>, lo que produce <span class="math inline">\((A x + b, c^{T} x + d)\)</span>. Este resultado se escala o normaliza de modo que su última componente sea uno, lo que produce <span class="math inline">\((f(x), 1)\)</span>.</p>
-<p>Esta representación puede interpretarse geométricamente asociando <span class="math inline">\(\mathbf{R}^{n}\)</span> con un conjunto de rayos en <span class="math inline">\(\mathbf{R}^{n+1}\)</span> de la siguiente manera. Con cada punto <span class="math inline">\(z\)</span> en <span class="math inline">\(\mathbf{R}^{n}\)</span> asociamos el rayo (abierto) <span class="math inline">\(\mathcal{P}(z) = \{(t z, 1) \mid t &gt; 0\}\)</span> en <span class="math inline">\(\mathbf{R}^{n+1}\)</span>. La última componente de este rayo toma valores positivos. A la inversa, cualquier rayo en <span class="math inline">\(\mathbf{R}^{n+1}\)</span>, con base en el origen y última componente que toma valores positivos, puede escribirse como <span class="math inline">\(\mathcal{P}(v) = \{t (v, 1) \mid t \geq 0\}\)</span> para algún <span class="math inline">\(v \in \mathbf{R}^{n}\)</span>. Esta correspondencia (proyectiva) <span class="math inline">\(\mathcal{P}\)</span> entre <span class="math inline">\(\mathbf{R}^{n}\)</span> y el semiespacio de rayos con última componente positiva es biyectiva.</p>
-<p>La función lineal-fraccional (2.13) puede expresarse como</p>
-<p><span class="math display">\[
-f(x) = \mathcal{P}^{-1}(Q \mathcal{P}(x)).
-\]</span></p>
-<p>Así, comenzamos con <span class="math inline">\(x \in \mathbf{dom}\, f\)</span>, es decir, <span class="math inline">\(c^{T} x + d &gt; 0\)</span>. Luego formamos el rayo <span class="math inline">\(\mathcal{P}(x)\)</span> en <span class="math inline">\(\mathbf{R}^{n+1}\)</span>. La transformación lineal con matriz <span class="math inline">\(Q\)</span> actúa sobre este rayo para producir otro rayo <span class="math inline">\(Q \mathcal{P}(x)\)</span>. Dado que <span class="math inline">\(x \in \mathbf{dom}\, f\)</span>, la última componente de este rayo asume valores positivos. Finalmente, tomamos la transformación proyectiva inversa para recuperar <span class="math inline">\(f(x)\)</span></p>
-<p>Al igual que la función de perspectiva, las funciones lineales-fraccionales preservan la convexidad. Si <span class="math inline">\(C\)</span> es convexo y se encuentra en el dominio de <span class="math inline">\(f\)</span> (, <span class="math inline">\(c^T x + d &gt; 0\)</span> para <span class="math inline">\(x \in C\)</span>), entonces la imagen <span class="math inline">\(f(C)\)</span> es convexa. Esto se sigue inmediatamente de los resultados anteriores: la imagen de <span class="math inline">\(C\)</span> bajo la transformación afín (2.12) es convexa, y la imagen del conjunto resultante bajo la función de perspectiva <span class="math inline">\(P\)</span>, que produce <span class="math inline">\(f(C)\)</span>, es convexa. De manera similar, si <span class="math inline">\(C \subseteq \mathbb{R}^m\)</span> es convexo, entonces la imagen inversa <span class="math inline">\(f^{-1}(C)\)</span> es convexa.</p>
-<p><strong>Ejemplo 2.13 Probabilidades condicionales.</strong> Supongamos que <span class="math inline">\(u\)</span> y <span class="math inline">\(v\)</span> son variables aleatorias que toman valores en <span class="math inline">\(\{1, \dots, n\}\)</span> y <span class="math inline">\(\{1, \dots, m\}\)</span>, respectivamente, y que <span class="math inline">\(p_{ij}\)</span> denota <span class="math inline">\(\operatorname{prob}(u = i, v = j)\)</span>. Entonces, la probabilidad condicional <span class="math inline">\(f_{ij} = \operatorname{prob}(u = i | v = j)\)</span> está dada por</p>
-<p><span class="math display">\[
-f_{ij} = \frac{p_{ij}}{\sum_{k=1}^{n} p_{kj}}.
-\]</span></p>
-<p>Así, <span class="math inline">\(f\)</span> se obtiene a partir de una transformación lineal-fraccional de <span class="math inline">\(p\)</span>.</p>
-<p>Se sigue que si <span class="math inline">\(C\)</span> es un conjunto convexo de probabilidades conjuntas para <span class="math inline">\((u, v)\)</span>, entonces el conjunto asociado de probabilidades condicionales de <span class="math inline">\(u\)</span> dado <span class="math inline">\(v\)</span> también es convexo.</p>
-<p>La Figura 2.16 muestra un conjunto <span class="math inline">\(C \subseteq \mathbb{R}^2\)</span> y su imagen bajo la función lineal-fraccional</p>
-<p><span class="math display">\[
-f(x) = \frac{1}{x_1 + x_2 + 1} x,
-\]</span></p>
-<p><span class="math display">\[
-\operatorname{dom} f = \{ (x_1, x_2) \mid x_1 + x_2 + 1 &gt; 0 \}.
-\]</span></p>
-<div style="height:10cm;">
-
-</div>
-</section>
-</section>
 </section>
 </section>
 <section id="funciones-convexas" class="level1 page-columns page-full" data-number="2">
@@ -677,7 +499,7 @@ f(\xx)=\frac{1}{2}\xx^TA\xx+\bb^T\xx+c,
 f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
 \]</span></p>
 <p>es convexa, ya que <span class="math inline">\(\xx^TA\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^n\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
-<div id="4df8f08b" class="cell" data-execution_count="1">
+<div id="34f2ca3a" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D  <span class="co"># para 3D</span></span>
@@ -890,7 +712,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/isaiasibanez\.github\.io\/OML2\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
