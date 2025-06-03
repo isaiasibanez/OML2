@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Condiciones de optimalidad – Optimización y Aprendizaje Automático II</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-d4be639c637f3db3c684c66cefad7e0c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      Optimización y Aprendizaje Automático II
+      </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Optimización y Aprendizaje Automático II</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#condiciones-de-optimalidad-de-primer-orden" id="toc-condiciones-de-optimalidad-de-primer-orden" class="nav-link active" data-scroll-target="#condiciones-de-optimalidad-de-primer-orden"><span class="header-section-number">1</span> Condiciones de optimalidad de primer orden</a>
+  <ul class="collapse">
+  <li><a href="#optimización-sin-restricciones" id="toc-optimización-sin-restricciones" class="nav-link" data-scroll-target="#optimización-sin-restricciones"><span class="header-section-number">1.1</span> Optimización sin restricciones</a>
+  <ul class="collapse">
+  <li><a href="#prueba-de-condición-necesaria-nabla-fxmathbf0" id="toc-prueba-de-condición-necesaria-nabla-fxmathbf0" class="nav-link" data-scroll-target="#prueba-de-condición-necesaria-nabla-fxmathbf0"><span class="header-section-number">1.1.1</span> Prueba de condición necesaria <span class="math inline">\(\nabla f(x)=\mathbf{0}\)</span></a></li>
+  </ul></li>
+  <li><a href="#optimización-con-restricciones" id="toc-optimización-con-restricciones" class="nav-link" data-scroll-target="#optimización-con-restricciones"><span class="header-section-number">1.2</span> Optimización con restricciones</a></li>
+  </ul></li>
+  <li><a href="#condiciones-de-karush-kuhn-tucker-kkt" id="toc-condiciones-de-karush-kuhn-tucker-kkt" class="nav-link" data-scroll-target="#condiciones-de-karush-kuhn-tucker-kkt"><span class="header-section-number">2</span> Condiciones de Karush-Kuhn-Tucker (KKT)</a>
+  <ul class="collapse">
+  <li><a href="#el-caso-particular-de-restricciones-lineales" id="toc-el-caso-particular-de-restricciones-lineales" class="nav-link" data-scroll-target="#el-caso-particular-de-restricciones-lineales"><span class="header-section-number">2.1</span> El caso particular de restricciones lineales</a></li>
+  <li><a href="#generalización" id="toc-generalización" class="nav-link" data-scroll-target="#generalización"><span class="header-section-number">2.2</span> Generalización</a></li>
+  <li><a href="#cualificación-de-restricciones" id="toc-cualificación-de-restricciones" class="nav-link" data-scroll-target="#cualificación-de-restricciones"><span class="header-section-number">2.3</span> Cualificación de restricciones</a></li>
+  </ul></li>
+  <li><a href="#dualidad" id="toc-dualidad" class="nav-link" data-scroll-target="#dualidad"><span class="header-section-number">3</span> Dualidad</a>
+  <ul class="collapse">
+  <li><a href="#función-dual-de-lagrange" id="toc-función-dual-de-lagrange" class="nav-link" data-scroll-target="#función-dual-de-lagrange"><span class="header-section-number">3.1</span> Función dual de Lagrange</a></li>
+  <li><a href="#el-problema-dual-de-lagrange" id="toc-el-problema-dual-de-lagrange" class="nav-link" data-scroll-target="#el-problema-dual-de-lagrange"><span class="header-section-number">3.2</span> El problema dual de Lagrange</a></li>
+  <li><a href="#suboptimalidad-y-criterio-de-parada" id="toc-suboptimalidad-y-criterio-de-parada" class="nav-link" data-scroll-target="#suboptimalidad-y-criterio-de-parada"><span class="header-section-number">3.3</span> Suboptimalidad y criterio de parada</a></li>
+  <li><a href="#holgura-complementaria" id="toc-holgura-complementaria" class="nav-link" data-scroll-target="#holgura-complementaria"><span class="header-section-number">3.4</span> Holgura complementaria</a></li>
+  <li><a href="#relación-entre-dualidad-y-kkt" id="toc-relación-entre-dualidad-y-kkt" class="nav-link" data-scroll-target="#relación-entre-dualidad-y-kkt"><span class="header-section-number">3.5</span> Relación entre dualidad y KKT</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Condiciones de optimalidad</h1>
+<p class="subtitle lead">Capítulo 1 - Sección 4</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<hr style="border: 1px solid rgba(50, 0, 0, 1);">
+<div class="hidden">
+<p><span class="math display">\[
+\def\RR{\mathbb{R}}
+\def\media{\mathbb{E}}
+\def\calL{\mathcal{L}}
+\def\calG{\mathcal{G}}
+\def\aa{{\bf a}}
+\def\bb{{\bf b}}
+\def\dd{{\bf d}}
+\def\xx{{\bf x}}
+\def\yy{{\bf y}}
+\def\zz{{\bf z}}
+\def\vv{{\bf v}}
+\def\XX{{\bf X}}
+\def\TT{{\bf T}}
+\def\SS{{\bf S}}
+\def\bftheta{\boldsymbol{\theta}}
+\def\bflambda{\boldsymbol{\lambda}}
+\def\bfeta{\boldsymbol{\eta}}
+\def\bfmu{\boldsymbol{\mu}}
+\def\bfnu{\boldsymbol{\nu}}
+\def\bfSigma{\boldsymbol{\Sigma}}
+\def\bfone{\mathbf{1}}
+\def\argmin{\mathop{\mathrm{arg\,min\,}}}
+\def\argmax{\mathop{\mathrm{arg\,max\,}}}
+\]</span></p>
+</div>
+<p>En un problema de optimización general <span class="math display">\[
+\min_{x} f(x)
+\]</span> <span class="math display">\[
+\text{s.t.}\; x\in\Omega=\left\{x\in\RR^n\left|\begin{array}{rl}
+g_i(x)\leq 0,&amp; i=1,\cdots,r.\\
+h_j(x)=0, &amp; j=1,\cdots,m.
+\end{array}\right.\right\},
+\]</span></p>
+<p>las condiciones de optimalidad definen los requisitos que deben cumplir los puntos óptimos. En lo que sigue, asumiremos que trabajamos con funciones diferenciables.</p>
+<section id="condiciones-de-optimalidad-de-primer-orden" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Condiciones de optimalidad de primer orden</h1>
+<section id="optimización-sin-restricciones" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="optimización-sin-restricciones"><span class="header-section-number">1.1</span> Optimización sin restricciones</h2>
+<p>De cursos anteriores recordemos que, cuando se pretende optimizar una función <span class="math inline">\(f\)</span> respecto a <span class="math inline">\(x\in\RR^n\)</span>, una condición necesaria para que un punto sea óptimo es que verifique <span class="math display">\[
+\nabla f(x)=\mathbf{0}.
+\]</span></p>
+<p>Pero cuidado: es <strong>solo una condición necesaria</strong> que todos los puntos óptimos deben cumplir, pero no implica que cualquier punto que la satisfaga sea automáticamente óptimo. En otras palabras, las soluciones de <span class="math inline">\(\nabla f(x) = 0\)</span> forman una lista de puntos candidatos para minimizar, llamados <em>puntos críticos</em>.</p>
+<p>De inmediato surgen dos preguntas claves:</p>
+<ul>
+<li>¿Cuál es la generalización correcta de la condición necesaria <span class="math inline">\(\nabla f(x) = 0\)</span> cuando enfrentamos un <strong>problema de optimización con restricciones</strong>?</li>
+<li>¿Bajo qué circunstancias <span class="math inline">\(\nabla f(x) = 0\)</span> también se convierte en una condición suficiente para la optimalidad?</li>
+</ul>
+<p>Antes, veamos cómo surge la condición <span class="math inline">\(\nabla f(x)=\mathbf{0}\)</span> para problemas de optimización sin restricciones.</p>
+<section id="prueba-de-condición-necesaria-nabla-fxmathbf0" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="prueba-de-condición-necesaria-nabla-fxmathbf0"><span class="header-section-number">1.1.1</span> Prueba de condición necesaria <span class="math inline">\(\nabla f(x)=\mathbf{0}\)</span></h3>
+<p>Sea <span class="math inline">\(x\in\RR^n\)</span> es un minimizador de la función <span class="math inline">\(f: \RR^n \to \RR\)</span> y sea <span class="math inline">\(d\in\RR^n\)</span> una dirección arbitraria. Entonces se cumple</p>
+<p><span class="math display">\[
+f(x + t \cdot d) \geq f(x) \quad \text{para todo } t \geq 0.
+\]</span></p>
+<p>En consecuencia, la derivada direccional de <span class="math inline">\(f\)</span> en <span class="math inline">\(x\)</span> a lo largo de <span class="math inline">\(d\)</span> es</p>
+<p><span class="math display">\[
+\frac{\partial f}{\partial d}(x)= \lim_{t \to 0} \frac{f(x + t \cdot d) - f(x)}{t} \geq 0.
+\]</span></p>
+<p>Ahora bien, como <span class="math inline">\(f\)</span> es diferenciable, se verifica la propiedad <span class="math inline">\(\frac{\partial f}{\partial d}(x)=\langle \nabla f(x),d\rangle\)</span>, por lo que la desigualdad anterior se puede reescribir como:</p>
+<p><span class="math display">\[
+\langle \nabla f(x), d \rangle \geq 0 \quad \forall d \in {R}^n.
+\]</span></p>
+<p>En particular, eligiendo <span class="math inline">\(d = -\nabla f(x)\)</span>, resulta <span class="math inline">\(-\|\nabla f(x)\|^2\geq 0\)</span>, lo cual es cierto si y sólo si <span class="math inline">\(\nabla f(x)=\mathbf{0}\)</span>.</p>
+</section>
+</section>
+<section id="optimización-con-restricciones" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="optimización-con-restricciones"><span class="header-section-number">1.2</span> Optimización con restricciones</h2>
+<p>La clave para generalizar la condición <span class="math inline">\(\nabla f(x)=\mathbf{0}\)</span> al caso de optimización con restricciones surge de la prueba anterior, más precisamente de la desigualdad <span class="math inline">\(\langle\nabla f(x),d\rangle\geq 0\)</span>.</p>
+<p>La diferencia principal con el caso sin restricciones es que, en un conjunto restringido, podríamos estar limitados en la elección de las direcciones <span class="math inline">\(d\)</span> a lo largo de las cuales podemos aproximarnos a <span class="math inline">\(x\)</span> sin salirnos del conjunto.</p>
+<p>No obstante, para cualquier dirección <span class="math inline">\(d\)</span> tal que <span class="math inline">\(x + t \cdot d \in \Omega\)</span> para todo <span class="math inline">\(t \geq 0\)</span> suficientemente pequeño, el mismo argumento aplicado anteriormente sigue siendo válido. Por lo tanto, podemos concluir que necesariamente:</p>
+<p><span class="math display">\[
+\langle \nabla f(x), d \rangle \geq 0 \quad \text{para todo } d \in  {R}^n \text{ que permanezca en } \Omega \text{ desde } x.
+\]</span></p>
+<p>Para aplicar esta condición, se requieren dos pasos:</p>
+<ol type="1">
+<li><p>Determinar el conjunto de direcciones <span class="math inline">\(d\)</span> que permanecen en <span class="math inline">\(\Omega\)</span> desde <span class="math inline">\(x\)</span>*.</p></li>
+<li><p>A partir de esas direcciones, ver de qué manera imponen restricciones sobre <span class="math inline">\(\nabla f(x)\)</span>.</p></li>
+</ol>
+<p>De estos dos pasos, el primero suele ser el más sencillo. En todos los casos de interés, podemos determinar el conjunto de direcciones permitidas simplemente considerando cualquier otro punto <span class="math inline">\(y \in \Omega\)</span> y observando la dirección de <span class="math inline">\(x\)</span> a <span class="math inline">\(y\)</span>. Esta propiedad se cumple trivialmente si todos los segmentos de línea entre <span class="math inline">\(x\)</span> y cualquier punto en <span class="math inline">\(\Omega\)</span> están contenidos en <span class="math inline">\(\Omega\)</span>, lo cual es siempre cierto para conjuntos convexos.</p>
+<div class="teorema">
+<p><strong>Teorema 1.</strong> (Condición necesaria de optimalidad de primer orden para un conjunto factible convexo) Sea <span class="math inline">\(\Omega \subseteq  {R}^n\)</span> convexo y sea <span class="math inline">\(f:  {R}^n \to  {R}\)</span> una función diferenciable. Si <span class="math inline">\(x \in \Omega\)</span> es un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, entonces <span class="math display">\[
+\langle \nabla f(x), y - x \rangle \geq 0 \quad \forall y \in \Omega.
+\]</span></p>
+</div>
+<details>
+<summary>
+Interpretación geométrica
+</summary>
+<hr>
+<p>La condición del Teorema 1 se verifica si el vector gradiente de <span class="math inline">\(f\)</span> en una solución <span class="math inline">\(x\in\Omega\)</span> forma un ángulo agudo con todas las direcciones <span class="math inline">\(y-x\)</span>, donde <span class="math inline">\(y\in\Omega\)</span>.</p>
+<p>Ahora bien, a la hora de buscar un minimizador, la dirección que realmente nos importa es <span class="math inline">\(-\nabla f(x)\)</span>. Así, el Teorema 1 nos dice que <span class="math inline">\(-\nabla f(x)\)</span> debe formar un ángulo obtuso con las direcciones <span class="math inline">\(y-x\)</span>. En otras palabras, la condición dada es equivalente a escribir</p>
+<p><span class="math display">\[
+-\nabla f(x)\in N_{\Omega}(x),
+\]</span></p>
+<p>donde <span class="math inline">\(N_{\Omega}(x)\)</span> es el cono normal a <span class="math inline">\(\Omega\)</span> en <span class="math inline">\(x\)</span>.</p>
+<p>Es importante observar que si <span class="math inline">\(x\)</span> es un punto interior de <span class="math inline">\(\Omega\)</span>, sabemos que <span class="math inline">\(N_{\Omega}(x)=\{\mathbf{0}\}\)</span> y, en consecuencia, debe ser <span class="math inline">\(\nabla f(x)=\mathbf{0}\)</span>. Esto es consistente con la condición de optimalidad de los problemas sin restricciones.</p>
+No obstante, la importancia del Teorema 1 radica en cómo tratar los puntos en la frontera de <span class="math inline">\(\Omega\)</span>. A partir de los ejemplos previamente estudiados sobre el cono normal, podemos ver que la interpretación del Teorema 1 es bastante intuitiva. Por ejemplo, si <span class="math inline">\(\Omega\)</span> es un polígono y <span class="math inline">\(x\in\Omega\)</span> es una solución, el vector <span class="math inline">\(-\nabla f(x)\)</span> es perpendicular a <span class="math inline">\(\Omega\)</span> y apunta hacia afuera, lo cual significa que no hay posibilidad de “moverse” en dirección opuesta al gradiente sin salirse de <span class="math inline">\(\Omega\)</span>.
+<hr>
+</details>
+<p>¡Cuidado! La condición provista por el Teorema 1 es necesaria pero no suficiente. Podría verificarse la condición en otros puntos críticos de <span class="math inline">\(\Omega\)</span> que no sean un mínimo global de <span class="math inline">\(f\)</span> en dicho conjunto. Sin embargo, para el notable caso de las funciones convexas dicha condición sí es suficiente.</p>
+<div class="teorema">
+<p><strong>Teorema 2.</strong> (Condición necesaria de optimalidad de primer orden para un conjunto factible convexo y una función objetivo convexa) Sea <span class="math inline">\(\Omega \subseteq  {R}^n\)</span> convexo y sea <span class="math inline">\(f:  {R}^n \to  {R}\)</span> una función diferenciable convexa. Entonces <span class="math display">\[
+-\nabla f(x)\in N_{\Omega}(x)\Leftrightarrow x \text{ es un minimizador de }f\text{ en }\Omega.
+\]</span></p>
+</div>
+</section>
+</section>
+<section id="condiciones-de-karush-kuhn-tucker-kkt" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Condiciones de Karush-Kuhn-Tucker (KKT)</h1>
+<section id="el-caso-particular-de-restricciones-lineales" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="el-caso-particular-de-restricciones-lineales"><span class="header-section-number">2.1</span> El caso particular de restricciones lineales</h2>
+<p>Vamos a considerar el caso en que <span class="math inline">\(\Omega\)</span> un polítopo convexo, esto es, el conjunto convexo definido por la intersección de un número finito de medios espacios (desigualdades lineales):</p>
+<p><span class="math display">\[
+\Omega=\{\xx\in\RR^n|A\xx\leq \bfb\},
+\]</span></p>
+<p>donde <span class="math inline">\(A\in\RR^{m\times n}\)</span> es una matriz, cuyas filas denotaremos con <span class="math inline">\(\bfa_j\)</span>, <span class="math inline">\(j=1,\cdots,m\)</span>, y <span class="math inline">\(\bfb\in\RR^m\)</span>.</p>
+<p>En el ejemplo … (<span style="color: red;">Agregar ejemplo 3.6 de Lecture 2 a ‘Intro’</span>) hemos visto que el cono normal en un punto en la intersección de dos medios espacios es la envolvente cónica de las direcciones ortogonales a dichos subespacios.</p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/conic_hull_halfspaces_intersection.png" alt="Conic Hull" width="200px" class="figure-img">
+<figcaption>
+Envolvente cónica de la intersección de dos subespacios <span class="math inline">\(\bfa_1^T\xx\leq b_1\)</span> y <span class="math inline">\(\bfa_2^T\xx\leq b_2\)</span>.
+</figcaption>
+</figure>
+<p>Por otra parte, los otros casos también ya han sido vistos:</p>
+<ul>
+<li>Si <span class="math inline">\(\xx\)</span> pertenece al interior de <span class="math inline">\(\Omega\)</span>, entonces <span class="math inline">\(N_{\Omega}(\xx)=\{\mathbf{0}\}\)</span>.</li>
+<li>Si <span class="math inline">\(\xx\)</span> pertenece a la frontera de un único medio espacio, a saber <span class="math inline">\(\bfa_k^T\xx=b_k\)</span>, entonces <span class="math inline">\(N_{\Omega}(\xx)=\{\lambda \bfa_k:\lambda\geq 0\}\)</span>.</li>
+</ul>
+<p>La generalización al caso de <span class="math inline">\(m\)</span> medios espacios se presenta en el siguiente teorema.</p>
+<div class="teorema">
+<p><strong>Teorema 3.</strong> Sea <span class="math inline">\(\Omega=\{x\in\RR^n\}\)</span> la intersección de <span class="math inline">\(m\)</span> medios espacios <span class="math inline">\(\bfa_j^T\xx\leq b_j\)</span>. Dado un punto <span class="math inline">\(x\in\Omega\)</span>, se define el conjunto de índices de las <em>restricciones activas</em> mediante</p>
+<p><span class="math display">\[
+I(\xx):=\left\{j\in\{1,\cdots,m\}:\bfa_j^T\xx=b_j\right\}.
+\]</span> Entonces, el cono normal en <span class="math inline">\(\xx\)</span> está dado por</p>
+<p><span class="math display">\[
+N_{\Omega}(\xx)=\left\{\sum_{j\in I(\xx)}\lambda_j\bfa_j:\lambda_j\geq 0\right\}.
+\]</span></p>
+</div>
+<details>
+<summary>
+Interpretación
+</summary>
+<hr>
+<p>Si <span class="math inline">\(\xx\)</span> pertenece al interior de <span class="math inline">\(\Omega\)</span>, entonces no hay restricciones activas. Esto se corresponde con el hecho de que el cono normal es <span class="math inline">\(N_{\Omega}(\xx)=\{\mathbf{0}\}\)</span>.</p>
+<p>Por su parte, si <span class="math inline">\(\xx\)</span> pertenece a la frontera de <span class="math inline">\(\Omega\)</span>, entonces el cono normal es la envolvente cónica de las direcciones ortogonales a las restricciones activas.</p>
+<p>Observar que la condición de optimalidad <span class="math inline">\(-\nabla f(\xx)\in N_{\Omega}(\xx)\)</span> se traduce como</p>
+<p><span class="math display">\[
+-\nabla f(\xx)=\sum_{j\in I(\xx)}\lambda_j\bfa_j,
+\]</span></p>
+<p>y, en consecuencia, se puede escribir</p>
+<p><span class="math display">\[
+\nabla f(\xx)-\sum_{j\in I(\xx)}\lambda_j \nabla g_j(\xx)=0,
+\]</span></p>
+con <span class="math inline">\(g_j(\xx)=\bfa_j^T\xx-b\)</span>. Los coeficientes <span class="math inline">\(\lambda_j\)</span> se denominan tipicamente <em>multiplicadores de Lagrange</em>.
+<hr>
+</details>
+<p>La suma en la expresión del cono normal puede ser reescrita sin restringir <span class="math inline">\(j\in I(\xx)\)</span>, simplemente imponiendo <span class="math inline">\(\lambda_j=0\)</span> para todo <span class="math inline">\(j\notin I(\xx)\)</span>. Esta imposición queda ímplicita de forma inmediata si se escribe</p>
+<p><span class="math display">\[
+\sum_{j=1}^m\lambda_j\left(\bfa_j^T\xx-b_j\right)=0.
+\]</span></p>
+<p>En forma vectorial, esto es <span class="math inline">\(\bflambda^T\left(A\xx-\bfb\right)=0\)</span>, donde <span class="math inline">\(\bflambda=(\lambda_1,\cdots,\lambda_m)^T\)</span>. Con esta notación, el resultado del Teorema 3 puede reescribirse como</p>
+<p><span class="math display">\[
+N_{\Omega}(\xx)=\left\{A^T\bflambda:\bflambda^T(A\xx-\bfb)=0,\bflambda\in\RR^m_{\geq 0}\right\}.
+\]</span></p>
+<p>Para concluir este análisis, y teniendo en cuenta lo expuesto hasta aquí, podemos hacer énfasis en tres condiciones necesarias para que una solución sea óptima en este caso particular de restricciones lineales.</p>
+<div class="highlight">
+<p>Para que <span class="math inline">\(\xx\in\Omega\)</span> sea un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, debe cumplir:</p>
+<ul>
+<li><p><strong>Estacionariedad</strong>: El gradiente debe ser una combinación lineal de los gradientes de las restricciones activas. <span class="math display">\[
+\nabla f(\xx)-\sum_{j=1}^{m}\lambda_j(\bfa_j^T\xx-b_j).
+\]</span></p></li>
+<li><p><strong>Factibilidad dual</strong>: Los multiplicadores de Lagrange asociados a las restricciones de desigualdad deben ser no negativos. <span class="math display">\[
+\lambda_j\geq 0 \quad \forall j=1,\cdots,m.
+\]</span></p></li>
+<li><p><strong>Holgura complementaria</strong>: Los multiplicadores de Lagrange solo pueden ser positivos si la restricción está activa. <span class="math display">\[
+\lambda_j\left(\bfa_j^T\xx-b_j\right)=0 \quad \forall j=1,\cdots,m.
+\]</span></p></li>
+</ul>
+</div>
+<p><br> Las condiciones mencionadas se conocen como <strong>condiciones de Karush-Kuhn-Tucker</strong> y son una consecuencia de la caracterización del cono normal para conjuntos definidos como interseccion de restricciones lineales, provista por el Teorema 3. Ya estamos en condiciones de abordar el problema de optimización general.</p>
+</section>
+<section id="generalización" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="generalización"><span class="header-section-number">2.2</span> Generalización</h2>
+<p>Consideremos el problema de optimización general <span class="math display">\[
+\min_{x} f(x)
+\]</span> <span class="math display">\[
+\text{s.t.}\; x\in\Omega=\left\{x\in\RR^n\left|\begin{array}{rl}
+h_i(x)= 0,&amp; i=1,\cdots,r.\\
+g_j(x)\leq 0, &amp; j=1,\cdots,m.
+\end{array}\right.\right\},
+\]</span></p>
+<p>donde <span class="math inline">\(\Omega\)</span> está definido como una intersección de restricciones funcionales diferenciables.</p>
+<p>Supongamos que <span class="math inline">\(\xx^*\)</span> es un punto óptimo en la frontera del conjunto factible <span class="math inline">\(\Omega\)</span> correspondiente a tres condiciones de desigualdad <span class="math inline">\(g_i(x) \le 0\)</span> para <span class="math inline">\(i=1,2,3\)</span> (ver figura abajo). La idea principal es la siguiente:</p>
+<blockquote class="blockquote">
+<p><em>El conjunto de direcciones que forma un ángulo obtuso con todas las direcciones desde <span class="math inline">\(\xx^*\)</span> que permanecen en <span class="math inline">\(\Omega\)</span> coincide con el cono normal de la linearización de las restricciones activas en <span class="math inline">\(\xx^*\)</span>.</em></p>
+</blockquote>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/conic_hull_generalization.png" alt="Conic Hull" width="400px" class="figure-img">
+<figcaption>
+Envolvente cónica de la intersección de restricciones <span class="math inline">\(g_i(\xx)\leq 0\)</span>, para <span class="math inline">\(i=1,2,3\)</span>.
+</figcaption>
+</figure>
+<p>Si aplicamos la idea anterior a <span class="math inline">\(-\nabla f(\xx)\)</span> y consideramos el Teorema 3, obtenemos la generalización de las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT). Denominemos <span class="math inline">\(\tilde{\Omega}\)</span> la linearización de <span class="math inline">\(\Omega\)</span>, dado por la linearización de las restricciones en un punto óptimo <span class="math inline">\(\xx^*\)</span>:</p>
+<p><span class="math display">\[
+h_i(\xx^*)+\nabla h_i(\xx^*)\cdot (\xx-\xx^*)=0,
+\]</span></p>
+<p><span class="math display">\[
+g_i(\xx^*)+\nabla g_i(\xx^*)\cdot (\xx-\xx^*)\leq 0.
+\]</span></p>
+<p>Entonces, por Teorema 3, resulta</p>
+<p><span class="math display">\[
+N_{\tilde{\Omega}}(\xx^*)=\left\{\sum_{i=1}^m\lambda_i\nabla h_i(\xx^*)+\sum_{j\in I(\xx^*)}\mu_j\nabla g_j(\xx^*): \lambda_i\in\RR, \mu_j\in\RR_{\geq 0}\right\},
+\]</span></p>
+<p>donde <span class="math inline">\(I(\xx^*):=\left\{j\in\{1,\cdots,m\}: g_j(\xx^*)=0\right\}\)</span>. Por supuesto, puede reformularse la condición $jI(^*) utilizando holgura complementaria, tal como antes.</p>
+<p>Si bien no estamos aún en condiciones de extender el Teorema 3, puesto que el desarrollo previo fue más bien intuitivo, podemos establecer las condiciones KKT mediante una definición formal de la siguiente manera.</p>
+<div class="definicion">
+<p><strong>Definición 1.</strong> (Condiciones de Karush-Kuhn-Tucker (KKT) Sea un problema de optimización no lineal con función objetivo diferenciable y restricciones funcionales, de la forma <span class="math display">\[
+\text{s.t.}\; x\in\Omega=\left\{x\in\RR^n\left|\begin{array}{rl}
+h_i(x)= 0,&amp; i=1,\cdots,r.\\
+g_j(x)\leq 0, &amp; j=1,\cdots,m.
+\end{array}\right.\right\},
+\]</span></p>
+<p>y sea <span class="math inline">\(\xx\in\Omega\)</span> (<strong>factibilidad primal</strong>). Las <em>condiciones KKT</em> en <span class="math inline">\(\xx\)</span> están dadas por:</p>
+<ul>
+<li><p><strong>Estacionariedad</strong>: <span class="math display">\[
+-\nabla f(\xx)=\sum_{i=1}^r\lambda_i\nabla h_i(\xx)+\sum_{j=1}^m\mu_j\nabla g_j(\xx).
+\]</span></p></li>
+<li><p><strong>Factibilidad dual</strong>: <span class="math display">\[
+\lambda_i\in\RR, \mu_j\in\RR_{\geq 0}\quad\forall i=1,\cdots,r, \forall j=1,\cdots, m.
+\]</span></p></li>
+<li><p><strong>Holgura complementaria</strong>: <span class="math display">\[
+\mu_j g_j(\xx)=0\quad \forall j=1,\cdots,m.
+\]</span></p></li>
+</ul>
+</div>
+<p>Es importante remarcar que:</p>
+<ul>
+<li><p>Las condiciones KKT indican que -<span class="math inline">\(\nabla f(\xx)\)</span> debe estar en el cono normal a la linearización del conjunto de restricciones.</p></li>
+<li><p>La condición de holgura compelementaria se resume en “si la restricción <span class="math inline">\(g_j(\xx)\leq 0\)</span> no está activa, entonces <span class="math inline">\(\mu_j=0\)</span>”.</p></li>
+<li><p>Las condiciones KKT a menudo son necesarias para la optimalidad, pero no siempre.</p></li>
+</ul>
+<p>A continuación, veremos un ejemplo donde las condiciones KKT fallan. Luego, en la siguiente sección veremos en qué escenarios las condiciones KKT son efectivamente una condición necesaria de optimalidad.</p>
+</section>
+<section id="cualificación-de-restricciones" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="cualificación-de-restricciones"><span class="header-section-number">2.3</span> Cualificación de restricciones</h2>
+</section>
+</section>
+<section id="dualidad" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Dualidad</h1>
+<p>La teoría de la dualidad juega un papel fundamental en la optimización, permitiendo reformular problemas en términos de funciones duales que pueden proporcionar información valiosa sobre la solución óptima.</p>
+<section id="función-dual-de-lagrange" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="función-dual-de-lagrange"><span class="header-section-number">3.1</span> Función dual de Lagrange</h2>
+<div class="definicion">
+<p><strong>Definición 2.</strong> (Lagrangiano) Sea el problema de optimización general <span class="math display">\[
+\min f(\xx)
+\]</span> <span class="math display">\[
+\text{sujeto a}\; \xx\in\Omega=\left\{\xx\in\RR^p\left|\begin{array}{rl}
+g_i(\xx)\leq 0,&amp; i=1,\cdots,q\\
+h_j(\xx)= 0, &amp; j=1,\cdots,r
+\end{array}\right.\right\}.
+\]</span></p>
+<p>Se denomina <em>Lagrangiano</em> a la función <span class="math inline">\(\calL:\RR^p\times\RR^q\times\RR^r\to\RR\)</span> definida por <span class="math display">\[
+\calL(\xx,\bflambda,\bfnu)=f(\xx)+\sum_{i=1}^q\lambda_i g_i(\xx)+\sum_{j=1}^r\nu_j h_j(\xx).
+\]</span></p>
+</div>
+<p>Los vectores <span class="math inline">\(\bflambda\)</span> y <span class="math inline">\(\bfnu\)</span>, cuyas componentes son multiplicadores de Lagrange, se denominan <em>variables duales</em> del problema de optimización y son el argumento de la función definida a continuación. A su vez, al problema de optimización original se lo denomina <strong>problema primal</strong>.</p>
+<div class="definicion">
+<p><strong>Definición 3.</strong> (Función dual) Sea <span class="math inline">\(\calL\)</span> el Lagrangiano de la Definición 2. Se denomina <em>función dual de Lagrange</em> a <span class="math inline">\(\calG:\RR^q\times\RR^r\to\RR\)</span> definida por <span class="math display">\[
+\calG(\bflambda,\bfmu)=\inf_{\xx}\calL(\xx,\bflambda,\bfnu).
+\]</span></p>
+<p>Cuando el Lagrangiano no está acotado inferiormente en <span class="math inline">\(\xx\)</span>, se asume el valor <span class="math inline">\(-\infty\)</span>.</p>
+</div>
+<p>Dado que la función dual es el ínfimo puntual de una familia de funciones afínes de <span class="math inline">\((\bflambda,\bfnu)\)</span>, es cóncava, aún cuando el problema primal no sea convexo <span style="color: #800020;">[ver Ejercicio …]</span>.</p>
+<p>La propiedad más importante de la función dual es que es una cota inferior del valor óptimo <span class="math inline">\(p^*\)</span> del problema primal. Es decir, para todo <span class="math inline">\(\bflambda\geq 0\)</span> y cualquier <span class="math inline">\(\bfnu\)</span>, resulta <span class="math display">\[
+\calG(\bflambda,\bfnu)\leq p^*.
+\]</span></p>
+<details>
+<summary>
+Verificación
+</summary>
+<hr>
+<p>Sea <span class="math inline">\(\tilde{\xx}\)</span> un punto factible del problema primal. Entonces <span class="math inline">\(g_i(\tilde{\xx})\leq 0\)</span> y <span class="math inline">\(h_j(\tilde{\xx})=0\)</span> para todo <span class="math inline">\(i=1,\cdots,q\)</span> y <span class="math inline">\(j=1,\cdots,r\)</span>, respectivamente. Por lo tanto, para <span class="math inline">\(\bflambda\geq 0\)</span> se tiene que <span class="math display">\[
+\sum_{i=1}^q\lambda_ig_i(\tilde{\xx})+\sum_{j=1}^r\nu_j h_j(\tilde{\xx})\geq 0.
+\]</span></p>
+<p>Sumando <span class="math inline">\(f(\tilde{\xx})\)</span> a ambos miembros, se obtiene <span class="math inline">\(\calL(\xx,\bflambda,\bfnu)\leq f(\tilde{\xx})\)</span>. Luego, por propiedad del ínfimo, resulta <span class="math display">\[
+\calG(\bflambda,\bfnu)\leq f(\tilde{\xx}).
+\]</span></p>
+<p>Finalmente, dado que <span class="math inline">\(\tilde{\xx}\)</span> es cualquier punto factible, en particular la desigualdad anterior es cierta para un punto óptimo <span class="math inline">\(\xx^*\)</span> tal que <span class="math inline">\(f(\xx^*)=p^*\)</span>.</p>
+<hr>
+</details>
+</section>
+<section id="el-problema-dual-de-lagrange" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="el-problema-dual-de-lagrange"><span class="header-section-number">3.2</span> El problema dual de Lagrange</h2>
+<p>Inmediatamente nos podemos preguntar: ¿cual es el valor máximo <span class="math inline">\(d^*\)</span> de <span class="math inline">\(\calG(\bflambda,\bfnu)\)</span> si asumimos <span class="math inline">\(\bflambda\geq 0\)</span>? Esto da lugar al problema que definiremos a continuación. Observar que la desigualdad <span class="math inline">\(\calG(\bflambda,\bfnu)\leq p^*\)</span> implica <span class="math display">\[
+d^*\leq p^*.
+\]</span></p>
+<div class="definicion">
+<p><strong>Definición 3.</strong> (Problema dual) Sea <span class="math inline">\(\calG\)</span> la función dual de Lagrange asociado al problema primal de la Definición 2. El <em>problema dual de Lagrange</em> es <span class="math display">\[
+\max \calG(\bflambda,\bfnu)
+\]</span> <span class="math display">\[
+\text{sujeto a }\; \bflambda\geq 0.
+\]</span></p>
+</div>
+<p>En línea con la notación anterior, denominaremos <em>multiplicadores óptimos</em> a un par <span class="math inline">\((\bflambda^*,\bfnu^*)\)</span> que es solución del problema dual. Es decir, verifican <span class="math inline">\(\calG(\bflambda^*,\bfnu^*)=d^*\)</span>.</p>
+<p>El problema dual de Lagrange es un problema de optimización convexo, independientemente de que el problema primal sea convexo o no. Esto se debe a que la función a maximizar es cóncava y la restricción es un conjunto convexo.</p>
+</section>
+<section id="suboptimalidad-y-criterio-de-parada" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="suboptimalidad-y-criterio-de-parada"><span class="header-section-number">3.3</span> Suboptimalidad y criterio de parada</h2>
+<p>Los puntos factibles duales nos permiten acotar cuán subóptimo es un punto factible dado, sin conocer el valor exacto de <span class="math inline">\(p^{*}\)</span>. De hecho, si <span class="math inline">\(\xx\)</span> es factible primal y <span class="math inline">\((\bflambda, \bfnu)\)</span> es factible dual, entonces se cumple la siguiente desigualdad: <span class="math display">\[
+f(\xx) - p^{*} \leq f(\xx)-\calG(\bflambda, \bfnu).
+\]</span></p>
+<p>En particular, esto establece que <span class="math inline">\(\xx\)</span> es <span class="math inline">\(\epsilon\)</span>-subóptimo, con <span class="math display">\[\epsilon = f(\xx) - g(\bflambda, \bfnu).
+\]</span></p>
+<p>La brecha <span class="math inline">\(\epsilon\)</span> se conoce como <em>brecha de dualidad</em> para los puntos factibles <span class="math inline">\(\xx\)</span> y <span class="math inline">\((\bflambda,\bfnu)\)</span>. Para dichos puntos, los valores óptimos de los problemas primal y dual verifican <span class="math display">\[
+p^*,d^*\in\left[g(\bflambda,\bfnu), f(\xx)\right],
+\]</span> donde el ancho del intervalo es justamente la brecha de dualidad. Observar que si <span class="math inline">\(\epsilon=0\)</span>, entonces <span class="math inline">\(\xx\)</span> es óptimo primal y <span class="math inline">\((\bflambda,\bfnu)\)</span> es óptimo dual.</p>
+<p>El concepto de brecha de dualidad puede usarse en algoritmos de optimización para proporcionar criterios de parada no heurísticos. Supongamos que un algoritmo produce una secuencia de puntos factibles primales <span class="math inline">\(\xx^{(k)}\)</span> y puntos factibles duales <span class="math inline">\((\bflambda^{(k)}, \bfnu^{(k)})\)</span>, para <span class="math inline">\(k = 1, 2, \ldots\)</span>, y sea <span class="math inline">\(\epsilon_{\text{abs}} &gt; 0\)</span> una precisión absoluta requerida. Entonces, el criterio de parada <span class="math display">\[
+f(\xx^{(k)}) - g(\bflambda^{(k)}, \bfnu^{(k)}) \leq \epsilon_{\text{abs}}
+\]</span></p>
+<p><strong>garantiza</strong> que, cuando el algoritmo termina, <span class="math inline">\(\xx^{(k)}\)</span> es <span class="math inline">\(\epsilon_{\text{abs}}\)</span>-subóptimo. Por supuesto, la dualidad fuerte debe cumplirse si se pretende que este método funcione para tolerancias <span class="math inline">\(\epsilon_{\text{abs}}\)</span> arbitrariamente pequeñas.</p>
+</section>
+<section id="holgura-complementaria" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="holgura-complementaria"><span class="header-section-number">3.4</span> Holgura complementaria</h2>
+<p>Supongamos que los valores óptimos primal y dual se alcanzan y son iguales. Esto es, se cumple la desigualdad fuerte <span class="math inline">\(p^*=d^*\)</span>. Esto significa que para puntos óptimos <span class="math inline">\(\xx^*\)</span> y <span class="math inline">\((\bflambda^*,\bfnu^*)\)</span> se verifica <span class="math display">\[
+\begin{align*}
+f(\xx^{*}) &amp;= \calG(\bflambda^{*}, \bfnu^{*}) \\
+&amp;= \inf_{x} \left( f(\xx) + \sum_{i=1}^{q} \lambda_{i}^{*} g_{i}(x) + \sum_{j=1}^{r} \nu_{j}^{*} h_{j}(\xx) \right)\\
+&amp; \leq f(\xx^{*}) + \sum_{i=1}^{q} \lambda_{i}^{*} g_{i}(\xx^{*}) + \sum_{j=1}^{r} \nu_{j}^{*} h_{j}(\xx^{*}) \\&amp;\leq f(\xx^{*}).
+\end{align*}
+\]</span></p>
+<p>La justificación de cada uno los pasos es sencilla <span style="color: #800020;">[Ejercicio …]</span>. Concluimos que las dos desigualdades en esta cadena se cumplen con igualdad. En particular, la última igualdad</p>
+<p><span class="math display">\[
+f(\xx^*)+ \sum_{i=1}^{q} \lambda_{i}^{*} g_{i}(\xx^{*}) + \sum_{j=1}^{r} \nu_{j}^{*} h_{j}(\xx^{*})=f(\xx^*)
+\]</span></p>
+<p>implica que</p>
+<p><span class="math display">\[
+\sum_{i=1}^{q} \lambda_{i}^{*} g_{i}(\xx^{*}) = 0.
+\]</span></p>
+<p>Pero cada término en esta suma es no positivo, por lo tanto debe verificarse</p>
+<p><span class="math display">\[
+\boxed{\lambda_{i}^{*} g_{i}(\xx^{*}) = 0, \quad \forall i = 1, \ldots, q.}
+\]</span></p>
+<p>Esta es la <em>condición de holgura complementaria</em> que hemos visto en la sección anterior. Se cumple para cualquier punto óptimo primal <span class="math inline">\(\xx^{*}\)</span> y cualquier punto óptimo dual <span class="math inline">\((\bflambda^{*}, \bfnu^{*})\)</span> bajo dualidad fuerte. Recordemos que, en términos generales, esta condición significa que el <span class="math inline">\(i\)</span>-ésimo multiplicador de Lagrange óptimo es cero salvo que la <span class="math inline">\(i\)</span>-ésima restricción esté activa.</p>
+</section>
+<section id="relación-entre-dualidad-y-kkt" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="relación-entre-dualidad-y-kkt"><span class="header-section-number">3.5</span> Relación entre dualidad y KKT</h2>
+<p>Los conceptos de Lagrangiano y su función dual han permitido caracterizar la relación entre los valores óptimos <span class="math inline">\(p^*\)</span> y <span class="math inline">\(d^*\)</span>. En particular, las condiciones de <em>factibilidad dual</em> y de <em>holgura complementaria</em> de la Definición 1 (Condiciones de Karush-Kuhn-Tucker) han permitido primero escribir la desigualdad <span class="math inline">\(\calG(\bflambda,\bfmu)\leq p^*\)</span> y luego analizar qué sucede cuando <span class="math inline">\(p^*=q^*\)</span>.</p>
+<p>Veamos ahora cómo surge la <em>estacionariedad</em> en este contexto. Podemos afirmar que</p>
+<p><span class="math display">\[
+f(\xx^*)\leq f(\xx)+\sum_{i=1}^{q} \lambda_{i}^{*} g_{i}(\xx) + \sum_{j=1}^{r} \nu_{j}^{*} h_{j}(\xx)
+\]</span></p>
+<p>para todo punto factible <span class="math inline">\(\xx\)</span>, con igualdad si <span class="math inline">\(\xx=\xx^*\)</span>. El lado derecho es el Lagrangiano <span class="math inline">\(L(\xx,\bflambda^*,\bfnu^*)\)</span>, del cual podemos afirmar que <span class="math inline">\(\xx\)</span> es un minimizador. En consecuencia, debe verificarse</p>
+<p><span class="math display">\[
+\begin{align*}
+  \nabla L(\xx^*,\bflambda^*,\bfnu^*)&amp;=0\\
+  \nabla f(\xx^*)+\sum_{i=1}^q\lambda_i^*\nabla g_i(\xx^*)+\sum_{j=1}^r\nu_j^*\nabla h_j(\xx^*)&amp;=0.
+\end{align*}
+\]</span></p>
+<div class="teorema">
+<p><strong>Teorema 4.</strong> (Dualidad y KKT) Sea <span class="math inline">\(\xx^*\)</span> un punto óptimo primal y <span class="math inline">\((\bflambda^*,\bfnu^*)\)</span> un punto óptimo dual. Si <span class="math inline">\(p^*=q^*\)</span>, entonces <span class="math inline">\((\xx^*,\bflambda^*,\bfnu^*)\)</span> satisfacen las condiciones de Karush-Kuhn-Tucker.</p>
+</div>
+<br>
+<hr style="border: 2.5px solid black;">
+<h2 class="anchored">
+Ejercicios
+</h2>
+<ol type="1">
+<li><p>Considere el problema <span class="math display">\[
+\min x^2\quad\text{sujeto a}\quad 2-x\leq 0.
+\]</span> Obtenga la función dual de Lagrange y verifique graficamente su convexidad. ¿Cuál es el valor de <span class="math inline">\(d^*\)</span>?</p></li>
+<li><p>Probar que la función dual de Lagrange <span class="math inline">\(\calG(\bflambda,\bfmu)\)</span> es cóncava.</p></li>
+<li><p>Mostrar que, si <span class="math inline">\(\xx\)</span> es factible primal y <span class="math inline">\((\bflambda,\bfnu)\)</span> es factible dual, entonces <span class="math inline">\((\bflambda,\bfnu)\)</span> es <span class="math inline">\(\epsilon\)</span>-subóptimo para el problema dual.</p></li>
+</ol>
+
+
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+W10=
+</script>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../CAPITULO_1";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "..";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/isaiasibanez\.github\.io\/OML2\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

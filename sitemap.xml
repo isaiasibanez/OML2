@@ -2,22 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://isaiasibanez.github.io/OML2/macros.html</loc>
-    <lastmod>2025-05-28T14:53:19.407Z</lastmod>
+    <lastmod>2025-06-02T22:38:02.353Z</lastmod>
   </url>
   <url>
-    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_1/A3_metodos_optimizacion.html</loc>
-    <lastmod>2025-05-28T03:30:58.533Z</lastmod>
+    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_1/A5_metodos_optimizacion.html</loc>
+    <lastmod>2025-06-03T21:10:58.737Z</lastmod>
+  </url>
+  <url>
+    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_1/A3_herramientas_computacionales.html</loc>
+    <lastmod>2025-06-03T21:11:07.425Z</lastmod>
   </url>
   <url>
     <loc>https://isaiasibanez.github.io/OML2/CAPITULO_1/A1_intro_optimizacion.html</loc>
-    <lastmod>2025-05-28T17:00:32.606Z</lastmod>
+    <lastmod>2025-06-03T21:10:44.665Z</lastmod>
   </url>
   <url>
-    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_1/A2_optimalidad.html</loc>
-    <lastmod>2025-05-28T03:30:58.532Z</lastmod>
+    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_1/A2_optimizacion_convexa.html</loc>
+    <lastmod>2025-06-03T21:11:27.671Z</lastmod>
+  </url>
+  <url>
+    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_1/A4_condiciones_optimalidad.html</loc>
+    <lastmod>2025-06-03T21:11:42.581Z</lastmod>
   </url>
   <url>
     <loc>https://isaiasibanez.github.io/OML2/index.html</loc>
-    <lastmod>2025-05-28T03:30:58.678Z</lastmod>
+    <lastmod>2025-05-23T18:47:47.929Z</lastmod>
   </url>
 </urlset>

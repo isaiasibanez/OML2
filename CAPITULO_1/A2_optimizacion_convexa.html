@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Introducción a la optimización – Optimización y Aprendizaje Automático II</title>
+<title>Optimización convexa – Optimización y Aprendizaje Automático II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -196,6 +196,7 @@ window.Quarto = {
   <li><a href="#condiciones-de-convexidad" id="toc-condiciones-de-convexidad" class="nav-link" data-scroll-target="#condiciones-de-convexidad"><span class="header-section-number">2.1</span> Condiciones de convexidad</a></li>
   <li><a href="#operaciones-que-preservan-convexidad-1" id="toc-operaciones-que-preservan-convexidad-1" class="nav-link" data-scroll-target="#operaciones-que-preservan-convexidad-1"><span class="header-section-number">2.2</span> Operaciones que preservan convexidad</a></li>
   </ul></li>
+  <li><a href="#problemas-de-optimización-convexa" id="toc-problemas-de-optimización-convexa" class="nav-link" data-scroll-target="#problemas-de-optimización-convexa"><span class="header-section-number">3</span> Problemas de optimización convexa</a></li>
   <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
   </ul>
 </nav>
@@ -205,8 +206,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Introducción a la optimización</h1>
-<p class="subtitle lead">Capítulo 1 - Sección 1</p>
+<h1 class="title">Optimización convexa</h1>
+<p class="subtitle lead">Capítulo 1 - Sección 2</p>
 </div>
 
 
@@ -251,6 +252,7 @@ window.Quarto = {
 \def\argmax{\mathop{\mathrm{arg\,max\,}}}
 \]</span></p>
 </div>
+<p>En esta sección nos enfocaremos en los conceptos fundamentales que sustentan la optimización convexa, una rama central en la teoría y práctica de la optimización. Primero repasaremos las definiciones clave relacionadas con la convexidad, incluyendo conjuntos convexos y funciones convexas. Luego, utilizaremos estas definiciones para formular de manera precisa qué entendemos por un problema de optimización convexa.</p>
 <section id="conjuntos-convexos" class="level1 page-columns page-full" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Conjuntos convexos</h1>
 <p>Una gran parte del éxito de los métodos de optimización convexa radica en una idea geométrica simple pero poderosa: la convexidad del conjunto de soluciones factibles.</p>
@@ -525,6 +527,12 @@ Epígrafo de una función <span class="math inline">\(f\)</span>.
 </div>
 </div>
 </details>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 5</span> (Conjuntos de subnivel) El de una función <span class="math inline">\(f:\RR^n\to\RR\)</span> se define como <span class="math display">\[
+C_{\alpha}:=\{\xx\in\text{dom}\,f \mid f(x)\leq\alpha\}.
+\]</span></p>
+<p>Los conjuntos de subnivel son convexos. La prueba es inmediata de la definición y se deja como ejercicio.</p>
+</div>
 <section id="condiciones-de-convexidad" class="level2 page-columns page-full" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="condiciones-de-convexidad"><span class="header-section-number">2.1</span> Condiciones de convexidad</h2>
 <p>Para verificar si una función es convexa, además de recurrir a la definición, existen criterios basados en sus derivadas. Estos permiten caracterizar la convexidad en términos del comportamiento local de la función, ya sea a través del gradiente (primera derivada) o de la matriz hessiana (segunda derivada). Para ello, debemos imponer condiciones a <span class="math inline">\(f\)</span> en relación con su diferenciabilidad.</p>
@@ -593,7 +601,7 @@ g(t)\geq g(\tilde{t})+g'(\tilde{t})(t-\tilde{t}).
 \]</span></p>
 </div>
 <aside>
-<span class="math inline">\(A\succeq 0\)</span> significa que <span class="math inline">\(A\)</span> es <em>semidefinida positiva</em>. Esto es, <span class="math inline">\(\xx^T A\xx\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^n\)</span>.
+<span class="math inline">\(A\succeq 0\)</span> significa que <span class="math inline">\(A\)</span> es <em>semidefinida positiva</em>. Esto es, <span class="math inline">\(\xx^\top A\xx\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^n\)</span>.
 </aside>
 <details>
 <summary>
@@ -615,15 +623,15 @@ Mostrar detalles
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 5</span> Consideremos la función cuadrática <span class="math inline">\(f:\RR^n\to\RR\)</span> definida por</p>
 <p><span class="math display">\[
-f(\xx)=\frac{1}{2}\xx^TA\xx+\bb^T\xx+c,
+f(\xx)=\frac{1}{2}\xx^\top A\xx+\bb^\top\xx+c,
 \]</span></p>
-<p>donde <span class="math inline">\(A\in\SS^n:=\{X\in\RR^{n\times n} \mid X=X^T\}\)</span>, <span class="math inline">\(\bb\in\RR^n\)</span> y <span class="math inline">\(c\in\RR\)</span>. Dado que <span class="math inline">\(\nabla^2 f(\xx)=A\)</span> para todo <span class="math inline">\(\xx\)</span>, podemos afirmar que <span class="math inline">\(f\)</span> es convexa si y sólo si <span class="math inline">\(A\succeq 0\)</span>.</p>
+<p>donde <span class="math inline">\(A\in\SS^n:=\{X\in\RR^{n\times n} \mid X=X^\top\}\)</span>, <span class="math inline">\(\bb\in\RR^n\)</span> y <span class="math inline">\(c\in\RR\)</span>. Dado que <span class="math inline">\(\nabla^2 f(\xx)=A\)</span> para todo <span class="math inline">\(\xx\)</span>, podemos afirmar que <span class="math inline">\(f\)</span> es convexa si y sólo si <span class="math inline">\(A\succeq 0\)</span>.</p>
 <p>Así, por ejemplo, la función <span class="math inline">\(f:\RR^2\to\RR\)</span> definida por</p>
 <p><span class="math display">\[
 f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
 \]</span></p>
-<p>es convexa, ya que <span class="math inline">\(\xx^TA\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^n\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
-<div id="35d0ef20" class="cell" data-execution_count="1">
+<p>es convexa, ya que <span class="math inline">\(\xx^\top A\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^n\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
+<div id="acb386c7" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D  <span class="co"># para 3D</span></span>
@@ -650,7 +658,7 @@ f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&a
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="A1_intro_optimizacion_files/figure-html/cell-2-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="476" height="464"></p>
+<p><img src="A2_optimizacion_convexa_files/figure-html/cell-2-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="476" height="464"></p>
 </figure>
 </div>
 </div>
@@ -676,34 +684,102 @@ f(\xx) = \sup_{i \in \mathcal{A}} f_i(\xx)
 \text{dom}\, f = \{\xx \mid \xx \in \text{dom}\, f_i \text{ para todo } i \in \mathcal{A}, \sup_{i \in \mathcal{A}} f_i(\xx) &lt; \infty\}.
 \]</span> De manera similar, el ínfimo puntual de un conjunto de funciones cóncavas es una función cóncava.</p></li>
 </ul>
+</section>
+</section>
+<section id="problemas-de-optimización-convexa" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Problemas de optimización convexa</h1>
+<div class="definicion">
+<p><strong>Definición 8.</strong> (Problema de optimización convexa) Un <em>problema de optimización convexa</em> es de la forma <span class="math display">\[
+\min_{\xx} f(\xx)
+\]</span> <span class="math display">\[
+\text{s.t.}\; \xx\in\Omega=\left\{\xx\in\RR^n\left|\begin{array}{rl}
+\,g_i(\xx)\leq 0,&amp; i=1,\cdots,r.\\
+\,\aa_j^\top \xx-b_i=0, &amp; j=1,\cdots,m.
+\end{array}\right.\right\},
+\]</span></p>
+<p>donde tanto la función objetivo <span class="math inline">\(f\)</span> como las restricciones <span class="math inline">\(g_1, \dots, g_r\)</span> son funciones convexas.</p>
+</div>
+<p>Comparando con el problema en forma estándar general, podemos ver que las restricciones de igualdad, <span class="math inline">\(h_i(\xx)=\aa_j^\top \xx-b_i=0\)</span>, son funciones afínes. Esto permite asegurar inmediatamente que:</p>
+<div class="alert alert-light text-dark" role="important">
+<p><span class="badge bg-warning text-dark">Importante</span></p>
+<p>El conjunto factible <span class="math inline">\(\Omega\)</span> de un problema de optimización convexa es convexo.</p>
+<details>
+<summary>
+¿Porqué?
+</summary>
+<p>En efecto, es la intersección de los siguientes conjuntos convexos:</p>
+<ul>
+<li><span class="math inline">\(\bigcap_{i=0}^r\text{dom}\,f_i\)</span>.</li>
+<li><span class="math inline">\(r\)</span> conjunto de subnivel <span class="math inline">\(\{\xx \mid g_i(\xx)\leq 0\}\)</span>.</li>
+<li><span class="math inline">\(m\)</span> hiperplanos <span class="math inline">\(\{\xx \mid \aa_i^\top\xx-b_i=0\}\)</span>.</li>
+</ul>
+</details>
+</div>
+<p>Los problemas de optimización convexa tienen una propiedad fundamental que los caracteriza y que explica su gran importancia, la cual enunciaremos a continuación para concluir esta sección. Más adelante estudiaremos cómo la convexidad potencia las condiciones de optimalidad en un punto factible, facilitando su análisis y aplicación.</p>
+<div class="teorema">
+<p><strong>Teorema 3.</strong> (Optimalidad global de un mínimo local en problemas convexos) Si <span class="math inline">\(\xx\in\Omega\)</span> es un mínimo local de un problema de optimización convexa, entonces <span class="math inline">\(\xx\)</span> es un mínimo global.</p>
+</div>
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">Demostración</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<p>Sea <span class="math inline">\(\xx\in\Omega\)</span> un mínimo local de un problema de optimización convexa, entonces, para algún <span class="math inline">\(R&gt;0\)</span>, se tiene que <span class="math display">\[
+f(\xx)=\inf\{f_0(\zz) \mid \zz\in\Omega\;\text{y}, \|\zz-\xx\|_2\leq R\}.
+\tag{1}
+\]</span></p>
+<p>Si <span class="math inline">\(\xx\)</span> no es mínimo global, significa que existe <span class="math inline">\(\yy\in\Omega\)</span> tal que <span class="math inline">\(f(\yy)&lt;f(\xx)\)</span>. En consecuencia, <span class="math inline">\(\|\yy-\xx\|_2&gt;R\)</span>. Elegimos <span class="math display">\[
+\zz=(1-\theta)\xx+\theta y,\qquad \theta=\frac{R}{2\|\yy-\xx\|_2}.
+\]</span></p>
+<p>Por convexidad de <span class="math inline">\(\Omega\)</span>, debe ser <span class="math inline">\(\zz\in\Omega\)</span>. Además, se verifica <span class="math display">\[
+\|\zz-\xx\|_2=\|\theta(\yy-\xx)\|_2=\frac{R}{2}&lt;R.
+\]</span></p>
+<p>Basta mostrar que <span class="math inline">\(f(\zz)&lt;f(\xx)\)</span> para contradecir (1) y concluir la prueba. Para ello, basta usar el hecho de que <span class="math inline">\(f\)</span> es una función convexa: <span class="math display">\[
+f(\zz)\leq (1-\theta)f(\xx)+\theta f(\yy)&lt;(1-\theta)f(\xx)+\theta f(\xx)&lt;f(\xx). \qquad\blacksquare
+\]</span></p>
+</div>
+</div>
+</div>
+</details>
 <br>
 <hr style="border: 1.5px solid black; margin: 1px;">
 <hr style="border: 0.5px solid black; margin: 0;">
 </section>
-</section>
 <section id="ejercicios" class="level1 unnumbered">
 <h1 class="unnumbered">Ejercicios</h1>
 <ol type="1">
-<li><p>Mostrar que:</p>
+<li><p>Muestre que:</p>
 <ul>
 <li>un conjunto afín contiene cualquier combinación afín de sus puntos.</li>
 <li>un conjunto convexo contiene cualquier combinación convexa de sus puntos.</li>
 <li>un cono convexo contiene cualquier combinación cónica de sus puntos.</li>
 </ul></li>
-<li><p>Probar que, si <span class="math inline">\(C\)</span> es un conjunto afín y <span class="math inline">\(\xx_0\in C\)</span>, entonces <span class="math inline">\(V:= C-\xx_0\)</span> es un subespacio vectorial que no depende de la elección de <span class="math inline">\(\xx_0\in C\)</span>.</p></li>
-<li><p>Probar que el conjunto solución de un sistema de ecuaciones lineales, <span class="math display">\[
-C=\{x \mid A\xx=\bb\},\qquad A\in\RR^{m\times n}, \bb\in\RR^m,
+<li><p>Pruebe que, si <span class="math inline">\(C\)</span> es un conjunto afín y <span class="math inline">\(\xx_0\in C\)</span>, entonces <span class="math inline">\(V:= C-\xx_0\)</span> es un subespacio vectorial que no depende de la elección de <span class="math inline">\(\xx_0\in C\)</span>.</p></li>
+<li><p>Pruebe que que el conjunto solución de un sistema de ecuaciones lineales, <span class="math display">\[
+C:=\{x \mid A\xx=\bb\},\qquad A\in\RR^{m\times n}, \bb\in\RR^m,
 \]</span> es un conjunto afin.</p></li>
-<li><p>Probar que decir que un conjunto <span class="math inline">\(C\)</span> es un cono convexo es equivalente a la condición <span class="math display">\[
+<li><p>Justifique porqué decir que un conjunto <span class="math inline">\(C\)</span> es un cono convexo es equivalente a la condición: <span class="math display">\[
 \theta_1\xx_1+\theta_2\xx_2\in C,\qquad\forall \xx_1,\xx_2\in C, \forall \theta_1, \theta_2\geq 0.
 \]</span></p></li>
-<li><p>Sean <span class="math inline">\(S_1\)</span> y <span class="math inline">\(S_2\)</span> conjuntos convexos. Probar que <span class="math inline">\(S_1\times S_2\)</span> es convexo.</p></li>
-<li><p>Sea <span class="math inline">\(S\subset\RR^n\)</span> un conjunto convexo, <span class="math inline">\(\aa\in\RR^n\)</span> y <span class="math inline">\(\alpha\in\RR\)</span>. Mostrar que los conjuntos <span class="math inline">\(S+\aa:=\{\xx+\aa \mid \xx\in S\}\)</span> y <span class="math inline">\(\alpha S:=\{\alpha\xx \mid \xx\in S\}\)</span> son convexos.</p></li>
+<li><p>Sean <span class="math inline">\(S_1\)</span> y <span class="math inline">\(S_2\)</span> conjuntos convexos. Muestre que <span class="math inline">\(S_1\times S_2\)</span> es convexo.</p></li>
+<li><p>Sea <span class="math inline">\(S\subset\RR^n\)</span> un conjunto convexo, <span class="math inline">\(\aa\in\RR^n\)</span> y <span class="math inline">\(\alpha\in\RR\)</span>. Pruebe que los conjuntos <span class="math inline">\(S+\aa:=\{\xx+\aa \mid \xx\in S\}\)</span> y <span class="math inline">\(\alpha S:=\{\alpha\xx \mid \xx\in S\}\)</span> son convexos.</p></li>
 <li><p>Realice la prueba del ejemplo 2 de cono normal a un hiperplano. Es decir, muestre que <span class="math inline">\(\dd\in\mathcal{N}_{\xx_0}(\Omega)\)</span> si y solo si es de la forma <span class="math inline">\(\dd=\lambda\aa\)</span> para algún <span class="math inline">\(\lambda\in\RR\)</span>. [<em>Ayuda: para el recíproco, suponga <span class="math inline">\(\dd\neq \lambda\aa\)</span> y utilice el hecho de que <span class="math inline">\(\dd\)</span> puede escribirse como <span class="math inline">\(\dd=(\xx-\xx_0)+k\aa\)</span>, donde <span class="math inline">\(\xx\)</span> es la proyección de <span class="math inline">\(\dd\)</span> sobre <span class="math inline">\(\Omega\)</span> y <span class="math inline">\(k\in\RR\)</span></em>.]</p></li>
-<li><p>Probar la suficiencia de la condición de primer orden del Teorema 1 para funciones de una variable. [<em>Ayuda: para <span class="math inline">\(x_1\neq x_2\)</span> arbitrarios y <span class="math inline">\(0\leq \theta\leq 1\)</span>, defina <span class="math inline">\(x_3=\theta x_1+(1-\theta) x_2\)</span> y aplique la condición tanto a <span class="math inline">\((x_3,x_1)\)</span> como a <span class="math inline">\((x_3,x_2)\)</span></em>.]</p></li>
+<li><p>Muestre que los conjuntos de subnivel de una función <span class="math inline">\(f:\RR^n\to\RR\)</span> son convexos (ver Ejemplo 5), pero que el recíproco no se cumple. Para esto último utilice algún contraejemplo.</p></li>
+<li><p>Pruebe la suficiencia de la condición de primer orden del Teorema 1 para funciones de una variable. [<em>Ayuda: para <span class="math inline">\(x_1\neq x_2\)</span> arbitrarios y <span class="math inline">\(0\leq \theta\leq 1\)</span>, defina <span class="math inline">\(x_3=\theta x_1+(1-\theta) x_2\)</span> y aplique la condición tanto a <span class="math inline">\((x_3,x_1)\)</span> como a <span class="math inline">\((x_3,x_2)\)</span></em>.]</p></li>
 <li><p>El requisito separado de que <span class="math inline">\(\text{dom}\, f\)</span> sea convexo no puede eliminarse de las caracterizaciones de primer o segundo orden de convexidad y concavidad de <span class="math inline">\(f\)</span>. Analice el caso <span class="math inline">\(f(x)=1/x^2\)</span>.</p></li>
+<li><p>Justifique, utilizando alguno de los teoremas vistos, la convexidad de las siguientes funciones:</p>
+<ul>
+<li><span class="math inline">\(f:\RR^+\to\RR: f(x)=\log(1+e^x)\)</span>.</li>
+<li><span class="math inline">\(f:\RR^n\to\RR: f(\xx)=\aa^\top \xx+b\)</span>, <span class="math inline">\(\aa\in\RR^n\)</span>, <span class="math inline">\(b\in\RR\)</span>.</li>
+<li><span class="math inline">\(f:\RR^n\to\RR: f(\xx)=\|\xx\|_2^2\)</span>.</li>
+<li><span class="math inline">\(f:(\RR^+)^n\to\RR: f(\xx)=\sum_{i=1}^n\xx_i\log \xx_i\)</span>.</li>
+<li><span class="math inline">\(f:(\RR^+)^n\to\RR: f(\xx)=-\sum_{i=1}^n\log \xx_i\)</span>.</li>
+</ul></li>
 <li><p>Dada la función cuadrática <span class="math inline">\(f:\RR^2\to\RR\)</span> definida por <span class="math display">\[
-f(x)=\frac{1}{2}\xx^T A\xx,
+f(x)=\frac{1}{2}\xx^\top A\xx,
 \]</span> proponga distintas matrices <span class="math inline">\(A\)</span>, grafique la función y decida si <span class="math inline">\(A\)</span> es semidefinida positiva, negativa o indefinida. Además, calcule los autovalores de <span class="math inline">\(A\)</span> y explique qué relación observa.</p></li>
 <li><p>La desigualdad de Jensen establece que si <span class="math inline">\(\xx\in\text{dom}\,f\)</span> y <span class="math inline">\(f\)</span> es una función convexa, entonces <span class="math display">\[
 f(\media \xx)\leq \media f(\xx),
@@ -712,8 +788,8 @@ f(\media \xx)\leq \media f(\xx),
 <li><p>Determine cuáles de las operaciones que preservan la convexidad siguen preservándola en el caso de funciones estrictamente convexas, ajustando las hipótesis cuando sea necesario.</p></li>
 <li><p>Sean <span class="math inline">\(C\subset\RR^n\)</span> y <span class="math inline">\(\|\cdot\|\)</span> una norma en <span class="math inline">\(\RR^n\)</span>. La <em>distancia al punto más lejano</em> de <span class="math inline">\(C\)</span> está dada por <span class="math display">\[
 f(\xx)=\sup_{\yy\in C}\|\xx-\yy\|.
-\]</span> Probar que <span class="math inline">\(f\)</span> es convexa.</p></li>
-<li><p>Mostrar que la función <span class="math inline">\(f:\mathbf{S}^n\to\RR\)</span>, definida por <span class="math display">\[
+\]</span> Pruebe que <span class="math inline">\(f\)</span> es convexa.</p></li>
+<li><p>Pruebe que la función <span class="math inline">\(f:\mathbf{S}^n\to\RR\)</span>, definida por <span class="math display">\[
 f(X)=\lambda_{\text{max}}(X),
 \]</span> donde <span class="math inline">\(\lambda_{\text{max}}\)</span> es el <em>valor propio máximo</em> de <span class="math inline">\(X\)</span>, es convexa.</p></li>
 </ol>

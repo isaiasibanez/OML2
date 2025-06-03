@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>macros – Optimización y Aprendizaje Automático II</title>
+<title>Métodos de optimización – Optimización y Aprendizaje Automático II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +23,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-d4be639c637f3db3c684c66cefad7e0c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script src="site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
-<link href="site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-d4be639c637f3db3c684c66cefad7e0c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -68,8 +68,8 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Buscar"
   }
 }</script>
-<script type="module" src="site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
-<link href="site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+<script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -101,7 +101,7 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../style.css">
 </head>
 
 <body class="nav-sidebar floating">
@@ -130,7 +130,7 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Optimización y Aprendizaje Automático II</a> 
+      <a href="../">Optimización y Aprendizaje Automático II</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -141,15 +141,44 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#método-de-gradiente-descendente" id="toc-método-de-gradiente-descendente" class="nav-link active" data-scroll-target="#método-de-gradiente-descendente"><span class="header-section-number">1</span> Método de gradiente descendente</a>
+  <ul class="collapse">
+  <li><a href="#condición-de-lipschitz-para-el-gradiente" id="toc-condición-de-lipschitz-para-el-gradiente" class="nav-link" data-scroll-target="#condición-de-lipschitz-para-el-gradiente"><span class="header-section-number">1.1</span> Condición de Lipschitz para el gradiente</a></li>
+  </ul></li>
+  <li><a href="#gradiente-descendente-estocástico" id="toc-gradiente-descendente-estocástico" class="nav-link" data-scroll-target="#gradiente-descendente-estocástico"><span class="header-section-number">2</span> Gradiente descendente estocástico</a></li>
+  <li><a href="#método-de-newton" id="toc-método-de-newton" class="nav-link" data-scroll-target="#método-de-newton"><span class="header-section-number">3</span> Método de Newton</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Métodos de optimización</h1>
+<p class="subtitle lead">Capítulo 1 - Sección 5</p>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<hr style="border: 1px solid rgba(50, 0, 0, 1);">
 <div class="hidden">
 <p><span class="math display">\[
 \def\RR{\mathbb{R}}
@@ -177,6 +206,70 @@ window.Quarto = {
 \def\argmax{\mathop{\mathrm{arg\,max\,}}}
 \]</span></p>
 </div>
+<p>Comenzaremos explorando métodos de optimización de primer orden para problemas no lineales. En principio, consideraremos el caso sin restricciones <span class="math display">\[
+\min_{\xx\in\RR^n} f(\xx),
+\]</span></p>
+<p>con <span class="math inline">\(f\)</span> una función diferenciable. En este caso, ya hemos visto que <span class="math inline">\(\xx^*\in\RR^n\)</span> resuelve el problema de optimización solo si <span class="math inline">\(\nabla f(\xx^*)=\mathbf{0}\)</span>. Más aún, cuando <span class="math inline">\(f\)</span> es convexa, la condición es también suficiente.</p>
+<p>Una idea fundamental para construir un algoritmo de optimización es aproximar <span class="math inline">\(f\)</span> con modelos más simples y manejables. En particular, los métodos de primer orden se basan en la aproximación de Taylor de primer orden, alrededor de un punto <span class="math inline">\(\xx_t\)</span>, a saber: <span class="math display">\[
+f(\xx) \approx f(\xx_{t}) + \langle \nabla f(\xx_{t}), \xx - \xx_{t} \rangle.
+\]</span></p>
+<section id="método-de-gradiente-descendente" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Método de gradiente descendente</h1>
+<p>La idea del descenso de gradiente consiste en actualizar la posición actual moviéndose en la dirección que reduce más rápidamente el valor de la función objetivo. Es decir, se avanza una distancia <span class="math inline">\(\eta&gt;0\)</span> en la dirección <span class="math inline">\(-\nabla f(\xx_t)\)</span>, que señala el sentido de máximo descenso de la función. En consecuencia, se define la iteración</p>
+<p><span class="math display">\[
+\boxed{\xx_{t+1} := \xx_{t} - \eta \nabla f(\xx_{t})}.
+\]</span></p>
+<p>El parámetro <span class="math inline">\(\eta&gt;0\)</span> se denomina <em>tamaño de paso</em> o <em>tasa de aprendizaje</em>. Intuitivamente, la magnitud segura de <span class="math inline">\(\eta\)</span> debe determinarse en función de que tan cerca de <span class="math inline">\(\xx_t\)</span> la aproximación de primer orden es buena. La clave está dada por la <em>suavidad</em> de <span class="math inline">\(f\)</span>: es preciso requerir una cota para la velocidad con la cual el vector gradiente puede cambiar al movernos ligeramente en alguna dirección. En otras palabras, si al comenzar a movernos en la dirección <span class="math inline">\(-\nabla f(\xx_t)\)</span>, desde <span class="math inline">\(\xx_t\)</span>, los nuevos gradientes que encontramos en el camino siguen estando mayormente alineados con <span class="math inline">\(\nabla f(\xx_t)\)</span>, entonces <span class="math inline">\(-\nabla f(\xx_t)\)</span> seguría siendo una buena dirección de descenso por un tiempo. Esto sugiere que el tamaño de paso <span class="math inline">\(\eta\)</span> puede ser elegido con un valor significativo, no necesariamente muy cercano a cero, lo que favorece un avance eficiente en la optimización.</p>
+<section id="condición-de-lipschitz-para-el-gradiente" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="condición-de-lipschitz-para-el-gradiente"><span class="header-section-number">1.1</span> Condición de Lipschitz para el gradiente</h2>
+<p>Específicamente, requeriremos que el gradiente <span class="math inline">\(\nabla f(x)\)</span> sea <span class="math inline">\(L\)</span>-Lipschitz continuo para alguna constante <span class="math inline">\(L \geq 0\)</span>. Esta condición a menudo se llama <span class="math inline">\(L\)</span><em>-suavidad</em> en la literatura. La presentamos ahora para funciones generales con dominios convexos arbitrarios <span class="math inline">\(\Omega\)</span>; hoy solo nos importará el caso <span class="math inline">\(\Omega = \mathbb{R}^{n}\)</span>.</p>
+<div class="definicion">
+<p><strong>Definición 1.</strong> (<span class="math inline">\(L\)</span>-suavidad) Sea <span class="math inline">\(\Omega\)</span> un conjunto convexo. Una función diferenciable <span class="math inline">\(f: \Omega \to \RR\)</span> es <span class="math inline">\(L\)</span>-suave si su gradiente es <span class="math inline">\(L\)</span>-Lipschitz continuo. Es decir, se verifica <span class="math display">\[
+\|\nabla f(\xx_1) - \nabla f(\xx_2)\|_{2} \leq L \|\xx_1 - \xx_2\|_{2}, \qquad \forall \xx_1, \xx_2 \in \Omega.
+\]</span></p>
+</div>
+<p>Una consecuencia inmediata de la <span class="math inline">\(L\)</span>-suavidad es que la función admite una <em>cota superior cuadrática</em>. Esta propiedad será extremadamente útil en el análisis.</p>
+<p><strong>Teorema 1.12.1</strong> (Cota superior cuadrática). Sea <span class="math inline">\(f: \Omega \to \mathbb{R}\)</span> una función <span class="math inline">\(L\)</span>-suave en un dominio convexo <span class="math inline">\(\Omega\)</span>. Entonces, podemos acotar superiormente la función <span class="math inline">\(f\)</span> como:</p>
+<p><span class="math display">\[
+f(y) \leq f(x) + \langle \nabla f(x), y - x \rangle + \frac{L}{2} \|y - x\|_{2}^{2} \quad \forall x, y \in \Omega. \quad \text{(2)}
+\]</span></p>
+<p><strong>Demostración.</strong> La idea es simple: expresamos el crecimiento <span class="math inline">\(f(y) - f(x)\)</span> como la integral del gradiente en la línea que conecta <span class="math inline">\(x\)</span> con <span class="math inline">\(y\)</span>, y luego usamos el límite de Lipschitz en el crecimiento del gradiente <span class="math inline">\(\nabla f\)</span> para acotar el crecimiento:</p>
+<p><span class="math display">\[\begin{align*}
+f(y) - f(x) &amp;= \int_{0}^{1} \langle \nabla f(x + t \cdot (y - x)), y - x \rangle \, \mathrm{d}t\\&amp;
+= \left( \int_{0}^{1} \langle \nabla f(x + t \cdot (y - x)) - \nabla f(x), y - x \rangle \, \mathrm{d}t \right) + \langle \nabla f(x), y - x \rangle\\
+&amp;
+\leq \left( \int_{0}^{1} \|\nabla f(x + t \cdot (y - x)) - \nabla f(x)\|_{2} \cdot \|y - x\|_{2} \, \mathrm{d}t \right) + \langle \nabla f(x), y - x \rangle\\
+&amp;
+\leq \left( \int_{0}^{1} t L \|y - x\|_{2}^{2} \, \mathrm{d}t \right) + \langle \nabla f(x), y - x \rangle\\
+&amp;= \frac{L}{2} \|y - x\|_{2}^{2} + \langle \nabla f(x), y - x \rangle.
+\end{align*}\]</span> Reordenando, obtenemos el enunciado. <span class="math inline">\(\blacksquare\)</span></p>
+<p>También mencionamos la siguiente caracterización.</p>
+<p><strong>Teorema 1.12.2.</strong> Para funciones dos veces diferenciables <span class="math inline">\(f: \Omega \to \mathbb{R}\)</span> definidas en un conjunto abierto <span class="math inline">\(\Omega \subseteq \mathbb{R}^{n}\)</span>, una condición equivalente de <span class="math inline">\(L\)</span>-suavidad es:</p>
+<p><span class="math display">\[
+-L I \preceq \nabla^{2} f(x) \preceq L I \quad \forall x \in \Omega,
+\]</span></p>
+<p>o equivalentemente,</p>
+<p><span class="math display">\[
+|v^{\top} \nabla^{2} f(x) v| \leq L \quad \forall x \in \Omega, v \in \mathbb{R}^{n}: \|v\|_{2} = 1.
+\]</span></p>
+</section>
+</section>
+<section id="gradiente-descendente-estocástico" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Gradiente descendente estocástico</h1>
+</section>
+<section id="método-de-newton" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Método de Newton</h1>
+<div style="height:10cm;">
+
+</div>
+<br>
+<hr style="border: 2.5px solid black;">
+<h2 class="anchored" data-anchor-id="método-de-newton">
+Ejercicios
+</h2>
+<ol type="1">
+<li>…</li>
+</ol>
 
 
 <script type="ojs-module-contents">
@@ -193,6 +286,7 @@ eyJjb250ZW50cyI6W119
 <script type="vfs-file">
 W10=
 </script>
+</section>
 
 </main> <!-- /main -->
 <script type="ojs-module-contents">
@@ -200,9 +294,9 @@ eyJjb250ZW50cyI6W119
 </script>
 <script type="module">
 if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
-window._ojs.paths.runtimeToDoc = "../..";
+window._ojs.paths.runtimeToDoc = "../../CAPITULO_1";
 window._ojs.paths.runtimeToRoot = "../..";
-window._ojs.paths.docToRoot = "";
+window._ojs.paths.docToRoot = "..";
 window._ojs.selfContained = false;
 window._ojs.runtime.interpretFromScriptTags();
 </script>
