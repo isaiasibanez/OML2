@@ -581,7 +581,10 @@ C_{\alpha}:=\{\xx\in\text{dom}\,f \mid f(x)\leq\alpha\}.
 <section id="condiciones-de-convexidad" class="level2 page-columns page-full" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="condiciones-de-convexidad"><span class="header-section-number">2.1</span> Condiciones de convexidad</h2>
 <p>Para verificar si una función es convexa, además de recurrir a la definición, existen criterios basados en sus derivadas. Estos permiten caracterizar la convexidad en términos del comportamiento local de la función, ya sea a través del gradiente (primera derivada) o de la matriz hessiana (segunda derivada). Para ello, debemos imponer condiciones a <span class="math inline">\(f\)</span> en relación con su diferenciabilidad.</p>
-<p><span class="badge bg-warning text-dark">Importante</span> Diremos que <span class="math inline">\(f\)</span> es <em>diferenciable</em> si su gradiente <span class="math inline">\(\nabla f\)</span> existe en todo su dominio, y que es <em>dos veces diferenciable</em> si además su hessiana <span class="math inline">\(\nabla^2 f\)</span> existe en todo el dominio. En ambos casos, asumimos que dicho dominio es un conjunto abierto.</p>
+<div class="alert alert-light text-dark" role="important">
+<p><span class="badge bg-warning text-dark">Importante</span></p>
+<p>Diremos que <span class="math inline">\(f\)</span> es <em>diferenciable</em> si su gradiente <span class="math inline">\(\nabla f\)</span> existe en todo su dominio, y que es <em>dos veces diferenciable</em> si además su hessiana <span class="math inline">\(\nabla^2 f\)</span> existe en todo el dominio. En ambos casos, asumimos que dicho dominio es un conjunto abierto.</p>
+</div>
 <div class="teorema">
 <p><strong>Teorema 1.</strong> (Condición de primer orden para convexidad) Sea <span class="math inline">\(f:\RR^n\to\RR\)</span> una función diferenciable. <span class="math inline">\(f\)</span> es convexa si y solo si <span class="math inline">\(\text{dom}\,f\)</span> es convexo y <span class="math display">\[
 f(\xx_2)\geq f(\xx_1)+\langle\nabla f(\xx_1),\xx_2-\xx_1\rangle,\qquad\forall\xx_1,\xx_2\in\text{dom}\,f.
@@ -676,7 +679,9 @@ f(\xx)=\frac{1}{2}\xx^\top A\xx+\bb^\top\xx+c,
 f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
 \]</span></p>
 <p>es convexa, ya que <span class="math inline">\(\xx^\top A\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^n\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
-<div id="ef535fd6" class="cell" data-execution_count="1">
+<div id="81e40b90" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D  <span class="co"># para 3D</span></span>
@@ -700,6 +705,7 @@ f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&a
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'y'</span>)</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
