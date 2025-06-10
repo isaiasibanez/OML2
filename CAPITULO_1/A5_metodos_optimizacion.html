@@ -309,6 +309,10 @@ Mostrar detalles
 f(\xx_{t+1}) \leq f(\xx_{t}) - \frac{\eta}{2} \|\nabla f(\xx_{t})\|_{2}^{2}.
 \]</span></p>
 </div>
+<details>
+<summary>
+Mostrar detalles
+</summary>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Observaciones</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Demostración</a></li></ul>
 <div class="tab-content">
@@ -329,6 +333,7 @@ f(\xx_T)\leq f(\xx_0)-\frac{\eta}{2}\sum_{t=0}^{T-1}\|\nabla f(\xx_t)\|_2^2.
 </div>
 </div>
 </div>
+</details>
 </section>
 <section id="convergencia-para-funciones-objetivos-convexas" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="convergencia-para-funciones-objetivos-convexas"><span class="header-section-number">1.2</span> Convergencia para funciones objetivos convexas</h2>
@@ -344,6 +349,10 @@ f(\xx_{t}) \leq f(\xx) + \frac{1}{2\eta} \left( \|\xx - \xx_{t}\|_{2}^{2} - \|\x
 f(\xx_{t}) - f(\xx^{*}) \leq \frac{\|\xx_\star - \xx_{0}\|_{2}^{2}}{2 t \eta} \qquad \forall t\in\NN.
 \]</span></p>
 </div>
+<details>
+<summary>
+Mostrar detalles
+</summary>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Observación</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Demostración</a></li></ul>
 <div class="tab-content">
@@ -367,11 +376,15 @@ f(\xx_{t+1})\leq f(\xx)+ \frac{1}{2\eta} \left( \|\xx - \xx_{t}\|_{2}^{2} - \|\x
 \sum_{t=0}^{T-1}f(\xx_{t+1})\leq Tf(\xx_{\star})+\frac{1}{2\eta}\|\xx_{\star}.
 \]</span></p>
 <p>Por último, vamos a usar el hecho que <span class="math inline">\(Tf(\xx_T)\leq\sum_{t=0}^{T-1}f(\xx_{t+1})\)</span>; esto debido a que el Teorema 2 asegura que <span class="math inline">\(f(\xx_t)\)</span> es no creciente en <span class="math inline">\(t\)</span>. Así, finalmente obtenemos <span class="math display">\[
-T(f(\xx_T)-f(\xx_{\star}))\leq \frac{1}{2\eta}\|\xx_{\star}-\xx_0\|_2^2.\qquad\qquad\blacksquare
+T(f(\xx_T)-f(\xx_{\star}))\leq \frac{1}{2\eta}\|\xx_{\star}-\xx_0\|_2^2.
 \]</span></p>
+<div style="text-align: right;">
+<span class="math inline">\(\blacksquare\)</span>
 </div>
 </div>
 </div>
+</div>
+</details>
 </section>
 </section>
 <section id="gradiente-descendente-estocástico" class="level1" data-number="2">
