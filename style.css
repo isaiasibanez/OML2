@@ -1,5 +1,5 @@
 .definicion {
-  background-color: #f9f9f9; /* Fondo gris claro */
+background-color: #fcfefc; /* Verde muy muy suave */
   border: 2px solid #4CAF50; /* Borde verde */
   padding: 15px;            /* Espaciado interno */
   padding-bottom: 2px;
@@ -26,6 +26,15 @@
   font-family: Arial, sans-serif; /* Fuente opcional */
 }
 
+.metodo {
+  background-color: #e6f0ff; /* azul claro */
+  border: 2px solid #3b82f6; /* azul brillante */
+  padding: 15px;
+  border-radius: 8px;
+  margin: 15px 0;
+  font-family: Arial, sans-serif;
+}
+
   
 /* Estilo para bloques de código preformateado (<pre>) */
 pre {
@@ -40,8 +49,6 @@ pre {
   line-height: 1.5; /* Mejor separación entre líneas */
   margin: 15px 0; /* Separación vertical */
 }
-
-
 
 
 

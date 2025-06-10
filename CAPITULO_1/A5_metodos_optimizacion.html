@@ -193,6 +193,7 @@ window.Quarto = {
   <li><a href="#método-de-gradiente-descendente" id="toc-método-de-gradiente-descendente" class="nav-link active" data-scroll-target="#método-de-gradiente-descendente"><span class="header-section-number">1</span> Método de gradiente descendente</a>
   <ul class="collapse">
   <li><a href="#condición-de-lipschitz-para-el-gradiente" id="toc-condición-de-lipschitz-para-el-gradiente" class="nav-link" data-scroll-target="#condición-de-lipschitz-para-el-gradiente"><span class="header-section-number">1.1</span> Condición de Lipschitz para el gradiente</a></li>
+  <li><a href="#convergencia-para-funciones-objetivos-convexas" id="toc-convergencia-para-funciones-objetivos-convexas" class="nav-link" data-scroll-target="#convergencia-para-funciones-objetivos-convexas"><span class="header-section-number">1.2</span> Convergencia para funciones objetivos convexas</a></li>
   </ul></li>
   <li><a href="#gradiente-descendente-estocástico" id="toc-gradiente-descendente-estocástico" class="nav-link" data-scroll-target="#gradiente-descendente-estocástico"><span class="header-section-number">2</span> Gradiente descendente estocástico</a></li>
   <li><a href="#método-de-newton" id="toc-método-de-newton" class="nav-link" data-scroll-target="#método-de-newton"><span class="header-section-number">3</span> Método de Newton</a></li>
@@ -225,6 +226,7 @@ window.Quarto = {
 <hr style="border: 1px solid rgba(50, 0, 0, 1);">
 <div class="hidden">
 <p><span class="math display">\[
+\def\NN{\mathbb{N}}
 \def\RR{\mathbb{R}}
 \def\media{\mathbb{E}}
 \def\calL{\mathcal{L}}
@@ -259,48 +261,117 @@ window.Quarto = {
 \min_{\xx\in\RR^n} f(\xx),
 \]</span></p>
 <p>con <span class="math inline">\(f\)</span> una función diferenciable. En este caso, ya hemos visto que <span class="math inline">\(\xx^*\in\RR^n\)</span> resuelve el problema de optimización solo si <span class="math inline">\(\nabla f(\xx^*)=\mathbf{0}\)</span>. Más aún, cuando <span class="math inline">\(f\)</span> es convexa, la condición es también suficiente.</p>
-<p>Una idea fundamental para construir un algoritmo de optimización es aproximar <span class="math inline">\(f\)</span> con modelos más simples y manejables. En particular, los métodos de primer orden se basan en la aproximación de Taylor de primer orden, alrededor de un punto <span class="math inline">\(\xx_t\)</span>, a saber: <span class="math display">\[
+<p>Una idea fundamental para construir un algoritmo de optimización es aproximar <span class="math inline">\(f\)</span> con modelos más simples y manejables. En particular, los métodos de primer orden se basan en la aproximación de Taylor de primer orden alrededor de un punto <span class="math inline">\(\xx_t\)</span>, a saber: <span class="math display">\[
 f(\xx) \approx f(\xx_{t}) + \langle \nabla f(\xx_{t}), \xx - \xx_{t} \rangle.
 \]</span></p>
 <section id="método-de-gradiente-descendente" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Método de gradiente descendente</h1>
-<p>La idea del descenso de gradiente consiste en actualizar la posición actual moviéndose en la dirección que reduce más rápidamente el valor de la función objetivo. Es decir, se avanza una distancia <span class="math inline">\(\eta&gt;0\)</span> en la dirección <span class="math inline">\(-\nabla f(\xx_t)\)</span>, que señala el sentido de máximo descenso de la función. En consecuencia, se define la iteración</p>
-<p><span class="math display">\[
-\boxed{\xx_{t+1} := \xx_{t} - \eta \nabla f(\xx_{t})}.
+<div class="highlight">
+<p>La idea del descenso de gradiente consiste en actualizar la posición actual moviéndose en la dirección que reduce más rápidamente el valor de la función objetivo. Es decir, se avanza una distancia <span class="math inline">\(\eta&gt;0\)</span> en la dirección <span class="math inline">\(-\nabla f(\xx_t)\)</span>, que señala el sentido de máximo descenso de la función. En consecuencia, se define la iteración <span class="math display">\[
+\boxed{\xx_{t+1} := \xx_{t} - \eta \nabla f(\xx_{t})}
+\tag{1}
 \]</span></p>
-<p>El parámetro <span class="math inline">\(\eta&gt;0\)</span> se denomina <em>tamaño de paso</em> o <em>tasa de aprendizaje</em>. Intuitivamente, la magnitud segura de <span class="math inline">\(\eta\)</span> debe determinarse en función de que tan cerca de <span class="math inline">\(\xx_t\)</span> la aproximación de primer orden es buena. La clave está dada por la <em>suavidad</em> de <span class="math inline">\(f\)</span>: es preciso requerir una cota para la velocidad con la cual el vector gradiente puede cambiar al movernos ligeramente en alguna dirección. En otras palabras, si al comenzar a movernos en la dirección <span class="math inline">\(-\nabla f(\xx_t)\)</span>, desde <span class="math inline">\(\xx_t\)</span>, los nuevos gradientes que encontramos en el camino siguen estando mayormente alineados con <span class="math inline">\(\nabla f(\xx_t)\)</span>, entonces <span class="math inline">\(-\nabla f(\xx_t)\)</span> seguría siendo una buena dirección de descenso por un tiempo. Esto sugiere que el tamaño de paso <span class="math inline">\(\eta\)</span> puede ser elegido con un valor significativo, no necesariamente muy cercano a cero, lo que favorece un avance eficiente en la optimización.</p>
+<p>Denominaremos a <span class="math inline">\(\xx_0\)</span> el <em>punto inicial</em> y al parámetro <span class="math inline">\(\eta&gt;0\)</span> el <em>tamaño de paso</em> o <em>tasa de aprendizaje</em>.</p>
+</div>
 <section id="condición-de-lipschitz-para-el-gradiente" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="condición-de-lipschitz-para-el-gradiente"><span class="header-section-number">1.1</span> Condición de Lipschitz para el gradiente</h2>
+<p>Dado que el descenso por gradiente opera considerando la aproximación de primer orden de <span class="math inline">\(f\)</span>, una gran clave sea preguntarse qué tan rápido deja de ser precisa dicha aproximación. Una respuesta natural a esta pregunta viene dada por la <em>suavidad</em> de <span class="math inline">\(f\)</span>.</p>
+<p>Así, una vía estándar es imponer una cota sobre qué tan rápido puede cambiar el gradiente de la función al moverse ligeramente en cualquier dirección. Como consecuencia, al movernos en dirección de <span class="math inline">\(-\nabla f(\xx_t)\)</span> desde <span class="math inline">\(\xx_t\)</span>, los nuevos gradientes que encontraremos en el camino seguirán estando mayormente alineados con <span class="math inline">\(\nabla f(\xx_t)\)</span>, lo cual significa que <span class="math inline">\(-\nabla f(\xx_t)\)</span> seguirá siendo una buena dirección de descenso durante algún tiempo.</p>
 <p>Específicamente, requeriremos que el gradiente <span class="math inline">\(\nabla f(x)\)</span> sea <span class="math inline">\(L\)</span>-Lipschitz continuo para alguna constante <span class="math inline">\(L \geq 0\)</span>. Esta condición a menudo se llama <span class="math inline">\(L\)</span><em>-suavidad</em> en la literatura. La presentamos ahora para funciones generales con dominios convexos arbitrarios <span class="math inline">\(\Omega\)</span>; hoy solo nos importará el caso <span class="math inline">\(\Omega = \mathbb{R}^{n}\)</span>.</p>
 <div class="definicion">
-<p><strong>Definición 1.</strong> (<span class="math inline">\(L\)</span>-suavidad) Sea <span class="math inline">\(\Omega\)</span> un conjunto convexo. Una función diferenciable <span class="math inline">\(f: \Omega \to \RR\)</span> es <span class="math inline">\(L\)</span>-suave si su gradiente es <span class="math inline">\(L\)</span>-Lipschitz continuo. Es decir, se verifica <span class="math display">\[
-\|\nabla f(\xx_1) - \nabla f(\xx_2)\|_{2} \leq L \|\xx_1 - \xx_2\|_{2}, \qquad \forall \xx_1, \xx_2 \in \Omega.
+<p><strong>Definición 1.</strong> (<span class="math inline">\(L\)</span>-suavidad) Sea <span class="math inline">\(\Omega\)</span> un conjunto convexo. Una función diferenciable <span class="math inline">\(f: \Omega \to \RR\)</span> es <span class="math inline">\(L\)</span>-suave si su gradiente es <span class="math inline">\(L\)</span>-Lipschitz continuo, esto es, <span class="math display">\[
+\|\nabla f(\xx) - \nabla f(\yy)\|_{2} \leq L \|\xx - \yy\|_{2}, \qquad \forall \xx, \yy \in \Omega.
 \]</span></p>
 </div>
-<p>Una consecuencia inmediata de la <span class="math inline">\(L\)</span>-suavidad es que la función admite una <em>cota superior cuadrática</em>. Esta propiedad será extremadamente útil en el análisis.</p>
-<p><strong>Teorema 1.12.1</strong> (Cota superior cuadrática). Sea <span class="math inline">\(f: \Omega \to \mathbb{R}\)</span> una función <span class="math inline">\(L\)</span>-suave en un dominio convexo <span class="math inline">\(\Omega\)</span>. Entonces, podemos acotar superiormente la función <span class="math inline">\(f\)</span> como:</p>
-<p><span class="math display">\[
-f(y) \leq f(x) + \langle \nabla f(x), y - x \rangle + \frac{L}{2} \|y - x\|_{2}^{2} \quad \forall x, y \in \Omega. \quad \text{(2)}
+<p>Una consecuencia inmediata de la <span class="math inline">\(L\)</span>-suavidad es que la función admite una <em>cota superior cuadrática</em>. A continuación, esta propiedad será extremadamente útil para cuantificar la mejora de un paso del algoritmo de gradiente descendente, cual a menudo se denomina *lema del descenso del gradiente.</p>
+<div class="teorema">
+<p><strong>Teorema 1.</strong> (Cota superior cuadrática). Sea <span class="math inline">\(f: \Omega \to \mathbb{R}\)</span> una función <span class="math inline">\(L\)</span>-suave en un dominio convexo <span class="math inline">\(\Omega\)</span>. Entonces, podemos acotar superiormente la función <span class="math inline">\(f\)</span> como <span class="math display">\[
+f(\xx_2) \leq f(\yy) + \langle \nabla f(\xx), \yy - \xx \rangle + \frac{L}{2} \|\yy - \xx\|_{2}^{2} \quad \forall \xx, \yy \in \Omega.
+\tag{2}
 \]</span></p>
-<p><strong>Demostración.</strong> La idea es simple: expresamos el crecimiento <span class="math inline">\(f(y) - f(x)\)</span> como la integral del gradiente en la línea que conecta <span class="math inline">\(x\)</span> con <span class="math inline">\(y\)</span>, y luego usamos el límite de Lipschitz en el crecimiento del gradiente <span class="math inline">\(\nabla f\)</span> para acotar el crecimiento:</p>
-<p><span class="math display">\[\begin{align*}
-f(y) - f(x) &amp;= \int_{0}^{1} \langle \nabla f(x + t \cdot (y - x)), y - x \rangle \, \mathrm{d}t\\&amp;
-= \left( \int_{0}^{1} \langle \nabla f(x + t \cdot (y - x)) - \nabla f(x), y - x \rangle \, \mathrm{d}t \right) + \langle \nabla f(x), y - x \rangle\\
-&amp;
-\leq \left( \int_{0}^{1} \|\nabla f(x + t \cdot (y - x)) - \nabla f(x)\|_{2} \cdot \|y - x\|_{2} \, \mathrm{d}t \right) + \langle \nabla f(x), y - x \rangle\\
-&amp;
-\leq \left( \int_{0}^{1} t L \|y - x\|_{2}^{2} \, \mathrm{d}t \right) + \langle \nabla f(x), y - x \rangle\\
-&amp;= \frac{L}{2} \|y - x\|_{2}^{2} + \langle \nabla f(x), y - x \rangle.
-\end{align*}\]</span> Reordenando, obtenemos el enunciado. <span class="math inline">\(\blacksquare\)</span></p>
-<p>También mencionamos la siguiente caracterización.</p>
-<p><strong>Teorema 1.12.2.</strong> Para funciones dos veces diferenciables <span class="math inline">\(f: \Omega \to \mathbb{R}\)</span> definidas en un conjunto abierto <span class="math inline">\(\Omega \subseteq \mathbb{R}^{n}\)</span>, una condición equivalente de <span class="math inline">\(L\)</span>-suavidad es:</p>
+</div>
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Demostración</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+
+</div>
+</div>
+</div>
+</details>
+<div class="teorema">
+<p><strong>Teorema 2.</strong> (Lema del gradiente descendente) Sea <span class="math inline">\(f:\RR^n\to\RR\)</span> una función <span class="math inline">\(L\)</span>-suave. Entonces, para cualquier <span class="math inline">\(0 &lt; \eta \leq \frac{1}{L}\)</span>, cada paso del descenso de gradiente (1) garantiza</p>
 <p><span class="math display">\[
--L I \preceq \nabla^{2} f(x) \preceq L I \quad \forall x \in \Omega,
+f(\xx_{t+1}) \leq f(\xx_{t}) - \frac{\eta}{2} \|\nabla f(\xx_{t})\|_{2}^{2}.
 \]</span></p>
-<p>o equivalentemente,</p>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Observaciones</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Demostración</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<ul>
+<li><p>El lema nos asegura que para funciones <span class="math inline">\(L\)</span>-suaves, existe una buena elección de la tasa de aprendizaje que permite garantizar que con cada paso del método de gradiente descendente se mejorará el valor de la función, siempre que el punto actual no tenga un gradiente nulo.</p></li>
+<li><p>Es importante remarcar que el resultado anterior no requiere que <span class="math inline">\(f\)</span> sea convexa.</p></li>
+<li><p>Además, si <span class="math inline">\(f\)</span> está acotada inferiormente, el lema asegura que, en promedio, los gradientes de los puntos producidos por el método de gradiente descendente eventualmente deben volverse pequeños. En efecto, para la <span class="math inline">\(T\)</span>-ésima iteración, la aplicación sucesiva del lema resulta en <span class="math display">\[
+f(\xx_T)\leq f(\xx_0)-\frac{\eta}{2}\sum_{t=0}^{T-1}\|\nabla f(\xx_t)\|_2^2.
+\]</span> Entonces, si <span class="math inline">\(f^\star:=\inf f\)</span>, debe ocurrir <span class="math display">\[
+\sum_{t=0}^{T-1}\|\nabla f(\xx_t)\|_2^2\leq \frac{2}{\eta T}\left(f(\xx_0)-f^\star\right),
+\]</span> tal que al menos algún valor del conjunto <span class="math inline">\(\left\{\|\nabla f (\xx_t)\|_2^2\right\} \mid 0\leq t\leq T-1\}\)</span> está acotado superiormente por <span class="math inline">\(\tfrac{2}{\eta T}\left(f(\xx_0)-f^\star\right)\)</span>.</p></li>
+<li><p>En la observación anterior, es importante notar que la cota obtenida depende del punto inicial <span class="math inline">\(\xx_0\)</span>. Cuanto más cercano esté a un punto óptimo, menor será el valor de <span class="math inline">\(f(\xx_0)-f^\star\)</span> y, por lo tanto, de la cota. Esto resalta la importancia de una buena elección del punto inicial para acelerar la convergencia del método.</p></li>
+</ul>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+
+</div>
+</div>
+</div>
+</section>
+<section id="convergencia-para-funciones-objetivos-convexas" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="convergencia-para-funciones-objetivos-convexas"><span class="header-section-number">1.2</span> Convergencia para funciones objetivos convexas</h2>
+<p>El Teorema 2 solo garantiza una tasa de convergencia para la <em>norma del gradiente</em> de la función objetivo, pero no dice nada acerca de la brecha <span class="math inline">\(f(\xx_t)-f^\star\)</span>. En otras palabras, aunque el gradiente pequeño es una necesidad para pensar en optimalidad, no es suficiente para asegurar que el valor de la función esté efectivamente cerca del óptimo.</p>
+<p>Sin embargo, para funciones objetivo convexas, sí se puede establecer una razón de convergencia. Para ello, primero necesitamos enunciar el siguiente resultado.</p>
+<div class="teorema">
+<p><strong>Teorema 3.</strong> Sea <span class="math inline">\(f:\RR^n\to\RR\)</span> una función convexa y diferenciable. Entonces, para cualquier elección del tamaño de paso <span class="math inline">\(\eta\)</span>, cualquier par de puntos consecutivos <span class="math inline">\((\xx_t,\xx_{t+1})\)</span> del método de gradiente descendente satisfacen <span class="math display">\[
+f(\xx_{t}) \leq f(\xx) + \frac{1}{2\eta} \left( \|\xx - \xx_{t}\|_{2}^{2} - \|\xx - \xx_{t+1}\|_{2}^{2} + \|\xx_{t+1} - \xx_{t}\|_{2}^{2} \right) \qquad \forall \xx \in \mathbb{R}^{n}.
+\]</span></p>
+</div>
+<div class="teorema">
+<p><strong>Teorema 4.</strong> Sea <span class="math inline">\(f:\RR^n\to\RR\)</span> una función convexa y <span class="math inline">\(L\)</span>-suave, con minimizador <span class="math inline">\(\xx_\star \in \RR^n\)</span>, y sea <span class="math inline">\(0 &lt; \eta \leq \frac{1}{L}\)</span>. El método de gradiente descendente verifica <span class="math display">\[
+f(\xx_{t}) - f(\xx^{*}) \leq \frac{\|\xx_\star - \xx_{0}\|_{2}^{2}}{2 t \eta} \qquad \forall t\in\NN.
+\]</span></p>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Observación</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Demostración</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<ul>
+<li>Aunque el método de gradiente descendente garantiza que el valor de la función se acerque al óptimo, no siempre asegura que los puntos iterados converjan rápidamente al punto óptimo <span class="math inline">\(\xx_\star\)</span>. Para obtener garantías más fuertes sobre la rapidez con la que las iteraciones se acercan al punto óptimo, se requieren condiciones adicionales.</li>
+</ul>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<p>Sean <span class="math inline">\((\xx_t,\xx_{t+1})\)</span> dos puntos consecutivos del método de gradiente descendente. Entonces <span class="math inline">\(\|\xx_{t+1}-\xx_{t}\|_2^2=\eta\|\nabla f(\xx_t)\|_2^2\)</span>. Por Teorema 3, resulta <span class="math display">\[
+f(\xx_{t}) \leq f(\xx) + \frac{1}{2\eta} \left( \|\xx - \xx_{t}\|_{2}^{2} - \|\xx - \xx_{t+1}\|_{2}^{2}\right)+\frac{\eta}{2}\|\nabla f(\xx_t)\|_2^2, \qquad \forall \xx \in \mathbb{R}^{n}.
+\]</span></p>
+<p>Pero la <span class="math inline">\(L\)</span>-suavidad de <span class="math inline">\(f\)</span> nos permite usar el Teorema 2; para <span class="math inline">\(0\leq\eta\leq\frac{1}{L}\)</span> se cumple <span class="math inline">\(\frac{\eta}{2}\|\nabla f(\xx_t)\|_2^2\leq f(\xx_t)-f(\xx_{t+1})\)</span>. Reemplazando en la expresión anterior, resulta <span class="math display">\[
+f(\xx_{t+1})\leq f(\xx)+ \frac{1}{2\eta} \left( \|\xx - \xx_{t}\|_{2}^{2} - \|\xx - \xx_{t+1}\|_{2}^{2}\right),\qquad\forall\xx\in\RR^n.
+\]</span></p>
+<p>Sumando sobre <span class="math inline">\(t=0,1,\cdot,T-1\)</span>, y teniendo en cuenta que el lado derecho es telescópico, obtenemos <span class="math display">\[
+\sum_{t=0}^{T-1}f(\xx_{t+1})\leq Tf(\xx)+\frac{1}{2\eta}\left(\|\xx-\xx_0\|_2^2-\|\xx-\xx_T\|_2^2\right).
+\]</span></p>
+<p>Ahora bien, vamos a aplicar esta última desigualdad a <span class="math inline">\(\xx=\xx_\star\)</span> y descartar el término <span class="math inline">\(\|\xx-\xx_T\|_2^2\)</span> (esto último se puede hacer porque está restando):</p>
 <p><span class="math display">\[
-|v^{\top} \nabla^{2} f(x) v| \leq L \quad \forall x \in \Omega, v \in \mathbb{R}^{n}: \|v\|_{2} = 1.
+\sum_{t=0}^{T-1}f(\xx_{t+1})\leq Tf(\xx_{\star})+\frac{1}{2\eta}\|\xx_{\star}.
 \]</span></p>
+<p>Por último, vamos a usar el hecho que <span class="math inline">\(Tf(\xx_T)\leq\sum_{t=0}^{T-1}f(\xx_{t+1})\)</span>; esto debido a que el Teorema 2 asegura que <span class="math inline">\(f(\xx_t)\)</span> es no creciente en <span class="math inline">\(t\)</span>. Así, finalmente obtenemos <span class="math display">\[
+T(f(\xx_T)-f(\xx_{\star}))\leq \frac{1}{2\eta}\|\xx_{\star}-\xx_0\|_2^2.\qquad\qquad\blacksquare
+\]</span></p>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="gradiente-descendente-estocástico" class="level1" data-number="2">
