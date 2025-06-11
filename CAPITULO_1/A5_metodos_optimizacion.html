@@ -20,7 +20,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -197,6 +251,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#gradiente-descendente-estocástico" id="toc-gradiente-descendente-estocástico" class="nav-link" data-scroll-target="#gradiente-descendente-estocástico"><span class="header-section-number">2</span> Gradiente descendente estocástico</a></li>
   <li><a href="#método-de-newton" id="toc-método-de-newton" class="nav-link" data-scroll-target="#método-de-newton"><span class="header-section-number">3</span> Método de Newton</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
   </ul>
 </nav>
     </div>
@@ -260,7 +315,7 @@ window.Quarto = {
 <p>Comenzaremos explorando métodos de optimización de primer orden para problemas no lineales. En principio, consideraremos el caso sin restricciones <span class="math display">\[
 \min_{\xx\in\RR^n} f(\xx),
 \]</span></p>
-<p>con <span class="math inline">\(f\)</span> una función diferenciable. En este caso, ya hemos visto que <span class="math inline">\(\xx^*\in\RR^n\)</span> resuelve el problema de optimización solo si <span class="math inline">\(\nabla f(\xx^*)=\mathbf{0}\)</span>. Más aún, cuando <span class="math inline">\(f\)</span> es convexa, la condición es también suficiente.</p>
+<p>con <span class="math inline">\(f\)</span> una función diferenciable. En este caso, ya hemos visto que <span class="math inline">\(\xx^\star\in\RR^n\)</span> resuelve el problema de optimización solo si <span class="math inline">\(\nabla f(\xx^\star)=\mathbf{0}\)</span>. Más aún, cuando <span class="math inline">\(f\)</span> es convexa, la condición es también suficiente.</p>
 <p>Una idea fundamental para construir un algoritmo de optimización es aproximar <span class="math inline">\(f\)</span> con modelos más simples y manejables. En particular, los métodos de primer orden se basan en la aproximación de Taylor de primer orden alrededor de un punto <span class="math inline">\(\xx_t\)</span>, a saber: <span class="math display">\[
 f(\xx) \approx f(\xx_{t}) + \langle \nabla f(\xx_{t}), \xx - \xx_{t} \rangle.
 \]</span></p>
@@ -272,6 +327,98 @@ f(\xx) \approx f(\xx_{t}) + \langle \nabla f(\xx_{t}), \xx - \xx_{t} \rangle.
 \tag{1}
 \]</span></p>
 <p>Denominaremos a <span class="math inline">\(\xx_0\)</span> el <em>punto inicial</em> y al parámetro <span class="math inline">\(\eta&gt;0\)</span> el <em>tamaño de paso</em> o <em>tasa de aprendizaje</em>.</p>
+</div>
+<p>A continuación mostraremos una función que implementa el algoritmo básico de gradiente descendente, con los siguientes argumentos:</p>
+<ul>
+<li><code>f</code>: función objetivo.</li>
+<li><code>grad_f</code>: función que calcula el gradiente de la función objetivo en un punto dado.</li>
+<li><code>x_inicial</code>: punto de partida.</li>
+<li><code>lr</code>: (<em>learning rate</em>) tasa de aprendizaje <span class="math inline">\(\eta\)</span>.</li>
+<li><code>iter</code>: cantidad de iteraciones.</li>
+</ul>
+<p>La salida es una lista con los puntos obtenidos en las iteraciones (<code>x_iter</code>), y los valores de la función (<code>f_iter</code>).</p>
+<p>la solución aproximada <code>x_sol</code> y el valor de la función objetivo en dicho punto <code>f_sol</code>.</p>
+<div id="8a3e60fd" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gradiente_descendente(f, grad_f, x_inicial, lr<span class="op">=</span><span class="fl">0.1</span>, <span class="bu">iter</span><span class="op">=</span><span class="dv">100</span>):</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.array(x_inicial, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    x_iter <span class="op">=</span> [x.copy()]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    f_iter <span class="op">=</span> [f(x)]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">iter</span>):</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        grad <span class="op">=</span> grad_f(x)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> x <span class="op">-</span> lr <span class="op">*</span> grad</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        x_iter.append(x.copy())</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> f:</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>            f_iter.append(f(x))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x_iter, f_iter</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 1</span> Vamos a utilizar el método de gradiente descendente para aproximarnos al valor mínimo de</p>
+<p><span class="math display">\[
+f(x,y)=3(x-2)^2+5(y-3)^2,
+\]</span></p>
+<p>el cual sabemos que ocurre en <span class="math inline">\((2,3)\)</span> (vértice del paraboloide elíptico). Usaremos como punto inicial el origen de coordenadas y un total de 20 iteraciones. Además, necesitamos proporcionar el gradiente de <span class="math inline">\(f\)</span>, el cual es <span class="math display">\[
+\nabla f(x,y)=6(x-2)+10(y-3).
+\]</span></p>
+<div id="d91cf1a7" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Función y gradiente:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span><span class="op">*</span>(x[<span class="dv">0</span>] <span class="op">-</span> <span class="dv">2</span>)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">5</span><span class="op">*</span>(x[<span class="dv">1</span>] <span class="op">-</span> <span class="dv">3</span>)<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> grad_f(x):</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array([<span class="dv">4</span> <span class="op">*</span> (x[<span class="dv">0</span>] <span class="op">-</span> <span class="dv">2</span>), <span class="dv">10</span> <span class="op">*</span> (x[<span class="dv">1</span>] <span class="op">-</span> <span class="dv">3</span>)])</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros:</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>x_inicial <span class="op">=</span> (<span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> <span class="fl">0.05</span>               </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="bu">iter</span> <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejecutar GD:</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>x_iter, f_iter <span class="op">=</span> gradiente_descendente(f, grad_f, x_inicial, lr, <span class="bu">iter</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>x_arr <span class="op">=</span> np.array(x_iter)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>x_vals <span class="op">=</span> x_arr[:, <span class="dv">0</span>]</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>y_vals <span class="op">=</span> x_arr[:, <span class="dv">1</span>]</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Grilla para graficar:</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">0.5</span>, <span class="dv">7</span>, <span class="dv">100</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">0.5</span>, <span class="dv">5</span>, <span class="dv">100</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f_xy(x, y):</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> f(np.array([x, y]))</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> f_xy(X, Y)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co"># GRAFICA:</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Curvas de nivel:</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>contours <span class="op">=</span> plt.contour(X, Y, Z, levels<span class="op">=</span><span class="dv">30</span>, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>plt.clabel(contours, inline<span class="op">=</span><span class="va">True</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Ruta del gradiente descendente:</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>plt.plot(x_vals, y_vals, marker<span class="op">=</span><span class="st">'o'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, color<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="st">'Iteraciones'</span>)</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>plt.scatter(<span class="dv">2</span>, <span class="dv">3</span>, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Mínimo'</span>, zorder<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'x'</span>)</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'y'</span>)</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="op">-</span><span class="fl">0.2</span>, <span class="dv">4</span>)</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="op">-</span><span class="fl">0.2</span>, <span class="dv">5</span>)</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper right'</span>, facecolor<span class="op">=</span><span class="st">'white'</span>, framealpha<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="A5_metodos_optimizacion_files/figure-html/cell-3-output-1.png" width="810" height="508" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 </div>
 <section id="condición-de-lipschitz-para-el-gradiente" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="condición-de-lipschitz-para-el-gradiente"><span class="header-section-number">1.1</span> Condición de Lipschitz para el gradiente</h2>
@@ -286,7 +433,7 @@ f(\xx) \approx f(\xx_{t}) + \langle \nabla f(\xx_{t}), \xx - \xx_{t} \rangle.
 <p>Una consecuencia inmediata de la <span class="math inline">\(L\)</span>-suavidad es que la función admite una <em>cota superior cuadrática</em>. A continuación, esta propiedad será extremadamente útil para cuantificar la mejora de un paso del algoritmo de gradiente descendente, cual a menudo se denomina *lema del descenso del gradiente.</p>
 <div class="teorema">
 <p><strong>Teorema 1.</strong> (Cota superior cuadrática). Sea <span class="math inline">\(f: \Omega \to \mathbb{R}\)</span> una función <span class="math inline">\(L\)</span>-suave en un dominio convexo <span class="math inline">\(\Omega\)</span>. Entonces, podemos acotar superiormente la función <span class="math inline">\(f\)</span> como <span class="math display">\[
-f(\xx_2) \leq f(\yy) + \langle \nabla f(\xx), \yy - \xx \rangle + \frac{L}{2} \|\yy - \xx\|_{2}^{2} \quad \forall \xx, \yy \in \Omega.
+f(\yy) \leq f(\xx) + \langle \nabla f(\xx), \yy - \xx \rangle + \frac{L}{2} \|\yy - \xx\|_{2}^{2} \quad \forall \xx, \yy \in \Omega.
 \tag{2}
 \]</span></p>
 </div>
@@ -298,7 +445,31 @@ Mostrar detalles
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Demostración</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-
+<p>Definamos la recta que conecta <span class="math inline">\(\xx\)</span> con <span class="math inline">\(\yy\)</span> como <span class="math inline">\(\gamma(t):=t\yy+(1-t)\xx\)</span> y la restricción de <span class="math inline">\(f\)</span> sobre dicha recta como <span class="math inline">\(h(t):=f(\gamma(t))\)</span>. El teorema fundamental del cálculo permite escribir <span class="math display">\[
+h(1)-h(0)=\int_0^1h'(t)\, dt.
+\]</span></p>
+<p>Pero <span class="math inline">\(h(1)=f(\yy)\)</span>, <span class="math inline">\(h(0)=f(\xx)\)</span> y <span class="math display">\[
+h'(t)=\nabla f(\gamma(t))\cdot \gamma'(t)=f(t\yy+(1-t)\xx)\cdot (\yy-\xx).
+\]</span></p>
+<p>Reemplazando resulta <span class="math display">\[
+\begin{align*}
+  f(\yy)-f(\xx)&amp;=\int_0^1\nabla f(t\yy+(1-t)\xx)\cdot (\yy-\xx)\,dt\\
+  &amp;=\int_0^1\left(\nabla f(t\yy+(1-t)\xx)-\nabla f(\xx)\right)\cdot (\yy-\xx)\,dt+\nabla f(\xx)\cdot (\yy-\xx)\\
+  &amp;\leq \int_0^1\|\nabla f(t\yy+(1-t)\xx)-\nabla f(\xx)\|_2\|\yy-\xx\|_2\,dt+\nabla f(\xx)\cdot (\yy-\xx),
+\end{align*}
+\]</span></p>
+<p>donde en el último paso se utilizó la desigualdad de Cauchy-Schwarz. Observar que el primer factor del integrando es el cambio de gradiente entre dos puntos, lo cual puede ser acotado en virtud de la <span class="math inline">\(L\)</span>-suavidad; es decir <span class="math display">\[
+\|\nabla f(t\yy+(1-t)\xx)-\nabla f(\xx)\|_2\leq L\|t\yy+(1-t)\xx-\xx\|_2=tL\|\yy-\xx\|_2.
+\]</span></p>
+Finalmente nos queda <span class="math display">\[
+\begin{align*}
+f(\yy)-f(\xx)&amp;\leq L\|\yy-\xx\|_2^2\int_0^1 t\,dt++\nabla f(\xx)\cdot (\yy-\xx)\\
+&amp;=\frac{L}{2}\|\yy-\xx\|_2^2++\nabla f(\xx)\cdot (\yy-\xx).
+\end{align*}
+\]</span>
+<div style="text-align: right;">
+<span class="math inline">\(\blacksquare\)</span>
+</div>
 </div>
 </div>
 </div>
@@ -329,7 +500,19 @@ f(\xx_T)\leq f(\xx_0)-\frac{\eta}{2}\sum_{t=0}^{T-1}\|\nabla f(\xx_t)\|_2^2.
 </ul>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
-
+<p>La cota superior cuadrática del Teorema 1 para <span class="math inline">\(\xx=\xx_t\)</span> y <span class="math inline">\(\yy=\xx_{t+1}\)</span> es <span class="math display">\[
+f(\xx_{t+1})\leq f(\xx_t)+f(\xx_t)\cdot(\xx_{t+1}-\xx_t)+\frac{L}{2}\|\xx_{t+1}-\xx_t\|_2^2.
+\]</span></p>
+<p>Basta utilizar en el lado derecho la fórmula de gradiente descendiente <span class="math inline">\(\xx_{t+1}=\xx_t+\eta\nabla f(\xx_t)\)</span>: <span class="math display">\[
+\begin{align*}
+  f(\xx_{t+1})&amp;\leq f(\xx_t)-\eta\underbrace{\nabla f(\xx_{t})\cdot\nabla f(\xx_t)}_{\|\nabla f(\xx_t)\|_2^2}+\frac{L}{2}\eta^2\|\nabla f(\xx_t)\|_2^2\\
+  &amp;=f(\xx_t)-\eta \left(1-\frac{L}{2}\eta\right)\|\nabla f(\xx_t)\|_2^2.
+\end{align*}
+\]</span></p>
+Cuando <span class="math inline">\(\eta\leq\frac{1}{L}\)</span>, el paréntesis es <span class="math inline">\(1-\frac{L}{2}\eta\geq\frac{1}{2}\)</span>. Realizando este cambio, se obtiene el resultado.
+<div style="text-align: right;">
+<span class="math inline">\(\blacksquare\)</span>
+</div>
 </div>
 </div>
 </div>
@@ -340,13 +523,13 @@ f(\xx_T)\leq f(\xx_0)-\frac{\eta}{2}\sum_{t=0}^{T-1}\|\nabla f(\xx_t)\|_2^2.
 <p>El Teorema 2 solo garantiza una tasa de convergencia para la <em>norma del gradiente</em> de la función objetivo, pero no dice nada acerca de la brecha <span class="math inline">\(f(\xx_t)-f^\star\)</span>. En otras palabras, aunque el gradiente pequeño es una necesidad para pensar en optimalidad, no es suficiente para asegurar que el valor de la función esté efectivamente cerca del óptimo.</p>
 <p>Sin embargo, para funciones objetivo convexas, sí se puede establecer una razón de convergencia. Para ello, primero necesitamos enunciar el siguiente resultado.</p>
 <div class="teorema">
-<p><strong>Teorema 3.</strong> Sea <span class="math inline">\(f:\RR^n\to\RR\)</span> una función convexa y diferenciable. Entonces, para cualquier elección del tamaño de paso <span class="math inline">\(\eta\)</span>, cualquier par de puntos consecutivos <span class="math inline">\((\xx_t,\xx_{t+1})\)</span> del método de gradiente descendente satisfacen <span class="math display">\[
+<p><strong>Lema 3.</strong> Sea <span class="math inline">\(f:\RR^n\to\RR\)</span> una función convexa y diferenciable. Entonces, para cualquier elección del tamaño de paso <span class="math inline">\(\eta\)</span>, cualquier par de puntos consecutivos <span class="math inline">\((\xx_t,\xx_{t+1})\)</span> del método de gradiente descendente satisfacen <span class="math display">\[
 f(\xx_{t}) \leq f(\xx) + \frac{1}{2\eta} \left( \|\xx - \xx_{t}\|_{2}^{2} - \|\xx - \xx_{t+1}\|_{2}^{2} + \|\xx_{t+1} - \xx_{t}\|_{2}^{2} \right) \qquad \forall \xx \in \mathbb{R}^{n}.
 \]</span></p>
 </div>
 <div class="teorema">
-<p><strong>Teorema 4.</strong> Sea <span class="math inline">\(f:\RR^n\to\RR\)</span> una función convexa y <span class="math inline">\(L\)</span>-suave, con minimizador <span class="math inline">\(\xx_\star \in \RR^n\)</span>, y sea <span class="math inline">\(0 &lt; \eta \leq \frac{1}{L}\)</span>. El método de gradiente descendente verifica <span class="math display">\[
-f(\xx_{t}) - f(\xx^{*}) \leq \frac{\|\xx_\star - \xx_{0}\|_{2}^{2}}{2 t \eta} \qquad \forall t\in\NN.
+<p><strong>Teorema 4.</strong> Sea <span class="math inline">\(f:\RR^n\to\RR\)</span> una función convexa y <span class="math inline">\(L\)</span>-suave, con minimizador <span class="math inline">\(\xx^\star \in \RR^n\)</span>, y sea <span class="math inline">\(0 &lt; \eta \leq \frac{1}{L}\)</span>. El método de gradiente descendente verifica <span class="math display">\[
+f(\xx_{t}) - f(\xx^{*}) \leq \frac{\|\xx^\star - \xx_{0}\|_{2}^{2}}{2 t \eta} \qquad \forall t\in\NN.
 \]</span></p>
 </div>
 <details>
@@ -358,7 +541,7 @@ Mostrar detalles
 <div class="tab-content">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
 <ul>
-<li>Aunque el método de gradiente descendente garantiza que el valor de la función se acerque al óptimo, no siempre asegura que los puntos iterados converjan rápidamente al punto óptimo <span class="math inline">\(\xx_\star\)</span>. Para obtener garantías más fuertes sobre la rapidez con la que las iteraciones se acercan al punto óptimo, se requieren condiciones adicionales.</li>
+<li>Aunque el método de gradiente descendente garantiza que el valor de la función se acerque al óptimo, no siempre asegura que los puntos iterados converjan rápidamente al punto óptimo <span class="math inline">\(\xx^\star\)</span>. Para obtener garantías más fuertes sobre la rapidez con la que las iteraciones se acercan al punto óptimo, se requieren condiciones adicionales.</li>
 </ul>
 </div>
 <div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
@@ -371,12 +554,12 @@ f(\xx_{t+1})\leq f(\xx)+ \frac{1}{2\eta} \left( \|\xx - \xx_{t}\|_{2}^{2} - \|\x
 <p>Sumando sobre <span class="math inline">\(t=0,1,\cdot,T-1\)</span>, y teniendo en cuenta que el lado derecho es telescópico, obtenemos <span class="math display">\[
 \sum_{t=0}^{T-1}f(\xx_{t+1})\leq Tf(\xx)+\frac{1}{2\eta}\left(\|\xx-\xx_0\|_2^2-\|\xx-\xx_T\|_2^2\right).
 \]</span></p>
-<p>Ahora bien, vamos a aplicar esta última desigualdad a <span class="math inline">\(\xx=\xx_\star\)</span> y descartar el término <span class="math inline">\(\|\xx-\xx_T\|_2^2\)</span> (esto último se puede hacer porque está restando):</p>
+<p>Ahora bien, vamos a aplicar esta última desigualdad a <span class="math inline">\(\xx=\xx^\star\)</span> y descartar el término <span class="math inline">\(\|\xx-\xx_T\|_2^2\)</span> (esto último se puede hacer porque está restando):</p>
 <p><span class="math display">\[
-\sum_{t=0}^{T-1}f(\xx_{t+1})\leq Tf(\xx_{\star})+\frac{1}{2\eta}\|\xx_{\star}.
+\sum_{t=0}^{T-1}f(\xx_{t+1})\leq Tf(\xx^{\star})+\frac{1}{2\eta}\|\xx^{\star}.
 \]</span></p>
 <p>Por último, vamos a usar el hecho que <span class="math inline">\(Tf(\xx_T)\leq\sum_{t=0}^{T-1}f(\xx_{t+1})\)</span>; esto debido a que el Teorema 2 asegura que <span class="math inline">\(f(\xx_t)\)</span> es no creciente en <span class="math inline">\(t\)</span>. Así, finalmente obtenemos <span class="math display">\[
-T(f(\xx_T)-f(\xx_{\star}))\leq \frac{1}{2\eta}\|\xx_{\star}-\xx_0\|_2^2.
+T(f(\xx_T)-f(\xx^{\star}))\leq \frac{1}{2\eta}\|\xx^{\star}-\xx_0\|_2^2.
 \]</span></p>
 <div style="text-align: right;">
 <span class="math inline">\(\blacksquare\)</span>
@@ -392,14 +575,12 @@ T(f(\xx_T)-f(\xx_{\star}))\leq \frac{1}{2\eta}\|\xx_{\star}-\xx_0\|_2^2.
 </section>
 <section id="método-de-newton" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Método de Newton</h1>
-<div style="height:10cm;">
-
-</div>
 <br>
-<hr style="border: 2.5px solid black;">
-<h2 class="anchored" data-anchor-id="método-de-newton">
-Ejercicios
-</h2>
+<hr style="border: 1.5px solid black; margin: 0px;">
+<hr style="border: 0.25px solid black; margin: 5px;">
+</section>
+<section id="ejercicios" class="level1 unnumbered">
+<h1 class="unnumbered">Ejercicios</h1>
 <ol type="1">
 <li>…</li>
 </ol>
@@ -419,9 +600,14 @@ eyJjb250ZW50cyI6W119
 <script type="vfs-file">
 W10=
 </script>
+
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">Referencias</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-boyd2004convex" class="csl-entry" role="listitem">
+Boyd, S., &amp; Vandenberghe, L. (2004). <em>Convex Optimization</em>. Cambridge University Press.
+</div>
+</div></section></div></main> <!-- /main -->
 <script type="ojs-module-contents">
 eyJjb250ZW50cyI6W119
 </script>

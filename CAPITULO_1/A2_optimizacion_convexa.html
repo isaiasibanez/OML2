@@ -54,7 +54,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -685,7 +705,7 @@ f(\xx)=\frac{1}{2}\xx^\top A\xx+\bb^\top\xx+c,
 f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
 \]</span></p>
 <p>es convexa, ya que <span class="math inline">\(\xx^\top A\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^n\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
-<div id="ac554715" class="cell" data-execution_count="1">
+<div id="4fe2859c" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -802,8 +822,8 @@ f(\zz)\leq (1-\theta)f(\xx)+\theta f(\yy)&lt;(1-\theta)f(\xx)+\theta f(\xx)&lt;f
 </div>
 </details>
 <br>
-<hr style="border: 1.5px solid black; margin: 1px;">
-<hr style="border: 0.5px solid black; margin: 0;">
+<hr style="border: 1.5px solid black; margin: 0px;">
+<hr style="border: 0.25px solid black; margin: 5px;">
 </section>
 <section id="ejercicios" class="level1 unnumbered">
 <h1 class="unnumbered">Ejercicios</h1>
@@ -866,9 +886,17 @@ eyJjb250ZW50cyI6W119
 <script type="vfs-file">
 W10=
 </script>
+
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">Referencias</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-boyd2004convex" class="csl-entry" role="listitem">
+Boyd, S., &amp; Vandenberghe, L. (2004). <em>Convex Optimization</em>. Cambridge University Press.
+</div>
+<div id="ref-farinaNotes" class="csl-entry" role="listitem">
+Farina, G. (2024). <em>Course Notes on Convex Optimization</em>. <a href="https://www.mit.edu/~gfarina/notes/" class="uri">https://www.mit.edu/~gfarina/notes/</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script type="ojs-module-contents">
 eyJjb250ZW50cyI6W119
 </script>
