@@ -338,7 +338,7 @@ f(\xx) \approx f(\xx_{t}) + \langle \nabla f(\xx_{t}), \xx - \xx_{t} \rangle.
 </ul>
 <p>La salida es una lista con los puntos obtenidos en las iteraciones (<code>x_iter</code>), y los valores de la función (<code>f_iter</code>).</p>
 <p>la solución aproximada <code>x_sol</code> y el valor de la función objetivo en dicho punto <code>f_sol</code>.</p>
-<div id="78755cd4" class="cell" data-execution_count="1">
+<div id="05037029" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gradiente_descendente(f, grad_f, x_inicial, lr<span class="op">=</span><span class="fl">0.1</span>, <span class="bu">iter</span><span class="op">=</span><span class="dv">100</span>):</span>
@@ -364,7 +364,7 @@ f(x,y)=3(x-2)^2+5(y-3)^2,
 <p>el cual sabemos que ocurre en <span class="math inline">\((2,3)\)</span> (vértice del paraboloide elíptico). Usaremos como punto inicial el origen de coordenadas y un total de 20 iteraciones. Además, necesitamos proporcionar el gradiente de <span class="math inline">\(f\)</span>, el cual es <span class="math display">\[
 \nabla f(x,y)=6(x-2)+10(y-3).
 \]</span></p>
-<div id="45fbd9a3" class="cell" data-execution_count="2">
+<div id="7937c4f5" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -608,8 +608,8 @@ T(f(\xx_T)-f(\xx^{\star}))\leq \frac{1}{2\eta}\|\xx^{\star}-\xx_0\|_2^2.
 <section id="método-de-newton" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Método de Newton</h1>
 <br>
-<hr style="border: 1.5px solid black; margin: 0px;">
-<hr style="border: 0.25px solid black; margin: 5px;">
+<hr style="border: 1.5px solid black; margin: 1px;">
+<hr style="border: 0.5px solid black; margin: 0;">
 </section>
 <section id="ejercicios" class="level1 unnumbered">
 <h1 class="unnumbered">Ejercicios</h1>
