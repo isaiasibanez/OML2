@@ -348,7 +348,7 @@ window.Quarto = {
 \, x+y-1=0
 \end{array}\right.\right\}.
 \]</span></p>
-<div id="73a81c4b" class="cell" data-execution_count="1">
+<div id="10c97d34" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cvxpy <span class="im">as</span> cp</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Creamos dos variables:</span></span>
@@ -377,7 +377,7 @@ Punto óptimo 1.0 1.570086213240983e-22</code></pre>
 </div>
 </div>
 <p>A continuación, vamos a representar geométricamente este problema: del lado izquierdo, el grafo en <span class="math inline">\(\RR^3\)</span> de la función objetivo; del lado derecho, el conjunto factible como intersección de las restricciones dadas.</p>
-<div id="588cb417" class="cell" data-execution_count="2">
+<div id="d9166b6c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Patch</span>
@@ -450,7 +450,7 @@ Punto óptimo 1.0 1.570086213240983e-22</code></pre>
 \, 0\leq x_i\leq 1,\quad i=1,\cdots,n\end{array}\right.\right\},
 \]</span></p>
 <p>con <span class="math inline">\(A\in\RR^{n\times m}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span> aleatorios, para <span class="math inline">\(n,m\in\mathbb{N}\)</span> fijos.</p>
-<div id="2354f290" class="cell" data-execution_count="3">
+<div id="3d3139e2" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cvxpy <span class="im">as</span> cp</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -549,7 +549,7 @@ x+y^2 \\
 \end{pmatrix}
 \]</span></p></li>
 </ul>
-<div id="141cd137" class="cell" data-execution_count="4">
+<div id="ac887f8b" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> Bounds</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> LinearConstraint</span>
@@ -583,7 +583,7 @@ x+y^2 \\
 <span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Punto óptimo:"</span>, res.x)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>`gtol` termination condition is satisfied.
-Number of iterations: 12, function evaluations: 24, CG iterations: 7, optimality: 4.48e-09, constraint violation: 0.00e+00, execution time: 0.012 s.
+Number of iterations: 12, function evaluations: 24, CG iterations: 7, optimality: 4.48e-09, constraint violation: 0.00e+00, execution time: 0.011 s.
 Éxito en optimización: True
 Valor objetivo óptimo: 0.3427175756443014
 Punto óptimo: [0.41494531 0.17010937]</code></pre>
