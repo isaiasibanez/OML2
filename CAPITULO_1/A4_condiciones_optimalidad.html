@@ -20,27 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -382,29 +362,29 @@ No obstante, la importancia del Teorema 1 radica en cómo tratar los puntos en l
 <h2 data-number="2.1" class="anchored" data-anchor-id="el-caso-particular-de-restricciones-lineales"><span class="header-section-number">2.1</span> El caso particular de restricciones lineales</h2>
 <p>Vamos a considerar el caso en que <span class="math inline">\(\Omega\)</span> un polítopo convexo, esto es, el conjunto convexo definido por la intersección de un número finito de medios espacios (desigualdades lineales):</p>
 <p><span class="math display">\[
-\Omega=\{\xx\in\RR^n|A\xx\leq \bfb\},
+\Omega=\{\xx\in\RR^n|A\xx\leq \bb\},
 \]</span></p>
-<p>donde <span class="math inline">\(A\in\RR^{m\times n}\)</span> es una matriz, cuyas filas denotaremos con <span class="math inline">\(\bfa_j\)</span>, <span class="math inline">\(j=1,\cdots,m\)</span>, y <span class="math inline">\(\bfb\in\RR^m\)</span>.</p>
+<p>donde <span class="math inline">\(A\in\RR^{m\times n}\)</span> es una matriz, cuyas filas denotaremos con <span class="math inline">\(\aa_j\)</span>, <span class="math inline">\(j=1,\cdots,m\)</span>, y <span class="math inline">\(\bb\in\RR^m\)</span>.</p>
 <p>En el ejemplo … (<span style="color: red;">Agregar ejemplo 3.6 de Lecture 2 a ‘Intro’</span>) hemos visto que el cono normal en un punto en la intersección de dos medios espacios es la envolvente cónica de las direcciones ortogonales a dichos subespacios.</p>
 <figure style="text-align: center;" class="figure">
 <img src="figuras/conic_hull_halfspaces_intersection.png" alt="Conic Hull" width="200px" class="figure-img">
 <figcaption>
-Envolvente cónica de la intersección de dos subespacios <span class="math inline">\(\bfa_1^T\xx\leq b_1\)</span> y <span class="math inline">\(\bfa_2^T\xx\leq b_2\)</span>.
+Envolvente cónica de la intersección de dos subespacios <span class="math inline">\(\aa_1^T\xx\leq b_1\)</span> y <span class="math inline">\(\aa_2^T\xx\leq b_2\)</span>.
 </figcaption>
 </figure>
 <p>Por otra parte, los otros casos también ya han sido vistos:</p>
 <ul>
 <li>Si <span class="math inline">\(\xx\)</span> pertenece al interior de <span class="math inline">\(\Omega\)</span>, entonces <span class="math inline">\(N_{\Omega}(\xx)=\{\mathbf{0}\}\)</span>.</li>
-<li>Si <span class="math inline">\(\xx\)</span> pertenece a la frontera de un único medio espacio, a saber <span class="math inline">\(\bfa_k^T\xx=b_k\)</span>, entonces <span class="math inline">\(N_{\Omega}(\xx)=\{\lambda \bfa_k:\lambda\geq 0\}\)</span>.</li>
+<li>Si <span class="math inline">\(\xx\)</span> pertenece a la frontera de un único medio espacio, a saber <span class="math inline">\(\aa_k^T\xx=b_k\)</span>, entonces <span class="math inline">\(N_{\Omega}(\xx)=\{\lambda \aa_k:\lambda\geq 0\}\)</span>.</li>
 </ul>
 <p>La generalización al caso de <span class="math inline">\(m\)</span> medios espacios se presenta en el siguiente teorema.</p>
 <div class="teorema">
-<p><strong>Teorema 3.</strong> Sea <span class="math inline">\(\Omega=\{x\in\RR^n\}\)</span> la intersección de <span class="math inline">\(m\)</span> medios espacios <span class="math inline">\(\bfa_j^T\xx\leq b_j\)</span>. Dado un punto <span class="math inline">\(x\in\Omega\)</span>, se define el conjunto de índices de las <em>restricciones activas</em> mediante</p>
+<p><strong>Teorema 3.</strong> Sea <span class="math inline">\(\Omega=\{x\in\RR^n\}\)</span> la intersección de <span class="math inline">\(m\)</span> medios espacios <span class="math inline">\(\aa_j^T\xx\leq b_j\)</span>. Dado un punto <span class="math inline">\(x\in\Omega\)</span>, se define el conjunto de índices de las <em>restricciones activas</em> mediante</p>
 <p><span class="math display">\[
-I(\xx):=\left\{j\in\{1,\cdots,m\}:\bfa_j^T\xx=b_j\right\}.
+I(\xx):=\left\{j\in\{1,\cdots,m\}:\aa_j^T\xx=b_j\right\}.
 \]</span> Entonces, el cono normal en <span class="math inline">\(\xx\)</span> está dado por</p>
 <p><span class="math display">\[
-N_{\Omega}(\xx)=\left\{\sum_{j\in I(\xx)}\lambda_j\bfa_j:\lambda_j\geq 0\right\}.
+N_{\Omega}(\xx)=\left\{\sum_{j\in I(\xx)}\lambda_j\aa_j:\lambda_j\geq 0\right\}.
 \]</span></p>
 </div>
 <details>
@@ -416,35 +396,35 @@ Interpretación
 <p>Por su parte, si <span class="math inline">\(\xx\)</span> pertenece a la frontera de <span class="math inline">\(\Omega\)</span>, entonces el cono normal es la envolvente cónica de las direcciones ortogonales a las restricciones activas.</p>
 <p>Observar que la condición de optimalidad <span class="math inline">\(-\nabla f(\xx)\in N_{\Omega}(\xx)\)</span> se traduce como</p>
 <p><span class="math display">\[
--\nabla f(\xx)=\sum_{j\in I(\xx)}\lambda_j\bfa_j,
+-\nabla f(\xx)=\sum_{j\in I(\xx)}\lambda_j\aa_j,
 \]</span></p>
 <p>y, en consecuencia, se puede escribir</p>
 <p><span class="math display">\[
 \nabla f(\xx)-\sum_{j\in I(\xx)}\lambda_j \nabla g_j(\xx)=0,
 \]</span></p>
-con <span class="math inline">\(g_j(\xx)=\bfa_j^T\xx-b\)</span>. Los coeficientes <span class="math inline">\(\lambda_j\)</span> se denominan tipicamente <em>multiplicadores de Lagrange</em>.
+con <span class="math inline">\(g_j(\xx)=\aa_j^T\xx-b\)</span>. Los coeficientes <span class="math inline">\(\lambda_j\)</span> se denominan tipicamente <em>multiplicadores de Lagrange</em>.
 <hr>
 </details>
 <p>La suma en la expresión del cono normal puede ser reescrita sin restringir <span class="math inline">\(j\in I(\xx)\)</span>, simplemente imponiendo <span class="math inline">\(\lambda_j=0\)</span> para todo <span class="math inline">\(j\notin I(\xx)\)</span>. Esta imposición queda ímplicita de forma inmediata si se escribe</p>
 <p><span class="math display">\[
-\sum_{j=1}^m\lambda_j\left(\bfa_j^T\xx-b_j\right)=0.
+\sum_{j=1}^m\lambda_j\left(\aa_j^T\xx-b_j\right)=0.
 \]</span></p>
-<p>En forma vectorial, esto es <span class="math inline">\(\bflambda^T\left(A\xx-\bfb\right)=0\)</span>, donde <span class="math inline">\(\bflambda=(\lambda_1,\cdots,\lambda_m)^T\)</span>. Con esta notación, el resultado del Teorema 3 puede reescribirse como</p>
+<p>En forma vectorial, esto es <span class="math inline">\(\bflambda^T\left(A\xx-\bb\right)=0\)</span>, donde <span class="math inline">\(\bflambda=(\lambda_1,\cdots,\lambda_m)^T\)</span>. Con esta notación, el resultado del Teorema 3 puede reescribirse como</p>
 <p><span class="math display">\[
-N_{\Omega}(\xx)=\left\{A^T\bflambda:\bflambda^T(A\xx-\bfb)=0,\bflambda\in\RR^m_{\geq 0}\right\}.
+N_{\Omega}(\xx)=\left\{A^T\bflambda:\bflambda^T(A\xx-\bb)=0,\bflambda\in\RR^m_{\geq 0}\right\}.
 \]</span></p>
 <p>Para concluir este análisis, y teniendo en cuenta lo expuesto hasta aquí, podemos hacer énfasis en tres condiciones necesarias para que una solución sea óptima en este caso particular de restricciones lineales.</p>
 <div class="highlight">
 <p>Para que <span class="math inline">\(\xx\in\Omega\)</span> sea un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, debe cumplir:</p>
 <ul>
 <li><p><strong>Estacionariedad</strong>: El gradiente debe ser una combinación lineal de los gradientes de las restricciones activas. <span class="math display">\[
-\nabla f(\xx)-\sum_{j=1}^{m}\lambda_j(\bfa_j^T\xx-b_j).
+\nabla f(\xx)-\sum_{j=1}^{m}\lambda_j(\aa_j^T\xx-b_j).
 \]</span></p></li>
 <li><p><strong>Factibilidad dual</strong>: Los multiplicadores de Lagrange asociados a las restricciones de desigualdad deben ser no negativos. <span class="math display">\[
 \lambda_j\geq 0 \quad \forall j=1,\cdots,m.
 \]</span></p></li>
 <li><p><strong>Holgura complementaria</strong>: Los multiplicadores de Lagrange solo pueden ser positivos si la restricción está activa. <span class="math display">\[
-\lambda_j\left(\bfa_j^T\xx-b_j\right)=0 \quad \forall j=1,\cdots,m.
+\lambda_j\left(\aa_j^T\xx-b_j\right)=0 \quad \forall j=1,\cdots,m.
 \]</span></p></li>
 </ul>
 </div>
@@ -644,6 +624,14 @@ f(\xx^*)\leq f(\xx)+\sum_{i=1}^{q} \lambda_{i}^{*} g_{i}(\xx) + \sum_{j=1}^{r} \
 <li><p>Probar que la función dual de Lagrange <span class="math inline">\(\calG(\bflambda,\bfmu)\)</span> es cóncava.</p></li>
 <li><p>Mostrar que, si <span class="math inline">\(\xx\)</span> es factible primal y <span class="math inline">\((\bflambda,\bfnu)\)</span> es factible dual, entonces <span class="math inline">\((\bflambda,\bfnu)\)</span> es <span class="math inline">\(\epsilon\)</span>-subóptimo para el problema dual.</p></li>
 </ol>
+<div style="margin-top: 5em;">
+
+</div>
+<div class="refs">
+<p><span style="color: #444;"><strong>Referencias</strong></span></p>
+<p>Boyd, S., &amp; Vandenberghe, L. (2004). <em>Convex Optimization</em>. Capítulo 5. Cambridge University Press.</p>
+<p>Farina, G. Apuntes del curso MIT 6.7220: <em>Nonlinear Optimization</em>. Lección 2 (2025) y lección 5 (2024). Disponible en la <a href="https://www.mit.edu/~gfarina/notes/">página del curso</a>.</p>
+</div>
 
 
 <script type="ojs-module-contents">
@@ -660,17 +648,9 @@ eyJjb250ZW50cyI6W119
 <script type="vfs-file">
 W10=
 </script>
-
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">Referencias</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
-<div id="ref-boyd2004convex" class="csl-entry" role="listitem">
-Boyd, S., &amp; Vandenberghe, L. (2004). <em>Convex Optimization</em>. Cambridge University Press.
-</div>
-<div id="ref-farinaNotes" class="csl-entry" role="listitem">
-Farina, G. (2024). <em>Course Notes on Convex Optimization</em>. <a href="https://www.mit.edu/~gfarina/notes/" class="uri">https://www.mit.edu/~gfarina/notes/</a>.
-</div>
-</div></section></div></main> <!-- /main -->
+</main> <!-- /main -->
 <script type="ojs-module-contents">
 eyJjb250ZW50cyI6W119
 </script>
