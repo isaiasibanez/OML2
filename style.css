@@ -57,9 +57,9 @@ blockquote {
   color: black;          /* Cambia el color del texto */
   /* font-family: 'Georgia', serif;  /* Cambia la tipografía */
   font-size: 1.15em;     /* Tamaño de letra */
-  border-left: 3px solid #007ACC; /* Personaliza la barra lateral */
-  padding-left: 1em;
-  margin-left: 0;
+  border-left: 2px solid #000000; /* Personaliza la barra lateral */
+  padding-left: 0em;
+  margin-left: 1.5em;
 }
 
 
