@@ -190,7 +190,9 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link active" data-scroll-target="#ejercicios">Ejercicios</a></li>
+  <li><a href="#optimización-matemática" id="toc-optimización-matemática" class="nav-link active" data-scroll-target="#optimización-matemática"><span class="header-section-number">1</span> Optimización matemática</a></li>
+  <li><a href="#mínimos-cuadrados-y-programación-lineal" id="toc-mínimos-cuadrados-y-programación-lineal" class="nav-link" data-scroll-target="#mínimos-cuadrados-y-programación-lineal"><span class="header-section-number">2</span> Mínimos cuadrados y programación lineal</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
   </ul>
 </nav>
     </div>
@@ -251,15 +253,152 @@ window.Quarto = {
 \def\argmax{\mathop{\mathrm{arg\,max\,}}}
 \]</span></p>
 </div>
-<p><span style="display: block; color: red; font-weight: bold;"> Aquí irá un repaso de conceptos básicos de optimización, con conexiones a Cálculo I, Cálculo II, etc. </span></p>
+<p>La optimización es una herramienta fundamental en matemáticas aplicadas, ciencia de datos y otras disciplinas. En términos generales, el objetivo de un <strong>problema de optimización</strong> es encontrar el valor de una <em>variable</em> (o conjunto de variables) que <em>minimice</em> o <em>maximice</em> una determinada <em>función</em>, posiblemente bajo ciertas <em>restricciones</em>.</p>
+<section id="optimización-matemática" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Optimización matemática</h1>
+<div class="definicion">
+<p><strong>Definición 1.</strong> (Problema de optimización) Un <em>problema de optimización matemática</em> tiene la forma <span class="math display">\[
+\min_{\xx} f(\xx)\quad\text{sujeto a }\; \xx\in\Omega.
+\tag{1}
+\]</span></p>
+<p>donde:</p>
+<ul>
+<li><p><span class="math inline">\(f:\RR^n\to\RR\)</span> es la <em>función objetivo</em>.</p></li>
+<li><p><span class="math inline">\(\xx=(x_1,\ldots, x_n)\)</span> son las <em>variables de optimización</em>.</p></li>
+<li><p><span class="math inline">\(\Omega\subset\RR^n\)</span> es el <em>conjunto factible</em> o <em>conjunto de restricciones</em>.</p></li>
+</ul>
+<p>Un vector <span class="math inline">\(\xx^\star\in\Omega\)</span> se denomina <em>punto óptimo</em> del problema (1) si allí <span class="math inline">\(f\)</span> alcanza su valor más pequeño en <span class="math inline">\(\Omega\)</span>. A dicho valor lo denominaremos <em>valor óptimo</em> y denotaremos <span class="math inline">\(f^\star:=f(\xx^\star)\)</span>.</p>
+</div>
+<p>En general, se asume que la función objetivo <span class="math inline">\(f\)</span> es continua. Además, a menudo se suele imponer la condición de que también sea diferenciable.</p>
+<p>Por otra parte, son de especial interés los problemas con <em>restricciones funcionales</em>, que son aquellos en los cuales el conjunto factible es de la forma</p>
+<p><span class="math display">\[
+\Omega=\left\{\xx\in\RR^n\left|\begin{array}{rl}
+\; g_i(\xx)\leq 0,&amp; i=1,\cdots,r\\
+\; h_j(\xx)=0, &amp; j=1,\cdots,m
+\end{array}\right.\right\}.
+\]</span></p>
+<p>Es decir, el conjunto <span class="math inline">\(\Omega\)</span> queda definido a partir de un conjunto de <em>funciones de restricción</em> formado por <span class="math inline">\(g_i:\RR^n\to\RR\)</span> (<span class="math inline">\(i=1,\ldots,r\)</span>) y <span class="math inline">\(h_j:\RR^n\to\RR\)</span> (<span class="math inline">\(j=1,\ldots,m\)</span>).</p>
+<p>Las preguntas que surgen de un problema de optimización son:</p>
+<div style="margin-top:1.5em;">
+
+</div>
+<div class="myhighlight">
+<p>¿Existe una solución?</p>
+<p>En caso afirmativo, ¿podemos calcularla?</p>
+</div>
+<p><br></p>
+<p>Generalmente, consideramos familias o clases de problemas de optimización, caracterizadas por formas particulares de las funciones objetivo y de las funciones de restricción. Algunos ejemplos importantes son:</p>
+<ul>
+<li><p>Un problema de optimización es un <em>programa lineal</em> si tanto la función objetivo <span class="math inline">\(f\)</span> como las funciones de restricción <span class="math inline">\(g_i\)</span> y <span class="math inline">\(h_j\)</span> son funciones lineales. Es decir, son funciones <span class="math inline">\(\varphi:\RR^n\to\RR\)</span> que satisfacen la igualdad: <span class="math display">\[
+\varphi(\alpha\xx+\beta\yy)=\alpha\,\varphi(\xx)+\beta\,\varphi(\yy),
+\]</span> para todo <span class="math inline">\(\xx,\yy\in\RR^n\)</span> y para todo <span class="math inline">\(\alpha,\beta\in\RR\)</span>.</p></li>
+<li><p>Un <em>problema de optimización convexa</em> es aquel en el que tanto la función objetivo como las funciones de restricción son funciones convexas. Es decir, son funciones <span class="math inline">\(\varphi:\RR^n\to\RR\)</span> que satisfacen la desigualdad: <span class="math display">\[
+\varphi(\alpha \xx+\beta \yy)\leq \alpha\,\varphi(\xx)+\beta\,\varphi(\yy),
+\]</span> para todo <span class="math inline">\(\xx,\yy\in\RR^n\)</span> y para todo <span class="math inline">\(\alpha,\beta\in[0,1]\)</span> con <span class="math inline">\(\alpha+\beta=1\)</span>.</p></li>
+</ul>
+<p>Comparando los dos ejemplos anteriores, vemos que la convexidad es más general que la linealidad: la desigualdad reemplaza la igualdad más restrictiva, y además la desigualdad debe cumplirse solo para ciertos valores de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>. Por lo tanto, cualquier programa lineal es un problema de optimización convexa. El estudio de los problemas de optimización convexa lo realizaremos en la <a href="A2_optimizacion_convexa.html">Sección 1.2</a>.</p>
+<p>Veremos a continuación algunos ejemplos básicos de problemas de optimización, que seguramente les resultarán familiares de cursos previos.</p>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 1</span></p>
+<p><span class="math display">\[
+\min_{x\in\RR}x^2-4x+5
+\]</span></p>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>Este es un problema de optimización sin restricciones, cuya función objetivo es <span class="math inline">\(f(x)=x^2-4x+5\)</span>. El punto óptimo ocurre en el vértice de la función cuadrática, es decir: <span class="math display">\[
+x^\star=-\frac{-4}{2\cdot 1}=2.
+\]</span></p>
+<p>El valor óptimo es <span class="math inline">\(f(2)=2^2-4\cdot 2+5=1\)</span>.</p>
+</div><div class="column" style="width:40%;">
+<div style="margin-top:1em;">
+
+</div>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/ej_basico_1.png" alt="..." style="width: 92.5%" class="figure-img">
+</figure>
+</div>
+</div>
+</div>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 2</span></p>
+<p><span class="math display">\[
+\min_{(x,y)\in\RR^2}x^3-3x+y^2
+\]</span></p>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>En este problema de optimización, la función objetivo es <span class="math inline">\(f(x,y)=x^3-3x+y^2\)</span>. Dado que no hay restricciones, podemos obtener en primer lugar los <em>puntos críticos</em> que anulan el vector gradiente. Tenemos que <span class="math display">\[
+\nabla f(x,y)=(3x^2-3,2y)=(0,0)
+\]</span> tiene soluciones <span class="math inline">\((-1,0)\)</span> y <span class="math inline">\((1,0)\)</span>.</p>
+</div><div class="column" style="width:40%;">
+<figure style="text-align: center;" class="figure">
+<img src="figuras/ej_basico_2.png" alt="..." style="width: 92.5%" class="figure-img">
+</figure>
+</div>
+</div>
+<p>El <em>criterio del Hessiano</em> nos permite evaluar la condición de ambos puntos a partir de la matriz de derivadas de segundo orden: <span class="math display">\[
+H(x,y)=\begin{pmatrix}6x&amp;0\\0&amp;2\end{pmatrix}.
+\]</span></p>
+<p>Dicho criterio nos indica que en <span class="math inline">\((1,0)\)</span> hay un mínimo local, mientras que <span class="math inline">\((-1,0)\)</span> se descarta por ser punto silla (¿por qué?). No obstante, esto no quiere decir que hallamos encontrado el punto óptimo, ya que nuestro problema de optimización requiere que el valor óptimo sea global.</p>
+<p>Es importante remarcar lo siguiente:</p>
+<div class="myhighlight">
+<p>Ser mínimo local es una condición necesaria, pero no suficiente, para ser mínimo global.</p>
+</div>
+<div style="margin-top:1.5em;">
+
+</div>
+<p>De hecho, para este problema no hay un punto óptimo, puesto que la función no está acotada inferiormente, tal como se puede apreciar en su gráfica. Analíticamente, notar que para <span class="math inline">\(y=0\)</span> ocurre que <span class="math inline">\(\lim_{x\to-\infty}(x^3-3x)=-\infty\)</span>.</p>
+</div>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 2</span></p>
+<p><span class="math display">\[
+\min_{(x,y)}x^2+y^2\quad\text{sujeto a }\; xy=1
+\]</span></p>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>En este caso, tenemos una restricción funcional de igualdad definida por <span class="math inline">\(h(x,y)=xy-1\)</span>. Este problema se puede resolver aplicando el método de multiplicadores de Lagrange, el cual consiste en analizar la ecuación <span class="math display">\[
+\begin{align*}
+\nabla f(x,y)-\lambda\nabla h(x,y)&amp;=(0,0)\\
+(2x-\lambda y,2y-\lambda x)&amp;=(0,0).
+\end{align*}
+\]</span></p>
+<p>Los puntos críticos son <span class="math inline">\((1,1)\)</span> y <span class="math inline">\((-1,-1)\)</span>, ambos con <span class="math inline">\(\lambda=2\)</span>. Al valuar la función objetivo, se obtiene <span class="math display">\[
+f(1,1)=f(-1,-2)=2.
+\]</span></p>
+<p>Este es el valor óptimo de la función objetivo en el conjunto factible. En consecuencia, tanto <span class="math inline">\((1,1)\)</span> como <span class="math inline">\((-1,-1)\)</span> son puntos óptimos.</p>
+<p>La interpretación geométrica de este problema es que calcula <em>el punto de la hipérbola <span class="math inline">\(xy=1\)</span> más cercano al origen</em> (¿por qué?).</p>
+</div><div class="column" style="width:40%;">
+<div style="margin-top:1.5em;">
+
+</div>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/ej_basico_3.png" alt="..." style="width: 92.5%" class="figure-img">
+</figure>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/ej_basico_4.png" alt="..." style="width: 92.5%" class="figure-img">
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="mínimos-cuadrados-y-programación-lineal" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Mínimos cuadrados y programación lineal</h1>
 <br>
 <hr style="border: 1.5px solid black; margin: 1px;">
 <hr style="border: 0.5px solid black; margin: 0;">
+</section>
 <section id="ejercicios" class="level1 unnumbered">
 <h1 class="unnumbered">Ejercicios</h1>
 <ol type="1">
 <li>…</li>
 </ol>
+<div style="margin-top: 5em;">
+
+</div>
+<div class="refs">
+<p><span style="color: #444;"><strong>Referencias</strong></span></p>
+<p>Boyd, S., &amp; Vandenberghe, L. (2004). <em>Convex Optimization</em>. Capítulo 1. Cambridge University Press.</p>
+<p>Farina, G. Apuntes del curso MIT 6.7220: <em>Nonlinear Optimization</em>. Lección 1(2025). Disponible en la <a href="https://www.mit.edu/~gfarina/notes/">página del curso</a>.</p>
+</div>
 
 
 <script type="ojs-module-contents">
