@@ -324,17 +324,12 @@ x^\star=-\frac{-4}{2\cdot 1}=2.
 <p><span class="math display">\[
 \min_{(x,y)\in\RR^2}x^3-3x+y^2
 \]</span></p>
-<div class="columns">
-<div class="column" style="width:60%;">
+<div style="float: right; width: 40%; margin-left: 1em; margin-bottom: 1em;">
+<p><img src="figuras/ej_basico_2.png" alt="Ejemplo" style="width: 100%;"></p>
+</div>
 <p>En este problema de optimización, la función objetivo es <span class="math inline">\(f(x,y)=x^3-3x+y^2\)</span>. Dado que no hay restricciones, podemos obtener en primer lugar los <em>puntos críticos</em> que anulan el vector gradiente. Tenemos que <span class="math display">\[
 \nabla f(x,y)=(3x^2-3,2y)=(0,0)
 \]</span> tiene soluciones <span class="math inline">\((-1,0)\)</span> y <span class="math inline">\((1,0)\)</span>.</p>
-</div><div class="column" style="width:40%;">
-<figure style="text-align: center;" class="figure">
-<img src="figuras/ej_basico_2.png" alt="..." style="width: 92.5%" class="figure-img">
-</figure>
-</div>
-</div>
 <p>El <em>criterio del Hessiano</em> nos permite evaluar la condición de ambos puntos a partir de la matriz de derivadas de segundo orden: <span class="math display">\[
 H(x,y)=\begin{pmatrix}6x&amp;0\\0&amp;2\end{pmatrix}.
 \]</span></p>
@@ -349,7 +344,7 @@ H(x,y)=\begin{pmatrix}6x&amp;0\\0&amp;2\end{pmatrix}.
 <p>De hecho, para este problema no hay un punto óptimo, puesto que la función no está acotada inferiormente, tal como se puede apreciar en su gráfica. Analíticamente, notar que para <span class="math inline">\(y=0\)</span> ocurre que <span class="math inline">\(\lim_{x\to-\infty}(x^3-3x)=-\infty\)</span>.</p>
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 2</span></p>
+<p><span class="badge bg-primary">Ejemplo 3</span></p>
 <p><span class="math display">\[
 \min_{(x,y)}x^2+y^2\quad\text{sujeto a }\; xy=1
 \]</span></p>
