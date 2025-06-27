@@ -418,14 +418,14 @@ Mostrar detalles
 </details>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 4</span></p>
-<div style="float: right; width: 30%; margin-left: 1em; margin-bottom: 1em;">
-<p><img src="figuras/ej_minimos_cuadrados.png" alt="Ejemplo" style="width: 100%;"></p>
-</div>
 <p>Se tienen los puntos <span class="math inline">\((1,2)\)</span>, <span class="math inline">\((2,2.5)\)</span> y <span class="math inline">\((3,3.7)\)</span>, y se desea encontrar la recta <span class="math inline">\(y = mx + b\)</span> que mejor los aproxime en el sentido de mínimos cuadrados. Esto deriva en el problema <span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; \sum_{i=1}^3 (a x_i + b - y_i)^2.
 \end{array}
 \]</span></p>
+<div style="float: right; width: 30%; margin-left: 1em; margin-bottom: 1em;">
+<p><img src="figuras/ej_minimos_cuadrados.png" alt="Ejemplo" style="width: 100%;"></p>
+</div>
 <p>Cuidado: las variables son los parámetros <span class="math inline">\(m\)</span> y <span class="math inline">\(b\)</span>. La función objetivo es la suma de los cuadrados de los errores. Matricialmente resulta en <span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; \left\|A\begin{pmatrix}m\\b\end{pmatrix}-\yy\right\|_2^2.
@@ -509,6 +509,9 @@ Mostrar detalles
 </div>
 </div>
 </details>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 5</span></p>
+</div>
 <br>
 <hr style="border: 1.5px solid black; margin: 1px;">
 <hr style="border: 0.5px solid black; margin: 0;">
