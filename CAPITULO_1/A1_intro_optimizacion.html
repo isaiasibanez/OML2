@@ -258,7 +258,10 @@ window.Quarto = {
 <h1 data-number="1"><span class="header-section-number">1</span> Optimización matemática</h1>
 <div class="definicion">
 <p><strong>Definición 1.</strong> (Problema de optimización) Un <em>problema de optimización matemática</em> tiene la forma <span class="math display">\[
-\min_{\xx} f(\xx)\quad\text{sujeto a }\; \xx\in\Omega.
+\begin{array}{ll}
+\text{minimizar } &amp; f(\xx)\\
+\text{sujeto a } &amp; \xx\in\Omega.
+\end{array}
 \tag{1}
 \]</span></p>
 <p>donde:</p>
@@ -296,17 +299,21 @@ window.Quarto = {
 \varphi(\alpha \xx+\beta \yy)\leq \alpha\,\varphi(\xx)+\beta\,\varphi(\yy),
 \]</span> para todo <span class="math inline">\(\xx,\yy\in\RR^n\)</span> y para todo <span class="math inline">\(\alpha,\beta\in[0,1]\)</span> con <span class="math inline">\(\alpha+\beta=1\)</span>.</p></li>
 </ul>
-<p>Comparando los dos ejemplos anteriores, vemos que la convexidad es más general que la linealidad: la desigualdad reemplaza la igualdad más restrictiva, y además la desigualdad debe cumplirse solo para ciertos valores de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>. Por lo tanto, cualquier programa lineal es un problema de optimización convexa. El estudio de los problemas de optimización convexa lo realizaremos en la <a href="A2_optimizacion_convexa.html">Sección 1.2</a>.</p>
-<p>Veremos a continuación algunos ejemplos básicos de problemas de optimización, que seguramente les resultarán familiares de cursos previos.</p>
+<p>Comparando los dos ejemplos anteriores, vemos que la convexidad es más general que la linealidad: la desigualdad reemplaza la igualdad más restrictiva, y además la desigualdad debe cumplirse solo para ciertos valores de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>. Por lo tanto, cualquier programa lineal es un problema de optimización convexa. El estudio de los problemas de optimización convexa lo realizaremos en <a href="A2_optimizacion_convexa.html">Capítulo 1 - Sección 2</a>.</p>
+<p>Veremos a continuación algunos ejemplos básicos de ejercicios de optimización, que seguramente les resultarán familiares de cursos previos.</p>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 1</span></p>
 <p><span class="math display">\[
-\min_{x\in\RR}x^2-4x+5
+\begin{array}{ll}
+\text{minimizar } &amp; x^2-4x+5\\
+\text{sujeto a } &amp; x\in\RR.
+\end{array}
 \]</span></p>
 <div style="float: right; width: 30%; margin-left: 1em; margin-bottom: 1em;">
 <p><img src="figuras/ej_basico_1.png" alt="Ejemplo" style="width: 100%;"></p>
 </div>
-<p>Este es un problema de optimización sin restricciones, cuya función objetivo es <span class="math inline">\(f(x)=x^2-4x+5\)</span>. El punto óptimo ocurre en el vértice de la función cuadrática, es decir: <span class="math display">\[
+<p>En este problema no se imponen restricciones sobre el valor de <span class="math inline">\(x\)</span>, más alla de que pertenezca al dominio de la función, por lo que se lo denomina un <em>problema sin restricciones</em>. La función objetivo es <span class="math inline">\(f(x)=x^2-4x+5\)</span>.</p>
+<p>Como sabemos, el punto óptimo ocurre en el vértice de la función cuadrática, es decir: <span class="math display">\[
 x^\star=-\frac{-4}{2\cdot 1}=2.
 \]</span></p>
 <p>El valor óptimo es <span class="math inline">\(f(2)=2^2-4\cdot 2+5=1\)</span>.</p>
@@ -314,7 +321,10 @@ x^\star=-\frac{-4}{2\cdot 1}=2.
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 2</span></p>
 <p><span class="math display">\[
-\min_{(x,y)\in\RR^2}x^3-3x+y^2
+\begin{array}{ll}
+\text{minimizar } &amp; x^3-3x+y^2\\
+\text{sujeto a } &amp; (x,y)\in\RR^2.
+\end{array}
 \]</span></p>
 <div style="float: right; width: 30%; margin-left: 1em; margin-bottom: 1em;">
 <p><img src="figuras/ej_basico_2.png" alt="Ejemplo" style="width: 100%;"></p>
@@ -338,10 +348,13 @@ H(x,y)=\begin{pmatrix}6x&amp;0\\0&amp;2\end{pmatrix}.
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 3</span></p>
 <p><span class="math display">\[
-\min_{(x,y)}x^2+y^2\quad\text{sujeto a }\; xy=1
+\begin{array}{ll}
+\text{minimizar } &amp; x^2+y^2\\
+\text{sujeto a } &amp; xy=1.
+\end{array}
 \]</span></p>
 <div style="float: right; width: 25%; margin-left: 1em; margin-bottom: 1em;">
-<p><img src="figuras/ej_basico_4.png" alt="Ejemplo" style="width: 100%;"></p>
+<p><img src="figuras/ej_basico_3_2.png" alt="Ejemplo" style="width: 100%;"></p>
 </div>
 <div style="float: right; width: 25%; margin-left: 1em; margin-bottom: 1em;">
 <p><img src="figuras/ej_basico_3.png" alt="Ejemplo" style="width: 100%;"></p>
@@ -357,9 +370,145 @@ f(1,1)=f(-1,-2)=2.
 \]</span></p>
 <p>Este es el valor óptimo de la función objetivo en el conjunto factible. En consecuencia, tanto <span class="math inline">\((1,1)\)</span> como <span class="math inline">\((-1,-1)\)</span> son puntos óptimos. Este problema se puede interpretar geométricamente como <em>el punto de la hipérbola <span class="math inline">\(xy=1\)</span> más cercano al origen</em> (¿por qué?).</p>
 </div>
+<p>Los ejemplos anteriores buscan conectar la idea de los problemas de optimización con los ejercicios clásicos de Cálculo, en los que se busca el valor mínimo (o máximo) de una función. Sin embargo, estudiar optimización no se limita a resolver este tipo de ejercicios, sino que implica aprender a formular problemas, comprender sus componentes fundamentales y desarrollar herramientas teóricas y computacionales para abordarlos, incluso cuando no tienen solución analítica o presentan múltiples soluciones.</p>
+<p>La optimización matemática es una herramienta poderosa para tomar la mejor decisión posible al elegir un vector <span class="math inline">\(\xx\)</span> dentro de un conjunto de opciones, bajo ciertas restricciones que representan requisitos firmes, y buscando minimizar un costo o maximizar una utilidad. Algunas aplicaciones son:</p>
+<ul>
+<li><p><strong>Optimización de portafolios financieros</strong>: Se busca la mejor manera de invertir un determinado capital entre distintos activos. La variable <span class="math inline">\(x_i\)</span> representa la inversión en el <span class="math inline">\(i\)</span>-ésimo activo, y las restricciones pueden representar un límite en el presupuesto, el requisito de que las inversiones sean no negativas y un valor mínimo aceptable de rendimiento esperado. La función objetivo podría ser una medida del riesgo total de la cartera.</p></li>
+<li><p><strong>Ajuste de modelos a datos (<em>data fitting</em>)</strong>: La tarea es encontrar un modelo, dentro de una familia de modelos potenciales, que se ajuste mejor a un conjunto de datos observados. Aquí, las variables son los parámetros del modelo, y las restricciones pueden representar información previa o límites requeridos en los parámetros. La función objetivo puede ser una medida de error de predicción entre los datos observados y los valores predichos por el modelo.</p></li>
+<li><p><strong>Optimización en logística</strong>: Se busca determinar la mejor forma de mover productos a través de una cadena de suministro o rutas de distribución. Las variables representan las cantidades transportadas entre diferentes puntos, y las restricciones pueden incluir la capacidad de los vehículos, los horarios de entrega y la demanda de los clientes. La función objetivo suele minimizar costos totales, tiempos de transporte o ambas cosas a la vez.</p></li>
+</ul>
+<p>Estas aplicaciones son solo una pequeña muestra de la enorme variedad de problemas prácticos que pueden plantearse como problemas de optimización presentes en áreas como ingeniería, control automático, diseño, finanzas, logística, redes, entre otras.</p>
 </section>
 <section id="mínimos-cuadrados-y-programación-lineal" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Mínimos cuadrados y programación lineal</h1>
+<p>Vamos a introducirs dos subclases muy conocidas y ampliamente utilizadas de optimización convexa: los problemas de mínimos cuadrados y la programación lineal.</p>
+<div class="definicion">
+<p><strong>Definición 2.</strong> (Problema de mínimos cuadrados) Un <em>problema de mínimos cuadrados</em> es <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \|A\xx-\bb\|_2^2=\sum_{i=1}^k(\aa_i^{\top}\xx-b_i)^2,
+\end{array}
+\tag{2}
+\]</span> donde <span class="math inline">\(A\in\RR^{k\times n}\)</span> (<span class="math inline">\(k\geq n\)</span>), <span class="math inline">\(\aa_i^{\top}\)</span> son las filas de <span class="math inline">\(A\)</span> y <span class="math inline">\(\bb\in\RR^n\)</span>.</p>
+</div>
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Observaciones</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<ul>
+<li><p>Es un problema de optimización sin restricciones y su función objetivo es una suma de cuadrados de términos de la forma <span class="math inline">\(\aa_i^{\top}\xx-b_i\)</span>.</p></li>
+<li><p>Se puede reducir a resolver un conjunto de ecuaciones lineales: <span class="math display">\[
+(A^{\top}A)\xx = A^{\top}\bb,
+\]</span> de manera tal que <em>tiene solución analítica</em>: <span class="math display">\[
+\xx^\star=(A^{\top}A)^{-1}A^{\top}\bb.
+\]</span></p></li>
+<li><p>Existen algoritmos para resolver el problema con alta precisión, con un tiempo aproximadamente proporcional a <span class="math inline">\(n^2k\)</span>, con constante conocida.</p></li>
+<li><p>Para aumentar su flexibilidad en las aplicaciones, se utilizan varias técnicas estándar. En los <em>mínimos cuadrados ponderados</em>, se minimiza <span class="math display">\[
+\sum_{i=1}^k w_i(\aa_i^{\top}\xx-b_i)^2,
+\]</span> donde <span class="math inline">\(w_i\)</span> son positivos. Otra técnica es la <em>regularización</em>, que consiste en agregar términos adicionales a la función objetivo para controlar ciertas propiedades de la solución. El caso más simple es <span class="math display">\[
+\sum_{i=1}^{k}(\aa_{i}^{\top}\xx - b_{i})^{2} + \lambda \sum_{i=1}^{n}x_{i}^{2}.
+\]</span> En el Capítulo 2 exploraremos con mayor detalle las técnicas de regularización y sus variantes.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</details>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 4</span></p>
+<p>Se tienen los puntos <span class="math inline">\((1,2)\)</span>, <span class="math inline">\((2,2.5)\)</span> y <span class="math inline">\((3,3.7)\)</span>, y se desea encontrar la recta <span class="math inline">\(y = mx + b\)</span> que mejor los aproxime en el sentido de mínimos cuadrados. Esto deriva en el problema <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \sum_{i=1}^3 (a x_i + b - y_i)^2.
+\end{array}
+\]</span></p>
+<p>Cuidado: las variables son los parámetros <span class="math inline">\(m\)</span> y <span class="math inline">\(b\)</span>. La función objetivo es la suma de los cuadrados de los errores. Matricialmente resulta en <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \left\|A\begin{pmatrix}m\\b\end{pmatrix}-\yy\right\|_2^2.
+\end{array}
+\]</span> con <span class="math display">\[
+A = \begin{pmatrix}
+1 &amp; 1\\
+2 &amp; 1\\
+3 &amp; 1
+\end{pmatrix},\qquad
+\yy=\begin{pmatrix}
+2\\
+2.5\\
+3.7
+\end{pmatrix}.
+\]</span></p>
+<div style="float: right; width: 30%; margin-left: 1em; margin-bottom: 1em;">
+<p><img src="figuras/ej_minimos_cuadrados.png" alt="Ejemplo" style="width: 100%;"></p>
+</div>
+<p>La solución analítica es <span class="math display">\[
+\begin{pmatrix}
+m^{\star}\\
+b^{\star}
+\end{pmatrix}=\left[\begin{pmatrix}
+1 &amp; 1\\
+2 &amp; 1\\
+3 &amp; 1
+\end{pmatrix}^{\top}\begin{pmatrix}
+1 &amp; 1\\
+2 &amp; 1\\
+3 &amp; 1
+\end{pmatrix}\right]^{-1}\begin{pmatrix}
+1 &amp; 1\\
+2 &amp; 1\\
+3 &amp; 1
+\end{pmatrix}^{\top}
+\begin{pmatrix}
+2\\
+2.5\\
+3.7
+\end{pmatrix}
+= \begin{pmatrix}
+17/20 \\
+31/30
+\end{pmatrix}
+\]</span></p>
+<p>Por lo tanto, la recta ajustada es <span class="math display">\[
+y = \frac{17}{20}x+\frac{31}{30}.
+\]</span></p>
+</div>
+<div class="definicion">
+<p><strong>Definición 3.</strong> (Programación lineal) Un <em>problema de programación lineal</em> es <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \cc^{\top}\xx\\
+\text{sujeto a } &amp; \aa_i^{\top}\xx\leq b_i,\quad i=1,\ldots,m.
+\end{array}
+\tag{2}
+\]</span> donde <span class="math inline">\(\cc,\aa_1,\ldots,\aa_m\in\RR^n\)</span> y <span class="math inline">\(b_1,\ldots,b_m\in\RR\)</span>.</p>
+</div>
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Observaciones</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<ul>
+<li><p>No existe una fórmula analítica simple para la solución, pero hay una variedad de métodos muy efectivos para resolver el problema, como el método simplex de Datnzig y los métodos de punto interior.</p></li>
+<li><p>En la práctica, la complejidad es del orden de <span class="math inline">\(n^2m\)</span> (asumiento <span class="math inline">\(m\geq n\)</span>), pero con una constante que está menos caracterizada que en el caso de mínimos cuadrados.</p></li>
+<li><p>En muchos casos, el problema de optimización original no tiene una forma estándar de programa lineal, pero puede transformarse en un programa lineal equivalente. Por ejemplo, el <em>problema de aproximación de Chebyshev</em>: <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \max_{i=1,\ldots,k} |\aa_{i}^{\top}\xx- b_{i}|
+\end{array}
+\]</span> con variable <span class="math inline">\(\xx\in\RR^n\)</span> puede ser resuelto a través del programa lineal <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; t\\
+\text{sujeto a } &amp; \aa_i^{\top}\xx-t\leq b_i,\quad i=1,\ldots,k\\
+    &amp; -\aa_i^{\top}\xx-t\leq -b_i,\quad i=1,\ldots,k,
+\end{array}
+\]</span> con variables <span class="math inline">\(\xx\in\RR^n\)</span> y <span class="math inline">\(t\in\RR\)</span>.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</details>
 <br>
 <hr style="border: 1.5px solid black; margin: 1px;">
 <hr style="border: 0.5px solid black; margin: 0;">
@@ -367,7 +516,8 @@ f(1,1)=f(-1,-2)=2.
 <section id="ejercicios" class="level1 unnumbered">
 <h1 class="unnumbered">Ejercicios</h1>
 <ol type="1">
-<li>…</li>
+<li><p>Mostrar que el problema de mínimos cuadrados se reduce a <span class="math inline">\((A^{\top} A)\xx=A^{\top}\xx\)</span>.</p></li>
+<li><p>Reescribir el problema de mínimos cuadrados ponderados como un problema de mínimos cuadrados estándar.</p></li>
 </ol>
 <div style="margin-top: 5em;">
 
