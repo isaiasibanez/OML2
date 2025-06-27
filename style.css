@@ -32,11 +32,11 @@ background-color: #fcfefc; /* Verde muy muy suave */
   padding: 0.5em;
   padding-bottom: 0em;
   border: 0px solid #ccc;
-  border-top: 1.5px solid #6300b3;
-  border-bottom: 1.5px solid #6300b3;
+  border-top: 1.5px solid #460080;
+  border-bottom: 1.5px solid #460080;
   background-color: #ffffff;
   text-align: center;
-  color: #6300b3;
+  color: #460080;
   font-style: normal;
   border-radius: 0;
 }
