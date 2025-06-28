@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -418,14 +452,14 @@ Mostrar detalles
 </details>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 4</span></p>
+<div style="float: right; width: 30%; margin-left: 1em; margin-bottom: 1em;">
+<p><img src="figuras/ej_minimos_cuadrados.png" alt="Ejemplo" style="width: 100%;"></p>
+</div>
 <p>Se tienen los puntos <span class="math inline">\((1,2)\)</span>, <span class="math inline">\((2,2.5)\)</span> y <span class="math inline">\((3,3.7)\)</span>, y se desea encontrar la recta <span class="math inline">\(y = mx + b\)</span> que mejor los aproxime en el sentido de mínimos cuadrados. Esto deriva en el problema <span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; \sum_{i=1}^3 (a x_i + b - y_i)^2.
 \end{array}
 \]</span></p>
-<div style="float: right; width: 30%; margin-left: 1em; margin-bottom: 1em;">
-<p><img src="figuras/ej_minimos_cuadrados.png" alt="Ejemplo" style="width: 100%;"></p>
-</div>
 <p>Cuidado: las variables son los parámetros <span class="math inline">\(m\)</span> y <span class="math inline">\(b\)</span>. La función objetivo es la suma de los cuadrados de los errores. Matricialmente resulta en <span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; \left\|A\begin{pmatrix}m\\b\end{pmatrix}-\yy\right\|_2^2.
@@ -511,6 +545,53 @@ Mostrar detalles
 </details>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 5</span></p>
+<p>Una fábrica produce dos productos, en cantidades que definimos como <span class="math inline">\(x_1\)</span> y <span class="math inline">\(x_2\)</span>, los cuales generan ganancias de 3 y 5 unidades monetarias, respectivamente. Producir una unidad de cualquiera de los productos requiere 1 hora de tiempo de producción. Además, la producción de una unidad del primer producto consume 1 unidad de materia prima, mientras que para producir una unidad del segundo producto se necesitan 3 unidades de materia prima. Queremos maximizar la ganancia, teniendo en cuenta que se dispone de 5 horas de producción y 9 unidades de materia prima.</p>
+<p>La formulación del problema es</p>
+<p><span class="math display">\[
+\begin{array}{ll}
+\text{maximizar } &amp; 3x_1+5x_2\\
+\text{sujeto a }  &amp; x_1+x_2\leq 5\\
+                  &amp; x_1+3x_2\leq 9\\
+                  &amp; x_1\geq 0, x_2\geq 0
+\end{array}
+\]</span></p>
+<p>Una forma de obtener la solución gráficamente es analizando las curvas de nivel de la función objetivo <span class="math inline">\(f(x_1,x_2)=3x_1+5x_2\)</span>, las cuales tienen la particularidad de ser rectas paralelas. La idea es controlar el valor del nivel <span class="math inline">\(z\)</span>, con <span class="math inline">\(z=3x_1+5x_2\)</span>, e ir aumentándolo progresivamente sin salirse de la región factible, hasta alcanzar el último punto de contacto. Ese último punto de contacto es el punto óptimo, que como puede verse gráficamente es uno de los vértices definidos por el polígono factible.</p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/ej_prog_lineal.png" alt="..." width="400px" class="figure-img">
+</figure>
+<p>La ganancia máxima es 19 y ocurre cuando <span class="math inline">\(x_1=3\)</span> y <span class="math inline">\(x_2=2\)</span>.</p>
+<p>La relación geométrica en este ejemplo no es casual: en programación lineal, se sabe que si la región factible es un polígono convexo y la función objetivo es lineal, el óptimo (si existe) se alcanza siempre en uno de los vértices de la región factible. Este principio es la base del método del simplex y de otros algoritmos clásicos en optimización lineal.</p>
+<p>En Python, se pueden resolver problemas de este tipo utilizando la librería <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linprog.html"><code>scipy.optimize.linprog</code></a>.</p>
+<div id="b9af001f" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> linprog</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Coeficientes de la función objetivo (negativos porque linprog minimiza):</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> [<span class="op">-</span><span class="dv">3</span>, <span class="op">-</span><span class="dv">5</span>]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Coeficientes de las restricciones (Ax &lt;= b):</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="dv">1</span>],    <span class="co"># x1 + x2 &lt;= 5</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="dv">3</span>]     <span class="co"># x1 + 3x2 &lt;= 9</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">9</span>]</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Restricciones de no negatividad:</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> [(<span class="dv">0</span>, <span class="va">None</span>), (<span class="dv">0</span>, <span class="va">None</span>)]  <span class="co"># x1 &gt;= 0, x2 &gt;= 0</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolución:</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> linprog(c, A_ub<span class="op">=</span>A, b_ub<span class="op">=</span>b, bounds<span class="op">=</span>bounds, method<span class="op">=</span><span class="st">'highs'</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Éxito:"</span>, res.success)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"x1 ="</span>, res.x[<span class="dv">0</span>])</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"x2 ="</span>, res.x[<span class="dv">1</span>])</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Ganancia máxima ="</span>, <span class="op">-</span>res.fun)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Éxito: True
+x1 = 3.0
+x2 = 2.0
+Ganancia máxima = 19.0</code></pre>
+</div>
+</div>
 </div>
 <br>
 <hr style="border: 1.5px solid black; margin: 1px;">
@@ -521,6 +602,8 @@ Mostrar detalles
 <ol type="1">
 <li><p>Mostrar que el problema de mínimos cuadrados se reduce a <span class="math inline">\((A^{\top} A)\xx=A^{\top}\xx\)</span>.</p></li>
 <li><p>Reescribir el problema de mínimos cuadrados ponderados como un problema de mínimos cuadrados estándar.</p></li>
+<li><p><span style="color:darkred;">Ejercicios de mínimos cuadrados.</span></p></li>
+<li><p><span style="color:darkred;">Ejercicios de programación lineal.</span></p></li>
 </ol>
 <div style="margin-top: 5em;">
 
