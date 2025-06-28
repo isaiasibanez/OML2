@@ -352,6 +352,7 @@ x^\star=-\frac{-4}{2\cdot 1}=2.
 \]</span></p>
 <p>El valor óptimo es <span class="math inline">\(f(2)=2^2-4\cdot 2+5=1\)</span>.</p>
 </div>
+<p><span style="display:block; height:0.25em;"></span></p>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 2</span></p>
 <p><span class="math display">\[
@@ -379,6 +380,7 @@ H(x,y)=\begin{pmatrix}6x&amp;0\\0&amp;2\end{pmatrix}.
 </div>
 <p>De hecho, para este problema no hay un punto óptimo, puesto que la función no está acotada inferiormente, tal como se puede apreciar en su gráfica. Analíticamente, notar que para <span class="math inline">\(y=0\)</span> ocurre que <span class="math inline">\(\lim_{x\to-\infty}(x^3-3x)=-\infty\)</span>.</p>
 </div>
+<p><span style="display:block; height:0.25em;"></span></p>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 3</span></p>
 <p><span class="math display">\[
@@ -404,6 +406,7 @@ f(1,1)=f(-1,-2)=2.
 \]</span></p>
 <p>Este es el valor óptimo de la función objetivo en el conjunto factible. En consecuencia, tanto <span class="math inline">\((1,1)\)</span> como <span class="math inline">\((-1,-1)\)</span> son puntos óptimos. Este problema se puede interpretar geométricamente como <em>el punto de la hipérbola <span class="math inline">\(xy=1\)</span> más cercano al origen</em> (¿por qué?).</p>
 </div>
+<p><span style="display:block; height:0.25em;"></span></p>
 <p>Los ejemplos anteriores buscan conectar la idea de los problemas de optimización con los ejercicios clásicos de Cálculo, en los que se busca el valor mínimo (o máximo) de una función. Sin embargo, estudiar optimización no se limita a resolver este tipo de ejercicios, sino que implica aprender a formular problemas, comprender sus componentes fundamentales y desarrollar herramientas teóricas y computacionales para abordarlos, incluso cuando no tienen solución analítica o presentan múltiples soluciones.</p>
 <p>La optimización matemática es una herramienta poderosa para tomar la mejor decisión posible al elegir un vector <span class="math inline">\(\xx\)</span> dentro de un conjunto de opciones, bajo ciertas restricciones que representan requisitos firmes, y buscando minimizar un costo o maximizar una utilidad. Algunas aplicaciones son:</p>
 <ul>
@@ -530,7 +533,7 @@ b^{\star}
 \text{RSS}=\|\hat{\yy}-\yy\|_2^2\approx (1.88-2)^2+(2.73-2.5)^2+3.58-3.7)^2=0.0817.
 \]</span></p>
 <p>En Python, podemos resolver problemas de mínimos cuadrados con la función <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"><code>numpy.linalg.lstsq</code></a>.</p>
-<div id="deb3d16d" class="cell" data-execution_count="1">
+<div id="020991a6" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos:</span></span>
@@ -552,6 +555,7 @@ RSS: [0.08166667]</code></pre>
 </div>
 </div>
 </div>
+<p><span style="display:block; height:0.25em;"></span></p>
 <div class="definicion">
 <p><strong>Definición 3.</strong> (Programación lineal) Un <em>problema de programación lineal</em> es <span class="math display">\[
 \begin{array}{ll}
@@ -607,7 +611,7 @@ Mostrar detalles
 <p>La ganancia máxima es 19 y ocurre cuando <span class="math inline">\(x_1=3\)</span> y <span class="math inline">\(x_2=2\)</span>.</p>
 <p>La relación geométrica en este ejemplo no es casual: en programación lineal, el óptimo (si existe) se alcanza siempre en alguno de los vértices de la región factible. Este hecho constituye la base del método del simplex y de otros algoritmos clásicos.</p>
 <p>En Python, se pueden resolver problemas de este tipo utilizando <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linprog.html"><code>scipy.optimize.linprog</code></a>.</p>
-<div id="c4ca2819" class="cell" data-execution_count="2">
+<div id="6f705c60" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> linprog</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Coeficientes de la función objetivo (negativos porque linprog minimiza):</span></span>
@@ -638,6 +642,7 @@ Ganancia máxima = 19.0</code></pre>
 </div>
 </div>
 </div>
+<p><span style="display:block; height:0.25em;"></span></p>
 <br>
 <hr style="border: 1.5px solid black; margin: 1px;">
 <hr style="border: 0.5px solid black; margin: 0;">
