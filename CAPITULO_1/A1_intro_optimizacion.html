@@ -557,12 +557,12 @@ Mostrar detalles
 \]</span></p>
 <p>Una forma de obtener la solución gráficamente es analizando las curvas de nivel de la función objetivo <span class="math inline">\(f(x_1,x_2)=3x_1+5x_2\)</span>, las cuales tienen la particularidad de ser rectas paralelas. La idea es controlar el valor del nivel <span class="math inline">\(z\)</span>, con <span class="math inline">\(z=3x_1+5x_2\)</span>, e ir aumentándolo progresivamente sin salirse de la región factible, hasta alcanzar el último punto de contacto. Ese último punto de contacto es el punto óptimo, que como puede verse gráficamente es uno de los vértices definidos por el polígono factible.</p>
 <figure style="text-align: center;" class="figure">
-<img src="figuras/ej_prog_lineal.png" alt="..." width="600px" class="figure-img">
+<img src="figuras/ej_prog_lineal.png" alt="..." width="500px" class="figure-img">
 </figure>
 <p>La ganancia máxima es 19 y ocurre cuando <span class="math inline">\(x_1=3\)</span> y <span class="math inline">\(x_2=2\)</span>.</p>
 <p>La relación geométrica en este ejemplo no es casual: en programación lineal, se sabe que si la región factible es un polígono convexo y la función objetivo es lineal, el óptimo (si existe) se alcanza siempre en uno de los vértices de la región factible. Este principio es la base del método del simplex y de otros algoritmos clásicos en optimización lineal.</p>
 <p>En Python, se pueden resolver problemas de este tipo utilizando la librería <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linprog.html"><code>scipy.optimize.linprog</code></a>.</p>
-<div id="1a3aaa73" class="cell" data-execution_count="1">
+<div id="9a31e769" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> linprog</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Coeficientes de la función objetivo (negativos porque linprog minimiza):</span></span>
