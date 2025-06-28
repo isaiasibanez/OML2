@@ -562,7 +562,7 @@ Mostrar detalles
 <p>La ganancia máxima es 19 y ocurre cuando <span class="math inline">\(x_1=3\)</span> y <span class="math inline">\(x_2=2\)</span>.</p>
 <p>La relación geométrica en este ejemplo no es casual: en programación lineal, el óptimo (si existe) se alcanza siempre en alguno de los vértices de la región factible. Este hecho constituye la base del método del simplex y de otros algoritmos clásicos.</p>
 <p>En Python, se pueden resolver problemas de este tipo utilizando la librería <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linprog.html"><code>scipy.optimize.linprog</code></a>.</p>
-<div id="34899282" class="cell" data-execution_count="1">
+<div id="74e20cf6" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> linprog</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Coeficientes de la función objetivo (negativos porque linprog minimiza):</span></span>
