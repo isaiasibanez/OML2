@@ -303,7 +303,54 @@ window.Quarto = {
 \def\argmax{\mathop{\mathrm{arg\,max\,}}}
 \]</span></p>
 </div>
-<p>En esta sección nos enfocaremos en los conceptos fundamentales que sustentan la optimización convexa, una rama central en la teoría y práctica de la optimización. Primero repasaremos las definiciones clave relacionadas con la convexidad, incluyendo conjuntos convexos y funciones convexas. Luego, utilizaremos estas definiciones para formular de manera precisa qué entendemos por un problema de optimización convexa.</p>
+<p>En esta sección nos enfocaremos en los conceptos fundamentales que sustentan la optimización convexa, una rama central en la teoría y práctica de la optimización. A partir de las ideas presentadas en la <a href="A1_intro_optimizacion.html">Introducción</a>, donde destacamos el rol de la convexidad, ahora desarrollaremos con mayor profundidad las nociones teóricas que permiten formular y analizar este tipo de problemas.</p>
+<p>Primero repasaremos las definiciones clave relacionadas con la convexidad, incluyendo conjuntos convexos y funciones convexas. Luego, utilizaremos estas definiciones para precisar qué entendemos por un problema de optimización convexa. Más adelante, en <a href="A4_condiciones_optimalidad.html">Capítulo 1 - Sección 4</a>, estos conceptos serán claves para establecer las condiciones de optimalidad que caracterizan a este tipo de problemas.</p>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<div id="graph" style="width:600px;height:400px;"></div>
+
+<input type="range" id="theta" min="0" max="1" step="0.01" value="0.5" style="width:600px;">
+
+<script>
+  const x = [1, 4];
+  const y = [2, 3];
+
+  const updatePlot = (theta) => {
+    const xPoint = theta * x[0] + (1 - theta) * x[1];
+    const yPoint = theta * y[0] + (1 - theta) * y[1];
+
+    const segmentTrace = {
+      x: x,
+      y: y,
+      mode: 'lines+markers',
+      line: {color: 'lightgray', dash: 'dash'},
+      name: 'Segmento'
+    };
+
+    const pointTrace = {
+      x: [xPoint],
+      y: [yPoint],
+      mode: 'markers',
+      marker: {color: 'green', size: 12},
+      name: 'Punto móvil'
+    };
+
+    const layout = {
+      title: `θ = ${theta}`,
+      xaxis: {range: [0, 5]},
+      yaxis: {range: [0, 5]}
+    };
+
+    Plotly.newPlot('graph', [segmentTrace, pointTrace], layout);
+  };
+
+  const slider = document.getElementById('theta');
+  slider.addEventListener('input', (e) => {
+    updatePlot(parseFloat(e.target.value));
+  });
+
+  updatePlot(parseFloat(slider.value));
+</script>
 <section id="conjuntos-convexos" class="level1 page-columns page-full" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Conjuntos convexos</h1>
 <p>Una gran parte del éxito de los métodos de optimización convexa radica en una idea geométrica simple pero poderosa: la convexidad del conjunto de soluciones factibles.</p>
@@ -685,7 +732,7 @@ f(\xx)=\frac{1}{2}\xx^\top A\xx+\bb^\top\xx+c,
 f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
 \]</span></p>
 <p>es convexa, ya que <span class="math inline">\(\xx^\top A\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^n\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
-<div id="3edbe636" class="cell" data-execution_count="1">
+<div id="23a81cfd" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
