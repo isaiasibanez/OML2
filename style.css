@@ -138,3 +138,28 @@ p {
 .myhighlight p {
   text-align: center;
 }
+
+
+
+mark {
+  /* background-color: #ccffcc; /* verde resaltador */
+  background-color: #d4edda; /* verde éxito tipo Bootstrap */
+  color: black;
+  padding: 0.1em;
+  border-radius: 3px;
+}
+
+
+
+
+
+/* Despues probar si hace falta dominar el tamaño de letra: 
+body {
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+h1 { font-size: 2em; }
+h2 { font-size: 1.6em; }
+h3 { font-size: 1.3em; }
+*/
