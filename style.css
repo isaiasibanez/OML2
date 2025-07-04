@@ -184,3 +184,11 @@ figure {
   margin-bottom: 1em;  /* espacio abajo, ajustalo a gusto */
   border: 0.5px solidrgba(0, 26, 78, 0.71); /* grosor y color de la línea */
 }
+
+
+img {
+  max-width: 400px;  /* O el tamaño que quieras */
+  height: auto;
+  display: block;
+  margin: 0 auto;    /* Para centrar */
+}
