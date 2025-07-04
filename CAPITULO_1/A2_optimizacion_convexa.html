@@ -225,14 +225,24 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#optimización-matemática" id="toc-optimización-matemática" class="nav-link active" data-scroll-target="#optimización-matemática"><span class="header-section-number">1</span> Optimización matemática</a></li>
-  <li><a href="#mínimos-cuadrados-y-programación-lineal" id="toc-mínimos-cuadrados-y-programación-lineal" class="nav-link" data-scroll-target="#mínimos-cuadrados-y-programación-lineal"><span class="header-section-number">2</span> Mínimos cuadrados y programación lineal</a></li>
+  <li><a href="#conjuntos-convexos" id="toc-conjuntos-convexos" class="nav-link active" data-scroll-target="#conjuntos-convexos"><span class="header-section-number">1</span> Conjuntos convexos</a>
+  <ul class="collapse">
+  <li><a href="#definiciones-básicas" id="toc-definiciones-básicas" class="nav-link" data-scroll-target="#definiciones-básicas"><span class="header-section-number">1.1</span> Definiciones básicas</a></li>
+  <li><a href="#operaciones-que-preservan-convexidad" id="toc-operaciones-que-preservan-convexidad" class="nav-link" data-scroll-target="#operaciones-que-preservan-convexidad"><span class="header-section-number">1.2</span> Operaciones que preservan convexidad</a></li>
+  <li><a href="#conos-normales" id="toc-conos-normales" class="nav-link" data-scroll-target="#conos-normales"><span class="header-section-number">1.3</span> Conos normales</a></li>
+  </ul></li>
+  <li><a href="#funciones-convexas" id="toc-funciones-convexas" class="nav-link" data-scroll-target="#funciones-convexas"><span class="header-section-number">2</span> Funciones convexas</a>
+  <ul class="collapse">
+  <li><a href="#condiciones-de-convexidad" id="toc-condiciones-de-convexidad" class="nav-link" data-scroll-target="#condiciones-de-convexidad"><span class="header-section-number">2.1</span> Condiciones de convexidad</a></li>
+  <li><a href="#operaciones-que-preservan-convexidad-1" id="toc-operaciones-que-preservan-convexidad-1" class="nav-link" data-scroll-target="#operaciones-que-preservan-convexidad-1"><span class="header-section-number">2.2</span> Operaciones que preservan convexidad</a></li>
+  </ul></li>
+  <li><a href="#problemas-de-optimización-convexa" id="toc-problemas-de-optimización-convexa" class="nav-link" data-scroll-target="#problemas-de-optimización-convexa"><span class="header-section-number">3</span> Problemas de optimización convexa</a></li>
   <li><a href="#actividades" id="toc-actividades" class="nav-link" data-scroll-target="#actividades">Actividades</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../CAPITULO_1/A1_intro_optimizacion.html">1. OPTIMIZACIÓN MATEMÁTICA</a></li><li class="breadcrumb-item"><a href="../CAPITULO_1/A2_optimizacion_convexa.html">1.2 Optimización convexa</a></li></ol></nav>
 <div class="quarto-title">
@@ -288,149 +298,82 @@ window.Quarto = {
 \def\argmax{\mathop{\mathrm{arg\,max\,}}}
 \]</span></p>
 </div>
-<p>La optimización es una herramienta fundamental en matemática aplicada, ciencia de datos y otras disciplinas. En términos generales, el objetivo de un problema de optimización es encontrar el valor de una <em>variable</em> (o conjunto de variables) que <em>minimice</em> o <em>maximice</em> una determinada <em>función</em>, posiblemente bajo ciertas <em>restricciones</em>.</p>
-<section id="optimización-matemática" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Optimización matemática</h1>
-<div class="definicion">
-<p><strong>Definición 1.</strong> (Problema de optimización) Un <em>problema de optimización matemática</em> tiene la forma <span class="math display">\[
-\begin{array}{ll}
-\text{minimizar } &amp; f(\xx)\\
-\text{sujeto a } &amp; \xx\in\Omega.
-\end{array}
-\tag{1}
-\]</span></p>
-<p>donde:</p>
-<ul>
-<li><p><span class="math inline">\(f:\RR^n\to\RR\)</span> es la <em>función objetivo</em>.</p></li>
-<li><p><span class="math inline">\(\xx=(x_1,\ldots, x_n)\)</span> son las <em>variables de optimización</em>.</p></li>
-<li><p><span class="math inline">\(\Omega\subset\RR^n\)</span> es el <em>conjunto factible</em> o <em>conjunto de restricciones</em>.</p></li>
-</ul>
-<p>Un vector <span class="math inline">\(\xx^\star\in\Omega\)</span> se denomina <em>punto óptimo</em> del problema (1) si allí <span class="math inline">\(f\)</span> alcanza su valor más pequeño en <span class="math inline">\(\Omega\)</span>. A dicho valor lo denominaremos <em>valor óptimo</em>, y denotaremos <span class="math inline">\(f^\star:=f(\xx^\star)\)</span>.</p>
-</div>
-<p><span style="display:block; height:0.25em;"></span></p>
-<p>En general, se asume que la función objetivo <span class="math inline">\(f\)</span> es continua. Además, a menudo se suele imponer la condición de que también sea diferenciable, ya que facilita el análisis teórico y permite el diseño de métodos de optimización.</p>
-<p>Por otra parte, son de especial interés los problemas con <em>restricciones funcionales</em>, que son aquellos en los cuales el conjunto factible es de la forma</p>
-<p><span class="math display">\[
-\Omega=\left\{\xx\in\RR^n\left|\begin{array}{rl}
-\; g_i(\xx)\leq 0,&amp; i=1,\cdots,r\\
-\; h_j(\xx)=0, &amp; j=1,\cdots,m
-\end{array}\right.\right\}.
-\]</span></p>
-<p>Es decir, <span class="math inline">\(\Omega\)</span> queda definido a partir de un conjunto de <em>funciones de restricción</em>, tanto de desigualdad (<span class="math inline">\(g_i:\RR^n\to\RR\)</span>) como de igualdad (<span class="math inline">\(h_j:\RR^n\to\RR\)</span>). En función de las características de estas funciones, el conjunto factible puede adquirir ciertas propiedades geométricas fundamentales.</p>
-<p>Las preguntas que surgen de un problema de optimización son:</p>
-<div style="margin-top:1.5em;">
+<p>En esta sección nos enfocaremos en los conceptos fundamentales que sustentan la optimización convexa, una rama central en la teoría y práctica de la optimización. A partir de las ideas presentadas en la <a href="A1_intro_optimizacion.html">Introducción</a>, donde destacamos el rol de la convexidad, ahora desarrollaremos con mayor profundidad las nociones teóricas que permiten formular y analizar este tipo de problemas.</p>
+<p>Antes, veamos el siguiente gráfico, donde se ilustra las ventajas de trabajar con problemas convexos. Allí, se puede visualizar el comportamiento de las iteraciones de un método de optimización que tiene por objetivo aproximarse al punto óptimo (en este caso, el mínimo global). ¿Qué se observa?</p>
+<div>
+<div id="pyodide-1" class="exercise-cell">
 
 </div>
-<div class="myhighlight">
-<p>¿Existe una solución?</p>
-<p>En caso afirmativo, ¿podemos calcularla?</p>
+<script type="pyodide-1-contents">
+eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRydWUsImZpZy1hbGlnbiI6ImNlbnRlciIsImluY2x1ZGUiOnRydWUsImlucHV0IjpbIngwIiwicGFzbyJdfSwiY29kZSI6IlxuaW1wb3J0IG51bXB5IGFzIG5wXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5cbiMgRnVuY2lvbmVzXG5mX2NvbnYgPSBsYW1iZGEgeDogeCoqMlxuZ3JhZF9jb252ID0gbGFtYmRhIHg6IDIqeFxuXG5mX25vY29udiA9IGxhbWJkYSB4OiBucC5zaW4oMip4KSArIDAuMyp4XG5ncmFkX25vY29udiA9IGxhbWJkYSB4OiAyKm5wLmNvcygyKngpICsgMC4zXG5cbiMgUGFyw6FtZXRyb3NcbmFscGhhID0gMC4xICAjIHBhc28gZmlqb1xuYWxwaGEyID0gMC41XG5zdGVwcyA9IHBhc29cblxuIyBJbmljaWFsaXphY2nDs25cbnhfY29udiA9IHgwXG54X25vY29udiA9IHgwXG5wYXRoX2NvbnYgPSBbeF9jb252XVxucGF0aF9ub2NvbnYgPSBbeF9ub2NvbnZdXG5cbiMgSXRlcmFjaW9uZXMgZGUgXCJkZXNjZW5zb1wiXG5mb3IgXyBpbiByYW5nZShzdGVwcyk6XG4gICAgeF9jb252ID0geF9jb252IC0gYWxwaGEgKiBncmFkX2NvbnYoeF9jb252KVxuICAgIHhfbm9jb252ID0geF9ub2NvbnYgLSBhbHBoYSAqIGdyYWRfbm9jb252KHhfbm9jb252KVxuICAgIHBhdGhfY29udi5hcHBlbmQoeF9jb252KVxuICAgIHBhdGhfbm9jb252LmFwcGVuZCh4X25vY29udilcblxuIyBEb21pbmlvIHBhcmEgZ3JhZmljYXJcbnhfdmFscyA9IG5wLmxpbnNwYWNlKC0yLCAzLCA0MDApXG55X2NvbnYgPSBmX2NvbnYoeF92YWxzKVxueV9ub2NvbnYgPSBmX25vY29udih4X3ZhbHMpXG5cbnBsdC5maWd1cmUoZmlnc2l6ZT0oMTAsIDQpKVxuXG4jID09PSBHcsOhZmljbyBDb252ZXhvID09PVxucGx0LnN1YnBsb3QoMSwgMiwgMSlcbnBsdC5wbG90KHhfdmFscywgeV9jb252KVxucGx0LnBsb3QocGF0aF9jb252LCBbZl9jb252KHgpIGZvciB4IGluIHBhdGhfY29udl0sICdyby0nKVxucGx0LnRpdGxlKFwiUHJvYmxlbWEgY29udmV4b1wiLCBmb250c2l6ZT0xMilcbnBsdC54bGFiZWwoXCJ4XCIpXG5wbHQueWxhYmVsKFwiZih4KVwiKVxucGx0LmdyaWQoVHJ1ZSlcbiNwbHQubGVnZW5kKClcblxuIyA9PT0gR3LDoWZpY28gTm8gQ29udmV4byA9PT1cbnBsdC5zdWJwbG90KDEsIDIsIDIpXG5wbHQucGxvdCh4X3ZhbHMsIHlfbm9jb252KVxucGx0LnBsb3QocGF0aF9ub2NvbnYsIFtmX25vY29udih4KSBmb3IgeCBpbiBwYXRoX25vY29udl0sICdyby0nKVxucGx0LnRpdGxlKFwiUHJvYmxlbWEgbm8gY29udmV4b1wiLCBmb250c2l6ZT0xMilcbnBsdC54bGFiZWwoXCJ4XCIpXG5wbHQuZ3JpZChUcnVlKVxuI3BsdC5sZWdlbmQoKVxuXG5wbHQudGlnaHRfbGF5b3V0KClcbnBsdC5zaG93KCkifQ==
+</script>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="83" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 82;"><span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>viewof x0 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">,</span> {</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Punto inicial x₀:"</span><span class="op">,</span></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>viewof paso <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">20</span>]<span class="op">,</span> {</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Número de iteraciones:"</span><span class="op">,</span></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">0</span></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+<section id="conjuntos-convexos" class="level1 page-columns page-full" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Conjuntos convexos</h1>
+<p>Una gran parte del éxito de los métodos de optimización convexa radica en una idea geométrica simple pero poderosa: la convexidad del conjunto factible <span class="math inline">\(\Omega\)</span>.</p>
+<p>Un conjunto convexo es, en pocas palabras, un conjunto en el cual, si tomamos dos puntos cualesquiera, el segmento que los une queda completamente contenido dentro del conjunto. Esta propiedad, que a primera vista parece modesta, es en realidad clave para que los problemas de optimización tengan buen comportamiento: contribuye a garantizar que los métodos de optimización puedan avanzar progresivamente dentro del conjunto factible sin salir de él; es decir, facilita la construcción de puntos factibles.</p>
+<section id="definiciones-básicas" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="definiciones-básicas"><span class="header-section-number">1.1</span> Definiciones básicas</h2>
+<p>En esta sección introduciremos tres tipos fundamentales de conjuntos que aparecen en optimización: conjuntos afines, conjuntos convexos y conos. Antes, es necesario recordar la forma parámetrica de <em>rectas</em> y <em>segmentos de recta</em>.</p>
+<p>Sean <span class="math inline">\(\xx_{1} \neq \xx_{2}\)</span> dos puntos en <span class="math inline">\(\RR^{n}\)</span>. La recta que pasa por <span class="math inline">\(\xx_1\)</span> y <span class="math inline">\(\xx_2\)</span> queda determinada por <span class="math display">\[
+\yy = \theta \xx_{1} + (1 - \theta) \xx_{2},\qquad \theta\in\RR.
+\]</span></p>
+<p>Mientras que, si restringimos el valor del parámetro a <span class="math inline">\(0\leq \theta\leq 1\)</span>, obtenemos el segmento de recta (cerrado) entre ambos puntos, con <span class="math inline">\(\xx_2\)</span> como punto inicial. En el siguiente gráfico, tenemos un ejemplo para poder comprobar esto visualmente moviendo el deslizador para el valor de <span class="math inline">\(\theta\)</span>, que determina la posición del punto sobre la recta.</p>
+<div>
+<div id="pyodide-2" class="exercise-cell">
+
+</div>
+<script type="pyodide-2-contents">
+eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRydWUsImZpZy1hbGlnbiI6ImNlbnRlciIsImluY2x1ZGUiOnRydWUsImlucHV0IjpbInRoZXRhIl19LCJjb2RlIjoiXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5pbXBvcnQgbnVtcHkgYXMgbnBcblxuIyBQdW50b3MgZmlqb3NcbngwLCB5MCA9IDEsIDFcbngxLCB5MSA9IDQsIDZcblxuIyBQdW50byBpbnRlcnBvbGFkb1xueF90aGV0YSA9ICgxIC0gdGhldGEpICogeDAgKyB0aGV0YSAqIHgxXG55X3RoZXRhID0gKDEgLSB0aGV0YSkgKiB5MCArIHRoZXRhICogeTFcblxuIyBQbG90XG5wbHQuZmlndXJlKGZpZ3NpemU9KDUsNCkpXG5wbHQucGxvdChbeDAsIHgxXSwgW3kwLCB5MV0sICctLScsIGNvbG9yPSdncmF5JykgICMgTMOtbmVhIHB1bnRlYWRhXG5wbHQuc2NhdHRlcihbeDAsIHgxXSwgW3kwLCB5MV0sIGM9J2JsdWUnKVxucGx0LnNjYXR0ZXIoeF90aGV0YSwgeV90aGV0YSwgYz0ncmVkJywgcz00MClcbnBsdC50ZXh0KHhfdGhldGEsIHlfdGhldGEgLSAwLjMsIGYnKHt4X3RoZXRhOi4yZn0sIHt5X3RoZXRhOi4yZn0pJywgZm9udHNpemU9OClcbnBsdC50ZXh0KHgwLCB5MCAtIDAuNCwgZnInJFxcbWF0aGJme3t4fX1fMj0kKHt4MH0sIHt5MH0pJywgZm9udHNpemU9OClcbnBsdC50ZXh0KHgxLCB5MSAtIDAuNCwgZnInJFxcbWF0aGJme3t4fX1fMT0kKHt4MX0sIHt5MX0pJywgZm9udHNpemU9OClcbiNwbHQubGVnZW5kKClcbnBsdC54bGltKDAsIDUpXG5wbHQueWxpbSgwLCA3KVxucGx0LnhsYWJlbChcIiR4XzEkXCIsIGZvbnRzaXplPTgpXG5wbHQueWxhYmVsKFwiJHhfMiRcIiwgZm9udHNpemU9OClcbnBsdC50aWdodF9sYXlvdXQoKVxucGx0LnNob3coKSJ9
+</script>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb2" data-startfrom="154" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 153;"><span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>viewof theta <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ:"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-2" data-nodetype="declaration">
+
+</div>
+</div>
 </div>
 <p><br></p>
-<p>Generalmente, consideramos familias o clases de problemas de optimización, caracterizadas por formas particulares de las funciones objetivo y de las funciones de restricción. Algunos ejemplos importantes son:</p>
-<ul>
-<li><p><strong>Programa lineal</strong>: Un problema de optimización es un <em>programa lineal</em> si tanto la función objetivo <span class="math inline">\(f\)</span> como las funciones de restricción <span class="math inline">\(g_i\)</span> y <span class="math inline">\(h_j\)</span> son funciones lineales; esto es, son funciones <span class="math inline">\(\varphi:\RR^n\to\RR\)</span> que satisfacen la igualdad: <span class="math display">\[
-\varphi(\alpha\xx+\beta\yy)=\alpha\,\varphi(\xx)+\beta\,\varphi(\yy),
-\]</span> para todo <span class="math inline">\(\xx,\yy\in\RR^n\)</span> y para todo <span class="math inline">\(\alpha,\beta\in\RR\)</span>.</p></li>
-<li><p><strong>Optimización convexa</strong>: Un problema de <em>optimización convexa</em> es aquel en el que tanto la función objetivo como las funciones de restricción son funciones convexas; esto es, son funciones <span class="math inline">\(\varphi:\RR^n\to\RR\)</span> que satisfacen la desigualdad: <span class="math display">\[
-\varphi(\alpha \xx+\beta \yy)\leq \alpha\,\varphi(\xx)+\beta\,\varphi(\yy),
-\]</span> para todo <span class="math inline">\(\xx,\yy\in\RR^n\)</span> y para todo <span class="math inline">\(\alpha,\beta\in[0,1]\)</span> con <span class="math inline">\(\alpha+\beta=1\)</span>.</p></li>
-</ul>
-<p>Comparando los dos ejemplos anteriores, vemos que la convexidad es más general que la linealidad: la desigualdad reemplaza la igualdad más restrictiva, y además la desigualdad debe cumplirse solo para ciertos valores de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>. Por lo tanto, cualquier programa lineal es un problema de optimización convexa.</p>
-<p>El estudio de los problemas de optimización convexa lo realizaremos en <a href="A2_optimizacion_convexa.html">Capítulo 1 - Sección 2</a>. Respecto a programación lineal, veremos un ejemplo básico en esta misma sección más adelante, y otros ejemplos de aplicación se presentarán en <a href="A3_resolucion_computacional.html">Capítulo 1 - Sección 3</a> cuando exploremos un par de librerías de Python útiles para resolver problemas de optimización.</p>
-<p>Por lo pronto, veamos a continuación algunos ejemplos básicos de ejercicios de optimización, que seguramente les resultarán familiares de cursos previos.</p>
-<div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 1</span></p>
+<p>Una expresión alternativa para la ecuación del segmento de recta es</p>
 <p><span class="math display">\[
-\begin{array}{ll}
-\text{minimizar } &amp; x^2-4x+5\\
-\text{sujeto a } &amp; x\in\RR.
-\end{array}
+\yy=\xx_2+\theta(\xx_1-\xx_2),\qquad\theta\in[0,1],
 \]</span></p>
-<div style="float: right; width: 30%; margin-left: 1em; margin-bottom: 1em;">
-<p><img src="figuras/ej_basico_1.png" alt="Ejemplo" style="width: 100%;"></p>
-</div>
-<p>En este problema no se imponen restricciones sobre el valor de <span class="math inline">\(x\)</span>, más allá de pedirle que pertenezca al dominio de la función. En estos casos, se dice que es un <em>problema sin restricciones</em>.</p>
-<p>La función objetivo es <span class="math inline">\(f(x)=x^2-4x+5\)</span>. Al ser una función cuadrática con coeficiente cuadrático positivo, sabemos que el punto óptimo ocurre en su vértice. Es decir, <span class="math display">\[
-x^\star=-\frac{-4}{2\cdot 1}=2.
-\]</span></p>
-<p>Luego, el valor óptimo es <span class="math inline">\(f(2)=2^2-4\cdot 2+5=1\)</span>.</p>
-</div>
+<p>la cual permite interpretar a <span class="math inline">\(\yy\)</span> en términos del punto inicial <span class="math inline">\(\xx_2\)</span> y la dirección <span class="math inline">\(\xx_1-\xx_2\)</span>. Aquí queda clara la interpretación de <span class="math inline">\(\theta\)</span> como la fracción del camino desde <span class="math inline">\(\xx_2\)</span> hasta <span class="math inline">\(\xx_1\)</span> donde se encuentra <span class="math inline">\(\yy\)</span>.</p>
 <p><span style="display:block; height:0.25em;"></span></p>
-<div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 2</span></p>
-<p><span class="math display">\[
-\begin{array}{ll}
-\text{minimizar } &amp; x^3-3x+y^2\\
-\text{sujeto a } &amp; (x,y)\in\RR^2.
-\end{array}
-\]</span></p>
-<div style="float: right; width: 30%; margin-left: 1em; margin-bottom: 1em;">
-<p><img src="figuras/ej_basico_2.png" alt="Ejemplo" style="width: 100%;"></p>
-</div>
-<p>En este problema de optimización, la función objetivo es <span class="math inline">\(f(x,y)=x^3-3x+y^2\)</span>. Dado que no hay restricciones, podemos obtener en primer lugar los <em>puntos críticos</em> que anulan el vector gradiente. Así, a partir de <span class="math display">\[
-\nabla f(x,y)=(3x^2-3,2y)=(0,0)
-\]</span> obtenemos los candidatos <span class="math inline">\((-1,0)\)</span> y <span class="math inline">\((1,0)\)</span>. Para determinar la condición de estos puntos, tenemos como herramienta el <em>criterio del Hessiano</em>, el cual inspecciona la matriz de derivadas de segundo orden: <span class="math display">\[
-H(x,y)=\begin{pmatrix}6x&amp;0\\0&amp;2\end{pmatrix}.
-\]</span></p>
-<p>Al aplicar dicho criterio, resulta que en <span class="math inline">\((1,0)\)</span> hay un mínimo local, mientras que <span class="math inline">\((-1,0)\)</span> se descarta por ser punto silla (verificar). No obstante, esto no quiere decir que hallamos encontrado el punto óptimo, ya que nuestro problema de optimización requiere que el valor óptimo sea global.</p>
-<p>Es importante remarcar lo siguiente:</p>
-<div class="myhighlight">
-<p>Ser mínimo local es una condición necesaria, pero no suficiente, para ser mínimo global.</p>
-</div>
-<div style="margin-top:1.5em;">
-
-</div>
-<p>De hecho, para este problema no hay un punto óptimo, puesto que la función no está acotada inferiormente, tal como se puede apreciar en su gráfica. Analíticamente, notar que para <span class="math inline">\(y=0\)</span> ocurre que <span class="math inline">\(\lim_{x\to-\infty}(x^3-3x)=-\infty\)</span>.</p>
-</div>
-<p><span style="display:block; height:0.25em;"></span></p>
-<div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 3</span></p>
-<p><span class="math display">\[
-\begin{array}{ll}
-\text{minimizar } &amp; x^2+y^2\\
-\text{sujeto a } &amp; xy=1.
-\end{array}
-\]</span></p>
-<div style="float: right; width: 25%; margin-left: 1em; margin-bottom: 1em;">
-<p><img src="figuras/ej_basico_3_2.png" alt="Ejemplo" style="width: 100%;"></p>
-</div>
-<div style="float: right; width: 25%; margin-left: 1em; margin-bottom: 1em;">
-<p><img src="figuras/ej_basico_3.png" alt="Ejemplo" style="width: 100%;"></p>
-</div>
-<p>En este caso, tenemos una restricción funcional de igualdad definida por <span class="math inline">\(h(x,y)=xy-1\)</span>. Este problema se puede resolver aplicando el método de <em>multiplicadores de Lagrange</em>, el cual consiste en analizar la ecuación <span class="math display">\[
-\begin{align*}
-\nabla f(x,y)-\lambda\nabla h(x,y)&amp;=(0,0)\\
-(2x-\lambda y,2y-\lambda x)&amp;=(0,0).
-\end{align*}
-\]</span></p>
-<p>Los puntos críticos son <span class="math inline">\((1,1)\)</span> y <span class="math inline">\((-1,-1)\)</span>, ambos con <span class="math inline">\(\lambda=2\)</span> (verificar). Al valuar la función objetivo, se obtiene <span class="math display">\[
-f(1,1)=f(-1,-1)=2.
-\]</span></p>
-<p>Este es el valor óptimo de la función objetivo en el conjunto factible (¿por qué?). En consecuencia, tanto <span class="math inline">\((1,1)\)</span> como <span class="math inline">\((-1,-1)\)</span> son puntos óptimos.</p>
-<p>Observar que este problema se puede interpretar geométricamente como <em>el punto de la hipérbola <span class="math inline">\(xy=1\)</span> más cercano al origen</em>. Esto se deduce del hecho que la distancia de un punto <span class="math inline">\((x,y)\)</span> al origen es <span class="math display">\[
-\|(x,y)-(0,0)\|_2=\sqrt{x^2+y^2}.
-\]</span></p>
-</div>
-<p><span style="display:block; height:0.25em;"></span></p>
-<p>Los ejemplos anteriores buscan conectar la idea de los problemas de optimización con los ejercicios clásicos de Cálculo, en los que se busca el valor mínimo (o máximo) de una función. Sin embargo, estudiar optimización no se limita a resolver este tipo de ejercicios, sino que implica aprender a formular problemas, comprender sus componentes fundamentales y desarrollar herramientas teóricas y computacionales para abordarlos, incluso cuando no tienen solución analítica o presentan múltiples soluciones.</p>
-<p>La optimización matemática es una herramienta poderosa para tomar la mejor decisión posible al elegir un vector <span class="math inline">\(\xx\)</span> dentro de un conjunto de opciones, bajo ciertas restricciones que representan requisitos firmes, y buscando minimizar un costo o maximizar una utilidad. Algunas aplicaciones son:</p>
-<ul>
-<li><p><strong>Optimización de portafolios financieros</strong>: Se busca la mejor manera de invertir un determinado capital entre distintos activos. La variable <span class="math inline">\(x_i\)</span> representa la inversión en el <span class="math inline">\(i\)</span>-ésimo activo, y las restricciones pueden representar un límite en el presupuesto, el requisito de que las inversiones sean no negativas y/o un valor mínimo aceptable de rendimiento esperado. La función objetivo podría ser una medida del riesgo total de la cartera.</p></li>
-<li><p><strong>Ajuste de modelos a datos (<em>data fitting</em>)</strong>: La tarea es encontrar un modelo, dentro de una familia de modelos potenciales, que se ajuste mejor a un conjunto de datos observados. Aquí, las variables son los parámetros del modelo, y las restricciones pueden representar información previa o límites requeridos en los parámetros. La función objetivo puede ser una medida de error de predicción entre los datos observados y los valores predichos por el modelo.</p></li>
-<li><p><strong>Optimización en logística</strong>: Se busca determinar la mejor forma de mover productos a través de una cadena de suministro o rutas de distribución. Las variables representan las cantidades transportadas entre diferentes puntos, y las restricciones pueden incluir la capacidad de los vehículos, los horarios de entrega y la demanda de los clientes. La función objetivo suele minimizar costos totales, tiempos de transporte o ambas cosas a la vez.</p></li>
-</ul>
-<p>Estas aplicaciones son solo una pequeña muestra de la enorme variedad de problemas prácticos que pueden plantearse como problemas de optimización, presentes en áreas como ingeniería, control automático, diseño, finanzas, logística, redes, entre otras.</p>
-</section>
-<section id="mínimos-cuadrados-y-programación-lineal" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Mínimos cuadrados y programación lineal</h1>
-<p>Vamos a introducir dos subclases muy conocidas y ampliamente utilizadas de optimización convexa: los problemas de mínimos cuadrados y la programación lineal.</p>
+<p>En base a las ideas geométricas introducidas, estamos en condiciones de presentar las definiciones fundamentales de conjuntos afines, conjuntos convexos, conos y otros conceptos relacionados.</p>
 <div class="definicion">
-<p><strong>Definición 2.</strong> (Problema de mínimos cuadrados) Un <em>problema de mínimos cuadrados</em> es de la forma <span class="math display">\[
-\begin{array}{ll}
-\text{minimizar } &amp; \|A\xx-\bb\|_2^2=\sum_{i=1}^k(\aa_i^{\top}\xx-b_i)^2,
-\end{array}
-\tag{2}
-\]</span> donde <span class="math inline">\(A\in\RR^{k\times n}\)</span> (<span class="math inline">\(k\geq n\)</span>), <span class="math inline">\(\aa_i^{\top}\)</span> son las filas de <span class="math inline">\(A\)</span> y <span class="math inline">\(\bb\in\RR^n\)</span>.</p>
+<p><strong>Definición 1.</strong> (Conjunto afín) Un conjunto <span class="math inline">\(C \subseteq \RR^{n}\)</span> es <em>afín</em> si la línea que pasa por cualquier par de puntos distintos en <span class="math inline">\(C\)</span> está contenida en <span class="math inline">\(C\)</span>. Es decir, si se verifica <span class="math display">\[
+\theta \xx_1+(1-\theta)\xx_2\in C\qquad\forall \xx_1,\xx_2\in C, \forall\theta\in\RR.
+\]</span></p>
 </div>
 <details>
 <summary>
@@ -441,220 +384,573 @@ Mostrar detalles
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <ul>
-<li><p>Es un problema de optimización sin restricciones y su función objetivo es una suma de cuadrados de términos de la forma <span class="math inline">\(\aa_i^{\top}\xx-b_i\)</span>.</p></li>
-<li><p>Se puede reducir a resolver un conjunto de ecuaciones lineales: <span class="math display">\[
-(A^{\top}A)\xx = A^{\top}\bb.
-\]</span> En consecuencia, <mark>tiene solución analítica</mark>: <span class="math display">\[
-\xx^\star=(A^{\top}A)^{-1}A^{\top}\bb.
+<li><p>La expresión <span class="math inline">\(\theta \xx_1+(1-\theta)\xx_2\)</span> es una combinación lineal entre los puntos <span class="math inline">\(\xx_1\)</span> y <span class="math inline">\(\xx_2\)</span> que verifica que la suma de sus coeficientes sea uno. Esta idea se puede generalizar a más de dos puntos: un punto de la forma <span class="math display">\[
+\theta_1\xx_1+\cdots+\theta_k\xx_k,\qquad \sum_{i=1}^k\theta_i=1
+\]</span> se denomina <em>combinación afín</em> de los puntos <span class="math inline">\(\xx_1,\ldots,\xx_k\)</span>. Es fácil ver que un conjunto afín <span class="math inline">\(C\)</span> contiene todas las combinaciones afines de sus puntos.</p></li>
+<li><p>Dado un conjunto afín <span class="math inline">\(C\)</span> y un punto <span class="math inline">\(\xx_0\in C\)</span>, el conjunto <span class="math display">\[
+V:= C-\xx_0=\{\xx-\xx_0 \mid \xx\in C\}
+\]</span> es un subespacio vectorial, que permite expresar el conjunto afín <span class="math inline">\(C\)</span> como <span class="math display">\[
+C=V+\xx_0=\{v+\xx_0 \mid v\in V\}.
+\]</span> El subespacio <span class="math inline">\(V\)</span> asociado con el conjunto afín <span class="math inline">\(C\)</span> no depende de la elección de <span class="math inline">\(x_{0}\)</span>, por lo que <span class="math inline">\(x_{0}\)</span> puede elegirse como cualquier punto en <span class="math inline">\(C\)</span>. Definimos la <em>dimensión</em> de <span class="math inline">\(C\)</span> como <span class="math display">\[
+\dim C:=\dim V=\dim C-\xx_0,\quad \xx_0\in C.
 \]</span></p></li>
-<li><p>Existen algoritmos para resolver el problema con alta precisión, con un tiempo aproximadamente proporcional a <span class="math inline">\(n^2k\)</span>, con constante conocida.</p></li>
-<li><p>Para aumentar su flexibilidad en las aplicaciones, se utilizan varias técnicas estándar. Por ejemplo, en los <em>mínimos cuadrados ponderados</em> se minimiza <span class="math display">\[
-\sum_{i=1}^k w_i(\aa_i^{\top}\xx-b_i)^2,
-\]</span> donde <span class="math inline">\(w_i\)</span> son pesos positivos. Otra técnica es la <em>regularización</em>, que consiste en agregar términos adicionales a la función objetivo para controlar ciertas propiedades de la solución. El caso más simple es <span class="math display">\[
-\sum_{i=1}^{k}(\aa_{i}^{\top}\xx - b_{i})^{2} + \lambda \sum_{i=1}^{n}x_{i}^{2}.
-\]</span> En el Capítulo 2 exploraremos con mayor detalle las técnicas de regularización y sus variantes.</p></li>
 </ul>
 </div>
 </div>
 </div>
 </details>
 <p><span style="display:block; height:0.25em;"></span></p>
-<div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 4</span></p>
-<div style="float: right; width: 30%; margin-left: 1em; margin-bottom: 1em;">
-<p><img src="figuras/ej_minimos_cuadrados.png" alt="Ejemplo" style="width: 100%;"></p>
-</div>
-<p>Dados los puntos <span class="math inline">\((1,2)\)</span>, <span class="math inline">\((2,2.5)\)</span> y <span class="math inline">\((3,3.7)\)</span>, consideremos el problema de hallar la recta <span class="math inline">\(y = mx + b\)</span> que mejor los aproxime en el sentido de mínimos cuadrados. Esto define en el problema <span class="math display">\[
-\begin{array}{ll}
-\text{minimizar } &amp; \sum_{i=1}^3 (m x_i + b - y_i)^2.
-\end{array}
-\]</span></p>
-<p>Cuidado: las variables de optimización son los parámetros <span class="math inline">\(m\in\RR\)</span> y <span class="math inline">\(b\in\RR\)</span>, mientras que <span class="math inline">\((x_i,y_i)\)</span> son los datos conocidos. La función objetivo es la <em>suma de los cuadrados de los errores</em> (RSS). Matricialmente resulta en <span class="math display">\[
-\begin{array}{ll}
-\text{minimizar } &amp; \left\|A\begin{pmatrix}m\\b\end{pmatrix}-\yy\right\|_2^2.
-\end{array}
-\]</span> con <span class="math display">\[
-A = \begin{pmatrix}
-1 &amp; 1\\
-2 &amp; 1\\
-3 &amp; 1
-\end{pmatrix},\qquad
-\yy=\begin{pmatrix}
-2\\
-2.5\\
-3.7
-\end{pmatrix}.
-\]</span></p>
-<p>La solución analítica es <span class="math display">\[
-\begin{pmatrix}
-m^{\star}\\
-b^{\star}
-\end{pmatrix}=\left[\begin{pmatrix}
-1 &amp; 1\\
-2 &amp; 1\\
-3 &amp; 1
-\end{pmatrix}^{\top}\begin{pmatrix}
-1 &amp; 1\\
-2 &amp; 1\\
-3 &amp; 1
-\end{pmatrix}\right]^{-1}\begin{pmatrix}
-1 &amp; 1\\
-2 &amp; 1\\
-3 &amp; 1
-\end{pmatrix}^{\top}
-\begin{pmatrix}
-2\\
-2.5\\
-3.7
-\end{pmatrix}
-= \begin{pmatrix}
-17/20 \\
-31/30
-\end{pmatrix}.
-\]</span></p>
-<p>Por lo tanto, la recta ajustada es <span class="math display">\[
-\hat{y} = \frac{17}{20}x+\frac{31}{30}.
-\]</span></p>
-<p>Esto permite obtener el vector de valores ajustados <span class="math display">\[
-\hat{\yy}=\begin{pmatrix}
-\frac{17}{20}\cdot 1+\frac{31}{30}\\
-\frac{17}{20}\cdot 2+\frac{31}{30}\\
-\frac{17}{20}\cdot 3+\frac{31}{30}
-\end{pmatrix}
-=
-\begin{pmatrix}
-113/60\\
-51/30\\
-43/12
-\end{pmatrix}
-\approx
-\begin{pmatrix}
-1.88\\
-2.73\\
-3.58
-\end{pmatrix}.
-\]</span></p>
-<p>Por último, calculamos el valor de la función objetivo, que interpretamos como el error del ajuste obtenido:</p>
-<p><span class="math display">\[
-\text{RSS}=\|\hat{\yy}-\yy\|_2^2\approx (1.88-2)^2+(2.73-2.5)^2+3.58-3.7)^2=0.0817.
-\]</span></p>
-<p><br></p>
-<p>En Python, podemos resolver problemas de mínimos cuadrados con la función <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"><code>numpy.linalg.lstsq</code></a>.</p>
-<div id="76c40dae" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos:</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x_data <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>y_data <span class="op">=</span> np.array([<span class="dv">2</span>, <span class="fl">2.5</span>, <span class="fl">3.7</span>])</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz A:</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.vstack([np.ones_like(x_data), x_data]).T</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolución:</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>coeffs, residuals, rank, s <span class="op">=</span> np.linalg.lstsq(A, y_data, rcond<span class="op">=</span><span class="va">None</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>b, m <span class="op">=</span> coeffs  <span class="co"># Ordenamos como y = mx + b</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 📋:</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Recta ajustada: y = </span><span class="sc">{</span>m<span class="sc">:.4f}</span><span class="ss">x + </span><span class="sc">{</span>b<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"RSS: </span><span class="sc">{</span>residuals<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Recta ajustada: y = 0.8500x + 1.0333
-RSS: [0.08166667]</code></pre>
-</div>
-</div>
-</div>
-<p><span style="display:block; height:0.25em;"></span></p>
 <div class="definicion">
-<p><strong>Definición 3.</strong> (Programación lineal) Un <em>problema de programación lineal</em> es de la forma <span class="math display">\[
-\begin{array}{ll}
-\text{minimizar } &amp; \cc^{\top}\xx\\
-\text{sujeto a } &amp; \aa_i^{\top}\xx\leq b_i,\quad i=1,\ldots,m.
-\end{array}
-\tag{2}
-\]</span> donde <span class="math inline">\(\cc,\aa_1,\ldots,\aa_m\in\RR^n\)</span> y <span class="math inline">\(b_1,\ldots,b_m\in\RR\)</span>.</p>
+<p><strong>Definición 2.</strong> (Conjunto convexo) Un conjunto <span class="math inline">\(C \subseteq \RR^{n}\)</span> es <em>convexo</em> si el segmento de línea entre cualquier par de puntos distintos en <span class="math inline">\(C\)</span> está contenido en <span class="math inline">\(C\)</span>. Es decir, si se verifica <span class="math display">\[
+\theta \xx_1+(1-\theta)\xx_2\in C\qquad\forall \xx_1,\xx_2\in C, \forall\theta\in[0,1].
+\]</span></p>
 </div>
 <details>
 <summary>
 Mostrar detalles
 </summary>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Observaciones</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Observación</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <ul>
-<li><p>No existe una fórmula analítica simple para la solución, pero hay una variedad de métodos muy efectivos para resolver el problema, como el método simplex de Datnzig y los métodos de punto interior.</p></li>
-<li><p>En la práctica, la complejidad es del orden de <span class="math inline">\(n^2m\)</span> (asumiento <span class="math inline">\(m\geq n\)</span>), pero con una constante que está menos caracterizada que en el caso de mínimos cuadrados.</p></li>
-<li><p>En muchos casos, el problema de optimización original no tiene una forma estándar de programa lineal, pero puede transformarse en un programa lineal equivalente. Por ejemplo, el <em>problema de aproximación de Chebyshev</em>: <span class="math display">\[
-\begin{array}{ll}
-\text{minimizar } &amp; \max_{i=1,\ldots,k} |\aa_{i}^{\top}\xx- b_{i}|,
-\end{array}
-\]</span> con variable <span class="math inline">\(\xx\in\RR^n\)</span>, puede ser resuelto a través del programa lineal <span class="math display">\[
-\begin{array}{ll}
-\text{minimizar } &amp; t\\
-\text{sujeto a } &amp; \aa_i^{\top}\xx-t\leq b_i,\quad i=1,\ldots,k\\
-    &amp; -\aa_i^{\top}\xx-t\leq -b_i,\quad i=1,\ldots,k,
-\end{array}
-\]</span> con variables <span class="math inline">\(\xx\in\RR^n\)</span> y <span class="math inline">\(t\in\RR\)</span>.</p></li>
+<li>Claramente, todo conjunto afín también es convexo, ya que contiene toda la recta que pasa por cualquier par de puntos distintos en él y, por lo tanto, también el segmento de línea entre los puntos.</li>
 </ul>
 </div>
 </div>
 </div>
 </details>
 <p><span style="display:block; height:0.25em;"></span></p>
-<div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 5</span></p>
-<p>Una fábrica produce dos productos, en cantidades que definimos como <span class="math inline">\(x_1\)</span> y <span class="math inline">\(x_2\)</span>, los cuales generan ganancias de 3 y 5 unidades monetarias, respectivamente. Producir una unidad de cualquiera de los productos requiere 1 hora de tiempo de producción. Además, la producción de una unidad del primer producto consume 1 unidad de materia prima, mientras que para producir una unidad del segundo producto se necesitan 3 unidades de materia prima. Queremos maximizar la ganancia, teniendo en cuenta que se dispone de 5 horas de producción y 9 unidades de materia prima.</p>
-<p>La formulación del problema es</p>
-<p><span class="math display">\[
-\begin{array}{ll}
-\text{maximizar } &amp; 3x_1+5x_2\\
-\text{sujeto a }  &amp; x_1+x_2\leq 5\\
-                  &amp; x_1+3x_2\leq 9\\
-                  &amp; x_1\geq 0, x_2\geq 0
-\end{array}
-\]</span></p>
-<p>Una forma de obtener la solución gráficamente es analizando las curvas de nivel de la función objetivo <span class="math inline">\(f(x_1,x_2)=3x_1+5x_2\)</span>, las cuales tienen la particularidad de ser rectas paralelas. La idea es controlar el valor del nivel <span class="math inline">\(z\)</span>, con <span class="math inline">\(z=3x_1+5x_2\)</span>, e ir aumentándolo progresivamente sin salirse de la región factible, hasta alcanzar el último punto de contacto. Ese último punto de contacto es el punto óptimo, que como puede verse gráficamente es uno de los vértices definidos por el polígono factible.</p>
 <figure style="text-align: center;" class="figure">
-<img src="figuras/ej_prog_lineal.png" alt="..." width="500px" class="figure-img">
+<img src="figuras/conjuntos_convexos_01.png" alt="Conjuntos convexos y no convexos en $\RR^2$" width="500px" class="figure-img">
+<figcaption>
+Conjuntos en <span class="math inline">\(\RR^2\)</span>. Únicamente el hexágono, que incluye su frontera, es convexo. ¿Por qué la tercera figura no lo es?
+</figcaption>
 </figure>
-<p>La ganancia máxima es 19 y ocurre cuando <span class="math inline">\(x_1=3\)</span> y <span class="math inline">\(x_2=2\)</span>.</p>
-<p>La relación geométrica en este ejemplo no es casual: en programación lineal, el óptimo (si existe) se alcanza siempre en alguno de los vértices de la región factible. Este hecho constituye la base del método del simplex y de otros algoritmos clásicos.</p>
-<p><br></p>
-<p>En Python, se pueden resolver problemas de este tipo utilizando <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linprog.html"><code>scipy.optimize.linprog</code></a>.</p>
-<div id="27dde344" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> linprog</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Coeficientes de la función objetivo (negativos porque linprog minimiza):</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> [<span class="op">-</span><span class="dv">3</span>, <span class="op">-</span><span class="dv">5</span>]</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Coeficientes de las restricciones (Ax &lt;= b):</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="dv">1</span>],    <span class="co"># x1 + x2 &lt;= 5</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="dv">3</span>]     <span class="co"># x1 + 3x2 &lt;= 9</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">9</span>]</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Restricciones de no negatividad:</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> [(<span class="dv">0</span>, <span class="va">None</span>), (<span class="dv">0</span>, <span class="va">None</span>)]  <span class="co"># x1 &gt;= 0, x2 &gt;= 0</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolución:</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> linprog(c, A_ub<span class="op">=</span>A, b_ub<span class="op">=</span>b, bounds<span class="op">=</span>bounds, method<span class="op">=</span><span class="st">'highs'</span>)</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 📋:</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Éxito:"</span>, res.success)</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"x1 ="</span>, res.x[<span class="dv">0</span>])</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"x2 ="</span>, res.x[<span class="dv">1</span>])</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Ganancia máxima ="</span>, <span class="op">-</span>res.fun)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Éxito: True
-x1 = 3.0
-x2 = 2.0
-Ganancia máxima = 19.0</code></pre>
+<p><span style="display:block; height:0.25em;"></span></p>
+<p>Llamamos <em>combinación convexa</em> a un punto de la forma <span class="math display">\[
+\theta_{1} \xx_{1} + \cdots + \theta_{k} \xx_{k},\qquad \sum_{i=1}^k\theta_i = 1, \theta_{i} \geq 0.
+\]</span></p>
+<p>A diferencia de una combinación afín, una combinación convexa requiere la no negatividad de los coeficientes <span class="math inline">\(\theta_i\)</span>, lo cual significa que puede ser interpretada como un <em>promedio ponderado</em> de los puntos <span class="math inline">\(\xx_i\)</span>.</p>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 1</span></p>
+<p>Una empresa diseñó internamente tres posibles estrategias para la oferta de un nuevo producto. Para cada estrategia, realizó un análisis que le permitió estimar el nivel de satisfacción promedio del usuario (de 0 a 10) y el costo de implementación mensual (en miles de dólares), obteniendo:</p>
+<ul>
+<li>Estrategia A (satisfacción y costo altos): <span class="math inline">\((8.5,25)\)</span>.</li>
+<li>Estrategia B (satisfacción y costo medios): <span class="math inline">\((6.75,17.5)\)</span>.</li>
+<li>Estrategia C (satisfacción y costo bajos): <span class="math inline">\((4,12)\)</span>.</li>
+</ul>
+<p>En lugar de implementar una única estrategia, la empresa decidió realizar una inversión de manera porcentual, destinando el 60% del presupuesto a la estrategia A, el 25% a la B y el 15% restante a la C. El costo y la satisfacción esperada están determinados por la siguiente combinación convexa: <span class="math display">\[
+\frac{3}{5}\cdot (8.5,25)+\frac{1}{4}\cdot (6.75,17.5)+\frac{3}{20}\cdot (4,12)=(7.3875,21.175).
+\]</span></p>
+<p>En la siguiente figura podemos ver el resultado obtenido. El triángulo determinado por los puntos dados contiene todas las combinaciones convexas posibles.</p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/ej_combinacion_convexa.png" alt="..." width="500px" class="figure-img">
+</figure>
+</div>
+<p><span style="display:block; height:0.25em;"></span></p>
+<div class="definicion">
+<p><strong>Definición 3.</strong> (Envolvente convexa) La <em>envolvente convexa</em> de un conjunto <span class="math inline">\(C\)</span> es el conjunto de todas las combinaciones convexas de puntos en <span class="math inline">\(C\)</span>. Esto es <span class="math display">\[
+\text{conv}\, C = \left\{\theta_{1} x_{1} + \cdots + \theta_{k} x_{k}\;\Big|\; x_{i} \in C, \theta_{i} \geq 0, \sum_{i=1}^k\theta_{i} = 1\right\}.
+\]</span></p>
+</div>
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Observación</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<ul>
+<li>Como su nombre lo indica, la envolvente convexa <span class="math inline">\(\text{conv}\, C\)</span> es siempre un conjunto convexo. Más aún, es el conjunto convexo más pequeño que contiene a <span class="math inline">\(C\)</span>: si <span class="math inline">\(B\)</span> es cualquier conjunto convexo que contiene a <span class="math inline">\(C\)</span>, entonces <span class="math inline">\(\text{conv}\, C \subseteq B\)</span>.</li>
+</ul>
+</div>
+</div>
+</div>
+</details>
+<p><span style="display:block; height:0.25em;"></span></p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/envolvente_convexa.png" alt="Envolvente convexa de dos conjuntos en $\RR^2$" width="400px" class="figure-img">
+<figcaption>
+Envolvente convexa de dos conjuntos: (Izq.) La envolvente convexa de un numero finito de puntos. (Der.) La envolvente convexa de un conjunto infinito no convexo.
+</figcaption>
+</figure>
+<p><span style="display:block; height:0.25em;"></span></p>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 2</span></p>
+<p>En Python, una opción para calcular envolventes convexas es <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html"><code>scipy.spatial.ConvexHull</code></a>. Vamos a implementarlo para un conjunto de puntos de <span class="math inline">\(\RR^2\)</span>.</p>
+<div>
+<div id="pyodide-3" class="exercise-cell">
+
+</div>
+<script type="pyodide-3-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG51bXB5IGFzIG5wXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5mcm9tIHNjaXB5LnNwYXRpYWwgaW1wb3J0IENvbnZleEh1bGxcblxuIyBQdW50b3M6XG5uID0gMTBcbm5wLnJhbmRvbS5zZWVkKDQyKSBcbnBvaW50cyA9IG5wLnJhbmRvbS51bmlmb3JtKDAsIDEwLCAobiwgMikpXG5cbiMgRW52b2x2ZW50ZSBjb252ZXhhOlxuaHVsbCA9IENvbnZleEh1bGwocG9pbnRzKVxuXG5cbiMg8J+TiDpcbnBsdC5maWd1cmUoZmlnc2l6ZT0oNCwzKSlcblxuIyBHcsOhZmljYSBkZSBwdW50b3M6XG5wbHQuc2NhdHRlcihwb2ludHNbOiwgMF0sIHBvaW50c1s6LCAxXSwgY29sb3I9J2JsYWNrJylcblxuIyBHcsOhZmljYSBkZSBlbnZvbHZlbnRlIGNvbnZleGE6XG5mb3Igc2ltcGxleCBpbiBodWxsLnNpbXBsaWNlczpcbiAgICBwbHQucGxvdChwb2ludHNbc2ltcGxleCwgMF0sIHBvaW50c1tzaW1wbGV4LCAxXSwgJ2ItJylcblxucGx0LmdyaWQoVHJ1ZSlcbnBsdC50aWdodF9sYXlvdXQoKVxucGx0LnNob3coKVxuXG5cbiMg8J+TiyBcbnByaW50KFwiw41uZGljZXMgZGUgbG9zIHbDqXJ0aWNlczpcIiwgaHVsbC52ZXJ0aWNlcylcbnByaW50KFwiQ29vcmRlbmFkYXMgZGUgbG9zIHbDqXJ0aWNlczpcIilcbmZvciBpIGluIGh1bGwudmVydGljZXM6XG4gIHByaW50KHBvaW50c1tpXSkgICJ9
+</script>
+</div>
+</div>
+<div class="definicion">
+<p><strong>Definición 4.</strong> (Cono) Un conjunto <span class="math inline">\(C\in\RR^n\)</span> se denomina <em>cono</em> si verifica <span class="math display">\[
+\theta\xx\in C,\qquad\forall \xx\in C, \forall \theta\geq 0.
+\]</span></p>
+</div>
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Observación</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<ul>
+<li>Un conjunto <span class="math inline">\(C\)</span> es un <em>cono convexo</em> si es convexo y es un cono, lo que significa que <span class="math display">\[
+\theta_1\xx_1+\theta_2\xx_2\in C,\qquad\forall \xx_1,\xx_2\in C, \forall \theta_1, \theta_2\geq 0.
+\]</span></li>
+</ul>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/cono_convexo.png" alt="Idea de cono convexo en $\RR^2$" width="300px" class="figure-img">
+<figcaption>
+Conjunto de puntos de la forma <span class="math inline">\(\theta_1\xx_1+\theta_2\xx_2\)</span> para <span class="math inline">\(\xx_1,\xx_2\in\RR^2\)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</details>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 3</span></p>
+<div style="float: right; width: 30%; margin-left: 1em; margin-bottom: 1em;">
+<p><img src="figuras/ej_cono_no_convexo.png" alt="Ejemplo" style="width: 100%;"></p>
+</div>
+<p>En <span class="math inline">\(\RR^3\)</span>, el conjunto <span class="math display">\[
+C=\{(x,y,z)\in\RR^3 \mid z=\sqrt{x^2+y^2}\}
+\]</span> es un cono, pero no es convexo. En la figura se muestran un par de puntos pertenecientes a <span class="math inline">\(C\)</span>, pero el segmento entre ellos no. La condición de la definición de cono es inmediata: <span class="math display">\[
+z=\sqrt{x^2+y^2}\Rightarrow\theta z=\sqrt{(\theta x)^2+(\theta y)^2},\qquad\forall\theta\geq 0.
+\]</span></p>
+<p>Ahora bien, si consideramos los segmentos entre pares de puntos, formamos un conjunto que sí es un cono convexo: <span class="math display">\[
+\tilde C=\{(x,y,z)\in\RR^3 \mid z=\sqrt{x^2+y^2}\}
+\]</span></p>
+<p>Veamos, por ejemplo, que para los dos puntos marcados, cualquier combinación lineal de la forma <span class="math inline">\(\theta_1\xx_1+\theta_2\xx_2\)</span>, con <span class="math inline">\(\theta_1,\theta_2\geq 0\)</span> queda contenida en <span class="math inline">\(\tilde{C}\)</span>.</p>
+<div>
+<div id="pyodide-4" class="exercise-cell">
+
+</div>
+<script type="pyodide-4-contents">
+eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRydWUsImZpZy1hbGlnbiI6ImNlbnRlciIsImluY2x1ZGUiOnRydWUsImlucHV0IjpbInRoZXRhMSIsInRoZXRhMiJdfSwiY29kZSI6IlxuaW1wb3J0IG51bXB5IGFzIG5wXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5mcm9tIG1wbF90b29sa2l0cy5tcGxvdDNkIGltcG9ydCBBeGVzM0RcblxuIyBDcmVhciBtYWxsYSBkZSBwdW50b3MgcGFyYSBsYSBzdXBlcmZpY2llXG54ID0gbnAubGluc3BhY2UoLTEwLCAxMCwgMjUpXG55ID0gbnAubGluc3BhY2UoLTEwLCAxMCwgMjUpXG5YLCBZID0gbnAubWVzaGdyaWQoeCwgeSlcblogPSBucC5zcXJ0KFgqKjIgKyBZKioyKVxuXG4jIENyZWFyIGZpZ3VyYSAzRFxuZmlnID0gcGx0LmZpZ3VyZShmaWdzaXplPSg4LDYpKVxuYXggPSBmaWcuYWRkX3N1YnBsb3QoMTExLCBwcm9qZWN0aW9uPSczZCcpXG5cbiMgR3JhZmljYXIgbGEgc3VwZXJmaWNpZSBkZWwgY29ub1xuYXgucGxvdF9zdXJmYWNlKFgsIFksIFosIGFscGhhPTAuNiwgY21hcD0ndmlyaWRpcycpXG5cbiMgUHVudG9zIGRhZG9zXG5wMSA9IG5wLmFycmF5KFsyLjUsIDIsIG5wLnNxcnQoNDEvNCldKVxucDIgPSBucC5hcnJheShbLTIuMjUsIC0yLjI1LCBucC5zcXJ0KDgxLzQpXSlcblxuIyBQdW50byBjb21iaW5hY2nDs24gbGluZWFsXG5wX2NvbWIgPSB0aGV0YTEgKiBwMSArIHRoZXRhMiAqIHAyXG5cbiMgR3JhZmljYXIgcHVudG9zIG9yaWdpbmFsZXNcbmF4LnNjYXR0ZXIoKnAxLCBjb2xvcj0ncmVkJywgcz01MCwgbGFiZWw9J3AxJylcbmF4LnNjYXR0ZXIoKnAyLCBjb2xvcj0ncmVkJywgcz01MCwgbGFiZWw9J3AyJylcblxuIyBHcmFmaWNhciBwdW50byBjb21iaW5hY2nDs24gbGluZWFsXG5heC5zY2F0dGVyKCpwX2NvbWIsIGNvbG9yPSdibHVlJywgcz03MCwgbGFiZWw9cickXFx0aGV0YV8xIHBfMSArIFxcdGhldGFfMiBwXzIkJylcblxuIyBHcmFmaWNhciB2ZWN0b3IgcG9zaWNpw7NuIGRlbCBwdW50byBjb21iaW5hY2nDs24gbGluZWFsIChkZXNkZSBlbCBvcmlnZW4pXG5heC5xdWl2ZXIoMCwgMCwgMCwgcF9jb21iWzBdLCBwX2NvbWJbMV0sIHBfY29tYlsyXSwgY29sb3I9J2JsdWUnLCBsaW5ld2lkdGg9MiwgYXJyb3dfbGVuZ3RoX3JhdGlvPTAuMSlcblxuIyBHcmFmaWNhciB2ZWN0b3IgcG9zaWNpw7NuIGRlIHAxIHkgcDIgcGFyYSByZWZlcmVuY2lhXG5heC5xdWl2ZXIoMCwgMCwgMCwgcDFbMF0sIHAxWzFdLCBwMVsyXSwgY29sb3I9J3JlZCcsIGxpbmVzdHlsZT0nZGFzaGVkJywgYXJyb3dfbGVuZ3RoX3JhdGlvPTAuMSlcbmF4LnF1aXZlcigwLCAwLCAwLCBwMlswXSwgcDJbMV0sIHAyWzJdLCBjb2xvcj0ncmVkJywgbGluZXN0eWxlPSdkYXNoZWQnLCBhcnJvd19sZW5ndGhfcmF0aW89MC4xKVxuXG4jIEV0aXF1ZXRhcyB5IGzDrW1pdGVzXG5heC5zZXRfeGxhYmVsKCckeCQnKVxuYXguc2V0X3lsYWJlbCgnJHkkJylcbmF4LnNldF96bGFiZWwoJyR6JCcpXG5heC5zZXRfeGxpbSgtMTAsIDEwKVxuYXguc2V0X3lsaW0oLTEwLCAxMClcbmF4LnNldF96bGltKDAsIDE2KVxuXG4jYXgubGVnZW5kKClcbnBsdC5zaG93KCkifQ==
+</script>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="459" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 458;"><span id="cb3-459"><a href="#cb3-459" aria-hidden="true" tabindex="-1"></a>viewof theta1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ₁:"</span>})</span>
+<span id="cb3-460"><a href="#cb3-460" aria-hidden="true" tabindex="-1"></a>viewof theta2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ₂:"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-2" data-nodetype="declaration">
+
+</div>
+</div>
 </div>
 </div>
 </div>
 <p><span style="display:block; height:0.25em;"></span></p>
+<p>Llamamos <em>combinación cónica</em> a un punto de la forma <span class="math display">\[
+\theta_1\xx_1+\cdot+\theta_k\xx_j,\qquad \theta_i\geq 0.
+\]</span></p>
+<div class="definicion">
+<p><strong>Definición 5.</strong> (Envolvente cónica) La <em>envolvente cónica</em> de un conjunto <span class="math inline">\(C\)</span> es el conjunto de todas las combinaciones cónicas de puntos en <span class="math inline">\(C\)</span>. Esto es <span class="math display">\[
+\text{cone}\, C = \left\{\theta_{1} \xx_{1} + \cdots + \theta_{k} \xx_{k}\;\Big|\; x_{i} \in C, \theta_{i} \geq 0\right\}.
+\]</span></p>
+</div>
+<p>De manera análoga a la envolvente convexa, la envolvente cónica de un conjunto <span class="math inline">\(C\)</span> es el conjunto de todas las combinación cónicas de puntos en <span class="math inline">\(C\)</span> y, además, es el cono convexo más pequeño que contiene a <span class="math inline">\(C\)</span>.</p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/envolvente_conica.png" alt="Envolvente cónica de dos conjuntos en $\RR^2$" width="400px" class="figure-img">
+<figcaption>
+Envolvente cónica de dos conjuntos: (Izq.) La envolvente convexa de un numero finito de puntos. (Der.) La envolvente convexa de un conjunto infinito no convexo.
+</figcaption>
+</figure>
+</section>
+<section id="operaciones-que-preservan-convexidad" class="level2 page-columns page-full" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="operaciones-que-preservan-convexidad"><span class="header-section-number">1.2</span> Operaciones que preservan convexidad</h2>
+<p>En esta sección describimos algunas operaciones que preservan la convexidad de conjuntos o nos permiten construir conjuntos convexos a partir de otros. Estas operaciones, junto con los ejemplos simples descritos anteriormente, forman un cálculo de conjuntos convexos que es útil para determinar o establecer la convexidad de conjuntos. Las verificaciones se dejan como ejercicio.</p>
+<ul class="page-columns page-full">
+<li><p><strong>Intersección</strong>. Si <span class="math inline">\(S_{1}\)</span> y <span class="math inline">\(S_{2}\)</span> son convexos, entonces <span class="math inline">\(S_{1} \cap S_{2}\)</span> es convexo. Esta propiedad se extiende a la intersección de un número infinito de conjuntos: si <span class="math inline">\(S_{\alpha}\)</span> es convexo para cada <span class="math inline">\(\alpha \in \mathcal{A}\)</span>, entonces <span class="math inline">\(\bigcap_{\alpha \in \mathcal{A}} S_{\alpha}\)</span> es convexo. Como ejemplo simple, un poliedro es la intersección de semiespacios e hiperplanos (que son convexos), y por lo tanto es convexo.</p></li>
+<li class="page-columns page-full"><p><strong>Funciones afínes</strong>. Si <span class="math inline">\(S\subset \RR^{n}\)</span> es convexo y <span class="math inline">\(f: \mathbf{R}^{n} \to \mathbf{R}^{m}\)</span> es una función afín, entonces, la imagen de <span class="math inline">\(S\)</span> bajo <span class="math inline">\(f\)</span>, <span class="math inline">\(f(S) := \{f(\xx) \mid \xx \in S\}\)</span>, es convexa. De manera similar, si <span class="math inline">\(f: \RR^{k} \to \RR^{n}\)</span> es una función afín, la imagen inversa de <span class="math inline">\(S\)</span> bajo <span class="math inline">\(f\)</span>, <span class="math inline">\(f^{-1}(S) := \{\xx \mid f(\xx) \in S\}\)</span>, es convexa.</p>
+<aside>
+<p><span class="math inline">\(f:\RR^n\to\RR^m\)</span> es <em>afín</em> si es de la forma <span class="math inline">\(f(\xx)=A\xx+\bb\)</span>, con <span class="math inline">\(A\in\RR^{n\times m}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span>.</p>
+</aside></li>
+<li><p><strong>Suma</strong>. Si <span class="math inline">\(S_1\)</span> y <span class="math inline">\(S_2\)</span> son conjuntos convexos de <span class="math inline">\(\RR^n\)</span>, entonces <span class="math display">\[
+S_{1} + S_{2} := \{\xx_1 + \xx_2 \mid \xx_1 \in S_{1}, \xx_2 \in S_{2}\}
+\]</span> es un conjunto convexo.</p></li>
+</ul>
+</section>
+<section id="conos-normales" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="conos-normales"><span class="header-section-number">1.3</span> Conos normales</h2>
+<p>En muchos problemas de optimización, especialmente aquellos en los que las soluciones están restringidas a un conjunto convexo, es esencial entender cómo se comportan las direcciones “externas” al conjunto en torno a un punto dado.</p>
+<p>El cono normal es una herramienta geométrica fundamental para describir esas direcciones. Nos permitirá luego expresar condiciones que caracterizan soluciones óptimas a partir de información local del conjunto factible.</p>
+<div class="definicion">
+<p><strong>Definición 6.</strong> (Cono normal) Sean <span class="math inline">\(\Omega\subset\RR^n\)</span> un conjunto convexo y <span class="math inline">\(\xx_0\in\Omega\)</span>. El <em>cono normal de <span class="math inline">\(\Omega\)</span> en <span class="math inline">\(\xx\)</span></em> se define como <span class="math display">\[
+\mathcal{N}_{\Omega}(\xx_0) := \{\dd\in\RR^n \mid \langle\dd,\xx-\xx_0\rangle\leq 0, \forall\xx\in\Omega\}.
+\]</span></p>
+</div>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/cono_normal_01.png" alt="Conos normales de un conjunto convexo" width="400px" class="figure-img">
+<figcaption>
+Conos normales de un conjunto convexo.
+</figcaption>
+</figure>
+<p><span style="display:block; height:0.25em;"></span></p>
+<p>Para entender esta definición, vamos a ver algunos ejemplos.</p>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 1</span> (Cono normal a un punto interior) Si <span class="math inline">\(\xx_0\)</span> es un punto interior de <span class="math inline">\(\Omega\)</span>, el cono normal contiene únicamente el vector cero. Es decir,<br>
+<span class="math display">\[
+N_{\Omega}(\xx_0) = \{\mathbf{0}\}.
+\]</span></p>
+<div class="columns">
+<div class="column" style="width:70%;">
+<p>La prueba es sencilla: si <span class="math inline">\(\dd\neq\mathbf{0}\)</span>, entonces podemos tomar un <span class="math inline">\(\delta&gt;0\)</span> lo suficientemente pequeño para que <span class="math inline">\(\xx=\xx_0+\delta\dd\in\Omega\)</span>; resulta <span class="math inline">\(\dd\notin\mathcal{N}_{\Omega}(\xx_0)\)</span> ya que <span class="math display">\[
+\langle \dd,\xx-\xx_0\rangle=\langle\dd,\delta\dd\rangle=\delta\|\dd\|^2\geq 0.
+\]</span></p>
+</div><div class="column" style="width:30%;">
+<figure style="text-align: center;" class="figure">
+<img src="figuras/punto_interior.png" alt="Cono normal a un hiperplano" style="width: 75%" class="figure-img">
+</figure>
+</div>
+</div>
+</div>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 2</span> (Cono normal a un hiperplano) Sea <span class="math inline">\(\aa\in\RR^n\)</span>, <span class="math inline">\(\aa\neq\mathbf{0}\)</span>, Definimos el hiperplano <span class="math display">\[
+\Omega:=\{\xx\in\RR^n \mid \langle\aa,\xx\rangle=0\}.
+\]</span></p>
+<div class="columns">
+<div class="column" style="width:70%;">
+<p>El cono normal a un punto <span class="math inline">\(\xx_0\in\Omega\)</span> es la recta con dirección <span class="math inline">\(\aa\)</span>. Esto es, <span class="math display">\[
+\mathcal{N}_{\xx_0}(\Omega)=\{\lambda\aa \mid \lambda\in\RR\}.
+\]</span></p>
+<p>La verificación se deja como ejercicio.</p>
+</div><div class="column" style="width:30%;">
+<figure style="text-align: center;" class="figure">
+<img src="figuras/cono_normal_02.png" alt="Cono normal a un hiperplano" style="width: 75%" class="figure-img">
+</figure>
+</div>
+</div>
+<p>Dado que los conos normales son insensibles a desplazamientos en el conjunto <span class="math inline">\(\Omega\)</span>, este resultado se aplica sin cambios a cualquier plano afín <span class="math inline">\(\Omega:=\{\xx\in\RR^n \mid \langle\aa,\xx\rangle=b\}\)</span>, con <span class="math inline">\(b\in\RR\)</span>.</p>
+</div>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 3</span> (Cono normal a un semiespacio) Sean <span class="math inline">\(\aa\in\RR^n\)</span>, <span class="math inline">\(\aa\neq\mathbf{0}\)</span>, y <span class="math inline">\(b\in\RR\)</span>. Definimos el semiplano <span class="math display">\[
+\Omega:=\{\xx\in\RR^n \mid \langle\aa,\xx\rangle\leq b\}.
+\]</span></p>
+<div class="columns">
+<div class="column" style="width:70%;">
+<ul>
+<li><p>Si <span class="math inline">\(\xx_0\)</span> está en el interior de <span class="math inline">\(\Omega\)</span>, <span class="math inline">\(\langle\aa,\xx_0\rangle&lt;b\)</span>, el cono normal es <span class="math inline">\(\mathcal{N}_{\Omega}(\xx_0)=\{\mathbf{0}\}\)</span>.</p></li>
+<li><p>Si <span class="math inline">\(\xx_0\)</span> está en la frontera de <span class="math inline">\(\Omega\)</span>, <span class="math inline">\(\langle\aa,\xx_0\rangle=b\)</span>, resulta <span class="math display">\[
+\mathcal{N}_{\xx_0}(\Omega)=\{\lambda\aa \mid \lambda\in\RR_0^+\}.
+\]</span> La diferencia con el ejemplo anterior radica en que ahora el cono normal es una semirrecta.</p></li>
+</ul>
+</div><div class="column" style="width:30%;">
+<figure style="text-align: center;" class="figure">
+<img src="figuras/cono_normal_03.png" alt="Cono normal a un semiplano" style="width: 75%" class="figure-img">
+</figure>
+</div>
+</div>
+</div>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 4</span> (Cono normal a la intersección de dos semiespacios) Sean <span class="math inline">\(\aa_1,\aa_2\in\RR^n\)</span> no nulos, y <span class="math inline">\(b_1,b_2\in\RR\)</span>. Definimos la intersección de dos semiplanos como <span class="math display">\[
+\Omega:=\{\xx\in\RR^n \mid \langle\aa_1,\xx\rangle\leq b_1\quad\text{y}\quad\langle\aa_2,\xx\rangle\leq b_2\}.
+\]</span></p>
+<div class="columns">
+<div class="column" style="width:70%;">
+<ul>
+<li><p>Si <span class="math inline">\(\xx_0\)</span> está en el interior de <span class="math inline">\(\Omega\)</span> o en la frontera de solo uno de los semiespacios, el cono normal resulta del ejemplo anterior.</p></li>
+<li><p>Si <span class="math inline">\(\xx_0\)</span> está en la intersección de ambas fronteras, <span class="math inline">\(\langle\aa_1,\xx_0\rangle=b_1\)</span> y <span class="math inline">\(\langle\aa_2,\xx_0\rangle =b_2\)</span>, entonces el cono normal es la envolvente cónica de las direcciones <span class="math inline">\(\aa_1\)</span> y <span class="math inline">\(\aa_2\)</span>. Esto es <span class="math display">\[
+\mathcal{N}_{\Omega}(\xx_0)=\{\lambda_1\aa_1+\lambda_2\aa_2 \mid \lambda_1,\lambda_2\in\RR_0^+\}.
+\]</span></p></li>
+</ul>
+</div><div class="column" style="width:30%;">
+<figure style="text-align: center;" class="figure">
+<img src="figuras/cono_normal_04.png" alt="Cono normal a la intersección de dos semiplanos" style="width: 75%" class="figure-img">
+</figure>
+</div>
+</div>
+<p>Este resultado puede generalizarse al caso de <span class="math inline">\(m\)</span> subespacios. El cono normal estará dado por las direcciones de los hiperplanos cuyas fronteras contengan al punto <span class="math inline">\(\xx_0\)</span>.</p>
+</div>
+</section>
+</section>
+<section id="funciones-convexas" class="level1 page-columns page-full" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Funciones convexas</h1>
+<div class="definicion">
+<p><strong>Definición 7.</strong> (Función convexa) Una función <span class="math inline">\(f:\RR^n\rightarrow\RR\)</span> es <em>convexa</em> si <span class="math inline">\(\text{dom}\,f\)</span> es un conjunto convexo y si verifica <span class="math display">\[
+f(\theta \xx_1 + (1 - \theta)\xx_2) \leq \theta f(\xx_1) + (1 - \theta)f(\xx_2),\qquad\forall\xx_1,\xx_2\in\text{dom}\,f,\; \forall\theta\in[0,1].
+\]</span></p>
+<p>Si la desigualdad es estricta para <span class="math inline">\(\xx_1\neq \xx_2\)</span> y <span class="math inline">\(0&lt;\theta&lt;1\)</span>, se dice que <span class="math inline">\(f\)</span> es <em>estrictamente convexa</em>. Además, se dice que <span class="math inline">\(f\)</span> es <em>cóncava</em> (o <em>estrictamente cóncava</em>) si <span class="math inline">\(-f\)</span> es convexa (o estrictamente convexa).</p>
+</div>
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">Interpretación geométrica</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Observaciones</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<p>La desigualdad de la definición significa que el segmento de línea entre los puntos <span class="math inline">\((\xx_1, f(\xx_1))\)</span> y <span class="math inline">\((\xx_2, f(\xx_2))\)</span> se encuentra por encima de la gráfica de <span class="math inline">\(f\)</span>.</p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/funcion_convexa_01.png" alt="Grafo de una función convexa" width="400px" class="figure-img">
+<figcaption>
+Grafo de una función convexa.
+</figcaption>
+</figure>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<ul>
+<li><p>Una función afín verifica la igualdad en la definición, por lo que todas las funciones afínes (y, por lo tanto, también las lineales) son tanto convexas como cóncavas. Recíprocamente, una función que es tanto convexa como cóncava es siempre una función afín.</p></li>
+<li><p>Una función es convexa si y solo si, para todo <span class="math inline">\(\xx\in\text{dom}\,f\)</span> y <span class="math inline">\(\vv\in\RR^n\)</span>, la restricción <span class="math inline">\(g(t)=f(\xx+t\vv)\)</span> es convexa en su dominio <span class="math inline">\(\{t \mid \xx+t\vv\in\text{dom}\,f\}\)</span>.</p></li>
+<li><p>El <em>epígrafo</em> de una función <span class="math inline">\(f:\RR^n\to\RR\)</span> se define como <span class="math display">\[
+\text{epi } f = \{(\xx, t) \mid \xx \in \text{dom } f, f(\xx) \leq t\},
+\]</span></p></li>
+</ul>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/epigrafo_01.png" alt="Epígrafo de una función" width="350px" class="figure-img">
+<figcaption>
+Epígrafo de una función <span class="math inline">\(f\)</span>.
+</figcaption>
+</figure>
+<p>La relación entre conjuntos convexos y funciones convexas es a través del epígrafo: Una función es convexa si y solo si su epígrafo es un conjunto convexo. Por su parte, una función es cóncava si y solo si su <em>hipógrafo</em>, definido como <span class="math display">\[
+\text{hypo } f = \{(\xx, t) \mid t \leq f(\xx)\},
+\]</span> es un conjunto convexo.</p>
+</div>
+</div>
+</div>
+</details>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 5</span> (Conjuntos de subnivel) El de una función <span class="math inline">\(f:\RR^n\to\RR\)</span> se define como <span class="math display">\[
+C_{\alpha}:=\{\xx\in\text{dom}\,f \mid f(x)\leq\alpha\}.
+\]</span></p>
+<p>Los conjuntos de subnivel son convexos. La prueba es inmediata de la definición y se deja como ejercicio.</p>
+</div>
+<section id="condiciones-de-convexidad" class="level2 page-columns page-full" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="condiciones-de-convexidad"><span class="header-section-number">2.1</span> Condiciones de convexidad</h2>
+<p>Para verificar si una función es convexa, además de recurrir a la definición, existen criterios basados en sus derivadas. Estos permiten caracterizar la convexidad en términos del comportamiento local de la función, ya sea a través del gradiente (primera derivada) o de la matriz hessiana (segunda derivada). Para ello, debemos imponer condiciones a <span class="math inline">\(f\)</span> en relación con su diferenciabilidad.</p>
+<div class="alert alert-light text-dark" role="important">
+<p><span class="badge bg-warning text-dark">Importante</span></p>
+<p>Diremos que <span class="math inline">\(f\)</span> es <em>diferenciable</em> si su gradiente <span class="math inline">\(\nabla f\)</span> existe en todo su dominio, y que es <em>dos veces diferenciable</em> si además su hessiana <span class="math inline">\(\nabla^2 f\)</span> existe en todo el dominio. En ambos casos, asumimos que dicho dominio es un conjunto abierto.</p>
+</div>
+<div class="teorema">
+<p><strong>Teorema 1.</strong> (Condición de primer orden para convexidad) Sea <span class="math inline">\(f:\RR^n\to\RR\)</span> una función diferenciable. <span class="math inline">\(f\)</span> es convexa si y solo si <span class="math inline">\(\text{dom}\,f\)</span> es convexo y <span class="math display">\[
+f(\xx_2)\geq f(\xx_1)+\langle\nabla f(\xx_1),\xx_2-\xx_1\rangle,\qquad\forall\xx_1,\xx_2\in\text{dom}\,f.
+\]</span></p>
+</div>
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">Interpretación geométrica</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">Observaciones</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-3" role="tab" aria-controls="tabset-6-3" aria-selected="false">Demostración</a></li></ul>
+<div class="tab-content">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
+<p>La función afín de <span class="math inline">\(\xx_2\)</span>, definida por <span class="math inline">\(f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle\)</span>, es la aproximación lineal de <span class="math inline">\(f\)</span> cerca de <span class="math inline">\(\xx_1\)</span>. En consecuencia, la desigualdad del teorema implica que la aproximación lineal de <span class="math inline">\(f\)</span> en <span class="math inline">\(\xx_1\)</span> es un <em>subestimador global</em> de <span class="math inline">\(f\)</span>.</p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/condicion_convexidad_01.png" alt="Condición de primer orden para convexidad" width="500px" class="figure-img">
+<figcaption>
+Grafo de una función convexa <span class="math inline">\(f\)</span> y su aproximación lineal.
+</figcaption>
+</figure>
+</div>
+<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
+<ul>
+<li><p>Observar que, si <span class="math inline">\(\nabla f(\xx_1) = 0\)</span>, entonces la desigualdad del teorema implica <span class="math inline">\(f(\xx_2) \geq f(\xx_1)\)</span> para todo <span class="math inline">\(\xx_2 \in \text{dom} f\)</span>. Es decir, en tal caso <span class="math inline">\(\xx_1\)</span> es un minimizador global de la función <span class="math inline">\(f\)</span>.</p></li>
+<li><p>La convexidad estricta también puede caracterizarse por una condición de primer orden: <span class="math inline">\(f\)</span> es estrictamente convexa si y solo si <span class="math inline">\(\text{dom} f\)</span> es convexo y <span class="math display">\[
+f(\xx_2) &gt; f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle
+\]</span> para todo <span class="math inline">\(\xx_1, \xx_2 \in \text{dom} f\)</span>, con <span class="math inline">\(\xx_1 \neq \xx_2\)</span>.</p></li>
+<li><p>Para funciones cóncavas, tenemos la caracterización correspondiente: <span class="math inline">\(f\)</span> es cóncava si y solo si <span class="math inline">\(\text{dom} f\)</span> es convexo y <span class="math display">\[
+f(\xx_2) \leq f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle
+\]</span> para todo <span class="math inline">\(\xx_1, \xx_2 \in \text{dom} f\)</span>.</p></li>
+</ul>
+</div>
+<div id="tabset-6-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-3-tab">
+<p>Supongamos que <span class="math inline">\(f\)</span> es convexa y sean <span class="math inline">\(\xx_1,\xx_2\in\text{dom}\,f\)</span>. Entonces, por definición, <span class="math inline">\(\text{dom}\,f\)</span> es convexo; en consecuencia <span class="math inline">\(\xx_1+t(\xx_2-\xx_1)\in\text{dom}\,f\)</span> para todo <span class="math inline">\(0&lt;t\leq 1\)</span>. La convexidad de <span class="math inline">\(f\)</span> nos permite escribir</p>
+<p><span class="math display">\[
+f(\xx_1+t(\xx_2-\xx_1))=f((1-t)\xx_1+t\xx_2)\leq (1-t)f(\xx_1)+tf(\xx_2).
+\]</span></p>
+<p>Diviendo ambos lados de la desigualdad por <span class="math inline">\(t\)</span>, resulta</p>
+<p><span class="math display">\[
+f(\xx_2)\geq f(\xx_1)+\frac{f(\xx_1+t(\xx_2-\xx_1))-f(\xx_1)}{t}.
+\]</span></p>
+<p>Al tomar límite cuando <span class="math inline">\(t\to 0\)</span>, el cociente incremental del lado derecho es la derivada direccional de <span class="math inline">\(f\)</span> en <span class="math inline">\(\xx_1\)</span> en la dirección del vector <span class="math inline">\(\xx_2-\xx_1\)</span>, lo cual es equivalente a <span class="math inline">\(\langle \nabla f(\xx_1),\xx_2-\xx_1\rangle\)</span> en virtud de la diferenciabilidad de <span class="math inline">\(f\)</span>. Luego,</p>
+<p><span class="math display">\[
+f(\xx_2)\geq f(\xx_1)+\langle\nabla f(\xx_1),\xx_2-\xx_1\rangle.
+\]</span></p>
+<p>Para probar la suficiencia, vamos a asumir que sí se cumple para funciones de una variable (se deja como ejercicio). Sean <span class="math inline">\(\xx_1,\xx_2\in\text{dom}\,f\)</span> y <span class="math inline">\(t,\tilde{t}\in(0,1]\)</span>. Partimos de la desigualdad</p>
+<p><span class="math display">\[
+f(t\xx_2+(1-t)\xx_1)\geq f(\tilde{t}\xx_2+(1-\tilde{t})\xx_1)+\langle \nabla f(\tilde{t}\xx_2+(1-\tilde{t})\xx_1),(\xx_2-\xx_1)\rangle (t-\tilde{t}).
+\]</span></p>
+<p>Si restringimos <span class="math inline">\(f\)</span> a la recta entre <span class="math inline">\(\xx_1\)</span> y <span class="math inline">\(\xx_2\)</span>, tenemos la función de una variable <span class="math inline">\(g(t)=f(t\xx_2+(1-t)\xx_1)\)</span>. Por regla de la cadena, tenemos <span class="math inline">\(g'(t)\langle \nabla f(t\xx_2+(1-t)\xx_1),\xx_2-\xx_1\rangle\)</span>. En consecuencia, la desigualdad anterior puede reescribirse como</p>
+<p><span class="math display">\[
+g(t)\geq g(\tilde{t})+g'(\tilde{t})(t-\tilde{t}).
+\]</span></p>
+<p>Luego, <span class="math inline">\(g\)</span> es convexa y, dado que la restricción sobre una recta es arbitraria (ver observaciones de la definición de funciones convexas), <span class="math inline">\(f\)</span> es convexa. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+</div>
+</details>
+<div class="teorema">
+<p><strong>Teorema 2.</strong> (Condición de segundo orden para convexidad) Sea <span class="math inline">\(f:\RR^n\to\RR\)</span> una función dos veces diferenciable. <span class="math inline">\(f\)</span> es convexa si y solo si <span class="math inline">\(\text{dom}\,f\)</span> es convexo y <span class="math display">\[
+\nabla^2 f(\xx)\succeq 0,\qquad\forall\xx\in\text{dom}\,f.
+\]</span></p>
+</div>
+<aside>
+<span class="math inline">\(A\succeq 0\)</span> significa que <span class="math inline">\(A\)</span> es <em>semidefinida positiva</em>. Esto es, <span class="math inline">\(\xx^\top A\xx\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^n\)</span>.
+</aside>
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true">Observaciones</a></li></ul>
+<div class="tab-content">
+<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
+<ul>
+<li><p>Para funciones de una variable, la condición se reduce a <span class="math inline">\(f''(x)\geq 0\)</span>, lo cual implica que la derivada <span class="math inline">\(f'(x)\)</span> es no decreciente.</p></li>
+<li><p>La convexidad estricta también puede caracterizarse por una condición de primer orden, pero de manera parcial: si <span class="math inline">\(\text{dom}\,f\)</span> es convexo y <span class="math inline">\(\nabla^2 f\succ 0\)</span> para todo <span class="math inline">\(\xx\in\text{dom}\,f\)</span>, entonces <span class="math inline">\(f\)</span> es estrictamente convexa. El recíproco no es cierto: por ejemplo, <span class="math inline">\(f(x)=x^4\)</span> es estrictamente convexa pero <span class="math inline">\(f''(0)=0\)</span>.</p></li>
+<li><p>Para funciones cóncavas, tenemos la caracterización correspondiente: <span class="math inline">\(f\)</span> es cóncava si y solo si <span class="math inline">\(\text{dom} f\)</span> es convexo y <span class="math inline">\(\nabla^2 f(\xx)\preceq 0\)</span> para todo <span class="math inline">\(\xx\in\text{dom}\,f\)</span>.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</details>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 5</span> Consideremos la función cuadrática <span class="math inline">\(f:\RR^n\to\RR\)</span> definida por</p>
+<p><span class="math display">\[
+f(\xx)=\frac{1}{2}\xx^\top A\xx+\bb^\top\xx+c,
+\]</span></p>
+<p>donde <span class="math inline">\(A\in\SS^n:=\{X\in\RR^{n\times n} \mid X=X^\top\}\)</span>, <span class="math inline">\(\bb\in\RR^n\)</span> y <span class="math inline">\(c\in\RR\)</span>. Dado que <span class="math inline">\(\nabla^2 f(\xx)=A\)</span> para todo <span class="math inline">\(\xx\)</span>, podemos afirmar que <span class="math inline">\(f\)</span> es convexa si y sólo si <span class="math inline">\(A\succeq 0\)</span>.</p>
+<p>Así, por ejemplo, la función <span class="math inline">\(f:\RR^2\to\RR\)</span> definida por</p>
+<p><span class="math display">\[
+f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
+\]</span></p>
+<p>es convexa, ya que <span class="math inline">\(\xx^\top A\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^n\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
+<div id="64cb3253" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D  <span class="co"># para 3D</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir la matriz A (simétrica)</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">1</span>],</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">1</span>, <span class="dv">3</span>]])</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear una malla de puntos en R^2</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">100</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">100</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar la función f(x) = 1/2 x^T A x</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> (A[<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>X<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (A[<span class="dv">0</span>,<span class="dv">1</span>] <span class="op">+</span> A[<span class="dv">1</span>,<span class="dv">0</span>])<span class="op">*</span>X<span class="op">*</span>Y <span class="op">+</span> A[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">*</span>Y<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 📈:</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">6</span>))</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>, projection<span class="op">=</span><span class="st">'3d'</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>ax.plot_surface(X, Y, Z, cmap<span class="op">=</span><span class="st">'viridis'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'y'</span>)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="A2_optimizacion_convexa_files/figure-html/cell-2-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="476" height="464"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="operaciones-que-preservan-convexidad-1" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="operaciones-que-preservan-convexidad-1"><span class="header-section-number">2.2</span> Operaciones que preservan convexidad</h2>
+<p>En esta sección describimos algunas operaciones que preservan la convexidad o concavidad de funciones, o que permiten construir nuevas funciones convexas y cóncavas. Las verificaciones se dejan como ejercicio.</p>
+<ul>
+<li><p><strong>Sumas ponderadas no negativas</strong>. Si <span class="math inline">\(f\)</span> es una función convexa y <span class="math inline">\(\alpha \geq 0\)</span>, entonces la función <span class="math inline">\(\alpha f\)</span> es convexa. Si <span class="math inline">\(f_1\)</span> y <span class="math inline">\(f_2\)</span> son ambas funciones convexas, entonces su suma <span class="math inline">\(f_1 + f_2\)</span> también lo es. Combinando estas dos propiedades, se obtiene que el conjunto de funciones convexas es en sí mismo un cono convexo: una suma ponderada no negativa de funciones convexas, <span class="math display">\[
+f = w_1 f_1 + \cdots + w_m f_m,
+\]</span> es convexa. De manera similar, una suma ponderada no negativa de funciones cóncavas es cóncava.</p></li>
+<li><p><strong>Composición con una aplicación afín</strong>. Sean <span class="math inline">\(f:\RR^n\to\RR\)</span>, <span class="math inline">\(A\in\RR^{n\times m}\)</span> y <span class="math inline">\(\bb\in\RR^n\)</span>. Definimos <span class="math inline">\(g:\RR^m\to\RR\)</span> como <span class="math display">\[
+g(\xx):=f(A\xx+\bb)
+\]</span> con <span class="math inline">\(\text{dom}\,g = \{\xx \mid A\xx + \bb \in \text{dom}\, f\}\)</span>. Entonces, <span class="math inline">\(g\)</span> conserva la convexidad o concavidad de <span class="math inline">\(f\)</span>.</p></li>
+<li><p><strong>Máximo puntual</strong>. Si <span class="math inline">\(f_1\)</span> y <span class="math inline">\(f_2\)</span> son funciones convexas, entonces su <em>máximo puntual</em> <span class="math inline">\(f\)</span>, definido por <span class="math display">\[
+f(\xx) = \max\{f_1(\xx), f_2(\xx)\},
+\]</span> con <span class="math inline">\(\text{dom}\,f = \text{dom}\,f_1 \cap \text{dom}\,f_2\)</span>, también es convexa. Además, este resultado se puede extender a: si <span class="math inline">\(f_1,\dots,f_m\)</span> son funciones convexas, entonces su máximo puntual, definido por <span class="math inline">\(f(\xx)=\max\{f_1(\xx), \ldots, f_m(\xx)\}\)</span>, también lo es.</p></li>
+<li><p><strong>Supremo puntual</strong>. La propiedad del máximo puntual se extiende al supremo puntual sobre un conjunto infinito de funciones convexas. Si para $i, donde <span class="math inline">\(\mathcal{A}\)</span> es un conjunto de índices, se tiene que <span class="math inline">\(f_i(\xx)\)</span> es convexa, entonces la función <span class="math inline">\(f\)</span> definida por <span class="math display">\[
+f(\xx) = \sup_{i \in \mathcal{A}} f_i(\xx)
+\]</span> también es convexa en <span class="math inline">\(\xx\)</span>. Aquí, el dominio de <span class="math inline">\(f\)</span> es <span class="math display">\[
+\text{dom}\, f = \{\xx \mid \xx \in \text{dom}\, f_i \text{ para todo } i \in \mathcal{A}, \sup_{i \in \mathcal{A}} f_i(\xx) &lt; \infty\}.
+\]</span> De manera similar, el ínfimo puntual de un conjunto de funciones cóncavas es una función cóncava.</p></li>
+</ul>
+</section>
+</section>
+<section id="problemas-de-optimización-convexa" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Problemas de optimización convexa</h1>
+<div class="definicion">
+<p><strong>Definición 8.</strong> (Problema de optimización convexa) Un <em>problema de optimización convexa</em> es de la forma <span class="math display">\[
+\min_{\xx} f(\xx)
+\]</span> <span class="math display">\[
+\text{s.t.}\; \xx\in\Omega=\left\{\xx\in\RR^n\left|\begin{array}{rl}
+\,g_i(\xx)\leq 0,&amp; i=1,\cdots,r.\\
+\,\aa_j^\top \xx-b_i=0, &amp; j=1,\cdots,m.
+\end{array}\right.\right\},
+\]</span></p>
+<p>donde tanto la función objetivo <span class="math inline">\(f\)</span> como las restricciones <span class="math inline">\(g_1, \dots, g_r\)</span> son funciones convexas.</p>
+</div>
+<p>Comparando con el problema en forma estándar general, podemos ver que las restricciones de igualdad, <span class="math inline">\(h_i(\xx)=\aa_j^\top \xx-b_i=0\)</span>, son funciones afínes. Esto permite asegurar inmediatamente que:</p>
+<div class="alert alert-light text-dark" role="important">
+<p><span class="badge bg-warning text-dark">Importante</span></p>
+<p>El conjunto factible <span class="math inline">\(\Omega\)</span> de un problema de optimización convexa es convexo.</p>
+<details>
+<summary>
+¿Porqué?
+</summary>
+<p>En efecto, es la intersección de los siguientes conjuntos convexos:</p>
+<ul>
+<li><span class="math inline">\(\bigcap_{i=0}^r\text{dom}\,f_i\)</span>.</li>
+<li><span class="math inline">\(r\)</span> conjunto de subnivel <span class="math inline">\(\{\xx \mid g_i(\xx)\leq 0\}\)</span>.</li>
+<li><span class="math inline">\(m\)</span> hiperplanos <span class="math inline">\(\{\xx \mid \aa_i^\top\xx-b_i=0\}\)</span>.</li>
+</ul>
+</details>
+</div>
+<p>Los problemas de optimización convexa tienen una propiedad fundamental que los caracteriza y que explica su gran importancia, la cual enunciaremos a continuación para concluir esta sección. Más adelante estudiaremos cómo la convexidad potencia las condiciones de optimalidad en un punto factible, facilitando su análisis y aplicación.</p>
+<div class="teorema">
+<p><strong>Teorema 3.</strong> (Optimalidad global de un mínimo local en problemas convexos) Si <span class="math inline">\(\xx\in\Omega\)</span> es un mínimo local de un problema de optimización convexa, entonces <span class="math inline">\(\xx\)</span> es un mínimo global.</p>
+</div>
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true">Demostración</a></li></ul>
+<div class="tab-content">
+<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
+<p>Sea <span class="math inline">\(\xx\in\Omega\)</span> un mínimo local de un problema de optimización convexa, entonces, para algún <span class="math inline">\(R&gt;0\)</span>, se tiene que <span class="math display">\[
+f(\xx)=\inf\{f_0(\zz) \mid \zz\in\Omega\;\text{y}, \|\zz-\xx\|_2\leq R\}.
+\tag{1}
+\]</span></p>
+<p>Si <span class="math inline">\(\xx\)</span> no es mínimo global, significa que existe <span class="math inline">\(\yy\in\Omega\)</span> tal que <span class="math inline">\(f(\yy)&lt;f(\xx)\)</span>. En consecuencia, <span class="math inline">\(\|\yy-\xx\|_2&gt;R\)</span>. Elegimos <span class="math display">\[
+\zz=(1-\theta)\xx+\theta y,\qquad \theta=\frac{R}{2\|\yy-\xx\|_2}.
+\]</span></p>
+<p>Por convexidad de <span class="math inline">\(\Omega\)</span>, debe ser <span class="math inline">\(\zz\in\Omega\)</span>. Además, se verifica <span class="math display">\[
+\|\zz-\xx\|_2=\|\theta(\yy-\xx)\|_2=\frac{R}{2}&lt;R.
+\]</span></p>
+<p>Basta mostrar que <span class="math inline">\(f(\zz)&lt;f(\xx)\)</span> para contradecir (1) y concluir la prueba. Para ello, basta usar el hecho de que <span class="math inline">\(f\)</span> es una función convexa: <span class="math display">\[
+f(\zz)\leq (1-\theta)f(\xx)+\theta f(\yy)&lt;(1-\theta)f(\xx)+\theta f(\xx)&lt;f(\xx). \qquad\blacksquare
+\]</span></p>
+</div>
+</div>
+</div>
+</details>
 <br>
 <hr style="border: 1.5px solid black; margin: 1px;">
 <hr style="border: 0.5px solid black; margin: 0;">
@@ -665,30 +961,76 @@ Ganancia máxima = 19.0</code></pre>
 
 <hr class="linea-corta">
 <ol type="1">
-<li><p>Dé ejemplos de problemas que haya resuelto en cursos anteriores que involucren maximizar o minimizar alguna cantidad. Para cada ejemplo, identifique sus elementos: función objetivo, variables de optimización, conjunto de restricciones.</p></li>
-<li><p>Muestre que efectivamente el problema de mínimos cuadrados se reduce a <span class="math inline">\((A^{\top} A)\xx=A^{\top}\bb\)</span>.</p></li>
-<li><p>Reescriba el problema de mínimos cuadrados ponderados como un problema de mínimos cuadrados estándar.</p></li>
+<li><p>Muestre que:</p>
+<ul>
+<li>un conjunto afín contiene cualquier combinación afín de sus puntos.</li>
+<li>un conjunto convexo contiene cualquier combinación convexa de sus puntos.</li>
+<li>un cono convexo contiene cualquier combinación cónica de sus puntos.</li>
+</ul></li>
+<li><p>Pruebe que, si <span class="math inline">\(C\)</span> es un conjunto afín y <span class="math inline">\(\xx_0\in C\)</span>, entonces <span class="math inline">\(V:= C-\xx_0\)</span> es un subespacio vectorial que no depende de la elección de <span class="math inline">\(\xx_0\in C\)</span>.</p></li>
+<li><p>Verifique que, para cualquier conjunto <span class="math inline">\(C\)</span>:</p>
+<ul>
+<li>la envolvente convexa <span class="math inline">\(\text{conv}\,C\)</span> es un conjunto convexo.</li>
+<li>la envolvente cónica <span class="math inline">\(\text{cone}\,C\)</span> es un cono convexo.</li>
+</ul></li>
+<li><p>Pruebe que que el conjunto solución de un sistema de ecuaciones lineales, <span class="math display">\[
+C:=\{x \mid A\xx=\bb\},\qquad A\in\RR^{m\times n}, \bb\in\RR^m,
+\]</span> es un conjunto afin. <span style="color:darkred;">(No olvidar: pedir recíproco)</span></p></li>
+<li><p>Justifique porqué decir que un conjunto <span class="math inline">\(C\)</span> es un cono convexo es equivalente a la condición: <span class="math display">\[
+\theta_1\xx_1+\theta_2\xx_2\in C,\qquad\forall \xx_1,\xx_2\in C, \forall \theta_1, \theta_2\geq 0.
+\]</span></p></li>
+<li><p>Sean <span class="math inline">\(S_1\)</span> y <span class="math inline">\(S_2\)</span> conjuntos convexos. Muestre que <span class="math inline">\(S_1\times S_2\)</span> es convexo.</p></li>
+<li><p>Sea <span class="math inline">\(S\subset\RR^n\)</span> un conjunto convexo, <span class="math inline">\(\aa\in\RR^n\)</span> y <span class="math inline">\(\alpha\in\RR\)</span>. Pruebe que los conjuntos <span class="math inline">\(S+\aa:=\{\xx+\aa \mid \xx\in S\}\)</span> y <span class="math inline">\(\alpha S:=\{\alpha\xx \mid \xx\in S\}\)</span> son convexos.</p></li>
+<li><p>Realice la prueba del ejemplo 2 de cono normal a un hiperplano. Es decir, muestre que <span class="math inline">\(\dd\in\mathcal{N}_{\xx_0}(\Omega)\)</span> si y solo si es de la forma <span class="math inline">\(\dd=\lambda\aa\)</span> para algún <span class="math inline">\(\lambda\in\RR\)</span>. [<em>Ayuda: para el recíproco, suponga <span class="math inline">\(\dd\neq \lambda\aa\)</span> y utilice el hecho de que <span class="math inline">\(\dd\)</span> puede escribirse como <span class="math inline">\(\dd=(\xx-\xx_0)+k\aa\)</span>, donde <span class="math inline">\(\xx\)</span> es la proyección de <span class="math inline">\(\dd\)</span> sobre <span class="math inline">\(\Omega\)</span> y <span class="math inline">\(k\in\RR\)</span></em>.]</p></li>
+<li><p>Muestre que los conjuntos de subnivel de una función <span class="math inline">\(f:\RR^n\to\RR\)</span> son convexos (ver Ejemplo 5), pero que el recíproco no se cumple. Para esto último utilice algún contraejemplo.</p></li>
+<li><p>Pruebe la suficiencia de la condición de primer orden del Teorema 1 para funciones de una variable. [<em>Ayuda: para <span class="math inline">\(x_1\neq x_2\)</span> arbitrarios y <span class="math inline">\(0\leq \theta\leq 1\)</span>, defina <span class="math inline">\(x_3=\theta x_1+(1-\theta) x_2\)</span> y aplique la condición tanto a <span class="math inline">\((x_3,x_1)\)</span> como a <span class="math inline">\((x_3,x_2)\)</span></em>.]</p></li>
+<li><p>El requisito separado de que <span class="math inline">\(\text{dom}\, f\)</span> sea convexo no puede eliminarse de las caracterizaciones de primer o segundo orden de convexidad y concavidad de <span class="math inline">\(f\)</span>. Analice el caso <span class="math inline">\(f(x)=1/x^2\)</span>.</p></li>
+<li><p>Justifique, utilizando alguno de los teoremas vistos, la convexidad de las siguientes funciones:</p>
+<ul>
+<li><span class="math inline">\(f:\RR^+\to\RR: f(x)=\log(1+e^x)\)</span>.</li>
+<li><span class="math inline">\(f:\RR^n\to\RR: f(\xx)=\aa^\top \xx+b\)</span>, <span class="math inline">\(\aa\in\RR^n\)</span>, <span class="math inline">\(b\in\RR\)</span>.</li>
+<li><span class="math inline">\(f:\RR^n\to\RR: f(\xx)=\|\xx\|_2^2\)</span>.</li>
+<li><span class="math inline">\(f:(\RR^+)^n\to\RR: f(\xx)=\sum_{i=1}^n\xx_i\log \xx_i\)</span>.</li>
+<li><span class="math inline">\(f:(\RR^+)^n\to\RR: f(\xx)=-\sum_{i=1}^n\log \xx_i\)</span>.</li>
+</ul></li>
+<li><p>Dada la función cuadrática <span class="math inline">\(f:\RR^2\to\RR\)</span> definida por <span class="math display">\[
+f(x)=\frac{1}{2}\xx^\top A\xx,
+\]</span> proponga distintas matrices <span class="math inline">\(A\)</span>, grafique la función y decida si <span class="math inline">\(A\)</span> es semidefinida positiva, negativa o indefinida. Además, calcule los autovalores de <span class="math inline">\(A\)</span> y explique qué relación observa.</p></li>
+<li><p>La desigualdad de Jensen establece que si <span class="math inline">\(\xx\in\text{dom}\,f\)</span> y <span class="math inline">\(f\)</span> es una función convexa, entonces <span class="math display">\[
+f(\media \xx)\leq \media f(\xx),
+\]</span> siempre que la esperanza exista. Hallar una variable aleatoria <span class="math inline">\(\XX\)</span> que permita recuperar la desigualdad básica de la definición de función convexa a partir de la desigualdad de Jensen.</p></li>
+<li><p>Verifique que las operaciones presentadas efectivamente preservan la convexidad de las funciones. [<em>Ayuda: para el caso de supremo puntual, muestre que <span class="math inline">\(\text{epi}\,f=\bigcap_{i\in\mathcal{A}}\text{epi}\,f_i\)</span></em>.]</p></li>
+<li><p>Determine cuáles de las operaciones que preservan la convexidad siguen preservándola en el caso de funciones estrictamente convexas, ajustando las hipótesis cuando sea necesario.</p></li>
+<li><p>Sean <span class="math inline">\(C\subset\RR^n\)</span> y <span class="math inline">\(\|\cdot\|\)</span> una norma en <span class="math inline">\(\RR^n\)</span>. La <em>distancia al punto más lejano</em> de <span class="math inline">\(C\)</span> está dada por <span class="math display">\[
+f(\xx)=\sup_{\yy\in C}\|\xx-\yy\|.
+\]</span> Pruebe que <span class="math inline">\(f\)</span> es convexa.</p></li>
+<li><p>Pruebe que la función <span class="math inline">\(f:\mathbf{S}^n\to\RR\)</span>, definida por <span class="math display">\[
+f(X)=\lambda_{\text{max}}(X),
+\]</span> donde <span class="math inline">\(\lambda_{\text{max}}\)</span> es el <em>valor propio máximo</em> de <span class="math inline">\(X\)</span>, es convexa.</p></li>
 </ol>
 <p><br></p>
 <strong>Prácticas</strong><br>
 
 <hr class="linea-corta">
 <ol type="1">
-<li><p><span style="color:darkred;">Ejercicios de mínimos cuadrados.</span></p></li>
-<li><p><span style="color:darkred;">Ejercicios de programación lineal.</span></p></li>
+<li><p><span style="color:darkred;">Ejercicios de promedios ponderado y envolvente convexa, esto último usando <code>ConvexHull</code>.</span></p></li>
+<li><p><span style="color:darkred;">Ejercicios de envolvente cónica. Acá no hay nada que lo haga automáticamente: una posible opción sería generar un conjunto de puntos que sean combinaciones y plotearlos, se podría hacer una grilla para los <span class="math inline">\(\theta_i\)</span> o randomizarlos.</span></p></li>
 </ol>
 <div style="margin-top: 5em;">
 
 </div>
 <div class="refs">
 <p><span style="color: #444;"><strong>Referencias</strong></span></p>
-<p>Boyd, S., &amp; Vandenberghe, L. (2004). <em>Convex Optimization</em>. Capítulo 1. Cambridge University Press.</p>
-<p>Farina, G. Apuntes del curso MIT 6.7220: <em>Nonlinear Optimization</em>. Lección 1(2025). Disponible en la <a href="https://www.mit.edu/~gfarina/notes/">página del curso</a>.</p>
+<p>Boyd, S., &amp; Vandenberghe, L. (2004). <em>Convex Optimization</em>. Capítulos 2 y 3. Cambridge University Press.</p>
+<p>Farina, G. Apuntes del curso MIT 6.7220: <em>Nonlinear Optimization</em>. Lecciones 2, 3 y 4 (2025). Disponible en la <a href="https://www.mit.edu/~gfarina/notes/">página del curso</a>.</p>
 </div>
 
 
+<script type="pyodide-data">
+eyJvcHRpb25zIjp7ImVudiI6eyJQTE9UTFlfUkVOREVSRVIiOiJwbG90bHlfbWltZXR5cGUifSwiaW5kZXhVUkwiOiJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvcHlvZGlkZS92MC4yNy4wL2Z1bGwvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsicHlvZGlkZV9odHRwIiwibWljcm9waXAiLCJpcHl0aG9uIl19fQ==
+</script>
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W119
+eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTQiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoiX3B5b2RpZGVfdmFsdWVfNCA9IHtcbiAgY29uc3QgeyBoaWdobGlnaHRQeXRob24sIGI2NERlY29kZX0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS00LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgLy8gRGVmYXVsdCBldmFsdWF0aW9uIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oe1xuICAgIGlkOiBcInB5b2RpZGUtNC1jb250ZW50c1wiLFxuICAgIGVjaG86IHRydWUsXG4gICAgb3V0cHV0OiB0cnVlXG4gIH0sIGJsb2NrLmF0dHIpO1xuXG4gIC8vIEV2YWx1YXRlIHRoZSBwcm92aWRlZCBQeXRob24gY29kZVxuICBjb25zdCByZXN1bHQgPSBweW9kaWRlT2pzLnByb2Nlc3Moe2NvZGU6IGJsb2NrLmNvZGUsIG9wdGlvbnN9LCB7dGhldGExLCB0aGV0YTJ9KTtcblxuICAvLyBFYXJseSB5aWVsZCB3aGlsZSB3ZSB3YWl0IGZvciB0aGUgZmlyc3QgZXZhbHVhdGlvbiBhbmQgcmVuZGVyXG4gIGlmIChvcHRpb25zLm91dHB1dCAmJiAhKFwiNFwiIGluIHB5b2RpZGVPanMucmVuZGVyZWRPanMpKSB7XG4gICAgY29uc3QgY29udGFpbmVyID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcImRpdlwiKTtcbiAgICBjb25zdCBzcGlubmVyID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcImRpdlwiKTtcblxuICAgIGlmIChvcHRpb25zLmVjaG8pIHtcbiAgICAgIC8vIFNob3cgb3V0cHV0IGFzIGhpZ2hsaWdodGVkIHNvdXJjZVxuICAgICAgY29uc3QgcHJlRWxlbSA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJwcmVcIik7XG4gICAgICBjb250YWluZXIuY2xhc3NOYW1lID0gXCJzb3VyY2VDb2RlXCI7XG4gICAgICBwcmVFbGVtLmNsYXNzTmFtZSA9IFwic291cmNlQ29kZSBweXRob25cIjtcbiAgICAgIHByZUVsZW0uYXBwZW5kQ2hpbGQoaGlnaGxpZ2h0UHl0aG9uKGJsb2NrLmNvZGUpKTtcbiAgICAgIHNwaW5uZXIuY2xhc3NOYW1lID0gXCJzcGlubmVyLWdyb3cgc3Bpbm5lci1ncm93LXNtIG0tMiBwb3NpdGlvbi1hYnNvbHV0ZSB0b3AtMCBlbmQtMFwiO1xuICAgICAgcHJlRWxlbS5hcHBlbmRDaGlsZChzcGlubmVyKTtcbiAgICAgIGNvbnRhaW5lci5hcHBlbmRDaGlsZChwcmVFbGVtKTtcbiAgICB9IGVsc2Uge1xuICAgICAgc3Bpbm5lci5jbGFzc05hbWUgPSBcInNwaW5uZXItYm9yZGVyIHNwaW5uZXItYm9yZGVyLXNtXCI7XG4gICAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQoc3Bpbm5lcik7XG4gICAgfVxuXG4gICAgeWllbGQgY29udGFpbmVyO1xuICB9XG5cbiAgcHlvZGlkZU9qcy5yZW5kZXJlZE9qc1tcIjRcIl0gPSB0cnVlO1xuICB5aWVsZCBhd2FpdCByZXN1bHQ7XG59XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0zIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMyA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtMy1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTMtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8zID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl8zLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0yIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6Il9weW9kaWRlX3ZhbHVlXzIgPSB7XG4gIGNvbnN0IHsgaGlnaGxpZ2h0UHl0aG9uLCBiNjREZWNvZGV9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtMi1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIC8vIERlZmF1bHQgZXZhbHVhdGlvbiBjb25maWd1cmF0aW9uXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHtcbiAgICBpZDogXCJweW9kaWRlLTItY29udGVudHNcIixcbiAgICBlY2hvOiB0cnVlLFxuICAgIG91dHB1dDogdHJ1ZVxuICB9LCBibG9jay5hdHRyKTtcblxuICAvLyBFdmFsdWF0ZSB0aGUgcHJvdmlkZWQgUHl0aG9uIGNvZGVcbiAgY29uc3QgcmVzdWx0ID0gcHlvZGlkZU9qcy5wcm9jZXNzKHtjb2RlOiBibG9jay5jb2RlLCBvcHRpb25zfSwge3RoZXRhfSk7XG5cbiAgLy8gRWFybHkgeWllbGQgd2hpbGUgd2Ugd2FpdCBmb3IgdGhlIGZpcnN0IGV2YWx1YXRpb24gYW5kIHJlbmRlclxuICBpZiAob3B0aW9ucy5vdXRwdXQgJiYgIShcIjJcIiBpbiBweW9kaWRlT2pzLnJlbmRlcmVkT2pzKSkge1xuICAgIGNvbnN0IGNvbnRhaW5lciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIik7XG4gICAgY29uc3Qgc3Bpbm5lciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIik7XG5cbiAgICBpZiAob3B0aW9ucy5lY2hvKSB7XG4gICAgICAvLyBTaG93IG91dHB1dCBhcyBoaWdobGlnaHRlZCBzb3VyY2VcbiAgICAgIGNvbnN0IHByZUVsZW0gPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwicHJlXCIpO1xuICAgICAgY29udGFpbmVyLmNsYXNzTmFtZSA9IFwic291cmNlQ29kZVwiO1xuICAgICAgcHJlRWxlbS5jbGFzc05hbWUgPSBcInNvdXJjZUNvZGUgcHl0aG9uXCI7XG4gICAgICBwcmVFbGVtLmFwcGVuZENoaWxkKGhpZ2hsaWdodFB5dGhvbihibG9jay5jb2RlKSk7XG4gICAgICBzcGlubmVyLmNsYXNzTmFtZSA9IFwic3Bpbm5lci1ncm93IHNwaW5uZXItZ3Jvdy1zbSBtLTIgcG9zaXRpb24tYWJzb2x1dGUgdG9wLTAgZW5kLTBcIjtcbiAgICAgIHByZUVsZW0uYXBwZW5kQ2hpbGQoc3Bpbm5lcik7XG4gICAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQocHJlRWxlbSk7XG4gICAgfSBlbHNlIHtcbiAgICAgIHNwaW5uZXIuY2xhc3NOYW1lID0gXCJzcGlubmVyLWJvcmRlciBzcGlubmVyLWJvcmRlci1zbVwiO1xuICAgICAgY29udGFpbmVyLmFwcGVuZENoaWxkKHNwaW5uZXIpO1xuICAgIH1cblxuICAgIHlpZWxkIGNvbnRhaW5lcjtcbiAgfVxuXG4gIHB5b2RpZGVPanMucmVuZGVyZWRPanNbXCIyXCJdID0gdHJ1ZTtcbiAgeWllbGQgYXdhaXQgcmVzdWx0O1xufVxuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtMSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJfcHlvZGlkZV92YWx1ZV8xID0ge1xuICBjb25zdCB7IGhpZ2hsaWdodFB5dGhvbiwgYjY0RGVjb2RlfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTEtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICAvLyBEZWZhdWx0IGV2YWx1YXRpb24gY29uZmlndXJhdGlvblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7XG4gICAgaWQ6IFwicHlvZGlkZS0xLWNvbnRlbnRzXCIsXG4gICAgZWNobzogdHJ1ZSxcbiAgICBvdXRwdXQ6IHRydWVcbiAgfSwgYmxvY2suYXR0cik7XG5cbiAgLy8gRXZhbHVhdGUgdGhlIHByb3ZpZGVkIFB5dGhvbiBjb2RlXG4gIGNvbnN0IHJlc3VsdCA9IHB5b2RpZGVPanMucHJvY2Vzcyh7Y29kZTogYmxvY2suY29kZSwgb3B0aW9uc30sIHt4MCwgcGFzb30pO1xuXG4gIC8vIEVhcmx5IHlpZWxkIHdoaWxlIHdlIHdhaXQgZm9yIHRoZSBmaXJzdCBldmFsdWF0aW9uIGFuZCByZW5kZXJcbiAgaWYgKG9wdGlvbnMub3V0cHV0ICYmICEoXCIxXCIgaW4gcHlvZGlkZU9qcy5yZW5kZXJlZE9qcykpIHtcbiAgICBjb25zdCBjb250YWluZXIgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwiZGl2XCIpO1xuICAgIGNvbnN0IHNwaW5uZXIgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwiZGl2XCIpO1xuXG4gICAgaWYgKG9wdGlvbnMuZWNobykge1xuICAgICAgLy8gU2hvdyBvdXRwdXQgYXMgaGlnaGxpZ2h0ZWQgc291cmNlXG4gICAgICBjb25zdCBwcmVFbGVtID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcInByZVwiKTtcbiAgICAgIGNvbnRhaW5lci5jbGFzc05hbWUgPSBcInNvdXJjZUNvZGVcIjtcbiAgICAgIHByZUVsZW0uY2xhc3NOYW1lID0gXCJzb3VyY2VDb2RlIHB5dGhvblwiO1xuICAgICAgcHJlRWxlbS5hcHBlbmRDaGlsZChoaWdobGlnaHRQeXRob24oYmxvY2suY29kZSkpO1xuICAgICAgc3Bpbm5lci5jbGFzc05hbWUgPSBcInNwaW5uZXItZ3JvdyBzcGlubmVyLWdyb3ctc20gbS0yIHBvc2l0aW9uLWFic29sdXRlIHRvcC0wIGVuZC0wXCI7XG4gICAgICBwcmVFbGVtLmFwcGVuZENoaWxkKHNwaW5uZXIpO1xuICAgICAgY29udGFpbmVyLmFwcGVuZENoaWxkKHByZUVsZW0pO1xuICAgIH0gZWxzZSB7XG4gICAgICBzcGlubmVyLmNsYXNzTmFtZSA9IFwic3Bpbm5lci1ib3JkZXIgc3Bpbm5lci1ib3JkZXItc21cIjtcbiAgICAgIGNvbnRhaW5lci5hcHBlbmRDaGlsZChzcGlubmVyKTtcbiAgICB9XG5cbiAgICB5aWVsZCBjb250YWluZXI7XG4gIH1cblxuICBweW9kaWRlT2pzLnJlbmRlcmVkT2pzW1wiMVwiXSA9IHRydWU7XG4gIHlpZWxkIGF3YWl0IHJlc3VsdDtcbn1cbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLXByZWx1ZGUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJweW9kaWRlT2pzID0ge1xuICBjb25zdCB7XG4gICAgUHlvZGlkZUV2YWx1YXRvcixcbiAgICBQeW9kaWRlRW52aXJvbm1lbnRNYW5hZ2VyLFxuICAgIHNldHVwUHl0aG9uLFxuICAgIHN0YXJ0UHlvZGlkZVdvcmtlcixcbiAgICBiNjREZWNvZGUsXG4gICAgY29sbGFwc2VQYXRoLFxuICB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzdGF0dXNDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctc3RhdHVzXCIpO1xuICBjb25zdCBpbmRpY2F0b3JDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpbmRpY2F0b3JDb250YWluZXIuY2xhc3NMaXN0LnJlbW92ZShcImQtbm9uZVwiKTtcblxuICBsZXQgc3RhdHVzVGV4dCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIilcbiAgc3RhdHVzVGV4dC5jbGFzc0xpc3QgPSBcImV4ZXJjaXNlLWxvYWRpbmctZGV0YWlsc1wiO1xuICBzdGF0dXNUZXh0ID0gc3RhdHVzQ29udGFpbmVyLmFwcGVuZENoaWxkKHN0YXR1c1RleHQpO1xuICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYEluaXRpYWxpc2VgO1xuXG4gIC8vIEhvaXN0IGluZGljYXRvciBvdXQgZnJvbSBmaW5hbCBzbGlkZSB3aGVuIHJ1bm5pbmcgdW5kZXIgcmV2ZWFsXG4gIGNvbnN0IHJldmVhbFN0YXR1cyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsIC5leGVyY2lzZS1sb2FkaW5nLWluZGljYXRvclwiKTtcbiAgaWYgKHJldmVhbFN0YXR1cykge1xuICAgIHJldmVhbFN0YXR1cy5yZW1vdmUoKTtcbiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnJldmVhbCA+IC5zbGlkZXNcIikuYXBwZW5kQ2hpbGQocmV2ZWFsU3RhdHVzKTtcbiAgfVxuXG4gIC8vIE1ha2UgYW55IHJldmVhbCBzbGlkZXMgd2l0aCBsaXZlIGNlbGxzIHNjcm9sbGFibGVcbiAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbChcIi5yZXZlYWwgLmV4ZXJjaXNlLWNlbGxcIikuZm9yRWFjaCgoZWwpID0+IHtcbiAgICBlbC5jbG9zZXN0KCdzZWN0aW9uLnNsaWRlJykuY2xhc3NMaXN0LmFkZChcInNjcm9sbGFibGVcIik7XG4gIH0pXG5cbiAgLy8gUHlvZGlkZSBzdXBwbGVtZW50YWwgZGF0YSBhbmQgb3B0aW9uc1xuICBjb25zdCBkYXRhQ29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLWRhdGFcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBkYXRhID0gSlNPTi5wYXJzZShiNjREZWNvZGUoZGF0YUNvbnRlbnQpKTtcblxuICAvLyBHcmFiIGxpc3Qgb2YgcmVzb3VyY2VzIHRvIGJlIGRvd25sb2FkZWRcbiAgY29uc3QgZmlsZXNDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInZmcy1maWxlXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgZmlsZXMgPSBKU09OLnBhcnNlKGI2NERlY29kZShmaWxlc0NvbnRlbnQpKTtcblxuICBsZXQgcHlvZGlkZVByb21pc2UgPSAoYXN5bmMgKCkgPT4ge1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgUHlvZGlkZWA7XG4gICAgY29uc3QgcHlvZGlkZSA9IGF3YWl0IHN0YXJ0UHlvZGlkZVdvcmtlcihkYXRhLm9wdGlvbnMpO1xuXG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiBtaWNyb3BpcGA7XG4gICAgYXdhaXQgcHlvZGlkZS5sb2FkUGFja2FnZShcIm1pY3JvcGlwXCIpO1xuICAgIGNvbnN0IG1pY3JvcGlwID0gYXdhaXQgcHlvZGlkZS5weWltcG9ydChcIm1pY3JvcGlwXCIpO1xuICAgIGF3YWl0IGRhdGEucGFja2FnZXMucGtncy5tYXAoKHBrZykgPT4gKCkgPT4ge1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiAke3BrZ31gO1xuICAgICAgcmV0dXJuIG1pY3JvcGlwLmluc3RhbGwocGtnKTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcbiAgICBhd2FpdCBtaWNyb3BpcC5kZXN0cm95KCk7XG5cbiAgICAvLyBEb3dubG9hZCBhbmQgaW5zdGFsbCByZXNvdXJjZXNcbiAgICBhd2FpdCBmaWxlcy5tYXAoKGZpbGUpID0+IGFzeW5jICgpID0+IHtcbiAgICAgIGNvbnN0IG5hbWUgPSBmaWxlLnN1YnN0cmluZyhmaWxlLmxhc3RJbmRleE9mKCcvJykgKyAxKTtcbiAgICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgcmVzb3VyY2U6ICR7bmFtZX1gO1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChmaWxlKTtcbiAgICAgIGlmICghcmVzcG9uc2Uub2spIHtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBDYW4ndCBkb3dubG9hZCBcXGAke2ZpbGV9XFxgLiBFcnJvciAke3Jlc3BvbnNlLnN0YXR1c306IFwiJHtyZXNwb25zZS5zdGF0dXNUZXh0fVwiLmApO1xuICAgICAgfVxuICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IHJlc3BvbnNlLmFycmF5QnVmZmVyKCk7XG5cbiAgICAgIC8vIFN0b3JlIFVSTHMgaW4gdGhlIGN3ZCB3aXRob3V0IGFueSBzdWJkaXJlY3Rvcnkgc3RydWN0dXJlXG4gICAgICBpZiAoZmlsZS5pbmNsdWRlcyhcIjovL1wiKSkge1xuICAgICAgICBmaWxlID0gbmFtZTtcbiAgICAgIH1cblxuICAgICAgLy8gQ29sbGFwc2UgaGlnaGVyIGRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGZpbGUgPSBjb2xsYXBzZVBhdGgoZmlsZSk7XG5cbiAgICAgIC8vIENyZWF0ZSBkaXJlY3RvcnkgdHJlZSwgaWdub3JpbmcgXCJkaXJlY3RvcnkgZXhpc3RzXCIgVkZTIGVycm9yc1xuICAgICAgY29uc3QgcGFydHMgPSBmaWxlLnNwbGl0KCcvJykuc2xpY2UoMCwgLTEpO1xuICAgICAgbGV0IHBhdGggPSAnJztcbiAgICAgIHdoaWxlIChwYXJ0cy5sZW5ndGggPiAwKSB7XG4gICAgICAgIHBhdGggKz0gcGFydHMuc2hpZnQoKSArICcvJztcbiAgICAgICAgdHJ5IHtcbiAgICAgICAgICBhd2FpdCBweW9kaWRlLkZTLm1rZGlyKHBhdGgpO1xuICAgICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgICAgaWYgKGUuZXJybm8gIT09IDIwKSB7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICAgICAgY29uc3QgZXJyb3JUZXh0ID0gYXdhaXQgcHlvZGlkZS5fbW9kdWxlLlVURjhUb1N0cmluZyhlcnJvclRleHRQdHIpO1xuICAgICAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgIH1cblxuICAgICAgLy8gV3JpdGUgdGhpcyBmaWxlIHRvIHRoZSBWRlNcbiAgICAgIHRyeSB7XG4gICAgICAgIHJldHVybiBhd2FpdCBweW9kaWRlLkZTLndyaXRlRmlsZShmaWxlLCBuZXcgVWludDhBcnJheShkYXRhKSk7XG4gICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgIGlmIChlLm5hbWUgIT09IFwiRXJybm9FcnJvclwiKSB0aHJvdyBlO1xuICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgIHRocm93IG5ldyBFcnJvcihgRmlsZXN5c3RlbSBFcnJvciAke2UuZXJybm99IFwiJHtlcnJvclRleHR9XCIuYCk7XG4gICAgICB9XG4gICAgfSkucmVkdWNlKChjdXIsIG5leHQpID0+IGN1ci50aGVuKG5leHQpLCBQcm9taXNlLnJlc29sdmUoKSk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYFB5b2RpZGUgZW52aXJvbm1lbnQgc2V0dXBgO1xuICAgIGF3YWl0IHNldHVwUHl0aG9uKHB5b2RpZGUpO1xuXG4gICAgc3RhdHVzVGV4dC5yZW1vdmUoKTtcbiAgICBpZiAoc3RhdHVzQ29udGFpbmVyLmNoaWxkcmVuLmxlbmd0aCA9PSAwKSB7XG4gICAgICBzdGF0dXNDb250YWluZXIucGFyZW50Tm9kZS5yZW1vdmUoKTtcbiAgICB9XG4gICAgcmV0dXJuIHB5b2RpZGU7XG4gIH0pKCkuY2F0Y2goKGVycikgPT4ge1xuICAgIHN0YXR1c1RleHQuc3R5bGUuY29sb3IgPSBcInZhcigtLWV4ZXJjaXNlLWVkaXRvci1obC1lciwgI0FEMDAwMClcIjtcbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gZXJyLm1lc3NhZ2U7XG4gICAgLy9pbmRpY2F0b3JDb250YWluZXIucXVlcnlTZWxlY3RvcihcIi5zcGlubmVyLWdyb3dcIikuY2xhc3NMaXN0LmFkZChcImQtbm9uZVwiKTtcbiAgICB0aHJvdyBlcnI7XG4gIH0pO1xuXG4gIC8vIEtlZXAgdHJhY2sgb2YgaW5pdGlhbCBPSlMgYmxvY2sgcmVuZGVyXG4gIGNvbnN0IHJlbmRlcmVkT2pzID0ge307XG5cbiAgY29uc3QgcHJvY2VzcyA9IGFzeW5jIChjb250ZXh0LCBpbnB1dHMpID0+IHtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgcHlvZGlkZVByb21pc2U7XG4gICAgY29uc3QgZXZhbHVhdG9yID0gbmV3IFB5b2RpZGVFdmFsdWF0b3IocHlvZGlkZSwgY29udGV4dCk7XG4gICAgYXdhaXQgZXZhbHVhdG9yLnByb2Nlc3MoaW5wdXRzKTtcbiAgICByZXR1cm4gZXZhbHVhdG9yLmNvbnRhaW5lcjtcbiAgfVxuXG4gIHJldHVybiB7XG4gICAgcHlvZGlkZVByb21pc2UsXG4gICAgcmVuZGVyZWRPanMsXG4gICAgcHJvY2VzcyxcbiAgfTtcbn1cbiJ9XX0=
 </script>
 <div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
 <div id="exercise-loading-status" class="d-flex gap-2">
@@ -705,7 +1047,7 @@ W10=
 
 </main> <!-- /main -->
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W119
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InZpZXdvZiB4MCA9IElucHV0cy5yYW5nZShbLTIsIDNdLCB7XG4gIHN0ZXA6IDAuMSxcbiAgbGFiZWw6IFwiUHVudG8gaW5pY2lhbCB44oKAOlwiLFxuICB2YWx1ZTogMVxufSlcblxudmlld29mIHBhc28gPSBJbnB1dHMucmFuZ2UoWzAsIDIwXSwge1xuICBzdGVwOiAxLFxuICBsYWJlbDogXCJOw7ptZXJvIGRlIGl0ZXJhY2lvbmVzOlwiLFxuICB2YWx1ZTogMFxufSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InZpZXdvZiB0aGV0YSA9IElucHV0cy5yYW5nZShbMCwgMV0sIHtzdGVwOiAwLjAxLCBsYWJlbDogXCLOuDpcIn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTMiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ2aWV3b2YgdGhldGExID0gSW5wdXRzLnJhbmdlKFswLCAyXSwge3N0ZXA6IDAuMDEsIHZhbHVlOiAwLjUsIGxhYmVsOiBcIs644oKBOlwifSlcbnZpZXdvZiB0aGV0YTIgPSBJbnB1dHMucmFuZ2UoWzAsIDJdLCB7c3RlcDogMC4wMSwgdmFsdWU6IDAuNSwgbGFiZWw6IFwizrjigoI6XCJ9KVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCd4MCcpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdwYXNvJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3RoZXRhJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3RoZXRhMScpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCd0aGV0YTInKSJ9XX0=
 </script>
 <script type="module">
 if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
