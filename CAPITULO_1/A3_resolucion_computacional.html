@@ -215,6 +215,47 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">2. MODELOS DISCRIMINATIVOS</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B1_regresion_lineal_logistica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.1 Regresión lineal y regresión logística</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B2_glm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.2 Modelos lineales generalizados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B3_ridge_lasso.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.3 Técnicas de regularización</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B4_svm_lineal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.4 Clasificador de vectores soporte</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B5_evaluacion_validacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.5 Evaluación y validación de modelos</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -328,7 +369,7 @@ window.Quarto = {
 \, x+y-1=0
 \end{array}\right.\right\}.
 \]</span></p>
-<div id="f9dd11aa" class="cell" data-execution_count="1">
+<div id="175e2046" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cvxpy <span class="im">as</span> cp</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Creamos dos variables:</span></span>
@@ -357,7 +398,7 @@ Punto óptimo 1.0 1.570086213240983e-22</code></pre>
 </div>
 </div>
 <p>A continuación, vamos a representar geométricamente este problema: del lado izquierdo, el grafo en <span class="math inline">\(\RR^3\)</span> de la función objetivo; del lado derecho, el conjunto factible como intersección de las restricciones dadas.</p>
-<div id="0780f5c0" class="cell" data-execution_count="2">
+<div id="fb680f24" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Patch</span>
@@ -430,7 +471,7 @@ Punto óptimo 1.0 1.570086213240983e-22</code></pre>
 \, 0\leq x_i\leq 1,\quad i=1,\cdots,n\end{array}\right.\right\},
 \]</span></p>
 <p>con <span class="math inline">\(A\in\RR^{n\times m}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span> aleatorios, para <span class="math inline">\(n,m\in\mathbb{N}\)</span> fijos.</p>
-<div id="07d01d3f" class="cell" data-execution_count="3">
+<div id="e73edf6f" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cvxpy <span class="im">as</span> cp</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -529,7 +570,7 @@ x+y^2 \\
 \end{pmatrix}
 \]</span></p></li>
 </ul>
-<div id="6e5a6ce6" class="cell" data-execution_count="4">
+<div id="61f8e5e3" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> Bounds</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> LinearConstraint</span>

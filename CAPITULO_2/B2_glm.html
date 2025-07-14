@@ -64,6 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../CAPITULO_2/B3_ridge_lasso.html" rel="next">
+<link href="../CAPITULO_2/B1_regresion_lineal_logistica.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -147,9 +149,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      Optimización y Aprendizaje Automático II
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../CAPITULO_2/B1_regresion_lineal_logistica.html">2. MODELOS DISCRIMINATIVOS</a></li><li class="breadcrumb-item"><a href="../CAPITULO_2/B2_glm.html">2.2 Modelos lineales generalizados</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -215,6 +215,47 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">2. MODELOS DISCRIMINATIVOS</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B1_regresion_lineal_logistica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.1 Regresión lineal y regresión logística</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B2_glm.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">2.2 Modelos lineales generalizados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B3_ridge_lasso.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.3 Técnicas de regularización</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B4_svm_lineal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.4 Clasificador de vectores soporte</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B5_evaluacion_validacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.5 Evaluación y validación de modelos</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -265,7 +306,7 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../CAPITULO_2/B1_regresion_lineal_logistica.html">2. MODELOS DISCRIMINATIVOS</a></li><li class="breadcrumb-item"><a href="../CAPITULO_2/B2_glm.html">2.2 Modelos lineales generalizados</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Modelos lineales generalizados</h1>
 <p class="subtitle lead">Capítulo 2 - Sección 2</p>
@@ -559,7 +600,7 @@ h_\theta(x) &amp;= \mathbb{E}[T(y) | x; \theta]
 <section id="ejemplo-práctico-en-python" class="level3" data-number="4.4.1">
 <h3 data-number="4.4.1" class="anchored" data-anchor-id="ejemplo-práctico-en-python"><span class="header-section-number">4.4.1</span> Ejemplo Práctico en Python</h3>
 <p>Implementemos un ejemplo práctico para un problema de clasificación multiclase.</p>
-<div id="b33be474" class="cell" data-execution_count="1">
+<div id="5fca8c0d" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_classification</span>
@@ -1126,6 +1167,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../CAPITULO_2/B1_regresion_lineal_logistica.html" class="pagination-link" aria-label="2.1 Regresión lineal y regresión logística">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2.1 Regresión lineal y regresión logística</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../CAPITULO_2/B3_ridge_lasso.html" class="pagination-link" aria-label="2.3 Técnicas de regularización">
+        <span class="nav-page-text">2.3 Técnicas de regularización</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 
