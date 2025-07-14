@@ -2,27 +2,47 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://isaiasibanez.github.io/OML2/macros.html</loc>
-    <lastmod>2025-06-09T21:56:05.937Z</lastmod>
+    <lastmod>2025-06-09T21:56:05.000Z</lastmod>
   </url>
   <url>
-    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_1/A5_metodos_optimizacion.html</loc>
-    <lastmod>2025-06-20T09:11:20.206Z</lastmod>
+    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_2/B5_evaluacion_validacion.html</loc>
+    <lastmod>2025-07-14T12:33:59.510Z</lastmod>
   </url>
   <url>
-    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_1/A3_resolucion_computacional.html</loc>
-    <lastmod>2025-06-13T15:16:09.722Z</lastmod>
+    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_2/B3_ridge_lasso.html</loc>
+    <lastmod>2025-07-14T12:26:31.069Z</lastmod>
   </url>
   <url>
-    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_1/A1_intro_optimizacion.html</loc>
-    <lastmod>2025-07-04T19:24:28.642Z</lastmod>
-  </url>
-  <url>
-    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_1/A2_optimizacion_convexa.html</loc>
-    <lastmod>2025-07-04T21:57:53.778Z</lastmod>
+    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_2/B1_regresion_lineal_logistica.html</loc>
+    <lastmod>2025-07-14T12:23:19.037Z</lastmod>
   </url>
   <url>
     <loc>https://isaiasibanez.github.io/OML2/CAPITULO_1/A4_condiciones_optimalidad.html</loc>
-    <lastmod>2025-06-13T15:16:42.842Z</lastmod>
+    <lastmod>2025-07-14T12:02:25.545Z</lastmod>
+  </url>
+  <url>
+    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_1/A2_optimizacion_convexa.html</loc>
+    <lastmod>2025-07-04T21:57:53.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_1/A1_intro_optimizacion.html</loc>
+    <lastmod>2025-07-04T19:24:28.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_1/A3_resolucion_computacional.html</loc>
+    <lastmod>2025-07-14T11:59:56.745Z</lastmod>
+  </url>
+  <url>
+    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_1/A5_metodos_optimizacion.html</loc>
+    <lastmod>2025-07-14T12:04:08.724Z</lastmod>
+  </url>
+  <url>
+    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_2/B2_glm.html</loc>
+    <lastmod>2025-07-14T12:24:12.440Z</lastmod>
+  </url>
+  <url>
+    <loc>https://isaiasibanez.github.io/OML2/CAPITULO_2/B4_svm_lineal.html</loc>
+    <lastmod>2025-07-14T12:26:50.360Z</lastmod>
   </url>
   <url>
     <loc>https://isaiasibanez.github.io/OML2/index.html</loc>
