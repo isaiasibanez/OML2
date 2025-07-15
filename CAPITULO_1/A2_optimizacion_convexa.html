@@ -330,6 +330,7 @@ window.Quarto = {
 \def\bfnu{\boldsymbol{\nu}}
 \def\bfSigma{\boldsymbol{\Sigma}}
 \def\bfone{\mathbf{1}}
+\def\bfzero{\mathbf{0}}
 \def\argmin{\mathop{\mathrm{arg\,min\,}}}
 \def\argmax{\mathop{\mathrm{arg\,max\,}}}
 \]</span></p>
@@ -371,12 +372,12 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </div>
 </div>
 </div>
-<section id="conjuntos-convexos" class="level1 page-columns page-full" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Conjuntos convexos</h1>
+<section id="conjuntos-convexos" class="level2 page-columns page-full" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="conjuntos-convexos"><span class="header-section-number">1</span> Conjuntos convexos</h2>
 <p>Una gran parte del éxito de los métodos de optimización convexa radica en una idea geométrica simple pero poderosa: la convexidad del conjunto factible <span class="math inline">\(\Omega\)</span>.</p>
 <p>Un conjunto convexo es, en pocas palabras, un conjunto en el cual, si tomamos dos puntos cualesquiera, el segmento que los une queda completamente contenido dentro del conjunto. Esta propiedad, que a primera vista parece modesta, es en realidad clave para que los problemas de optimización tengan buen comportamiento: contribuye a garantizar que los métodos de optimización puedan avanzar progresivamente dentro del conjunto factible sin salir de él; es decir, facilita la construcción de puntos factibles.</p>
-<section id="definiciones-básicas" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="definiciones-básicas"><span class="header-section-number">1.1</span> Definiciones básicas</h2>
+<section id="definiciones-básicas" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="definiciones-básicas"><span class="header-section-number">1.1</span> Definiciones básicas</h3>
 <p>En esta sección introduciremos tres tipos fundamentales de conjuntos que aparecen en optimización: conjuntos afines, conjuntos convexos y conos. Antes, es necesario recordar la forma parámetrica de <em>rectas</em> y <em>segmentos de recta</em>.</p>
 <p>Sean <span class="math inline">\(\xx_{1} \neq \xx_{2}\)</span> dos puntos en <span class="math inline">\(\RR^{n}\)</span>. La recta que pasa por <span class="math inline">\(\xx_1\)</span> y <span class="math inline">\(\xx_2\)</span> queda determinada por <span class="math display">\[
 \yy = \theta \xx_{1} + (1 - \theta) \xx_{2},\qquad \theta\in\RR.
@@ -611,12 +612,12 @@ Envolvente cónica de dos conjuntos: (Izq.) La envolvente convexa de un numero f
 </figcaption>
 </figure>
 </section>
-<section id="conjuntos-convexos-notables" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="conjuntos-convexos-notables"><span class="header-section-number">1.2</span> Conjuntos convexos notables</h2>
+<section id="conjuntos-convexos-notables" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="conjuntos-convexos-notables"><span class="header-section-number">1.2</span> Conjuntos convexos notables</h3>
 <p><span style="color:darkred;">Repasar conceptos de hiperplanos, semiespacios, bolas.</span></p>
 </section>
-<section id="operaciones-que-preservan-convexidad" class="level2 page-columns page-full" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="operaciones-que-preservan-convexidad"><span class="header-section-number">1.3</span> Operaciones que preservan convexidad</h2>
+<section id="operaciones-que-preservan-convexidad" class="level3 page-columns page-full" data-number="1.3">
+<h3 data-number="1.3" class="anchored" data-anchor-id="operaciones-que-preservan-convexidad"><span class="header-section-number">1.3</span> Operaciones que preservan convexidad</h3>
 <p>En esta sección describimos algunas operaciones que preservan la convexidad de conjuntos o nos permiten construir conjuntos convexos a partir de otros. Estas operaciones, junto con los ejemplos simples descritos anteriormente, forman un cálculo de conjuntos convexos que es útil para determinar o establecer la convexidad de conjuntos. Las verificaciones se dejan como ejercicio.</p>
 <ul>
 <li><strong>Intersección</strong>.</li>
@@ -659,8 +660,8 @@ S_{1} + S_{2} := \{\xx_1 + \xx_2 \mid \xx_1 \in S_{1}, \xx_2 \in S_{2}\}
 \]</span> es un conjunto convexo.</li>
 </ul>
 </section>
-<section id="conos-normales" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="conos-normales"><span class="header-section-number">1.4</span> Conos normales</h2>
+<section id="conos-normales" class="level3" data-number="1.4">
+<h3 data-number="1.4" class="anchored" data-anchor-id="conos-normales"><span class="header-section-number">1.4</span> Conos normales</h3>
 <p>En muchos problemas de optimización, especialmente aquellos en los que las soluciones están restringidas a un conjunto convexo, es esencial entender cómo se comportan las direcciones “externas” al conjunto en torno a un punto dado.</p>
 <p>El cono normal es una herramienta geométrica fundamental para describir esas direcciones. Nos permitirá luego expresar condiciones que caracterizan soluciones óptimas a partir de información local del conjunto factible.</p>
 <div class="definicion">
@@ -677,7 +678,8 @@ Conos normales de un conjunto convexo.
 <p><span style="display:block; height:0.25em;"></span></p>
 <p>Para entender esta definición, vamos a ver algunos ejemplos.</p>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 1</span> (Cono normal a un punto interior) Si <span class="math inline">\(\xx_0\)</span> es un punto interior de <span class="math inline">\(\Omega\)</span>, el cono normal contiene únicamente el vector cero. Es decir,<br>
+<p><span class="badge bg-primary">Ejemplo 5</span> (Cono normal a un punto interior)</p>
+<p>Si <span class="math inline">\(\xx_0\)</span> es un punto interior de <span class="math inline">\(\Omega\)</span>, el cono normal contiene únicamente el vector cero. Es decir,<br>
 <span class="math display">\[
 N_{\Omega}(\xx_0) = \{\mathbf{0}\}.
 \]</span></p>
@@ -694,7 +696,8 @@ N_{\Omega}(\xx_0) = \{\mathbf{0}\}.
 </div>
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 2</span> (Cono normal a un hiperplano) Sea <span class="math inline">\(\aa\in\RR^n\)</span>, <span class="math inline">\(\aa\neq\mathbf{0}\)</span>, Definimos el hiperplano <span class="math display">\[
+<p><span class="badge bg-primary">Ejemplo 6</span> (Cono normal a un hiperplano)</p>
+<p>Sea <span class="math inline">\(\aa\in\RR^n\)</span>, <span class="math inline">\(\aa\neq\mathbf{0}\)</span>, Definimos el hiperplano <span class="math display">\[
 \Omega:=\{\xx\in\RR^n \mid \langle\aa,\xx\rangle=0\}.
 \]</span></p>
 <div class="columns">
@@ -712,7 +715,8 @@ N_{\Omega}(\xx_0) = \{\mathbf{0}\}.
 <p>Dado que los conos normales son insensibles a desplazamientos en el conjunto <span class="math inline">\(\Omega\)</span>, este resultado se aplica sin cambios a cualquier plano afín <span class="math inline">\(\Omega:=\{\xx\in\RR^n \mid \langle\aa,\xx\rangle=b\}\)</span>, con <span class="math inline">\(b\in\RR\)</span>.</p>
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 3</span> (Cono normal a un semiespacio) Sean <span class="math inline">\(\aa\in\RR^n\)</span>, <span class="math inline">\(\aa\neq\mathbf{0}\)</span>, y <span class="math inline">\(b\in\RR\)</span>. Definimos el semiplano <span class="math display">\[
+<p><span class="badge bg-primary">Ejemplo 7</span> (Cono normal a un semiespacio)</p>
+<p>Sean <span class="math inline">\(\aa\in\RR^n\)</span>, <span class="math inline">\(\aa\neq\mathbf{0}\)</span>, y <span class="math inline">\(b\in\RR\)</span>. Definimos el semiplano <span class="math display">\[
 \Omega:=\{\xx\in\RR^n \mid \langle\aa,\xx\rangle\leq b\}.
 \]</span></p>
 <div class="columns">
@@ -731,7 +735,8 @@ N_{\Omega}(\xx_0) = \{\mathbf{0}\}.
 </div>
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 4</span> (Cono normal a la intersección de dos semiespacios) Sean <span class="math inline">\(\aa_1,\aa_2\in\RR^n\)</span> no nulos, y <span class="math inline">\(b_1,b_2\in\RR\)</span>. Definimos la intersección de dos semiplanos como <span class="math display">\[
+<p><span class="badge bg-primary">Ejemplo 8</span> (Cono normal a la intersección de dos semiespacios)</p>
+<p>Sean <span class="math inline">\(\aa_1,\aa_2\in\RR^n\)</span> no nulos, y <span class="math inline">\(b_1,b_2\in\RR\)</span>. Definimos la intersección de dos semiplanos como <span class="math display">\[
 \Omega:=\{\xx\in\RR^n \mid \langle\aa_1,\xx\rangle\leq b_1\quad\text{y}\quad\langle\aa_2,\xx\rangle\leq b_2\}.
 \]</span></p>
 <div class="columns">
@@ -752,8 +757,8 @@ N_{\Omega}(\xx_0) = \{\mathbf{0}\}.
 </div>
 </section>
 </section>
-<section id="funciones-convexas" class="level1 page-columns page-full" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Funciones convexas</h1>
+<section id="funciones-convexas" class="level2 page-columns page-full" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="funciones-convexas"><span class="header-section-number">2</span> Funciones convexas</h2>
 <div class="definicion">
 <p><strong>Definición 7.</strong> (Función convexa) Una función <span class="math inline">\(f:\RR^n\rightarrow\RR\)</span> es <em>convexa</em> si <span class="math inline">\(\text{dom}\,f\)</span> es un conjunto convexo y si verifica <span class="math display">\[
 f(\theta \xx_1 + (1 - \theta)\xx_2) \leq \theta f(\xx_1) + (1 - \theta)f(\xx_2),\qquad\forall\xx_1,\xx_2\in\text{dom}\,f,\; \forall\theta\in[0,1].
@@ -797,14 +802,8 @@ Epígrafo de una función <span class="math inline">\(f\)</span>.
 </div>
 </div>
 </details>
-<div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 5</span> (Conjuntos de subnivel) El <em>conjunto de subnivel <span class="math inline">\(\alpha\)</span></em> de una función <span class="math inline">\(f:\RR^n\to\RR\)</span> se define como <span class="math display">\[
-C_{\alpha}:=\{\xx\in\text{dom}\,f \mid f(x)\leq\alpha\}.
-\]</span></p>
-<p>Los conjuntos de subnivel son convexos. La prueba es inmediata de la definición y se deja como ejercicio.</p>
-</div>
-<section id="condiciones-de-convexidad" class="level2 page-columns page-full" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="condiciones-de-convexidad"><span class="header-section-number">2.1</span> Condiciones de convexidad</h2>
+<section id="condiciones-de-convexidad" class="level3 page-columns page-full" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="condiciones-de-convexidad"><span class="header-section-number">2.1</span> Condiciones de convexidad</h3>
 <p>Para verificar si una función es convexa, además de recurrir a la definición, existen criterios basados en sus derivadas. Estos permiten caracterizar la convexidad en términos del comportamiento local de la función, ya sea a través del gradiente (primera derivada) o de la matriz hessiana (segunda derivada). Para ello, debemos imponer condiciones a <span class="math inline">\(f\)</span> en relación con su diferenciabilidad.</p>
 <div class="alert alert-light text-dark" role="important">
 <p><span class="badge bg-warning text-dark">Importante</span></p>
@@ -894,7 +893,8 @@ Mostrar detalles
 </div>
 </details>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 5</span> Consideremos la función cuadrática <span class="math inline">\(f:\RR^n\to\RR\)</span> definida por</p>
+<p><span class="badge bg-primary">Ejemplo 9</span></p>
+<p>Consideremos la función cuadrática <span class="math inline">\(f:\RR^n\to\RR\)</span> definida por</p>
 <p><span class="math display">\[
 f(\xx)=\frac{1}{2}\xx^\top A\xx+\bb^\top\xx+c,
 \]</span></p>
@@ -904,7 +904,7 @@ f(\xx)=\frac{1}{2}\xx^\top A\xx+\bb^\top\xx+c,
 f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
 \]</span></p>
 <p>es convexa, ya que <span class="math inline">\(\xx^\top A\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^n\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
-<div id="e6b6e6aa" class="cell" data-execution_count="1">
+<div id="736e9145" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -942,8 +942,8 @@ f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&a
 </div>
 </div>
 </section>
-<section id="operaciones-que-preservan-convexidad-1" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="operaciones-que-preservan-convexidad-1"><span class="header-section-number">2.2</span> Operaciones que preservan convexidad</h2>
+<section id="operaciones-que-preservan-convexidad-1" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="operaciones-que-preservan-convexidad-1"><span class="header-section-number">2.2</span> Operaciones que preservan convexidad</h3>
 <p>En esta sección describimos algunas operaciones que preservan la convexidad o concavidad de funciones, o que permiten construir nuevas funciones convexas y cóncavas. Las verificaciones se dejan como ejercicio.</p>
 <ul>
 <li><p><strong>Sumas ponderadas no negativas</strong>. Si <span class="math inline">\(f\)</span> es una función convexa y <span class="math inline">\(\alpha \geq 0\)</span>, entonces la función <span class="math inline">\(\alpha f\)</span> es convexa. Si <span class="math inline">\(f_1\)</span> y <span class="math inline">\(f_2\)</span> son ambas funciones convexas, entonces su suma <span class="math inline">\(f_1 + f_2\)</span> también lo es. Combinando estas dos propiedades, se obtiene que el conjunto de funciones convexas es en sí mismo un cono convexo: una suma ponderada no negativa de funciones convexas, <span class="math display">\[
@@ -963,8 +963,8 @@ f(\xx) = \sup_{i \in \mathcal{A}} f_i(\xx)
 </ul>
 </section>
 </section>
-<section id="problemas-de-optimización-convexa" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Problemas de optimización convexa</h1>
+<section id="problemas-de-optimización-convexa" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="problemas-de-optimización-convexa"><span class="header-section-number">3</span> Problemas de optimización convexa</h2>
 <div class="definicion">
 <p><strong>Definición 8.</strong> (Problema de optimización convexa) Un <em>problema de optimización convexa</em> es de la forma <span class="math display">\[
 \min_{\xx} f(\xx)
@@ -1025,8 +1025,8 @@ f(\zz)\leq (1-\theta)f(\xx)+\theta f(\yy)&lt;(1-\theta)f(\xx)+\theta f(\xx)&lt;f
 <hr style="border: 1.5px solid black; margin: 1px;">
 <hr style="border: 0.5px solid black; margin: 0;">
 </section>
-<section id="actividades" class="level1 unnumbered">
-<h1 class="unnumbered">Actividades</h1>
+<section id="actividades" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="actividades">Actividades</h2>
 <strong>Teóricas</strong><br>
 
 <hr class="linea-corta">
@@ -1055,7 +1055,12 @@ C:=\{x \mid A\xx=\bb\},\qquad A\in\RR^{m\times n}, \bb\in\RR^m,
 <li><p><span style="color:darkred;">Acá agregar ejercicio de convexidad de función perspectiva y el caso log-sum-exp.</span></p></li>
 <li><p><span style="color:darkred;">Acá ejercicios que quedaron pendientes de ejemplos de cono normal.</span></p></li>
 <li><p>Realice la prueba del ejemplo 2 de cono normal a un hiperplano. Es decir, muestre que <span class="math inline">\(\dd\in\mathcal{N}_{\xx_0}(\Omega)\)</span> si y solo si es de la forma <span class="math inline">\(\dd=\lambda\aa\)</span> para algún <span class="math inline">\(\lambda\in\RR\)</span>. [<em>Ayuda: para el recíproco, suponga <span class="math inline">\(\dd\neq \lambda\aa\)</span> y utilice el hecho de que <span class="math inline">\(\dd\)</span> puede escribirse como <span class="math inline">\(\dd=(\xx-\xx_0)+k\aa\)</span>, donde <span class="math inline">\(\xx\)</span> es la proyección de <span class="math inline">\(\dd\)</span> sobre <span class="math inline">\(\Omega\)</span> y <span class="math inline">\(k\in\RR\)</span></em>.]</p></li>
-<li><p>Muestre que los conjuntos de subnivel de una función <span class="math inline">\(f:\RR^n\to\RR\)</span> son convexos (ver Ejemplo 5), pero que el recíproco no se cumple. Para esto último utilice algún contraejemplo.</p></li>
+<li><p>Muestre que los conjuntos de subnivel de una función <span class="math inline">\(f:\RR^n\to\RR\)</span>, definidos como <span class="math display">\[
+C_\alpha:=\{\xx\in\text{dom }f \mid f(\xx)\leq\alpha\}
+\]</span></p></li>
+</ol>
+<p>son convexos (ver Ejemplo 5), pero que el recíproco no se cumple. Para esto último utilice algún contraejemplo.</p>
+<ol type="1">
 <li><p>Pruebe la suficiencia de la condición de primer orden del Teorema 1 para funciones de una variable. [<em>Ayuda: para <span class="math inline">\(x_1\neq x_2\)</span> arbitrarios y <span class="math inline">\(0\leq \theta\leq 1\)</span>, defina <span class="math inline">\(x_3=\theta x_1+(1-\theta) x_2\)</span> y aplique la condición tanto a <span class="math inline">\((x_3,x_1)\)</span> como a <span class="math inline">\((x_3,x_2)\)</span></em>.]</p></li>
 <li><p>El requisito separado de que <span class="math inline">\(\text{dom}\, f\)</span> sea convexo no puede eliminarse de las caracterizaciones de primer o segundo orden de convexidad y concavidad de <span class="math inline">\(f\)</span>. Analice el caso <span class="math inline">\(f(x)=1/x^2\)</span>.</p></li>
 <li><p>Justifique, utilizando alguno de los teoremas vistos, la convexidad de las siguientes funciones:</p>
