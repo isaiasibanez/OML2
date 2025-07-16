@@ -292,6 +292,7 @@ window.Quarto = {
 <div class="hidden">
 <p><span class="math display">\[
 \def\NN{\mathbb{N}}
+\def\ZZ{\mathbb{Z}}
 \def\RR{\mathbb{R}}
 \def\media{\mathbb{E}}
 \def\calL{\mathcal{L}}
@@ -336,45 +337,83 @@ window.Quarto = {
 \]</span></p>
 <p>donde:</p>
 <ul>
-<li><p><span class="math inline">\(f:\RR^n\to\RR\)</span> es la <em>función objetivo</em>.</p></li>
-<li><p><span class="math inline">\(\xx=(x_1,\ldots, x_n)\)</span> son las <em>variables de optimización</em>.</p></li>
-<li><p><span class="math inline">\(\Omega\subset\RR^n\)</span> es el <em>conjunto factible</em> o <em>conjunto de restricciones</em>.</p></li>
+<li><p><span class="math inline">\(f:\RR^p\to\RR\)</span> es la <em>función objetivo</em>.</p></li>
+<li><p><span class="math inline">\(\xx=(x_1,\ldots, x_p)\)</span> son las <em>variables de optimización</em>.</p></li>
+<li><p><span class="math inline">\(\Omega\subset\RR^p\)</span> es el <em>conjunto factible</em> o <em>conjunto de restricciones</em>.</p></li>
 </ul>
-<p>Un vector <span class="math inline">\(\xx^\star\in\Omega\)</span> se denomina <em>punto óptimo</em> del problema (1) si allí <span class="math inline">\(f\)</span> alcanza su valor más pequeño en <span class="math inline">\(\Omega\)</span>. A dicho valor lo denominaremos <em>valor óptimo</em>, y denotaremos <span class="math inline">\(f^\star:=f(\xx^\star)\)</span>.</p>
+<div style="margin-top:2em;">
+
+</div>
+<p>El <em>valor óptimo</em> del problema es <span class="math display">\[
+p^\star:=\inf\{f(\xx) \mid \xx\in\text{dom }f\;\land\;\xx\in\Omega\}.
+\]</span></p>
+<p>Si <span class="math inline">\(\text{dom }f\cap\Omega=\emptyset\)</span> (es decir, no hay <span class="math inline">\(\xx\in\RR^p\)</span> <em>factible</em>), se dice que el problema es <em>infactible</em> y se asume <span class="math inline">\(p^\star=\infty\)</span>. Por su parte, si el conjunto <span class="math inline">\(\{f(\xx) \mid \xx\in\text{dom }f\;\land\;\xx\in\Omega\}\)</span> no tiene cota inferior, se considera <span class="math inline">\(p^\star=-\infty\)</span>.</p>
+<p>En el caso que <span class="math inline">\(p^\star\)</span> existe y es finito, un vector <span class="math inline">\(\xx^\star\in\Omega\)</span> se denomina <em>punto óptimo</em> si <span class="math inline">\(f(\xx^\star)=p^\star\)</span>.</p>
 </div>
 <p><span style="display:block; height:0.25em;"></span></p>
 <p>En general, se asume que la función objetivo <span class="math inline">\(f\)</span> es continua. Además, a menudo se suele imponer la condición de que también sea diferenciable, ya que facilita el análisis teórico y permite el diseño de métodos de optimización.</p>
 <p>Por otra parte, son de especial interés los problemas con <em>restricciones funcionales</em>, que son aquellos en los cuales el conjunto factible es de la forma</p>
 <p><span class="math display">\[
-\Omega=\left\{\xx\in\RR^n\left|\begin{array}{rl}
+\Omega=\left\{\xx\in\RR^p\left|\begin{array}{rl}
 \; g_i(\xx)\leq 0,&amp; i=1,\cdots,r\\
 \; h_j(\xx)=0, &amp; j=1,\cdots,m
 \end{array}\right.\right\}.
+\tag{2}
 \]</span></p>
 <p>Es decir, <span class="math inline">\(\Omega\)</span> queda definido a partir de un conjunto de <em>funciones de restricción</em>, tanto de desigualdad (<span class="math inline">\(g_i:\RR^n\to\RR\)</span>) como de igualdad (<span class="math inline">\(h_j:\RR^n\to\RR\)</span>). En función de las características de estas funciones, el conjunto factible puede adquirir ciertas propiedades geométricas fundamentales.</p>
+<div class="alert alert-light text-dark" role="important">
+<p><span class="badge bg-warning text-dark">Importante</span></p>
+<p>Un problema de optimización cuyo conjunto factible es de la forma (3) tiene una <em>restricción implícita</em>, a saber: <span class="math display">\[
+\xx\in\mathcal{D}:=\text{dom }f\cap\bigcap_{i=1}^r\text{dom }g_i\cap\bigcap_{j=1}^m\text{dom }h_j.
+\]</span></p>
+<p>Algunas observaciones importantes son:</p>
+<ul>
+<li><p><span class="math inline">\(\mathcal{D}\)</span> es el <em>dominio</em> del problema.</p></li>
+<li><p>Las restricciones funcionales <span class="math inline">\(g_i(\xx)\leq 0\)</span> y <span class="math inline">\(h_i(\xx)=0\)</span> son restricciones explícitas.</p></li>
+<li><p>Un problema es <em>sin restricciones</em> si no tiene restricciones explícitas. Es decir, su dominio es <span class="math inline">\(\mathcal{D}:=\text{dom }f\)</span>.</p></li>
+</ul>
+</div>
 <p>Las preguntas que surgen de un problema de optimización son:</p>
 <div style="margin-top:1.5em;">
 
 </div>
 <div class="myhighlight">
 <p>¿Existe una solución?</p>
-<p>En caso afirmativo, ¿podemos calcularla?</p>
+<p>En caso afirmativo: ¿Es única? ¿Podemos calcularla?</p>
 </div>
-<p><br></p>
-<p>Generalmente, consideramos familias o clases de problemas de optimización, caracterizadas por formas particulares de las funciones objetivo y de las funciones de restricción. Algunos ejemplos importantes son:</p>
-<ul>
-<li><p><strong>Programa lineal</strong>: Un problema de optimización es un <em>programa lineal</em> si tanto la función objetivo <span class="math inline">\(f\)</span> como las funciones de restricción <span class="math inline">\(g_i\)</span> y <span class="math inline">\(h_j\)</span> son funciones lineales; esto es, son funciones <span class="math inline">\(\varphi:\RR^n\to\RR\)</span> que satisfacen la igualdad: <span class="math display">\[
-\varphi(\alpha\xx+\beta\yy)=\alpha\,\varphi(\xx)+\beta\,\varphi(\yy),
-\]</span> para todo <span class="math inline">\(\xx,\yy\in\RR^n\)</span> y para todo <span class="math inline">\(\alpha,\beta\in\RR\)</span>.</p></li>
-<li><p><strong>Optimización convexa</strong>: Un problema de <em>optimización convexa</em> es aquel en el que tanto la función objetivo como las funciones de restricción son funciones convexas; esto es, son funciones <span class="math inline">\(\varphi:\RR^n\to\RR\)</span> que satisfacen la desigualdad: <span class="math display">\[
-\varphi(\alpha \xx+\beta \yy)\leq \alpha\,\varphi(\xx)+\beta\,\varphi(\yy),
-\]</span> para todo <span class="math inline">\(\xx,\yy\in\RR^n\)</span> y para todo <span class="math inline">\(\alpha,\beta\in[0,1]\)</span> con <span class="math inline">\(\alpha+\beta=1\)</span>.</p></li>
-</ul>
-<p>Comparando los dos ejemplos anteriores, vemos que la convexidad es más general que la linealidad: la desigualdad reemplaza la igualdad más restrictiva, y además la desigualdad debe cumplirse solo para ciertos valores de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>. Por lo tanto, cualquier programa lineal es un problema de optimización convexa.</p>
-<p>El estudio de los problemas de optimización convexa lo realizaremos en <a href="A2_optimizacion_convexa.html">Capítulo 1 - Sección 2</a>. Respecto a programación lineal, veremos un ejemplo básico en esta misma sección más adelante, y otros ejemplos de aplicación se presentarán en <a href="A3_resolucion_computacional.html">Capítulo 1 - Sección 3</a> cuando exploremos un par de librerías de Python útiles para resolver problemas de optimización.</p>
-<p>Por lo pronto, veamos a continuación algunos ejemplos básicos de ejercicios de optimización, que seguramente les resultarán familiares de cursos previos.</p>
+<div style="margin-top:2em;">
+
+</div>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 1</span></p>
+<p>Veamos algunos ejemplos sencillos de problemas de optimización sin restricciones con funciones objetivo de una variable. Es decir, de la forma <span class="math display">\[
+\text{minimizar } f(x)
+\]</span></p>
+<ul>
+<li><p><span class="math inline">\(f:\RR^+\to\RR:f(x)=\displaystyle\frac{1}{x}\)</span>. El valor óptimo es <span class="math inline">\(p^\star=0\)</span>, pero no existe un punto óptimo. En consecuencia, el problema no tiene solución.</p></li>
+<li><p><span class="math inline">\(f:\RR^+\to\RR: f(x)=-\log x\)</span>. En este caso, <span class="math inline">\(p^\star=-\infty\)</span>, ya que el problema no está acotado inferiormente.</p></li>
+<li><p><span class="math inline">\(f:\RR^+\to\RR: f(x)=x\log x\)</span>. El valor óptimo es <span class="math inline">\(p^\star=-e^{-1}\)</span> y ocurre en el único punto óptimo <span class="math inline">\(x^\star=e^{-1}\)</span>.</p></li>
+<li><p><span class="math inline">\(f:\RR\to\RR: f(x)=\sin x\)</span>. El valor óptimo es <span class="math inline">\(p^\star=-1\)</span> y ocurre en infinitos puntos óptimos, los cuales son de la forma <span class="math inline">\(x^\star=\pi+2k\pi\)</span>, con <span class="math inline">\(k\in\ZZ\)</span>.</p></li>
+<li><p><span class="math inline">\(f:\RR\to\RR: f(x)=x^3-3x\)</span>. Aquí <span class="math inline">\(p^\star=-\infty\)</span>, aunque exista un mínimo local en <span class="math inline">\(x=1\)</span>.</p></li>
+</ul>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>Generalmente, consideramos familias o clases de problemas de optimización, caracterizadas por formas particulares de las funciones objetivo y de las funciones de restricción. Algunos ejemplos importantes son:</p>
+<ul>
+<li><p><strong>Programa lineal</strong>: Un problema de optimización es un <em>programa lineal</em> si tanto la función objetivo <span class="math inline">\(f\)</span> como las funciones de restricción <span class="math inline">\(g_i\)</span> y <span class="math inline">\(h_j\)</span> son funciones lineales; esto es, son funciones <span class="math inline">\(\varphi:\RR^p\to\RR\)</span> que satisfacen la igualdad: <span class="math display">\[
+\varphi(\alpha\xx+\beta\yy)=\alpha\,\varphi(\xx)+\beta\,\varphi(\yy),
+\]</span> para todo <span class="math inline">\(\xx,\yy\in\RR^p\)</span> y para todo <span class="math inline">\(\alpha,\beta\in\RR\)</span>.</p></li>
+<li><p><strong>Optimización convexa</strong>: Un problema de <em>optimización convexa</em> es aquel en el que tanto la función objetivo como las funciones de restricción son funciones convexas; esto es, son funciones <span class="math inline">\(\varphi:\RR^p\to\RR\)</span> que satisfacen la desigualdad: <span class="math display">\[
+\varphi(\alpha \xx+\beta \yy)\leq \alpha\,\varphi(\xx)+\beta\,\varphi(\yy),
+\]</span> para todo <span class="math inline">\(\xx,\yy\in\RR^p\)</span> y para todo <span class="math inline">\(\alpha,\beta\in[0,1]\)</span> con <span class="math inline">\(\alpha+\beta=1\)</span>.</p></li>
+</ul>
+<p>Comparando los dos ejemplos anteriores, vemos que la convexidad es más general que la linealidad: la desigualdad reemplaza la igualdad más restrictiva, y además la desigualdad debe cumplirse solo para ciertos valores de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>. Por lo tanto, cualquier programa lineal es un problema de optimización convexa.</p>
+<p>El estudio de los problemas de optimización convexa lo realizaremos en <a href="A2_optimizacion_convexa.html">C1-S2</a>. Respecto a programación lineal, veremos un ejemplo básico en esta misma sección más adelante, y otros ejemplos de aplicación se presentarán en <a href="A3_resolucion_computacional.html">C1-S3</a> cuando exploremos un par de librerías de Python útiles para resolver problemas de optimización.</p>
+<p>Por lo pronto, veamos a continuación algunos ejemplos básicos de ejercicios de optimización, que seguramente les resultarán familiares de cursos previos.</p>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 2</span></p>
 <p><span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; x^2-4x+5\\
@@ -392,7 +431,7 @@ x^\star=-\frac{-4}{2\cdot 1}=2.
 </div>
 <p><span style="display:block; height:0.25em;"></span></p>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 2</span></p>
+<p><span class="badge bg-primary">Ejemplo 3</span></p>
 <p><span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; x^3-3x+y^2\\
@@ -419,7 +458,7 @@ H(x,y)=\begin{pmatrix}6x&amp;0\\0&amp;2\end{pmatrix}.
 </div>
 <p><span style="display:block; height:0.25em;"></span></p>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 3</span></p>
+<p><span class="badge bg-primary">Ejemplo 4</span></p>
 <p><span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; x^2+y^2\\
@@ -464,8 +503,8 @@ f(1,1)=f(-1,-1)=2.
 \begin{array}{ll}
 \text{minimizar } &amp; \|A\xx-\bb\|_2^2=\sum_{i=1}^k(\aa_i^{\top}\xx-b_i)^2,
 \end{array}
-\tag{2}
-\]</span> donde <span class="math inline">\(A\in\RR^{k\times n}\)</span> (<span class="math inline">\(k\geq n\)</span>), <span class="math inline">\(\aa_i^{\top}\)</span> son las filas de <span class="math inline">\(A\)</span> y <span class="math inline">\(\bb\in\RR^n\)</span>.</p>
+\tag{3}
+\]</span> donde <span class="math inline">\(A\in\RR^{k\times p}\)</span> (<span class="math inline">\(k\geq p\)</span>), <span class="math inline">\(\aa_i^{\top}\)</span> son las filas de <span class="math inline">\(A\)</span> y <span class="math inline">\(\bb\in\RR^k\)</span>. La variable de optimización es <span class="math inline">\(\xx\in\RR^p\)</span>.</p>
 </div>
 <details>
 <summary>
@@ -479,9 +518,9 @@ Mostrar detalles
 <li><p>Es un problema de optimización sin restricciones y su función objetivo es una suma de cuadrados de términos de la forma <span class="math inline">\(\aa_i^{\top}\xx-b_i\)</span>.</p></li>
 <li><p>Se puede reducir a resolver un conjunto de ecuaciones lineales: <span class="math display">\[
 (A^{\top}A)\xx = A^{\top}\bb.
-\]</span> En consecuencia, <mark>tiene solución analítica</mark>: <span class="math display">\[
+\]</span> En consecuencia, si <span class="math inline">\(A\)</span> es de rango completo (esto es, <span class="math inline">\(\text{rango }A=p\)</span>), el problema <mark>tiene solución analítica</mark>: <span class="math display">\[
 \xx^\star=(A^{\top}A)^{-1}A^{\top}\bb.
-\]</span></p></li>
+\]</span> En caso de que <span class="math inline">\(\text{rango }A&lt;p\)</span>, la matriz <span class="math inline">\(A^\top A\)</span> no es invertible. No obstante, el problema de mínimos cuadrados tiene solución, pero no es única. La solución de mínima norma está dada <span class="math inline">\(\xx^\star=A^+\bb\)</span>, donde <span class="math inline">\(A^+\)</span> es la <em>pseudoinversa de Moore-Penrose</em> de <span class="math inline">\(A\)</span>.</p></li>
 <li><p>Existen algoritmos para resolver el problema con alta precisión, con un tiempo aproximadamente proporcional a <span class="math inline">\(n^2k\)</span>, con constante conocida.</p></li>
 <li><p>Para aumentar su flexibilidad en las aplicaciones, se utilizan varias técnicas estándar. Por ejemplo, en los <em>mínimos cuadrados ponderados</em> se minimiza <span class="math display">\[
 \sum_{i=1}^k w_i(\aa_i^{\top}\xx-b_i)^2,
@@ -575,7 +614,7 @@ b^{\star}
 \]</span></p>
 <p><br></p>
 <p>En Python, podemos resolver problemas de mínimos cuadrados con la función <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"><code>numpy.linalg.lstsq</code></a>.</p>
-<div id="1dc2b6fb" class="cell" data-execution_count="1">
+<div id="1f4eb408" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos:</span></span>
@@ -607,7 +646,7 @@ RSS: [0.08166667]</code></pre>
 \text{sujeto a } &amp; \aa_i^{\top}\xx\leq b_i,\quad i=1,\ldots,m.
 \end{array}
 \tag{2}
-\]</span> donde <span class="math inline">\(\cc,\aa_1,\ldots,\aa_m\in\RR^n\)</span> y <span class="math inline">\(b_1,\ldots,b_m\in\RR\)</span>.</p>
+\]</span> donde <span class="math inline">\(\cc,\aa_1,\ldots,\aa_m\in\RR^p\)</span> y <span class="math inline">\(b_1,\ldots,b_m\in\RR\)</span>. La variable de optimización es <span class="math inline">\(\xx\in\RR^p\)</span>.</p>
 </div>
 <details>
 <summary>
@@ -624,13 +663,13 @@ Mostrar detalles
 \begin{array}{ll}
 \text{minimizar } &amp; \max_{i=1,\ldots,k} |\aa_{i}^{\top}\xx- b_{i}|,
 \end{array}
-\]</span> con variable <span class="math inline">\(\xx\in\RR^n\)</span>, puede ser resuelto a través del programa lineal <span class="math display">\[
+\]</span> con variable <span class="math inline">\(\xx\in\RR^p\)</span>, puede ser resuelto a través del programa lineal <span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; t\\
 \text{sujeto a } &amp; \aa_i^{\top}\xx-t\leq b_i,\quad i=1,\ldots,k\\
     &amp; -\aa_i^{\top}\xx-t\leq -b_i,\quad i=1,\ldots,k,
 \end{array}
-\]</span> con variables <span class="math inline">\(\xx\in\RR^n\)</span> y <span class="math inline">\(t\in\RR\)</span>.</p></li>
+\]</span> con variables <span class="math inline">\(\xx\in\RR^p\)</span> y <span class="math inline">\(t\in\RR\)</span>.</p></li>
 </ul>
 </div>
 </div>
@@ -657,7 +696,7 @@ Mostrar detalles
 <p>La relación geométrica en este ejemplo no es casual: en programación lineal, el óptimo (si existe) se alcanza siempre en alguno de los vértices de la región factible. Este hecho constituye la base del método del simplex y de otros algoritmos clásicos.</p>
 <p><br></p>
 <p>En Python, se pueden resolver problemas de este tipo utilizando <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linprog.html"><code>scipy.optimize.linprog</code></a>.</p>
-<div id="f9cd434e" class="cell" data-execution_count="2">
+<div id="881cae8c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> linprog</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Coeficientes de la función objetivo (negativos porque linprog minimiza):</span></span>
@@ -689,8 +728,7 @@ Ganancia máxima = 19.0</code></pre>
 </div>
 </div>
 </div>
-<p><span style="display:block; height:0.25em;"></span></p>
-<br>
+<br><br>
 <hr style="border: 1.5px solid black; margin: 1px;">
 <hr style="border: 0.5px solid black; margin: 0;">
 </section>
@@ -703,6 +741,7 @@ Ganancia máxima = 19.0</code></pre>
 <li><p>Dé ejemplos de problemas que haya resuelto en cursos anteriores que involucren maximizar o minimizar alguna cantidad. Para cada ejemplo, identifique sus elementos: función objetivo, variables de optimización, conjunto de restricciones.</p></li>
 <li><p>Muestre que efectivamente el problema de mínimos cuadrados se reduce a <span class="math inline">\((A^{\top} A)\xx=A^{\top}\bb\)</span>.</p></li>
 <li><p>Reescriba el problema de mínimos cuadrados ponderados como un problema de mínimos cuadrados estándar.</p></li>
+<li><p>Justifique cómo se reescribe el problema de aproximación de Chebyshev como un programa lineal.</p></li>
 </ol>
 <p><br></p>
 <strong>Prácticas</strong><br>
