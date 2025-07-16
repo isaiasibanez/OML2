@@ -260,19 +260,19 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#métodos-de-primer-orden" id="toc-métodos-de-primer-orden" class="nav-link active" data-scroll-target="#métodos-de-primer-orden"><span class="header-section-number">1</span> Métodos de primer orden</a>
+  <li><a href="#métodos-de-primer-orden" id="toc-métodos-de-primer-orden" class="nav-link active" data-scroll-target="#métodos-de-primer-orden">Métodos de primer orden</a>
   <ul class="collapse">
-  <li><a href="#método-de-descenso-por-gradiente" id="toc-método-de-descenso-por-gradiente" class="nav-link" data-scroll-target="#método-de-descenso-por-gradiente"><span class="header-section-number">1.1</span> Método de descenso por gradiente</a></li>
-  <li><a href="#condición-de-lipschitz-para-el-gradiente" id="toc-condición-de-lipschitz-para-el-gradiente" class="nav-link" data-scroll-target="#condición-de-lipschitz-para-el-gradiente"><span class="header-section-number">1.2</span> Condición de Lipschitz para el gradiente</a></li>
-  <li><a href="#convergencia-para-funciones-objetivos-convexas" id="toc-convergencia-para-funciones-objetivos-convexas" class="nav-link" data-scroll-target="#convergencia-para-funciones-objetivos-convexas"><span class="header-section-number">1.3</span> Convergencia para funciones objetivos convexas</a></li>
-  <li><a href="#método-de-descenso-por-gradiente-proyectado" id="toc-método-de-descenso-por-gradiente-proyectado" class="nav-link" data-scroll-target="#método-de-descenso-por-gradiente-proyectado"><span class="header-section-number">1.4</span> Método de descenso por gradiente proyectado</a></li>
-  <li><a href="#resultados-de-convergencia" id="toc-resultados-de-convergencia" class="nav-link" data-scroll-target="#resultados-de-convergencia"><span class="header-section-number">1.5</span> Resultados de convergencia</a></li>
-  <li><a href="#método-de-descenso-por-gradiente-estocástico" id="toc-método-de-descenso-por-gradiente-estocástico" class="nav-link" data-scroll-target="#método-de-descenso-por-gradiente-estocástico"><span class="header-section-number">1.6</span> Método de descenso por gradiente estocástico</a></li>
+  <li><a href="#método-de-descenso-por-gradiente" id="toc-método-de-descenso-por-gradiente" class="nav-link" data-scroll-target="#método-de-descenso-por-gradiente">Método de descenso por gradiente</a></li>
+  <li><a href="#condición-de-lipschitz-para-el-gradiente" id="toc-condición-de-lipschitz-para-el-gradiente" class="nav-link" data-scroll-target="#condición-de-lipschitz-para-el-gradiente">Condición de Lipschitz para el gradiente</a></li>
+  <li><a href="#convergencia-para-funciones-objetivos-convexas" id="toc-convergencia-para-funciones-objetivos-convexas" class="nav-link" data-scroll-target="#convergencia-para-funciones-objetivos-convexas">Convergencia para funciones objetivos convexas</a></li>
+  <li><a href="#método-de-descenso-por-gradiente-proyectado" id="toc-método-de-descenso-por-gradiente-proyectado" class="nav-link" data-scroll-target="#método-de-descenso-por-gradiente-proyectado">Método de descenso por gradiente proyectado</a></li>
+  <li><a href="#resultados-de-convergencia" id="toc-resultados-de-convergencia" class="nav-link" data-scroll-target="#resultados-de-convergencia">Resultados de convergencia</a></li>
+  <li><a href="#método-de-descenso-por-gradiente-estocástico" id="toc-método-de-descenso-por-gradiente-estocástico" class="nav-link" data-scroll-target="#método-de-descenso-por-gradiente-estocástico">Método de descenso por gradiente estocástico</a></li>
   </ul></li>
-  <li><a href="#métodos-de-segundo-orden" id="toc-métodos-de-segundo-orden" class="nav-link" data-scroll-target="#métodos-de-segundo-orden"><span class="header-section-number">2</span> Métodos de segundo orden</a>
+  <li><a href="#métodos-de-segundo-orden" id="toc-métodos-de-segundo-orden" class="nav-link" data-scroll-target="#métodos-de-segundo-orden">Métodos de segundo orden</a>
   <ul class="collapse">
-  <li><a href="#método-de-newton" id="toc-método-de-newton" class="nav-link" data-scroll-target="#método-de-newton"><span class="header-section-number">2.1</span> Método de Newton</a></li>
-  <li><a href="#variantes-y-extensiones-del-método-de-newton" id="toc-variantes-y-extensiones-del-método-de-newton" class="nav-link" data-scroll-target="#variantes-y-extensiones-del-método-de-newton"><span class="header-section-number">2.2</span> Variantes y extensiones del método de Newton</a></li>
+  <li><a href="#método-de-newton" id="toc-método-de-newton" class="nav-link" data-scroll-target="#método-de-newton">Método de Newton</a></li>
+  <li><a href="#variantes-y-extensiones-del-método-de-newton" id="toc-variantes-y-extensiones-del-método-de-newton" class="nav-link" data-scroll-target="#variantes-y-extensiones-del-método-de-newton">Variantes y extensiones del método de Newton</a></li>
   </ul></li>
   <li><a href="#actividades" id="toc-actividades" class="nav-link" data-scroll-target="#actividades">Actividades</a></li>
   </ul>
@@ -340,8 +340,8 @@ window.Quarto = {
 <p>En general, los problemas de optimización que surgen en el área de estadística y <em>machine learning</em> involucran funciones complejas, no lineales y/o de alta dimensión. Como consecuencia, obtener una solución exacta suele ser inalcanzable o innecesario. Esto último sucede, por ejemplo, cuando la solución exacta es costosa computacionalmente.</p>
 <p>Aquí es cuando entran en juego los métodos de optimización numérica: algoritmos iterativos que aproximan una solución al problema de optimización. Su objetivo es construir una secuencia de puntos <span class="math inline">\(\{\xx_t \mid t\in\mathbb{N}_0\}\)</span> que converja al punto óptimo <span class="math inline">\(\xx^*\)</span>, o lo suficientemente cerca de él.</p>
 <p>Los métodos de optimización se definen a partir de las propiedades analíticas de la función objetivo. En esta sección, presentaremos algunos de los métodos fundamentales, construidos bajo distintas suposiciones de diferenciabilidad de <span class="math inline">\(f\)</span>, ya sea utilizando información de primer orden (gradiente), o incorporando información de segundo orden (matriz Hessiana).</p>
-<section id="métodos-de-primer-orden" class="level2 page-columns page-full" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="métodos-de-primer-orden"><span class="header-section-number">1</span> Métodos de primer orden</h2>
+<section id="métodos-de-primer-orden" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="métodos-de-primer-orden">Métodos de primer orden</h2>
 <p>En principio, consideraremos el caso sin restricciones <span class="math display">\[
 \min_{\xx\in\RR^n} f(\xx).
 \]</span></p>
@@ -349,8 +349,8 @@ window.Quarto = {
 <p>Una idea fundamental para construir un algoritmo de optimización es aproximar <span class="math inline">\(f\)</span> con modelos más simples y manejables. En particular, los métodos de primer orden se basan en la aproximación de Taylor de primer orden alrededor de un punto <span class="math inline">\(\xx_t\)</span>, a saber: <span class="math display">\[
 f(\xx) \approx f(\xx_{t}) + \langle \nabla f(\xx_{t}), \xx - \xx_{t} \rangle.
 \]</span></p>
-<section id="método-de-descenso-por-gradiente" class="level3" data-number="1.1">
-<h3 data-number="1.1" class="anchored" data-anchor-id="método-de-descenso-por-gradiente"><span class="header-section-number">1.1</span> Método de descenso por gradiente</h3>
+<section id="método-de-descenso-por-gradiente" class="level3">
+<h3 class="anchored" data-anchor-id="método-de-descenso-por-gradiente">Método de descenso por gradiente</h3>
 <p>Una propiedad fundamental del vector gradiente <span class="math inline">\(\nabla f(\xx)\)</span> es que es la <em>dirección de máximo crecimiento</em> de <span class="math inline">\(f\)</span> a partir del punto <span class="math inline">\(\xx\)</span>. Por lo tanto, una idea básica para minimizar <span class="math inline">\(f\)</span> es moverse en la dirección opuesta, <span class="math inline">\(-\nabla f(\xx)\)</span>, una determinada distancia, para luego volver a calcular el vector gradiente y repetir el descenso. Esto deriva en el primer método de optimización que estudiaremos: <em>descenso por gradiente</em>.</p>
 <div class="highlight">
 <p><span class="badge bg-dark">Método de descenso por gradiente</span></p>
@@ -384,7 +384,7 @@ f(\xx) \approx f(\xx_{t}) + \langle \nabla f(\xx_{t}), \xx - \xx_{t} \rangle.
 <li><code>tol_x</code>: tolerancia para norma de diferencia entre iteraciones (opcional).</li>
 </ul>
 <p>La salida es una lista con los puntos obtenidos en las iteraciones (<code>x_iter</code>), y los valores de la función (<code>f_iter</code>).</p>
-<div id="23f22290" class="cell" data-execution_count="1">
+<div id="ae983296" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gradient_descent(f, grad_f, x_inicial, lr<span class="op">=</span><span class="fl">0.1</span>, max_iter<span class="op">=</span><span class="dv">100</span>,</span>
@@ -436,7 +436,7 @@ f(x,y)=2(x-2)^2+5(y-3)^2,
 <p>el cual sabemos que ocurre en <span class="math inline">\((2,3)\)</span> (vértice del paraboloide elíptico). Necesitamos proporcionar el gradiente de <span class="math inline">\(f\)</span>, el cual es <span class="math display">\[
 \nabla f(x,y)=\left(4(x-2), 10(y-3)\right).
 \]</span></p>
-<div id="afa08c57" class="cell" data-execution_count="2">
+<div id="7a14a491" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -468,7 +468,7 @@ Valor de f: 2.9931553533161224e-05</code></pre>
 </div>
 </div>
 <p>La secuencia de valores obtenidas es:</p>
-<div id="9ff733e3" class="cell" data-execution_count="3">
+<div id="7f6efe8c" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x_arr <span class="op">=</span> np.array(x_iter)</span>
@@ -511,7 +511,7 @@ Valor de f: 2.9931553533161224e-05</code></pre>
 </div>
 </div>
 <p>Por último, vamos a realizar la gráfica en el dominio <span class="math inline">\(\RR^2\)</span> de la función.</p>
-<div id="1488412e" class="cell" data-execution_count="4">
+<div id="c6b691d5" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grilla para graficar:</span></span>
@@ -549,8 +549,8 @@ Valor de f: 2.9931553533161224e-05</code></pre>
 </div>
 </div>
 </section>
-<section id="condición-de-lipschitz-para-el-gradiente" class="level3" data-number="1.2">
-<h3 data-number="1.2" class="anchored" data-anchor-id="condición-de-lipschitz-para-el-gradiente"><span class="header-section-number">1.2</span> Condición de Lipschitz para el gradiente</h3>
+<section id="condición-de-lipschitz-para-el-gradiente" class="level3">
+<h3 class="anchored" data-anchor-id="condición-de-lipschitz-para-el-gradiente">Condición de Lipschitz para el gradiente</h3>
 <p>Dado que el descenso por gradiente opera considerando la aproximación de primer orden de <span class="math inline">\(f\)</span>, una gran clave sea preguntarse qué tan rápido deja de ser precisa dicha aproximación. Una respuesta natural a esta pregunta viene dada por la <em>suavidad</em> de <span class="math inline">\(f\)</span>.</p>
 <p>Así, una vía estándar es imponer una cota sobre qué tan rápido puede cambiar el gradiente de la función al moverse ligeramente en cualquier dirección. Como consecuencia, al movernos en dirección de <span class="math inline">\(-\nabla f(\xx_t)\)</span> desde <span class="math inline">\(\xx_t\)</span>, los nuevos gradientes que encontraremos en el camino seguirán estando mayormente alineados con <span class="math inline">\(\nabla f(\xx_t)\)</span>, lo cual significa que <span class="math inline">\(-\nabla f(\xx_t)\)</span> seguirá siendo una buena dirección de descenso durante algún tiempo.</p>
 <p>Específicamente, requeriremos que el gradiente <span class="math inline">\(\nabla f(x)\)</span> sea <span class="math inline">\(L\)</span>-Lipschitz continuo para alguna constante <span class="math inline">\(L \geq 0\)</span>. Esta condición a menudo se llama <span class="math inline">\(L\)</span><em>-suavidad</em> en la literatura. La presentamos ahora para funciones generales con dominios convexos arbitrarios <span class="math inline">\(\Omega\)</span>; hoy solo nos importará el caso <span class="math inline">\(\Omega = \mathbb{R}^{n}\)</span>.</p>
@@ -647,8 +647,8 @@ Cuando <span class="math inline">\(\eta\leq\frac{1}{L}\)</span>, el paréntesis 
 </div>
 </details>
 </section>
-<section id="convergencia-para-funciones-objetivos-convexas" class="level3" data-number="1.3">
-<h3 data-number="1.3" class="anchored" data-anchor-id="convergencia-para-funciones-objetivos-convexas"><span class="header-section-number">1.3</span> Convergencia para funciones objetivos convexas</h3>
+<section id="convergencia-para-funciones-objetivos-convexas" class="level3">
+<h3 class="anchored" data-anchor-id="convergencia-para-funciones-objetivos-convexas">Convergencia para funciones objetivos convexas</h3>
 <p>El Teorema 2 solo garantiza una tasa de convergencia para la <em>norma del gradiente</em> de la función objetivo, pero no dice nada acerca de la brecha <span class="math inline">\(f(\xx_t)-f^\star\)</span>. En otras palabras, aunque el gradiente pequeño es una necesidad para pensar en optimalidad, no es suficiente para asegurar que el valor de la función esté efectivamente cerca del óptimo.</p>
 <p>Sin embargo, para funciones objetivo convexas, sí se puede establecer una razón de convergencia. Para ello, primero necesitamos enunciar el siguiente resultado.</p>
 <div class="teorema">
@@ -698,8 +698,8 @@ T(f(\xx_T)-f(\xx^{\star}))\leq \frac{1}{2\eta}\|\xx^{\star}-\xx_0\|_2^2.
 </div>
 </details>
 </section>
-<section id="método-de-descenso-por-gradiente-proyectado" class="level3 page-columns page-full" data-number="1.4">
-<h3 data-number="1.4" class="anchored" data-anchor-id="método-de-descenso-por-gradiente-proyectado"><span class="header-section-number">1.4</span> Método de descenso por gradiente proyectado</h3>
+<section id="método-de-descenso-por-gradiente-proyectado" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="método-de-descenso-por-gradiente-proyectado">Método de descenso por gradiente proyectado</h3>
 <p>Vamos a ver ahora como adaptar el método de descenso por gradiente a problemas de optimización con restricciones de la forma</p>
 <p><span class="math display">\[
 \min_{\xx \in \Omega} f(\xx).
@@ -733,7 +733,7 @@ Cuando <span class="math inline">\(\Omega\)</span> es cerrado y convexo, la proy
 <ul>
 <li><code>proy</code>: función de proyección sobre el conjunto factible.</li>
 </ul>
-<div id="e6f09697" class="cell" data-execution_count="5">
+<div id="07dce56c" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> projected_gradient_descent(f, grad_f, x_inicial, proy,</span>
@@ -788,7 +788,7 @@ f(x,y)=2(x-2)^2+5(y-3)^2,
 \Pi_{[0,1]\times[0,1]}(x,y):=\left(\min(\max(x,0),1),\min(\max(y,0),1)\right).
 \]</span></p>
 <p>Esto se calcula rápidamente con la función <code>np.clip</code> de NumPy.</p>
-<div id="58340fe3" class="cell" data-execution_count="6">
+<div id="717a60f1" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -824,7 +824,7 @@ Valor de f: 22.0</code></pre>
 </div>
 </div>
 <p>La secuencia de valores obtenidas es:</p>
-<div id="24cdaca2" class="cell" data-execution_count="7">
+<div id="ad5530c2" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>x_arr <span class="op">=</span> np.array(x_iter)</span>
@@ -857,7 +857,7 @@ Valor de f: 22.0</code></pre>
 </div>
 </div>
 <p>Por último, vamos a realizar la gráfica en el dominio <span class="math inline">\(\RR^2\)</span> de la función.</p>
-<div id="f35fc13f" class="cell" data-execution_count="8">
+<div id="e63499c5" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grilla para graficar:</span></span>
@@ -891,7 +891,7 @@ Valor de f: 22.0</code></pre>
 <div class="cell-output cell-output-stderr">
 <pre><code>&lt;&gt;:19: SyntaxWarning: invalid escape sequence '\O'
 &lt;&gt;:19: SyntaxWarning: invalid escape sequence '\O'
-C:\Users\isaia\AppData\Local\Temp\ipykernel_18896\151874914.py:19: SyntaxWarning: invalid escape sequence '\O'
+C:\Users\isaia\AppData\Local\Temp\ipykernel_23860\151874914.py:19: SyntaxWarning: invalid escape sequence '\O'
   plt.plot(caja_x, caja_y, color='blue', linewidth=2, linestyle='-', label='$\Omega = [0,1]^2$')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -904,8 +904,8 @@ C:\Users\isaia\AppData\Local\Temp\ipykernel_18896\151874914.py:19: SyntaxWarning
 </div>
 </div>
 </section>
-<section id="resultados-de-convergencia" class="level3" data-number="1.5">
-<h3 data-number="1.5" class="anchored" data-anchor-id="resultados-de-convergencia"><span class="header-section-number">1.5</span> Resultados de convergencia</h3>
+<section id="resultados-de-convergencia" class="level3">
+<h3 class="anchored" data-anchor-id="resultados-de-convergencia">Resultados de convergencia</h3>
 <p>Bajo condiciones similares a las del método sin restricciones, el método proyectado también garantiza convergencia del valor de la función objetivo.</p>
 <div class="teorema">
 <p><strong>Teorema 5.</strong> (Lema del descenso por gradiente proyectado) Sea <span class="math inline">\(f:\RR^n\to\RR\)</span> una función <span class="math inline">\(L\)</span>-suave. Entonces, para cualquier <span class="math inline">\(0 &lt; \eta \leq \frac{1}{L}\)</span>, cada paso del método de descenso por gradiente proyectado garantiza</p>
@@ -952,8 +952,8 @@ f(\xx_t) - f(\xx^\star) \leq \frac{\|\xx_0 - \xx^\star\|_2^2}{2\eta t}, \qquad \
 \]</span></p>
 </div>
 </section>
-<section id="método-de-descenso-por-gradiente-estocástico" class="level3" data-number="1.6">
-<h3 data-number="1.6" class="anchored" data-anchor-id="método-de-descenso-por-gradiente-estocástico"><span class="header-section-number">1.6</span> Método de descenso por gradiente estocástico</h3>
+<section id="método-de-descenso-por-gradiente-estocástico" class="level3">
+<h3 class="anchored" data-anchor-id="método-de-descenso-por-gradiente-estocástico">Método de descenso por gradiente estocástico</h3>
 <p>Presentaremos una variante del descenso por gradiente que resulta particularmente útil cuando la función objetivo se expresa como una suma de muchas funciones, es decir,</p>
 <p><span class="math display">\[
 f(\xx) = \frac{1}{N} \sum_{i=1}^{N} f_i(\xx).
@@ -987,11 +987,11 @@ f(\xx) = \frac{1}{N} \sum_{i=1}^{N} f_i(\xx).
 </div>
 </section>
 </section>
-<section id="métodos-de-segundo-orden" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="métodos-de-segundo-orden"><span class="header-section-number">2</span> Métodos de segundo orden</h2>
+<section id="métodos-de-segundo-orden" class="level2">
+<h2 class="anchored" data-anchor-id="métodos-de-segundo-orden">Métodos de segundo orden</h2>
 <p>Vamos a iniciar el estudio de los métodos de <em>segundo orden</em>, que además del gradiente utilizan también la <em>Hessiana</em> (la segunda derivada) de la función objetivo.</p>
-<section id="método-de-newton" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="método-de-newton"><span class="header-section-number">2.1</span> Método de Newton</h3>
+<section id="método-de-newton" class="level3">
+<h3 class="anchored" data-anchor-id="método-de-newton">Método de Newton</h3>
 <p>Para el caso sin restricciones,</p>
 <p><span class="math display">\[
 \min_{x\in\RR^n} f(x),
@@ -1028,7 +1028,7 @@ f(\xx) = \frac{1}{N} \sum_{i=1}^{N} f_i(\xx).
 <ul>
 <li><code>hess_f</code>: función Hessiana de <span class="math inline">\(f\)</span>.</li>
 </ul>
-<div id="47e9e237" class="cell" data-execution_count="9">
+<div id="7b16600e" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> newton_method(f, grad_f, hess_f, x_inicial, lr<span class="op">=</span><span class="fl">0.1</span>,         </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                  max_iter<span class="op">=</span><span class="dv">100</span>, tol_grad<span class="op">=</span><span class="va">None</span>, tol_x<span class="op">=</span><span class="va">None</span>, verbose<span class="op">=</span><span class="va">True</span>):</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -1085,7 +1085,7 @@ f(x,y)=2(x-2)^2+5(y-3)^2,
 <p><span class="math display">\[
 \nabla^2 f(x,y) = \begin{pmatrix} 4&amp;0\\0&amp;10 \end{pmatrix}.
 \]</span></p>
-<div id="5abc8bb5" class="cell" data-execution_count="10">
+<div id="90e244ed" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1119,7 +1119,7 @@ Valor de f: 0.0018577913111879544</code></pre>
 </div>
 </div>
 <p>La secuencia de valores obtenidas es:</p>
-<div id="ad6ebc6d" class="cell" data-execution_count="11">
+<div id="e8d9d448" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x_arr <span class="op">=</span> np.array(x_iter)</span>
@@ -1146,7 +1146,7 @@ Valor de f: 0.0018577913111879544</code></pre>
 </div>
 </div>
 <p>Por último, vamos a realizar la gráfica en el dominio <span class="math inline">\(\RR^2\)</span> de la función.</p>
-<div id="d9a743c7" class="cell" data-execution_count="12">
+<div id="9e9c5c77" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grilla para graficar:</span></span>
@@ -1183,7 +1183,7 @@ Valor de f: 0.0018577913111879544</code></pre>
 </div>
 </div>
 <p>Observar que los puntos iterados son colineales. Esto ocurre en problemas cuadráticos, debido a que la matriz Hessiana es constante. Veamos qué pasa si aplicamos el método de Newton clásico (<span class="math inline">\(eta=1\)</span>).</p>
-<div id="c37ad02a" class="cell" data-execution_count="13">
+<div id="736b73c1" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1217,7 +1217,7 @@ Iteración final: 1
 Valor de f: 0.0</code></pre>
 </div>
 </div>
-<div id="18a304c8" class="cell" data-execution_count="14">
+<div id="d4d2ff92" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>x_arr <span class="op">=</span> np.array(x_iter)</span>
@@ -1233,12 +1233,12 @@ Valor de f: 0.0</code></pre>
 </div>
 </div>
 </div>
-<section id="garantías-de-convergencia-local" class="level4" data-number="2.1.1">
-<h4 data-number="2.1.1" class="anchored" data-anchor-id="garantías-de-convergencia-local"><span class="header-section-number">2.1.1</span> Garantías de convergencia local</h4>
+<section id="garantías-de-convergencia-local" class="level4">
+<h4 class="anchored" data-anchor-id="garantías-de-convergencia-local">Garantías de convergencia local</h4>
 </section>
 </section>
-<section id="variantes-y-extensiones-del-método-de-newton" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="variantes-y-extensiones-del-método-de-newton"><span class="header-section-number">2.2</span> Variantes y extensiones del método de Newton</h3>
+<section id="variantes-y-extensiones-del-método-de-newton" class="level3">
+<h3 class="anchored" data-anchor-id="variantes-y-extensiones-del-método-de-newton">Variantes y extensiones del método de Newton</h3>
 <p>Además del método de Newton clásico, existen otras variantes y extensiones importantes que vale la pena mencionar:</p>
 <ul>
 <li><p><strong>Métodos Quasi-Newton</strong>, como BFGS o L-BFGS, evitan calcular e invertir la matriz Hessiana directamente. En su lugar, construyen una aproximación a la Hessiana (o su inversa) utilizando información de los gradientes computados en iteraciones previas. Estos métodos ofrecen un equilibrio entre eficiencia computacional y velocidad de convergencia, especialmente en problemas de gran dimensión.</p></li>
