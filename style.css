@@ -186,9 +186,28 @@ figure {
 }
 
 
-img {
-  max-width: 400px;  /* O el tamaño que quieras */
-  height: auto;
-  display: block;
-  margin: 0 auto;    /* Para centrar */
+
+.callout.question {
+  border-left: 2px solid #f97316 !important;
+  background-color: #f5f5f5 !important; /* Gris apenas más oscuro */
+  color: #000000 !important;
+  padding-left: 0.4em;
+  
+  font-size: 0.9em;
+  max-width: 85%;
+  
+  margin-left: auto;
+  margin-right: auto;
+  
+  padding-top: 0em;
+  padding-bottom: 0em;
+
+  border-radius: 0 !important;  /* Quitar esquinas redondeadas */
 }
+
+
+
+
+
+
+
