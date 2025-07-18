@@ -208,6 +208,13 @@ figure {
 
 
 
+/* Color específico para la pestaña "Tarea" cuando está activa */
+.nav-tabs .nav-link.tab-tarea.active {
+  background-color: #d35400 !important; /* naranja oscuro */
+  color: white !important;
+}
 
-
-
+/* Color específico para la pestaña "Tarea" cuando NO está activa */
+.nav-tabs .nav-link.tab-tarea {
+  color: #d35400 !important;
+}
