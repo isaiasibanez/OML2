@@ -345,9 +345,9 @@ window.Quarto = {
 
 </div>
 <p>El <em>valor óptimo</em> del problema es <span class="math display">\[
-p^\star:=\inf\{f(\xx) \mid \xx\in\text{dom }f\;\land\;\xx\in\Omega\}.
+p^\star:=\inf\{f(\xx) \mid \xx\in\text{dom}\,f\;\land\;\xx\in\Omega\}.
 \]</span></p>
-<p>Si <span class="math inline">\(\text{dom }f\cap\Omega=\emptyset\)</span> (es decir, no hay <span class="math inline">\(\xx\in\RR^p\)</span> <em>factible</em>), se dice que el problema es <em>infactible</em> y se asume <span class="math inline">\(p^\star=\infty\)</span>. Por su parte, si el conjunto <span class="math inline">\(\{f(\xx) \mid \xx\in\text{dom }f\;\land\;\xx\in\Omega\}\)</span> no tiene cota inferior, se considera <span class="math inline">\(p^\star=-\infty\)</span>.</p>
+<p>Si <span class="math inline">\(\text{dom}\,f\cap\Omega=\emptyset\)</span> (es decir, no hay <span class="math inline">\(\xx\in\RR^p\)</span> <em>factible</em>), se dice que el problema es <em>infactible</em> y se asume <span class="math inline">\(p^\star=\infty\)</span>. Por su parte, si el conjunto <span class="math inline">\(\{f(\xx) \mid \xx\in\text{dom}\,f\;\land\;\xx\in\Omega\}\)</span> no tiene cota inferior, se considera <span class="math inline">\(p^\star=-\infty\)</span>.</p>
 <p>En el caso que <span class="math inline">\(p^\star\)</span> existe y es finito, un vector <span class="math inline">\(\xx^\star\in\Omega\)</span> se denomina <em>punto óptimo</em> si <span class="math inline">\(f(\xx^\star)=p^\star\)</span>.</p>
 </div>
 <p><span style="display:block; height:0.25em;"></span></p>
@@ -364,13 +364,13 @@ p^\star:=\inf\{f(\xx) \mid \xx\in\text{dom }f\;\land\;\xx\in\Omega\}.
 <div class="alert alert-light text-dark" role="important">
 <p><span class="badge bg-warning text-dark">Importante</span></p>
 <p>Un problema de optimización cuyo conjunto factible es de la forma (3) tiene una <em>restricción implícita</em>, a saber: <span class="math display">\[
-\xx\in\mathcal{D}:=\text{dom }f\cap\bigcap_{i=1}^r\text{dom }g_i\cap\bigcap_{j=1}^m\text{dom }h_j.
+\xx\in\mathcal{D}:=\text{dom}\,f\cap\bigcap_{i=1}^r\text{dom}\,g_i\cap\bigcap_{j=1}^m\text{dom}\,h_j.
 \]</span></p>
 <p>Algunas observaciones importantes son:</p>
 <ul>
 <li><p><span class="math inline">\(\mathcal{D}\)</span> es el <em>dominio</em> del problema.</p></li>
 <li><p>Las restricciones funcionales <span class="math inline">\(g_i(\xx)\leq 0\)</span> y <span class="math inline">\(h_i(\xx)=0\)</span> son <em>restricciones explícitas</em>.</p></li>
-<li><p>Un problema es <em>sin restricciones</em> si no tiene restricciones explícitas. Es decir, su dominio es <span class="math inline">\(\mathcal{D}:=\text{dom }f\)</span>.</p></li>
+<li><p>Un problema es <em>sin restricciones</em> si no tiene restricciones explícitas. Es decir, su dominio es <span class="math inline">\(\mathcal{D}:=\text{dom}\,f\)</span>.</p></li>
 </ul>
 </div>
 <p>Las preguntas que surgen de un problema de optimización son:</p>
@@ -532,16 +532,16 @@ f(1,1)=f(-1,-1)=2.
 Mostrar detalles
 </summary>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page"><span style="font-size: 1.25em;">➀</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false"><span style="font-size: 1.25em;">➁</span></a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page"><span style="font-size: 1.25em;">①</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false"><span style="font-size: 1.25em;">②</span></a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <ul>
 <li><p>Es un problema de optimización sin restricciones y su función objetivo es una suma de cuadrados de términos de la forma <span class="math inline">\(\aa_i^{\top}\xx-b_i\)</span>.</p></li>
 <li><p>Se puede reducir a resolver un conjunto de ecuaciones lineales: <span class="math display">\[
 (A^{\top}A)\xx = A^{\top}\bb.
-\]</span> En consecuencia, si <span class="math inline">\(A\)</span> es de rango completo (esto es, <span class="math inline">\(\text{rango }A=p\)</span>), el problema <mark>tiene solución analítica</mark>: <span class="math display">\[
+\]</span> En consecuencia, si <span class="math inline">\(A\)</span> es de rango completo (esto es, <span class="math inline">\(\text{rango}\,A=p\)</span>), el problema <mark>tiene solución analítica</mark>: <span class="math display">\[
 \xx^\star=(A^{\top}A)^{-1}A^{\top}\bb.
-\]</span> En caso de que <span class="math inline">\(\text{rango }A&lt;p\)</span>, la matriz <span class="math inline">\(A^\top A\)</span> no es invertible. No obstante, el problema de mínimos cuadrados tiene solución, pero no es única. La solución de mínima norma está dada <span class="math inline">\(\xx^\star=A^+\bb\)</span>, donde <span class="math inline">\(A^+\)</span> es la <em>pseudoinversa de Moore-Penrose</em> de <span class="math inline">\(A\)</span>.</p></li>
+\]</span> En caso de que <span class="math inline">\(\text{rango}\,A&lt;p\)</span>, la matriz <span class="math inline">\(A^\top A\)</span> no es invertible. No obstante, el problema de mínimos cuadrados tiene solución, pero no es única. La solución de mínima norma está dada <span class="math inline">\(\xx^\star=A^+\bb\)</span>, donde <span class="math inline">\(A^+\)</span> es la <em>pseudoinversa de Moore-Penrose</em> de <span class="math inline">\(A\)</span>.</p></li>
 </ul>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
@@ -641,7 +641,7 @@ b^{\star}
 \]</span></p>
 <p><br></p>
 <p>En Python, podemos resolver problemas de mínimos cuadrados con la función <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"><code>numpy.linalg.lstsq</code></a>.</p>
-<div id="712d5ed7" class="cell" data-execution_count="1">
+<div id="57d386e8" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos:</span></span>
@@ -701,7 +701,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiIyBW
 Mostrar detalles
 </summary>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true"><span style="font-size: 1.25em;">➀</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false"><span style="font-size: 1.25em;">➁</span></a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true"><span style="font-size: 1.25em;">①</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false"><span style="font-size: 1.25em;">②</span></a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <ul>
@@ -748,7 +748,7 @@ Mostrar detalles
 <p>La relación geométrica en este ejemplo no es casual: en programación lineal, el óptimo (si existe) se alcanza siempre en alguno de los vértices de la región factible. Este hecho constituye la base del método del simplex y de otros algoritmos clásicos.</p>
 <p><br></p>
 <p>En Python, se pueden resolver problemas de este tipo utilizando <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linprog.html"><code>scipy.optimize.linprog</code></a>.</p>
-<div id="6de9d7de" class="cell" data-execution_count="2">
+<div id="9a03fae4" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> linprog</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Coeficientes de la función objetivo (negativos porque linprog minimiza):</span></span>
