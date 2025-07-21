@@ -358,14 +358,13 @@ window.Quarto = {
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 1</span> Resolveremos el problema de optimización convexa:</p>
 <p><span class="math display">\[
-\min_{(x,y)}\, (x-y)^2
-\]</span> <span class="math display">\[
-\text{s.t.}\; \xx\in\Omega=\left\{\xx\in\RR^2\left|\begin{array}{rl}
-\, y-x+1\leq 0\\
-\, x+y-1=0
-\end{array}\right.\right\}.
+\begin{array}{ll}
+\text{minimizar } &amp; (x-y)^2\\
+\text{sujeto a }  &amp; y-x+1\leq 0\\
+                  &amp; x+y-1=0
+\end{array}
 \]</span></p>
-<div id="44781ac8" class="cell" data-execution_count="1">
+<div id="83d5f579" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cvxpy <span class="im">as</span> cp</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Creamos dos variables:</span></span>
@@ -394,7 +393,7 @@ Punto óptimo 1.0 1.570086213240983e-22</code></pre>
 </div>
 </div>
 <p>A continuación, vamos a representar geométricamente este problema: del lado izquierdo, el grafo en <span class="math inline">\(\RR^3\)</span> de la función objetivo; del lado derecho, el conjunto factible como intersección de las restricciones dadas.</p>
-<div id="8b56da33" class="cell" data-execution_count="2">
+<div id="8ed00b01" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Patch</span>
@@ -461,13 +460,13 @@ Punto óptimo 1.0 1.570086213240983e-22</code></pre>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 2</span> Resolveremos el problema de optimización convexa:</p>
 <p><span class="math display">\[
-\min_{\xx}\, \|A\xx-\bb\|_2^2
-\]</span> <span class="math display">\[
-\text{s.t.}\; \xx\in\Omega=\left\{\xx\in\RR^n\left|\begin{array}{rl}
-\, 0\leq x_i\leq 1,\quad i=1,\cdots,n\end{array}\right.\right\},
+\begin{array}{ll}
+\text{minimizar } &amp; \|A\xx-\bb\|_2^2\\
+\text{sujeto a }  &amp; 0\leq x_i\leq 1,\quad i=1,\cdots,n
+\end{array}
 \]</span></p>
 <p>con <span class="math inline">\(A\in\RR^{n\times m}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span> aleatorios, para <span class="math inline">\(n,m\in\mathbb{N}\)</span> fijos.</p>
-<div id="9f7e0907" class="cell" data-execution_count="3">
+<div id="aa18a891" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cvxpy <span class="im">as</span> cp</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -520,16 +519,15 @@ f(x,y)=(a-x)^2+b(y-x^2)^2,
 \]</span></p>
 <p>con <span class="math inline">\(a,b\in\RR\)</span>. En este ejemplo, consideraremos <span class="math inline">\(a=1\)</span> y <span class="math inline">\(b=100\)</span> y resolveremos el problema de optimización convexa:</p>
 <p><span class="math display">\[
-\min_{\xx}\, (1-x)^2+100(y-x^2)^2
-\]</span> <span class="math display">\[
-\text{s.t.}\; \xx\in\Omega=\left\{\xx\in\RR^n\left|\begin{array}{rl}
-\, x+2y\leq 1\\
-\, x^2+y\leq 1\\
-\, x^2-y\leq 1\\
-\, 2x+y=1\\
-\, 0\leq x\leq 1\\
-\, -0.5\leq y\leq 2
-\end{array}\right.\right\}.
+\begin{array}{ll}
+\text{minimizar } &amp; (1-x)^2+100(y-x^2)^2\\
+\text{sujeto a }  &amp; x+2y\leq 1\\
+                  &amp;  x^2+y\leq 1\\
+                  &amp; x^2-y\leq 1\\
+                  &amp; 2x+y=1\\
+                  &amp; 0\leq x\leq 1\\
+                  &amp;-0.5\leq y\leq 2
+\end{array}
 \]</span></p>
 <p>Las restricciones se pueden separar en:</p>
 <ul>
@@ -566,7 +564,7 @@ x+y^2 \\
 \end{pmatrix}
 \]</span></p></li>
 </ul>
-<div id="23c1a4f6" class="cell" data-execution_count="4">
+<div id="e7a1c7b7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> Bounds</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> LinearConstraint</span>
@@ -600,7 +598,7 @@ x+y^2 \\
 <span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Punto óptimo:"</span>, res.x)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>`gtol` termination condition is satisfied.
-Number of iterations: 12, function evaluations: 24, CG iterations: 7, optimality: 4.48e-09, constraint violation: 0.00e+00, execution time: 0.013 s.
+Number of iterations: 12, function evaluations: 24, CG iterations: 7, optimality: 4.48e-09, constraint violation: 0.00e+00, execution time: 0.015 s.
 Éxito en optimización: True
 Valor objetivo óptimo: 0.3427175756443014
 Punto óptimo: [0.41494531 0.17010937]</code></pre>
@@ -618,20 +616,22 @@ Punto óptimo: [0.41494531 0.17010937]</code></pre>
 <div class="alert alert-light text-dark" role="alert">
 <p><span class="badge bg-dark">Forma básica</span></p>
 <p><span class="math display">\[
-\min_{\xx}\,\cc^\top\xx+d
-\]</span> <span class="math display">\[
-\text{s.t.}\; \xx\in\Omega=\left\{\xx\in\RR^n\left|\begin{array}{rl}
+\begin{array}{ll}
+\text{minimizar } &amp; \cc^\top\xx+d\\
+\text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\begin{array}{rl}
 G\xx\preceq \hh\\
 A\xx=\bb
 \end{array}\right.\right\},
-\]</span> donde <span class="math inline">\(\cc\in\RR^n\)</span>, <span class="math inline">\(G\in\RR^{r\times n}\)</span>, <span class="math inline">\(\hh\in\RR^r\)</span>, <span class="math inline">\(A\in\RR^{m\times n}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span>.</p>
+\end{array}
+\]</span></p>
+<p>donde <span class="math inline">\(\cc\in\RR^n\)</span>, <span class="math inline">\(G\in\RR^{r\times n}\)</span>, <span class="math inline">\(\hh\in\RR^r\)</span>, <span class="math inline">\(A\in\RR^{m\times n}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span>.</p>
 </div>
 <details>
 <summary>
 Mostrar detalles
 </summary>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Intepretación geométrica</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Observaciones</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page"><span style="font-size: 1.25em;">①</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false"><span style="font-size: 1.25em;">②</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false"><span style="font-size: 1.25em;">③</span></a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>El conjunto factible de un LP es un poliedro <span class="math inline">\(\mathcal{P}\)</span>. Los conjuntos de nivel de la función objetivo son hiperplanos ortogonales a la dirección <span class="math inline">\(\cc\)</span>. En consecuencia, el punto óptimo <span class="math inline">\(x^{\star}\)</span> es aquel punto de <span class="math inline">\(\mathcal{P}\)</span> lo más alejado posible en la dirección de <span class="math inline">\(-\cc\)</span>.</p>
@@ -644,17 +644,18 @@ Interpretación geométrica de un LP.
 <p><span style="display:block; height:0.25em;"></span></p>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<ul>
-<li>Los programas lineales son, por supuesto, problemas de optimización convexa. Observar que, si <span class="math inline">\(\bfg_i\)</span> es la <span class="math inline">\(i\)</span>-ésima fila de <span class="math inline">\(G\)</span>, escribir <span class="math inline">\(G\xx\preceq \hh\)</span> es equivalente a escribir <span class="math display">\[g_i(\xx)=\bfg_i\xx-h_i\leq 0,\quad i=1,\cdots,r.\]</span></li>
-</ul>
+<p>Los programas lineales son, por supuesto, problemas de optimización convexa. Observar que, si <span class="math inline">\(\bfg_i\)</span> es la <span class="math inline">\(i\)</span>-ésima fila de <span class="math inline">\(G\)</span>, escribir <span class="math inline">\(G\xx\preceq \hh\)</span> es equivalente a escribir <span class="math display">\[g_i(\xx)=\bfg_i\xx-h_i\leq 0,\quad i=1,\cdots,r.\]</span></p>
 <p>Lo mismo ocurre con las restricciones de igualdad.</p>
-<ul>
-<li>Dos casos especiales de LP son tan comunes que se les ha dado nombres específicos. En un LP <em>en forma estándar</em>, las desigualdades son restricciones de no negatividad sobre las componentes de <span class="math inline">\(\xx\)</span>; es decir, <span class="math inline">\(\xx\succeq 0\)</span>. Por otra parte, si un LP no tiene restricciones de igualdad, se dice que está <em>en forma de desigualdad</em>.</li>
-</ul>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>Dos casos especiales de LP son tan comunes que se les ha dado nombres específicos. En un LP <em>en forma estándar</em>, las desigualdades son restricciones de no negatividad sobre las componentes de <span class="math inline">\(\xx\)</span>; es decir, <span class="math inline">\(\xx\succeq 0\)</span>. Por otra parte, si un LP no tiene restricciones de igualdad, se dice que está <em>en forma de desigualdad</em>.</p>
 </div>
 </div>
 </div>
 </details>
+<div style="margin-top:2em;">
+
+</div>
 <p><span style="color:red">En lo que sigue dejo PROBLEMAS TÍPICOS de LP provistos en Boyd. Lo que está escrito es la formulación general. La idea es proponer algun/os caso/s con números para que los estudiantes resuelvan con las librerías.</span></p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -666,13 +667,13 @@ La dieta
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Una dieta saludable contiene <span class="math inline">\(m\)</span> nutrientes diferentes en cantidades al menos iguales a <span class="math inline">\(b_1, \ldots, b_m\)</span>. Podemos componer tal dieta eligiendo cantidades no negativas <span class="math inline">\(x_1, \ldots, x_n\)</span> de <span class="math inline">\(n\)</span> alimentos diferentes. Una unidad de cantidad del alimento <span class="math inline">\(j\)</span> contiene una cantidad <span class="math inline">\(a_{ij}\)</span> del nutriente <span class="math inline">\(i\)</span> y tiene un costo de <span class="math inline">\(c_j\)</span>. Queremos determinar la dieta más barata que satisfaga los requisitos nutricionales. Esto conduce al siguiente LP: <span class="math display">\[
-\min_{\xx}\,\cc^\top\xx
-\]</span> <span class="math display">\[
-\text{s.t.}\; \xx\in\Omega=\left\{\xx\in\RR^n\left|\begin{array}{rl}
-A\xx\succeq \bb\\
-\xx\succeq \mathbf{0}
-\end{array}\right.\right\}.
+<p>Una dieta saludable contiene <span class="math inline">\(m\)</span> nutrientes diferentes en cantidades al menos iguales a <span class="math inline">\(b_1, \ldots, b_m\)</span>. Podemos componer tal dieta eligiendo cantidades no negativas <span class="math inline">\(x_1, \ldots, x_n\)</span> de <span class="math inline">\(n\)</span> alimentos diferentes. Una unidad de cantidad del alimento <span class="math inline">\(j\)</span> contiene una cantidad <span class="math inline">\(a_{ij}\)</span> del nutriente <span class="math inline">\(i\)</span> y tiene un costo de <span class="math inline">\(c_j\)</span>. Queremos determinar la dieta más barata que satisfaga los requisitos nutricionales. Esto conduce al siguiente LP:</p>
+<p><span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \cc^\top\xx\\
+\text{sujeto a }  &amp; A\xx\succeq \bb\\
+                  &amp; \xx\succeq \mathbf{0}
+\end{array}
 \]</span></p>
 <p>Varias variaciones de este problema también se pueden formular como LPs. Por ejemplo, podemos insistir en una cantidad exacta de un nutriente en la dieta (lo que da una restricción de igualdad lineal), o podemos imponer un límite superior en la cantidad de un nutriente, además del límite inferior como se indicó anteriormente.</p>
 <p><br></p>
@@ -709,12 +710,12 @@ El centro de Chebyshev
 \]</span></p>
 <p>En consecuencia, el requisito de que <span class="math inline">\(\mathcal{B}(\xx,r)\)</span> pertenezca a cada subespacio <span class="math inline">\(\aa_i^\top \xx\leq b_i\)</span> puede escribirse como <span class="math display">\[
 \aa_i^\top(\xx+\uu)=\aa_i^\top\xx+r\|\aa_i\|_2\leq b_i,
-\]</span> lo cual es una desigualdad lineal. En conclusión, hallar el centro de Chebyshev es el siguiente LP en forma de desigualdad: <span class="math display">\[
-\max_{\xx}\,r
-\]</span> <span class="math display">\[
-\text{s.t.}\; \xx\in\Omega=\left\{\xx\in\RR^n\left|\begin{array}{rl}
-\aa_i^\top\xx+r\|\aa_i\|_2\leq b_i,\quad i=1,\cdots, m
-\end{array}\right.\right\}.
+\]</span> lo cual es una desigualdad lineal. En conclusión, hallar el centro de Chebyshev es el siguiente LP en forma de desigualdad:</p>
+<p><span class="math display">\[
+\begin{array}{ll}
+\text{maximizar } &amp; r\\
+\text{sujeto a }  &amp; \aa_i^\top\xx+r\|\aa_i\|_2\leq b_i,\quad i=1,\cdots, m
+\end{array}
 \]</span></p>
 <p><br></p>
 <p><strong>Ejemplo:</strong> <span style="color:red">PROPONER</span></p>
@@ -735,20 +736,22 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiIyBS
 <div class="alert alert-light text-dark" role="alert">
 <p><span class="badge bg-dark">Forma básica</span></p>
 <p><span class="math display">\[
-\min_{\xx}\,\frac{1}{2}\xx^\top P \xx+\qq^\top\xx+r
-\]</span> <span class="math display">\[
-\text{s.t.}\; \xx\in\Omega=\left\{\xx\in\RR^n\left|\begin{array}{rl}
+\begin{array}{ll}
+\text{minimizar } &amp; \frac{1}{2}\xx^\top P \xx+\qq^\top\xx+r\\
+\text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\begin{array}{rl}
 G\xx\preceq \hh\\
 A\xx=\bb
 \end{array}\right.\right\},
-\]</span> donde <span class="math inline">\(P\in\mathbf{S}_{+}^n\)</span>, <span class="math inline">\(\qq\in\RR^n\)</span>, <span class="math inline">\(r\in\RR\)</span>, <span class="math inline">\(G\in\RR^{r\times n}\)</span>, <span class="math inline">\(\hh\in\RR^r\)</span>, <span class="math inline">\(A\in\RR^{m\times n}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span>.</p>
+\end{array}
+\]</span></p>
+<p>donde <span class="math inline">\(P\in\mathbf{S}_{+}^n\)</span>, <span class="math inline">\(\qq\in\RR^n\)</span>, <span class="math inline">\(r\in\RR\)</span>, <span class="math inline">\(G\in\RR^{r\times n}\)</span>, <span class="math inline">\(\hh\in\RR^r\)</span>, <span class="math inline">\(A\in\RR^{m\times n}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span>.</p>
 </div>
 <details>
 <summary>
 Mostrar detalles
 </summary>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Intepretación geométrica</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Observaciones</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true"><span style="font-size: 1.25em;">①</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false"><span style="font-size: 1.25em;">②</span></a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <p>El conjunto factible de un QP es un poliedro <span class="math inline">\(\mathcal{P}\)</span>. La figura muestra el punto óptimo <span class="math inline">\(x^{\star}\)</span> y el vector gradiente <span class="math inline">\(-\nabla f(\xx^{\star}\)</span>, perpendicular tanto al conjunto de nivel (propiedad del vector gradiente) como a uno de las caras del poliedro.</p>
@@ -784,12 +787,11 @@ Distancia entre poliedros
 \]</span></p>
 <p>Si los poliedros se intersecan, la distancia es cero.</p>
 <p>Para encontrar la distancia entre <span class="math inline">\(\mathcal{P}_1\)</span> y <span class="math inline">\(\mathcal{P}_2\)</span>, podemos resolver el QP con variables <span class="math inline">\(\xx_1\)</span> y <span class="math inline">\(\xx_2\)</span> definido como <span class="math display">\[
-\min_{\xx_1, \xx_2}\,\|\xx_1-\xx_2\|_2^2
-\]</span> <span class="math display">\[
-\text{s.t.}\; \xx\in\Omega=\left\{\xx\in\RR^n\left|\begin{array}{rl}
-A_1\xx_1\preceq \bb_1\\
-A_2\xx_2\preceq \bb_2
-\end{array}\right.\right\},
+\begin{array}{ll}
+\text{minimizar } &amp; \|\xx_1-\xx_2\|_2^2\\
+\text{sujeto a }  &amp; A_1\xx_1\preceq \bb_1\\
+                  &amp; A_2\xx_2\preceq \bb_2
+\end{array}
 \]</span></p>
 <p>El único caso en que este problema no tiene solución es si uno de los poliedros está vacío. Por otro lado, el valor óptimo es cero si y solo si los poliedros se intersecan, en cuyo caso <span class="math inline">\(\xx_1=\xx2\)</span>. En cualquier otro caso, los puntos óptimos <span class="math inline">\(\xx_1\)</span> y <span class="math inline">\(\xx_"\)</span> son los puntos en <span class="math inline">\(\mathcal{P}_1\)</span> y <span class="math inline">\(\mathcal{P}_2\)</span>, respectivamente, que están más cerca el uno del otro.</p>
 <p><br></p>
@@ -804,22 +806,12 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiIyBS
 </div>
 </div>
 </div>
-<br>
-<hr style="border: 1.5px solid black; margin: 1px;">
-<hr style="border: 0.5px solid black; margin: 0;">
+<p><br><br></p>
 </section>
 </section>
 <section id="actividades" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="actividades">Actividades</h2>
-<strong>Teóricas</strong><br>
-
-<hr class="linea-corta">
-<ol type="1">
-<li>…</li>
-</ol>
-<p><br></p>
-<strong>Prácticas</strong><br>
-
+💻 <strong>Prácticas</strong>
 <hr class="linea-corta">
 <ol type="1">
 <li>…</li>
@@ -829,7 +821,8 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiIyBS
 </div>
 <div class="refs">
 <p><span style="color: #444;"><strong>Referencias</strong></span></p>
-<p>Boyd, S., &amp; Vandenberghe, L. (2004). <em>Convex Optimization</em>. Capítulo 4. Cambridge University Press.</p>
+<p>Diamond, S., &amp; Boyd, S. (s.f.). CVXPY: A Python-embedded modeling language for convex optimization. CVXPY. https://www.cvxpy.org</p>
+<p>SciPy Developers. (s.f.). SciPy optimize tutorial. SciPy. https://docs.scipy.org/doc/scipy/tutorial/optimize.html</p>
 </div>
 
 
