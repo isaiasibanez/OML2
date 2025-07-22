@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -37,7 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-327735d1480bff6f7510335fe22ad292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -331,28 +331,22 @@ h_j(\xx)=0, &amp; j=1,\cdots,m.
 <h2 class="anchored" data-anchor-id="condiciones-de-optimalidad-de-primer-orden">Condiciones de optimalidad de primer orden</h2>
 <section id="optimización-sin-restricciones" class="level3">
 <h3 class="anchored" data-anchor-id="optimización-sin-restricciones">Optimización sin restricciones</h3>
-<p>De cursos anteriores recordemos que, cuando se pretende optimizar una función <span class="math inline">\(f\)</span> en su dominio, una condición necesaria (siempre que <span class="math inline">\(\text{dom}\,f\)</span> sea un conjunto abierto) para que un punto sea óptimo es que verifique <span class="math display">\[
+<p>De cursos anteriores recordemos que, cuando se pretende optimizar una función <span class="math inline">\(f\)</span> en su dominio, una condición necesaria (siempre que <span class="math inline">\(\text{dom }f\)</span> sea un conjunto abierto) para que un punto sea óptimo es que verifique <span class="math display">\[
 \nabla f(\xx)=\mathbf{0}.
-\tag{1}
 \]</span></p>
 <details>
 <summary>
 Mostrar detalles
 </summary>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page"><span style="font-size: 1.25em;">①</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false"><span style="border: 1px solid #ddd; padding: 2px 6px; border-radius: 4px;"><em>Prueba</em></span></a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Prueba</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Observación</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p>La condición <span class="math inline">\(\nabla f(\xx)=\bfzero\)</span> no caracteriza únicamente puntos óptimos en un sentido global, sino también a aquellos donde <span class="math inline">\(f\)</span> alcanza un extremo local. De hecho, la prueba puede adaptarse a tal caso escribiendo <span class="math display">\[
-f(\xx + t \cdot \dd) \geq f(\xx) \quad \text{para todo } 0\leq t&lt;\varepsilon,
-\]</span> donde <span class="math inline">\(\xx\)</span> es un punto de extremo local, <span class="math inline">\(\dd\)</span> es una dirección arbitraria y <span class="math inline">\(\varepsilon&gt;0\)</span> es lo suficientemente pequeño como para que <span class="math inline">\(\xx+t\cdot\dd\)</span> permanezca en un entorno donde se verifica la definición de mínimo local.</p>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p>Sea <span class="math inline">\(\xx^\star\in\RR^p\)</span> un minimizador de la función <span class="math inline">\(f: \RR^p \to \RR\)</span> y sea <span class="math inline">\(\dd\in\RR^p\)</span> una dirección arbitraria. Entonces se cumple</p>
+<p>Sea <span class="math inline">\(\xx^\star\in\RR^p\)</span> un minimizador de la función <span class="math inline">\(f: \RR^n \to \RR\)</span> y sea <span class="math inline">\(\dd\in\RR^p\)</span> una dirección arbitraria. Entonces se cumple</p>
 <p><span class="math display">\[
-f(\xx^\star + t \cdot \dd) \geq f(\xx) \qquad\forall t \geq 0.
+f(\xx^\star + t \cdot \dd) \geq f(\xx) \quad \text{para todo } t \geq 0.
 \]</span></p>
-<p>En consecuencia, la derivada direccional de <span class="math inline">\(f\)</span> en <span class="math inline">\(\xx\)</span> a lo largo de <span class="math inline">\(\dd\)</span> resulta no negativa:</p>
+<p>En consecuencia, la derivada direccional de <span class="math inline">\(f\)</span> en <span class="math inline">\(\xx\)</span> a lo largo de <span class="math inline">\(\dd\)</span> es</p>
 <p><span class="math display">\[
 \frac{\partial f}{\partial \dd}(\xx^\star)= \lim_{t \to 0} \frac{f(\xx^\star + t \cdot \dd) - f(\xx^\star)}{t} \geq 0.
 \]</span></p>
@@ -362,17 +356,22 @@ f(\xx^\star + t \cdot \dd) \geq f(\xx) \qquad\forall t \geq 0.
 \]</span></p>
 <p>En particular, eligiendo <span class="math inline">\(\dd = -\nabla f(x)\)</span>, resulta <span class="math inline">\(-\|\nabla f(\xx^\star)\|^2\geq 0\)</span>, lo cual es cierto si y sólo si <span class="math inline">\(\nabla f(\xx^\star)=\mathbf{0}\)</span>. <span class="math inline">\(\qquad\blacksquare\)</span></p>
 </div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>La condición <span class="math inline">\(\nabla f(\xx)=\bfzero\)</span> no caracteriza únicamente puntos óptimos en un sentido global, sino también a aquellos donde <span class="math inline">\(f\)</span> alcanza un extremo local. De hecho, la prueba puede adaptarse a tal caso escribiendo <span class="math display">\[
+f(\xx + t \cdot \dd) \geq f(\xx) \quad \text{para todo } 0\leq t&lt;\varepsilon,
+\]</span> donde <span class="math inline">\(\xx\)</span> es un punto de extremo local, <span class="math inline">\(\dd\)</span> es una dirección arbitraria y <span class="math inline">\(\varepsilon&gt;0\)</span> es lo suficientemente pequeño como para que <span class="math inline">\(\xx+t\cdot\dd\)</span> permanezca en un entorno donde se verifica la definición de mínimo local.</p>
+</div>
 </div>
 </div>
 </details>
 <div style="margin-top:2em;">
 
 </div>
-<p>Pero cuidado: lo anterior es <em>solo una condición necesaria</em> que todos los puntos óptimos deben cumplir, pero no implica que cualquier punto que la satisfaga sea automáticamente óptimo. En otras palabras, las soluciones de <span class="math inline">\(\nabla f(\xx) = \bfzero\)</span> forman una lista de puntos candidatos para minimizar, llamados <em>puntos críticos</em>.</p>
+<p>Pero cuidado: lo anterior es <em>solo una condición necesaria</em> que todos los puntos óptimos deben cumplir, pero no implica que cualquier punto que la satisfaga sea automáticamente óptimo. En otras palabras, las soluciones de <span class="math inline">\(\nabla f(\xx) = 0\)</span> forman una lista de puntos candidatos para minimizar, llamados <em>puntos críticos</em>.</p>
 <p>De inmediato surgen dos preguntas claves:</p>
-<div class="myhighlight4">
+<div class="myhighlight">
 <p>¿Cuál es la generalización de la condición necesaria <span class="math inline">\(\nabla f(\xx) = 0\)</span> cuando enfrentamos un problema de optimización con restricciones?</p>
-<p>¿Bajo qué circunstancias <span class="math inline">\(\nabla f(\xx) = \bfzero\)</span> también se convierte en una condición suficiente para la optimalidad?</p>
+<p>¿Bajo qué circunstancias <span class="math inline">\(\nabla f(\xx) = 0\)</span> también se convierte en una condición suficiente para la optimalidad?</p>
 </div>
 <div style="margin-top:2.5em;">
 
@@ -380,78 +379,56 @@ f(\xx^\star + t \cdot \dd) \geq f(\xx) \qquad\forall t \geq 0.
 </section>
 <section id="optimización-con-restricciones" class="level3">
 <h3 class="anchored" data-anchor-id="optimización-con-restricciones">Optimización con restricciones</h3>
-<p>La clave para generalizar la condición necesaria <span class="math inline">\(\nabla f(\xx)=\mathbf{0}\)</span> al caso de optimización con restricciones surge de la prueba anterior, más precisamente de la desigualdad <span class="math display">\[
+<p>La clave para generalizar la condición <span class="math inline">\(\nabla f(\xx)=\mathbf{0}\)</span> al caso de optimización con restricciones surge de la prueba anterior, más precisamente de la desigualdad <span class="math display">\[
 \langle\nabla f(\xx),\dd\rangle\geq 0.
+\tag{1}
+\]</span></p>
+<p>La diferencia principal con el caso sin restricciones es que, en un conjunto restringido, podríamos estar limitados en la elección de las direcciones <span class="math inline">\(\dd\)</span> a lo largo de las cuales podemos aproximarnos a <span class="math inline">\(\xx\)</span> sin salirnos del conjunto. Podemos ajustar (1) de la siguiente manera: <span class="math display">\[
+\langle\nabla f(\xx),\dd\rangle\geq 0\qquad \forall\dd\in\RR^n: \xx+t\cdot\dd\in\Omega,
 \tag{2}
-\]</span></p>
-<p>La clave está en ajustar (2) de manera tal de asegurarnos que las posibles direcciones de movimiento nos permita aproximarnos a puntos factibles <span class="math inline">\(\xx\)</span> sin salirnos del conjunto factible <span class="math inline">\(\Omega\)</span>. Esto conduce a la siguiente reformulación:</p>
-<p><span class="math display">\[
-\langle\nabla f(\xx),\dd\rangle\geq 0\qquad \forall\dd\in\RR^p: \xx+t\cdot\dd\in\Omega,
-\tag{3}
-\]</span></p>
-<p>para cualquier <span class="math inline">\(t&gt;0\)</span> lo suficientemente pequeño. Esto se traduce en dos preguntas claves:</p>
-<div class="myhighlight3">
-<p>¿Cuáles son las direcciones <span class="math inline">\(\dd\)</span> que nos permiten permanecer en <span class="math inline">\(\Omega\)</span> desde el punto <span class="math inline">\(\xx\)</span>?</p>
-<p>¿Qué implicancias tiene (3) para el vector gradiente <span class="math inline">\(\nabla f(\xx)\)</span>?</p>
-</div>
-<div style="margin-top:2em;">
-
-</div>
-<p>Una idea inicial para caracterizar el conjunto de direcciones permitidas es tomar cualquier otro punto <span class="math inline">\(\yy\in\Omega\)</span> y observar qué sucede con la dirección desde <span class="math inline">\(\xx\)</span> hacia <span class="math inline">\(\yy\)</span>. Esta dirección, <span class="math inline">\(\dd=\yy-\xx\)</span>, será válida siempre que <span class="math inline">\(\Omega\)</span> sea convexo (ver <a href="A2_optimizacion_convexa.html#definiciones-básicas">Definición 2 de C1-S2</a>). En efecto, en tal caso, (3) se verifica trivialmente tomando <span class="math inline">\(t=1\)</span>. Por ese motivo, podemos hacer la primera suposición para formalizar una condición necesaria de optimalidad:</p>
-<div class="myhighlight2">
-<span style="font-size:0.8em;"><em>Primer supuesto</em></span>
-<div style="margin-top:-0.1em;">
-
-</div>
-<p><strong><span class="math inline">\(\Omega\)</span> un conjunto convexo</strong></p>
-</div>
-<div style="margin-top:0.5em;">
-
-</div>
-<p>Bajo esta suposición, tenemos el siguiente resultado, cuya demostración se obtiene directamente de ajustar la prueba vista para (1).</p>
+\]</span> para cualquier <span class="math inline">\(t\geq 0\)</span> lo suficientemente pequeño. Para aplicar (2), se requieren dos pasos:</p>
+<ol type="1">
+<li><p>Determinar el conjunto de direcciones <span class="math inline">\(\dd\)</span> que nos permiten permanecer en <span class="math inline">\(\Omega\)</span>.</p></li>
+<li><p>A partir de esas direcciones, determinar la condición que <span class="math inline">\(\nabla f(\xx)\)</span> debe cumplir.</p></li>
+</ol>
+<p>De estos dos pasos, el primero suele ser el más sencillo: podemos determinar el conjunto de direcciones permitidas simplemente considerando cualquier otro punto <span class="math inline">\(\yy \in \Omega\)</span> y observando la dirección de <span class="math inline">\(\xx\)</span> a <span class="math inline">\(\yy\)</span>. En particular, la condición (2) se verifica trivialmente para <span class="math inline">\(\dd=\yy-\xx\)</span> y <span class="math inline">\(t=1\)</span> si <span class="math inline">\(\Omega\)</span> es un <mark>conjunto convexo</mark> (<a href="A2_optimizacion_convexa.html#definiciones-básicas">Definición 2 de C1-S2</a>), lo cual se formaliza con el siguiente teorema.</p>
 <div class="teorema">
 <p><strong>Teorema 1.</strong> (Condición necesaria de optimalidad de primer orden para un conjunto factible convexo) Sea <span class="math inline">\(\Omega\subset\RR^p\)</span> convexo y sea <span class="math inline">\(f:\RR^p\to\RR\)</span> una función diferenciable. Si <span class="math inline">\(\xx^\star\in \Omega\)</span> es un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, entonces <span class="math display">\[
 \langle \nabla f(\xx^\star), \yy - \xx^\star\rangle \geq 0 \qquad \forall\yy\in\Omega.
 \]</span></p>
 </div>
-<div style="margin-top:2em;">
-
-</div>
-<figure style="text-align: center;" class="figure">
-<img src="figuras/angulo_entre_gradiente_xy.png" alt="…" width="300px" class="figure-img">
-</figure>
-<div style="margin-top:2em;">
-
-</div>
-<p>Como se puede apreciar en la figura, para un punto óptimo <span class="math inline">\(\xx^\star\)</span>, el vector gradiente forma un ángulo agudo (o recto) con todas las direcciones de la forma <span class="math inline">\(\yy-\xx^\star\)</span>.</p>
-<p>Ahora bien, nosotros estamos interesados en hallar <span class="math inline">\(\xx^\star\)</span>. Por lo tanto, el Teorema 1 nos da una condición necesaria que nos permite obtener aquellos puntos <span class="math inline">\(\xx\in\Omega\)</span> candidatos a ser óptimos (<mark><em>puntos críticos</em></mark>). Si pensamos en el opuesto del gradiente, <span class="math inline">\(-\nabla f(\xx)\)</span>, la condición se reescribe como <span class="math display">\[
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Interpretación geométrica</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p><span style="color:darkred;">Figura con ángulo entre vectores.</span></p>
+<p>La condición del Teorema 1 se verifica si el vector gradiente de <span class="math inline">\(f\)</span> en una solución <span class="math inline">\(\xx^\star\in\Omega\)</span> forma un ángulo agudo (o recto) con todas las direcciones <span class="math inline">\(\yy-\xx\)</span>, donde <span class="math inline">\(\yy\in\Omega\)</span>.</p>
+<p>Ahora bien, a la hora de buscar un minimizador, la dirección que realmente nos importa es <span class="math inline">\(-\nabla f(\xx)\)</span>. Así, los <em>puntos críticos</em> los obtendremos al resolver <span class="math display">\[
 \langle -\nabla f(\xx),\yy-\xx\rangle\leq 0\qquad \forall\yy\in\Omega.
-\tag{4}
 \]</span></p>
-<p>Esto vincula nuestro análisis con la <a href="A2_optimizacion_convexa.html#conos-normales">definición de cono normal</a>: la ecuación (4) es equivalente a escribir <span class="math inline">\(-\nabla f(\xx)\in N_{\Omega}(\xx)\)</span>. Así, el Teorema 1 puede ser interpretado en términos de conos normales:</p>
+<p>Por <a href="A2_optimizacion_convexa.html#conos-normales">definición de cono normal</a>, esto es equivalente a escribir <span class="math inline">\(-\nabla f(\xx)\in N_{\Omega}(\xx)\)</span>. Es decir:</p>
 <div class="myhighlight">
-<p>Bajo las condiciones del Teorema 1, si <span class="math inline">\(\xx^\star\)</span> es un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, entonces <span class="math display">\[
+<p>Si <span class="math inline">\(\xx^\star\)</span> es un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, entonces <span class="math display">\[
 -\nabla f(\xx^\star)\in N_{\Omega}(\xx^\star)\qquad\forall\yy\in\Omega.
 \]</span></p>
 </div>
 <div style="margin-top:2em;">
 
 </div>
-<figure style="text-align: center;" class="figure">
-<img src="figuras/condicion_optimalidad_gradiente_vs_cono_normal.png" alt="…" width="400px" class="figure-img">
-<figcaption>
-Idea geométrica de la condición del gradiente para tres puntos críticos <span class="math inline">\(\xx_1,\xx_2,\xx_3\in\Omega\)</span>. En el caso de <span class="math inline">\(\xx_3\)</span>, se tiene <span class="math inline">\(\nabla f(\xx_3)=\bfzero\)</span>.
-</figcaption>
-</figure>
+<p>Teniendo en cuenta que para un punto interior <span class="math inline">\(\xx\in\Omega\)</span> se verifica <span class="math inline">\(N_{\Omega}(\xx)=\{\bfzero\}\)</span>, lo cual significa que el Teorema 2 es consistente con la condición de optimalidad <span class="math inline">\(\nabla f(\xx)=\mathbf{0}\)</span> de los problemas sin restricciones.</p>
+<p>No obstante, la importancia del Teorema 1 radica en cómo tratar los puntos en la frontera de <span class="math inline">\(\Omega\)</span>. A partir de los ejemplos previamente estudiados sobre el cono normal, podemos ver que la interpretación del Teorema 1 es bastante intuitiva. Por ejemplo, si <span class="math inline">\(\Omega\)</span> es un poliedro y <span class="math inline">\(\xx^\star\in\Omega\)</span> es un punto óptimo, el vector <span class="math inline">\(-\nabla f(\xx^\star)\)</span> es perpendicular a <span class="math inline">\(\Omega\)</span> y apunta hacia afuera (ver Ejemplos 7 y 8 de <a href="A2_optimizacion_convexa.html#conos-normales">conos normales</a>), lo cual significa que no hay posibilidad de “moverse” en dirección opuesta al gradiente sin salirse de <span class="math inline">\(\Omega\)</span>.</p>
+</div>
+</div>
+</div>
+</details>
 <div style="margin-top:2em;">
 
 </div>
-<p>En la figura anterior se presenta la geometría derivada de la condición necesaria establecida, para el caso en que <span class="math inline">\(\Omega\)</span> es un poliedro. Las posiciones de los puntos críticos corresponden a los Ejemplos 6, 8 y 9 sobre conos normales, vistos en el <a href="A2_optimizacion_convexa.html#conos-normales">C1-S2</a>. En particular, para puntos interiores de <span class="math inline">\(\Omega\)</span>, la condición se reduce a la ecuación <span class="math inline">\(\nabla f(\xx)=\bfzero\)</span>, típica de los problemas sin restricciones.</p>
-<p>Todos los casos están caracterizados por el siguiente hecho: <strong>el opuesto del gradiente forma ángulos no agudos con todas las direcciones factibles</strong>. Esta es, sin dudas, la idea principal de nuestro análisis, que procuraremos extender a formas más generales de <span class="math inline">\(\Omega\)</span>.</p>
-<div style="margin-top:2em;">
-
-</div>
-<p>¡Cuidado! La condición provista por el Teorema 1 es necesaria pero no suficiente. Podemos pensar rápidamente en ejemplos de mínimos locales en el interior de <span class="math inline">\(\Omega\)</span>, tales como el <a href="A1_intro_optimizacion.html">Ejemplo 3 de C1-S1</a>. A continuación, veremos un ejemplo para cuando el punto crítico ocurre en la frontera de <span class="math inline">\(\Omega\)</span>, pero no es cierto que sea un punto óptimo.</p>
+<p>¡Cuidado! La condición provista por el Teorema 1 es necesaria pero no suficiente. Podría verificarse la condición en otros puntos críticos de <span class="math inline">\(\Omega\)</span> que no sean un mínimo global de <span class="math inline">\(f\)</span> en dicho conjunto. Para el caso de mínimos locales en el interior de <span class="math inline">\(\Omega\)</span>, es fácil pensar en ejemplos clásicos de Cálculo, tales como el Ejemplo 2 de <a href="A1_intro_optimizacion.html">C1-S1</a>. A continuación, veremos un ejemplo para cuando el punto crítico ocurre en la frontera de <span class="math inline">\(\Omega\)</span>.</p>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 1</span></p>
 <p><span style="color:darkred;">Acá va un ejemplo con restricciones donde la condición no sea suficiente en un punto de la frontera.</span></p>
@@ -459,17 +436,7 @@ Idea geométrica de la condición del gradiente para tres puntos críticos <span
 <div style="margin-top:2em;">
 
 </div>
-<div class="myhighlight2">
-<span style="font-size:0.8em;"><em>Segundo supuesto</em></span>
-<div style="margin-top:-0.1em;">
-
-</div>
-<p><strong><span class="math inline">\(f\)</span> una función convexa</strong></p>
-</div>
-<div style="margin-top:0.5em;">
-
-</div>
-<p>Para el notable caso de las <mark>funciones convexas</mark> (<a href="A2_optimizacion_convexa.html#funciones-convexas">Definición 7 de C1-S2</a>) la condición establecida en el Teorema 1 sí es suficiente.</p>
+<p>No obstante, para el notable caso de las <mark>funciones convexas</mark> (<a href="A2_optimizacion_convexa.html#funciones-convexas">Definición 7 de C1-S2</a>) la condición establecida en el Teorema 1 sí es suficiente.</p>
 <div class="teorema">
 <p><strong>Teorema 2.</strong> (Condición suficiente y necesaria de optimalidad de primer orden para un conjunto factible convexo y una función objetivo convexa) Sea <span class="math inline">\(\Omega \subseteq\RR^p\)</span> convexo y sea <span class="math inline">\(f:\RR^p\to\RR\)</span> una función diferenciable convexa. Entonces <span class="math inline">\(\xx^\star\)</span> es un minimizador de <span class="math inline">\(f\)</span> en <span class="math inline">\(\Omega\)</span> si y solo si se verifica <span class="math display">\[
 -\nabla f(\xx^\star)\in N_{\Omega}(\xx^\star).
@@ -480,15 +447,16 @@ Idea geométrica de la condición del gradiente para tres puntos críticos <span
 Mostrar detalles
 </summary>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true"><span style="border: 1px solid #ddd; padding: 2px 6px; border-radius: 4px;"><em>Demostración</em></span></a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Demostración</a></li></ul>
 <div class="tab-content">
-<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
 <p>En virtud del Teorema 1, debemos probar únicamente la suficiencia. Sea <span class="math inline">\(\xx\in\Omega\)</span> tal que <span class="math inline">\(-\nabla f(\xx)\in N_{\Omega}(\xx)\)</span>, entonces <span class="math display">\[
 \langle\nabla f(\xx),\yy-\xx\rangle\geq 0\qquad\forall\yy\in\Omega.
 \]</span></p>
 <p>Por condición de primer orden para convexidad (<a href="A2_optimizacion_convexa.html#condiciones-de-convexidad">Teorema 1 de C1-S2</a>), resulta <span class="math display">\[
 f(\yy)\geq f(\xx)+\underbrace{\langle\nabla f(\xx),\yy-\xx\rangle}_{\geq 0}\geq f(\xx)
-\]</span> para todo <span class="math inline">\(\yy\in\Omega\)</span>, lo cual significa que <span class="math inline">\(\xx\)</span> es un minimizador de <span class="math inline">\(f\)</span> en <span class="math inline">\(\Omega\)</span>. <span class="math inline">\(\qquad\blacksquare\)</span></p>
+\]</span></p>
+<p>para todo <span class="math inline">\(\yy\in\Omega\)</span>, lo cual significa que <span class="math inline">\(\xx\)</span> es un minimizador de <span class="math inline">\(f\)</span> en <span class="math inline">\(\Omega\)</span>.</p>
 </div>
 </div>
 </div>
@@ -498,27 +466,14 @@ f(\yy)\geq f(\xx)+\underbrace{\langle\nabla f(\xx),\yy-\xx\rangle}_{\geq 0}\geq 
 </div>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 2</span></p>
-<p><span style="color:darkred;">Acá va un ejemplo de problema en condiciones de Teorema 2.</span></p>
+<p><span style="color:darkred;">Acá va un ejemplo de problema con restricciones convexo.</span></p>
 </div>
 </section>
 </section>
 <section id="condiciones-de-karush-kuhn-tucker-kkt" class="level2">
 <h2 class="anchored" data-anchor-id="condiciones-de-karush-kuhn-tucker-kkt">Condiciones de Karush-Kuhn-Tucker (KKT)</h2>
-<p>Hasta ahora hemos visto que, para <span class="math inline">\(\Omega\)</span> convexo (<em>Primer supuesto</em>), una condición necesaria para que un punto <span class="math inline">\(\xx\)</span> sea óptimo es que el vector opuesto al gradiente de la función objetivo pertenezca al cono normal <span class="math inline">\(N_{\Omega}(\xx)\)</span>. Además, si la función objetivo es convexa (<em>Segundo supuesto</em>), dicha condición resulta también suficiente.</p>
-<p>Nuestro objetivo ahora es extender este tipo de análisis a situaciones más generales, donde las restricciones están expresadas mediante funciones diferenciables que definen restricciones de desigualdad y/o de igualdad, tal como lo hemos formulado al inicio de esta sección.</p>
-<p>Para ello, en primer lugar abordaremos el caso en que las restricciones son funciones afines, lo que nos permitirá comprender la estructura fundamental de las condiciones de optimalidad. Posteriormente, procederemos a realizar la generalización correspondiente.</p>
 <section id="el-caso-particular-de-restricciones-afines" class="level3">
 <h3 class="anchored" data-anchor-id="el-caso-particular-de-restricciones-afines">El caso particular de restricciones afines</h3>
-<div class="myhighlight2">
-<span style="font-size:0.8em;"><em>Caso especial</em></span>
-<div style="margin-top:-0.1em;">
-
-</div>
-<p><strong><span class="math inline">\(\Omega\)</span> un poliedro</strong></p>
-</div>
-<div style="margin-top:0.5em;">
-
-</div>
 <p>Vamos a considerar el caso en que <span class="math inline">\(\Omega\)</span> es un poliedro definido a partir de la intersección de un número finito de semiespacios. Es decir, es de la forma <span class="math display">\[
 \Omega:=\{\xx\in\RR^p \mid A\xx\leq \bb\},
 \]</span></p>
@@ -552,9 +507,9 @@ N_{\Omega}(\xx)=\left\{\sum_{j\in I(\xx)}\lambda_j\aa_j \mid \lambda_j\geq 0\rig
 Mostrar detalles
 </summary>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Observaciones</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Observaciones</a></li></ul>
 <div class="tab-content">
-<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
 <ul>
 <li><p>Este resultado también contempla los otros casos posibles:</p>
 <ul>

@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Técnicas de regularización – Optimización y Aprendizaje Automático II</title>
+<title>Clasificador de vectores soporte – Optimización y Aprendizaje Automático II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,14 +30,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../CAPITULO_2/B4_svm.html" rel="next">
-<link href="../CAPITULO_2/B2_glm.html" rel="prev">
+<link href="../CAPITULO_2/B5_intro_redes.html" rel="next">
+<link href="../CAPITULO_2/B3_ridge_lasso.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-327735d1480bff6f7510335fe22ad292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -115,7 +115,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../CAPITULO_2/B1_regresion_lineal_logistica.html">2. MODELOS DISCRIMINATIVOS</a></li><li class="breadcrumb-item"><a href="../CAPITULO_2/B3_ridge_lasso.html">2.3 Técnicas de regularización</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../CAPITULO_2/B1_regresion_lineal_logistica.html">2. MODELOS DISCRIMINATIVOS</a></li><li class="breadcrumb-item"><a href="../CAPITULO_2/B4_svm.html">2.4 Máquinas de vectores soporte</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -204,13 +204,13 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../CAPITULO_2/B3_ridge_lasso.html" class="sidebar-item-text sidebar-link active">
+  <a href="../CAPITULO_2/B3_ridge_lasso.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2.3 Técnicas de regularización</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../CAPITULO_2/B4_svm.html" class="sidebar-item-text sidebar-link">
+  <a href="../CAPITULO_2/B4_svm.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">2.4 Máquinas de vectores soporte</span></a>
   </div>
 </li>
@@ -239,10 +239,10 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../CAPITULO_2/B1_regresion_lineal_logistica.html">2. MODELOS DISCRIMINATIVOS</a></li><li class="breadcrumb-item"><a href="../CAPITULO_2/B3_ridge_lasso.html">2.3 Técnicas de regularización</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../CAPITULO_2/B1_regresion_lineal_logistica.html">2. MODELOS DISCRIMINATIVOS</a></li><li class="breadcrumb-item"><a href="../CAPITULO_2/B4_svm.html">2.4 Máquinas de vectores soporte</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Técnicas de regularización</h1>
-<p class="subtitle lead">Capítulo 2 - Sección 3</p>
+<h1 class="title">Clasificador de vectores soporte</h1>
+<p class="subtitle lead">Capítulo 2 - Sección 4</p>
 </div>
 
 
@@ -295,7 +295,7 @@ window.Quarto = {
 \def\argmax{\mathop{\mathrm{arg\,max\,}}}
 \]</span></p>
 </div>
-<p><span style="color:darkred;">Ridge. Lasso.</span></p>
+<p><span style="color:darkred;">SVM completo.</span></p>
 <p><br><br></p>
 <section id="actividades" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="actividades">Actividades</h2>
@@ -763,13 +763,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../CAPITULO_2/B2_glm.html" class="pagination-link" aria-label="2.2 Modelos lineales generalizados">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2.2 Modelos lineales generalizados</span>
+      <a href="../CAPITULO_2/B3_ridge_lasso.html" class="pagination-link" aria-label="2.3 Técnicas de regularización">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2.3 Técnicas de regularización</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../CAPITULO_2/B4_svm.html" class="pagination-link" aria-label="2.4 Máquinas de vectores soporte">
-        <span class="nav-page-text">2.4 Máquinas de vectores soporte</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../CAPITULO_2/B5_intro_redes.html" class="pagination-link" aria-label="2.5 Introducción a redes neuronales">
+        <span class="nav-page-text">2.5 Introducción a redes neuronales</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
