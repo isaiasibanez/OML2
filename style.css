@@ -42,6 +42,65 @@ background-color: #fcfefc; /* Verde muy muy suave */
 }
 
 
+.myhighlight2 {
+  max-width: 50%;
+  margin: 0em auto;
+  padding: 0.5em 0.5em 0.01em 0.5em;
+  border: 0px;
+  text-align: center;
+  color: #1a5276;             /* azul */
+  font-style: normal;
+  border-radius: 0;
+}
+
+
+.myhighlight3 {
+  max-width: 60%;
+  margin: 0em auto;
+  padding: 0.5em 0.5em 0.1em 0.5em;
+  border: 1.5px solid #e67e22;    /* naranja oscuro */
+  background-color: #fffdfa;      /* naranja ultra suave, casi blanco */
+  text-align: center;
+  color: #b03a00;                 /* naranja oscuro más profundo */
+  font-style: normal;
+  border-radius: 0;
+}
+
+
+.myhighlight4 {
+  max-width: 80%;
+  margin: 0em auto;
+  padding: 0.5em 0.5em 0.1em 0.5em;
+  border: 1.5px solid #7b241c;       /* borde dark red */
+  background-color: #fff5f5;         /* fondo rojo pastel más claro */
+  text-align: center;
+  color: #6e0b0b;                    /* texto dark red intenso */
+  font-style: normal;
+  border-radius: 0;
+}
+
+
+
+
+.myhighlight p {
+  text-align: center;
+}
+
+.myhighlight2 p {
+  text-align: center;
+}
+
+.myhighlight3 p {
+  text-align: center;
+}
+
+
+.myhighlight4 p {
+  text-align: center;
+}
+
+
+
 .metodo {
   background-color: #e6f0ff; /* azul claro */
   border: 2px solid #3b82f6; /* azul brillante */
@@ -135,10 +194,6 @@ p {
   text-align: justify;
 }
 
-.myhighlight p {
-  text-align: center;
-}
-
 
 
 mark {
@@ -203,18 +258,4 @@ figure {
   padding-bottom: 0em;
 
   border-radius: 0 !important;  /* Quitar esquinas redondeadas */
-}
-
-
-
-
-/* Color específico para la pestaña "Tarea" cuando está activa */
-.nav-tabs .nav-link.tab-tarea.active {
-  background-color: #d35400 !important; /* naranja oscuro */
-  color: white !important;
-}
-
-/* Color específico para la pestaña "Tarea" cuando NO está activa */
-.nav-tabs .nav-link.tab-tarea {
-  color: #d35400 !important;
 }

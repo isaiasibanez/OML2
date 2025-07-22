@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Resolución computacional con CVXPY y SciPy – Optimización y Aprendizaje Automático II</title>
+<title>Resolución computacional de problemas clásicos de optimización – Optimización y Aprendizaje Automático II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-327735d1480bff6f7510335fe22ad292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -149,7 +149,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../CAPITULO_1/A1_intro_optimizacion.html">1. OPTIMIZACIÓN MATEMÁTICA</a></li><li class="breadcrumb-item"><a href="../CAPITULO_1/A3_resolucion_computacional.html">1.3 Resolución computacional con CVXPY y SciPy</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../CAPITULO_1/A1_intro_optimizacion.html">1. OPTIMIZACIÓN MATEMÁTICA</a></li><li class="breadcrumb-item"><a href="../CAPITULO_1/A3_resolucion_computacional.html">1.3 Herramientas computacionales para optimización</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -198,7 +198,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../CAPITULO_1/A3_resolucion_computacional.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">1.3 Resolución computacional con CVXPY y SciPy</span></a>
+ <span class="menu-text">1.3 Herramientas computacionales para optimización</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -248,12 +248,6 @@ window.Quarto = {
  <span class="menu-text">2.4 Máquinas de vectores soporte</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../CAPITULO_2/B5_intro_redes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.5 Introducción a redes neuronales</span></a>
-  </div>
-</li>
       </ul>
   </li>
     </ul>
@@ -283,9 +277,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../CAPITULO_1/A1_intro_optimizacion.html">1. OPTIMIZACIÓN MATEMÁTICA</a></li><li class="breadcrumb-item"><a href="../CAPITULO_1/A3_resolucion_computacional.html">1.3 Resolución computacional con CVXPY y SciPy</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../CAPITULO_1/A1_intro_optimizacion.html">1. OPTIMIZACIÓN MATEMÁTICA</a></li><li class="breadcrumb-item"><a href="../CAPITULO_1/A3_resolucion_computacional.html">1.3 Herramientas computacionales para optimización</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Resolución computacional con CVXPY y SciPy</h1>
+<h1 class="title">Resolución computacional de problemas clásicos de optimización</h1>
 <p class="subtitle lead">Capítulo 1 - Sección 3</p>
 </div>
 
@@ -370,7 +364,7 @@ window.Quarto = {
                   &amp; x+y-1=0
 \end{array}
 \]</span></p>
-<div id="8ec99627" class="cell" data-execution_count="1">
+<div id="2e130e6d" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cvxpy <span class="im">as</span> cp</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Creamos dos variables:</span></span>
@@ -399,7 +393,7 @@ Punto óptimo 1.0 1.570086213240983e-22</code></pre>
 </div>
 </div>
 <p>A continuación, vamos a representar geométricamente este problema: del lado izquierdo, el grafo en <span class="math inline">\(\RR^3\)</span> de la función objetivo; del lado derecho, el conjunto factible como intersección de las restricciones dadas.</p>
-<div id="8b1e5778" class="cell" data-execution_count="2">
+<div id="81921a94" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Patch</span>
@@ -457,7 +451,7 @@ Punto óptimo 1.0 1.570086213240983e-22</code></pre>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="A3_resolucion_computacional_files/figure-html/cell-3-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="746" height="377"></p>
+<p><img src="A3_resolucion_computacional_files/figure-html/cell-3-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -472,7 +466,7 @@ Punto óptimo 1.0 1.570086213240983e-22</code></pre>
 \end{array}
 \]</span></p>
 <p>con <span class="math inline">\(A\in\RR^{n\times m}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span> aleatorios, para <span class="math inline">\(n,m\in\mathbb{N}\)</span> fijos.</p>
-<div id="56d89717" class="cell" data-execution_count="3">
+<div id="fe0acdc2" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cvxpy <span class="im">as</span> cp</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -570,7 +564,7 @@ x+y^2 \\
 \end{pmatrix}
 \]</span></p></li>
 </ul>
-<div id="86aabfb7" class="cell" data-execution_count="4">
+<div id="5b787aa7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> Bounds</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> LinearConstraint</span>
@@ -604,7 +598,7 @@ x+y^2 \\
 <span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Punto óptimo:"</span>, res.x)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>`gtol` termination condition is satisfied.
-Number of iterations: 12, function evaluations: 24, CG iterations: 7, optimality: 4.48e-09, constraint violation: 0.00e+00, execution time: 0.012 s.
+Number of iterations: 12, function evaluations: 24, CG iterations: 7, optimality: 4.48e-09, constraint violation: 0.00e+00, execution time: 0.017 s.
 Éxito en optimización: True
 Valor objetivo óptimo: 0.3427175756443014
 Punto óptimo: [0.41494531 0.17010937]</code></pre>
@@ -630,7 +624,7 @@ A\xx=\bb
 \end{array}\right.\right\},
 \end{array}
 \]</span></p>
-<p>donde <span class="math inline">\(\cc\in\RR^n\)</span>, <span class="math inline">\(G\in\RR^{r\times n}\)</span>, <span class="math inline">\(\hh\in\RR^r\)</span>, <span class="math inline">\(A\in\RR^{m\times n}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span>.</p>
+<p>donde <span class="math inline">\(\cc\in\RR^p\)</span>, <span class="math inline">\(G\in\RR^{r\times p}\)</span>, <span class="math inline">\(\hh\in\RR^r\)</span>, <span class="math inline">\(A\in\RR^{m\times p}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span>.</p>
 </div>
 <details>
 <summary>
@@ -705,12 +699,12 @@ El centro de Chebyshev
 </div>
 <div class="callout-body-container callout-body">
 <p>Consideremos el problema de encontrar la bola euclidiana más grande que se encuentra contenida en un poliedro descrito por desigualdades lineales: <span class="math display">\[
-\mathcal{P} = \{\xx \in \mathbb{R}^n \mid \aa_i^\top\xx \leq b_i,\quad i = 1, \ldots, m\}.
+\mathcal{P} = \{\xx \in \RR^p \mid \aa_i^\top\xx \leq b_i,\quad i = 1, \ldots, m\}.
 \]</span></p>
 <p>El centro de la bola óptima se llama <em>centro de Chebyshev</em> del poliedro. Para poder formular el problema, debemos representar la bola mediante <span class="math display">\[
 \mathcal{B}(\xx,r) = \{\xx + \uu \mid \|\uu\|_2 \leq r\}.
 \]</span></p>
-<p>Las variables en el problema son el centro <span class="math inline">\(\xx\in\RR^n\)</span> y el radio <span class="math inline">\(r\in\RR\)</span>. El objetivo, por lo tanto, es maximizar <span class="math inline">\(r\)</span> sujeto a la restricción <span class="math inline">\(\mathcal{B}(\xx,r)\subset\mathcal{P}\)</span>.</p>
+<p>Las variables en el problema son el centro <span class="math inline">\(\xx\in\RR^p\)</span> y el radio <span class="math inline">\(r\in\RR\)</span>. El objetivo, por lo tanto, es maximizar <span class="math inline">\(r\)</span> sujeto a la restricción <span class="math inline">\(\mathcal{B}(\xx,r)\subset\mathcal{P}\)</span>.</p>
 <p>Para definir las restricciones, vamos a usar el hecho que <span class="math display">\[
 \sup\{\aa_i^\top\uu \mid \|\uu\|_2\leq r\}=r\|\aa_i\|_2\qquad\text{¿Porqué?}
 \]</span></p>
@@ -750,7 +744,7 @@ A\xx=\bb
 \end{array}\right.\right\},
 \end{array}
 \]</span></p>
-<p>donde <span class="math inline">\(P\in\mathbf{S}_{+}^n\)</span>, <span class="math inline">\(\qq\in\RR^n\)</span>, <span class="math inline">\(r\in\RR\)</span>, <span class="math inline">\(G\in\RR^{r\times n}\)</span>, <span class="math inline">\(\hh\in\RR^r\)</span>, <span class="math inline">\(A\in\RR^{m\times n}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span>.</p>
+<p>donde <span class="math inline">\(P\in\mathbf{S}_{+}^p\)</span>, <span class="math inline">\(\qq\in\RR^p\)</span>, <span class="math inline">\(r\in\RR\)</span>, <span class="math inline">\(G\in\RR^{r\times p}\)</span>, <span class="math inline">\(\hh\in\RR^r\)</span>, <span class="math inline">\(A\in\RR^{m\times p}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span>.</p>
 </div>
 <details>
 <summary>
@@ -787,7 +781,7 @@ Distancia entre poliedros
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>La distancia euclidiana entre los poliedros <span class="math inline">\(\mathcal{P}_1 = \{\xx \mid A_1 \xx \preceq \bb_1\}\)</span> y <span class="math inline">\(\mathcal{P}_2 = \{\xx \mid A_2 \xx \preceq \bb_2\}\)</span> en <span class="math inline">\(\RR^n\)</span> se define como</p>
+<p>La distancia euclidiana entre los poliedros <span class="math inline">\(\mathcal{P}_1 = \{\xx \mid A_1 \xx \preceq \bb_1\}\)</span> y <span class="math inline">\(\mathcal{P}_2 = \{\xx \mid A_2 \xx \preceq \bb_2\}\)</span> en <span class="math inline">\(\RR^p\)</span> se define como</p>
 <p><span class="math display">\[
 \text{dist}\,(\mathcal{P}_1, \mathcal{P}_2) = \inf \{ \|\xx_1 - \xx_2\|_2 \mid \xx_1 \in \mathcal{P}_1, \xx_2 \in \mathcal{P}_2 \}.
 \]</span></p>
