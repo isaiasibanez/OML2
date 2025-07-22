@@ -389,7 +389,7 @@ f(\xx^\star + t \cdot \dd) \geq f(\xx) \qquad\forall t \geq 0.
 \langle\nabla f(\xx),\dd\rangle\geq 0\qquad \forall\dd\in\RR^p: \xx+t\cdot\dd\in\Omega,
 \tag{3}
 \]</span></p>
-<p>para cualquier <span class="math inline">\(t&gt;0\)</span> lo suficientemente pequeño. Esto se traduce en dos preguntas claves:</p>
+<p>para cualquier <span class="math inline">\(t&gt;0\)</span> lo suficientemente pequeño. A partir de esto:</p>
 <div class="myhighlight3">
 <p>¿Cuáles son las direcciones <span class="math inline">\(\dd\)</span> que nos permiten permanecer en <span class="math inline">\(\Omega\)</span> desde el punto <span class="math inline">\(\xx\)</span>?</p>
 <p>¿Qué implicancias tiene (3) para el vector gradiente <span class="math inline">\(\nabla f(\xx)\)</span>?</p>
@@ -520,9 +520,9 @@ f(\yy)\geq f(\xx)+\underbrace{\langle\nabla f(\xx),\yy-\xx\rangle}_{\geq 0}\geq 
 
 </div>
 <p>Vamos a considerar el caso en que <span class="math inline">\(\Omega\)</span> es un poliedro definido a partir de la intersección de un número finito de semiespacios. Es decir, es de la forma <span class="math display">\[
-\Omega:=\{\xx\in\RR^p \mid A\xx\leq \bb\},
+\Omega:=\{\xx\in\RR^p \mid A\xx\preceq \bb\},
 \]</span></p>
-<p>donde <span class="math inline">\(A\in\RR^{m\times p}\)</span> es una matriz, cuyas filas denotaremos con <span class="math inline">\(\aa_j\)</span>, <span class="math inline">\(j=1,\cdots,m\)</span>, y <span class="math inline">\(\bb\in\RR^m\)</span>. En el Ejemplo 8 de <a href="A2_optimizacion_convexa.html#conos-normales">conos normales</a> hemos visto que:</p>
+<p>donde <span class="math inline">\(A\in\RR^{r\times p}\)</span> es una matriz, cuyas filas denotamos con <span class="math inline">\(\aa_j\)</span> (<span class="math inline">\(j=1,\cdots,r\)</span>), y <span class="math inline">\(\bb\in\RR^r\)</span>. En el Ejemplo 9 de <a href="A2_optimizacion_convexa.html#conos-normales">conos normales</a> hemos visto que:</p>
 <div class="myhighlight">
 <p>El cono normal en un punto en la intersección de dos semiespacios es la envolvente cónica de sus direcciones ortogonales</p>
 </div>
@@ -538,13 +538,13 @@ Envolvente cónica de la intersección de dos semiespacios <span class="math inl
 <div style="margin-top:2em;">
 
 </div>
-<p>La generalización al caso de <span class="math inline">\(m\)</span> medios espacios queda contemplada en el siguiente teorema.</p>
+<p>La generalización al caso de un punto en la intersección de <span class="math inline">\(r\)</span> semiespacios queda contemplada en el siguiente teorema.</p>
 <div class="teorema">
-<p><strong>Teorema 3.</strong> Sea <span class="math inline">\(\Omega:=\{\xx\in\RR^p \mid A\xx\leq \bb\}\)</span> la intersección de <span class="math inline">\(m\)</span> semiespacios. Dado un punto <span class="math inline">\(x\in\Omega\)</span>, sea <span class="math inline">\(I(\xx)\)</span> el conjunto de índices de las <em>restricciones activas</em>; esto es <span class="math display">\[
-I(\xx):=\left\{j\in\{1,\cdots,m\} \mid \aa_j^\top\xx=b_j\right\}.
+<p><strong>Teorema 3.</strong> Sea <span class="math inline">\(\Omega:=\{\xx\in\RR^p \mid A\xx\preceq \bb\}\)</span> la intersección de <span class="math inline">\(r\)</span> semiespacios. Dado un punto <span class="math inline">\(x\in\Omega\)</span>, sea <span class="math inline">\(I(\xx)\)</span> el conjunto de índices de las <em>restricciones activas</em>; esto es <span class="math display">\[
+I(\xx):=\left\{j\in\{1,\cdots,r\} \mid \aa_j^\top\xx=b_j\right\}.
 \]</span> Entonces, el cono normal en <span class="math inline">\(\xx\)</span> está dado por</p>
 <p><span class="math display">\[
-N_{\Omega}(\xx)=\left\{\sum_{j\in I(\xx)}\lambda_j\aa_j \mid \lambda_j\geq 0\right\}.
+N_{\Omega}(\xx)=\left\{\left.\sum_{j\in I(\xx)}\lambda_j\aa_j\,\right| \lambda_j\geq 0\right\}.
 \]</span></p>
 </div>
 <details>
@@ -552,30 +552,26 @@ N_{\Omega}(\xx)=\left\{\sum_{j\in I(\xx)}\lambda_j\aa_j \mid \lambda_j\geq 0\rig
 Mostrar detalles
 </summary>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Observaciones</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true"><span style="font-size: 1.25em;">①</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false"><span style="font-size: 1.25em;">②</span></a></li></ul>
 <div class="tab-content">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<ul>
-<li><p>Este resultado también contempla los otros casos posibles:</p>
+<p>Por supuesto, este resultado también contempla los otros casos posibles:</p>
 <ul>
 <li><p><span class="math inline">\(\xx\)</span> punto interior de <span class="math inline">\(\Omega\)</span>: no hay restricciones activas, por lo tanto <span class="math display">\[
-N_{\Omega}(\xx)=\{\bfzero\},
-\]</span> en concordancia con el Ejemplo 5 de <a href="A2_optimizacion_convexa.html#conos-normales">conos normales</a>.</p></li>
-<li><p><span class="math inline">\(\xx\)</span> punto frontera de un único semiespacio: si <span class="math inline">\(\aa_k^\top\xx=b_k\)</span> es la restricción activa, entonces <span class="math display">\[
-N_{\Omega}(\xx)=\{\lambda \aa_k \mid \lambda\geq 0\},
-\]</span> en concordancia con el Ejemplo 7 de <a href="A2_optimizacion_convexa.html#conos-normales">conos normales</a>.</p></li>
-</ul></li>
+  N_{\Omega}(\xx)=\{\bfzero\},
+  \]</span> en concordancia con el <a href="A2_optimizacion_convexa.html#conos-normales">Ejemplo 6 de conos normales</a>.</p></li>
+<li><p><span class="math inline">\(\xx\)</span> punto frontera de un único semiespacio: si <span class="math inline">\(\aa_k^\top\xx=b_k\)</span> es la única restricción activa, entonces <span class="math display">\[
+  N_{\Omega}(\xx)=\{\lambda \aa_k \mid \lambda\geq 0\},
+  \]</span> en concordancia con el <a href="A2_optimizacion_convexa.html#conos-normales">Ejemplo 8 de conos normales</a>.</p></li>
 </ul>
-<div style="margin-top:2em;">
-
 </div>
-<ul>
-<li>La condición de optimalidad <span class="math inline">\(-\nabla f(\xx)\in N_{\Omega}(\xx)\)</span> se traduce como <span class="math display">\[
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<p>La condición de optimalidad <span class="math inline">\(-\nabla f(\xx)\in N_{\Omega}(\xx)\)</span> se traduce como <span class="math display">\[
 -\nabla f(\xx)=\sum_{j\in I(\xx)}\lambda_j\aa_j,\qquad\lambda_j\geq 0.
-\]</span> Por lo tanto, se puede escribir <span class="math display">\[
+\]</span></p>
+<p>Por lo tanto, se puede escribir <span class="math display">\[
 \nabla f(\xx)-\sum_{j\in I(\xx)}\lambda_j \nabla g_j(\xx)=0,\qquad\lambda_j\geq 0
-\]</span> con <span class="math inline">\(g_j(\xx)=\aa_j^\top\xx-b\)</span>. Esta última expresión resulta familiar, ya que los coeficientes <span class="math inline">\(\lambda_j\)</span> son precisamente los <em>multiplicadores de Lagrange</em> asociados a las restricciones de desigualdad.</li>
-</ul>
+\]</span> con <span class="math inline">\(g_j(\xx)=\aa_j^\top\xx-b\)</span>. Esta última expresión resulta familiar, ya que los coeficientes <span class="math inline">\(\lambda_j\)</span> son precisamente los <mark><em>multiplicadores de Lagrange</em></mark> asociados a las restricciones de desigualdad.</p>
 </div>
 </div>
 </div>
@@ -586,7 +582,7 @@ N_{\Omega}(\xx)=\{\lambda \aa_k \mid \lambda\geq 0\},
 <p>La suma en la expresión del cono normal puede ser reescrita sin restringir <span class="math inline">\(j\in I(\xx)\)</span>, simplemente imponiendo <span class="math inline">\(\lambda_j=0\)</span> para todo <span class="math inline">\(j\notin I(\xx)\)</span>. Esta imposición queda ímplicita de forma inmediata si se escribe</p>
 <p><span class="math display">\[
 \sum_{j=1}^m\lambda_j\left(\aa_j^\top\xx-b_j\right)=0.
-\tag{3}
+\tag{5}
 \]</span></p>
 <hr>
 <details>
@@ -599,15 +595,15 @@ Para todo <span class="math inline">\(j\)</span>, la expresión <span class="mat
 <div style="margin-top:2em;">
 
 </div>
-<p>En forma vectorial, (3) puede escribirse como <span class="math inline">\(\bflambda^\top\left(A\xx-\bb\right)=0\)</span>, donde <span class="math inline">\(\bflambda=(\lambda_1,\cdots,\lambda_m)^\top\)</span>. Con esta notación, bajo las condiciones del Teorema 3 el cono normal en <span class="math inline">\(\xx\)</span> está dado por <span class="math display">\[
+<p>En forma vectorial, (5) puede escribirse como <span class="math inline">\(\bflambda^\top\left(A\xx-\bb\right)=0\)</span>, donde <span class="math inline">\(\bflambda=(\lambda_1,\cdots,\lambda_m)^\top\)</span>. Con esta notación, podemos escribir el cono normal del Teorema 3 así: <span class="math display">\[
 N_{\Omega}(\xx)=\left\{A^\top\bflambda \mid \bflambda^\top(A\xx-\bb)=0,\;\bflambda\in\RR^m_{\geq 0}\right\}.
 \]</span></p>
 <div style="margin-top:2em;">
 
 </div>
-<p>En base a lo descrito hasta aquí, podemos combinar el Teorema 3 con los Teoremas 1 y 2 para este caso especial de <span class="math inline">\(\Omega:=\{\xx\in\RR^p \mid A\xx\leq \bb\}\)</span>, obteniendo así el siguiente resultado.</p>
+<p>Los Teoremas 1 y 2 pueden ser aplicados en este contexto, dado que <span class="math inline">\(\Omega\)</span> es un poliedro y, en consecuencia, es un conjunto convexo. Obtenemos así el siguiente resultado.</p>
 <div class="teorema">
-<p><strong>Corolario 4.</strong> (Condición necesaria de optimalidad de primer orden para un conjunto factible convexo intersección de un número finito de semiespacios) Sea <span class="math inline">\(\Omega:=\{\xx\in\RR^p \mid A\xx\leq \bb\}\)</span> y sea <span class="math inline">\(f:\RR^p\to\RR\)</span> una función diferenciable. Si <span class="math inline">\(\xx^\star\in \Omega\)</span> es un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, entonces existe <span class="math inline">\(\tilde{\bflambda}\in\RR^m_{\geq 0}\)</span> tal que <span class="math inline">\(\tilde{\lambda}_j(\aa_j^\top\xx-b_j)=0\)</span> para todo <span class="math inline">\(j=1,\ldots,m\)</span> y <span class="math display">\[
+<p><strong>Corolario 4.</strong> (Condición necesaria de optimalidad de primer orden para un conjunto factible convexo intersección de un número finito de semiespacios) Sea <span class="math inline">\(\Omega:=\{\xx\in\RR^p \mid A\xx\preceq \bb\}\)</span> y sea <span class="math inline">\(f:\RR^p\to\RR\)</span> una función diferenciable. Si <span class="math inline">\(\xx^\star\in \Omega\)</span> es un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, entonces existe <span class="math inline">\(\tilde{\bflambda}\in\RR^m_{\geq 0}\)</span> tal que <span class="math inline">\(\tilde{\lambda}_j(\aa_j^\top\xx-b_j)=0\)</span> para todo <span class="math inline">\(j=1,\ldots,p\)</span> y <span class="math display">\[
 \nabla f(\xx)-\sum_{j=1}^m\tilde{\lambda}_j\aa_j=0.
 \]</span></p>
 <p>Además, si <span class="math inline">\(f\)</span> es convexa, esta condición es también suficiente.</p>
@@ -635,7 +631,17 @@ N_{\Omega}(\xx)=\left\{A^\top\bflambda \mid \bflambda^\top(A\xx-\bb)=0,\;\bflamb
 </div>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 3</span></p>
-<p><span style="color:darkred;">Acá va un ejemplo de KKT.</span></p>
+<p><span style="color:darkred;">Acá va un ejemplo de KKT para este tipo de <span class="math inline">\(\Omega\)</span>.</span></p>
+</div>
+<p>El resultado anterior permite obtener candidatos a ser puntos óptimos para este caso especial de <span class="math inline">\(\Omega\)</span>. Puede resumirse así:</p>
+<div class="myhighlight">
+<p>Si <span class="math inline">\(\Omega\)</span> es un conjunto convexo de la forma <span class="math display">\[
+\Omega:=\{\xx\in\RR^p \mid A\xx\preceq \bb\},
+\]</span> entonces las condiciones KKT son necesarias para que un punto sea óptimo.</p>
+<p>Si, además, <span class="math inline">\(f\)</span> es convexa, las condiciones KKT son suficientes.</p>
+</div>
+<div style="margin-top:2em;">
+
 </div>
 </section>
 <section id="generalización" class="level3">
@@ -648,7 +654,7 @@ g_i(\xx)\leq 0,&amp; i=1,\cdots,r.\\
 h_j(\xx)=0, &amp; j=1,\cdots,m.
 \end{array}\right.\right\},
 \end{array}
-\tag{4}
+\tag{6}
 \]</span></p>
 <p>donde <span class="math inline">\(\Omega\)</span> está definido como una intersección de restricciones funcionales diferenciables.</p>
 <p>Supongamos que <span class="math inline">\(\xx^*\)</span> es un punto óptimo en la frontera del conjunto factible <span class="math inline">\(\Omega\)</span> correspondiente a tres condiciones de desigualdad <span class="math inline">\(g_i(x) \le 0\)</span> para <span class="math inline">\(i=1,2,3\)</span>. En la siguiente figura se grafica la idea principal que subyace a la definición de cono normal para el caso de restricciones no lineales.</p>
@@ -679,16 +685,32 @@ Envolvente cónica de la intersección de restricciones <span class="math inline
 \tilde{h}_j(\xx)=0, &amp; j=1,\cdots,m.
 \end{array}\right.\right\}.
 \]</span></p>
-<p>Entonces, por Teorema 3, debe ser</p>
+<p>Es importante notar que <span class="math inline">\(\nabla \tilde{g}_i(\xx)=\nabla g_i(\xx^\star)\)</span> y <span class="math inline">\(\nabla \tilde{h}_i(\xx)=\nabla h_i(\xx^\star)\)</span>. En consecuencia, la aplicación del Teorema 3 a <span class="math inline">\(\tilde{\Omega}\)</span> resulta en el siguiente cono normal:</p>
 <p><span class="math display">\[
-N_{\tilde{\Omega}}(\xx^*)=\left\{\sum_{i=1}^m\lambda_i\nabla h_i(\xx^*)+\sum_{j\in I(\xx^*)}\mu_j\nabla g_j(\xx^*) \mid \lambda_i\in\RR, \mu_j\in\RR_{\geq 0}\right\},
+\left.N_{\tilde{\Omega}}(\xx^*)=\left\{\sum_{i=1}^m\lambda_i\nabla h_i(\xx^*)+\sum_{j\in I(\xx^*)}\mu_j\nabla g_j(\xx^*) \,\right| \lambda_i\in\RR, \mu_j\in\RR_{\geq 0}\right\},
+\tag{7}
 \]</span></p>
-<p>donde <span class="math inline">\(I(\xx^*):=\left\{j\in\{1,\cdots,m\}: g_j(\xx^*)=0\right\}\)</span>. Por supuesto, el uso del conjunto índice <span class="math inline">\(I\)</span> puede evitarse utilizando holgura complementaria, tal como antes. Por otra parte, observar que los multiplicadores <span class="math inline">\(\lambda_i\)</span> asociados a las restricciones de igualdad no tienen porqué ser no negativos; su justificación se deja como ejercicio.</p>
+<p>donde <span class="math inline">\(I(\xx^*):=\left\{j\in\{1,\cdots,m\} \mid g_j(\xx^*)=0\right\}\)</span>. Por supuesto, el uso del conjunto índice <span class="math inline">\(I\)</span> puede evitarse utilizando holgura complementaria, tal como antes.</p>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br> ¿Porqué, en la expresión (7), los multiplicadores <span class="math inline">\(\lambda_i\)</span> asociados a las restricciones de igualdad no deben ser no negativos?</p>
+</div>
+</div>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p><strong>Estamos en condiciones de formalizar el concepto de las condiciones KKT.</strong></p>
+<p>⚠️ ¡Atención! Aún no vamos a podemos afirmar que se tratan de condiciones de optimalidad. De hecho, veremos más adelante que no siempre lo son. Afortunadamente, existen ciertas hipótesis bajo las cuales sí constituyen condiciones necesarias de optimalidad, a las cuales se conoce como <em>cualificación de restricciones</em>. Pero vamos paso a paso.</p>
 <div style="margin-top:2em;">
 
 </div>
 <div class="definicion">
-<p><strong>Definición 1.</strong> (Condiciones de Karush-Kuhn-Tucker (KKT)) Sea un problema de optimización no lineal con función objetivo diferenciable y restricciones funcionales, de la forma <span class="math display">\[
+<p><strong>Definición 1.</strong> (Condiciones de Karush-Kuhn-Tucker (KKT)) Sea un problema de optimización con función objetivo diferenciable y restricciones funcionales, de la forma <span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; f(\xx)\\
 \text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\begin{array}{rl}
@@ -713,27 +735,29 @@ h_j(\xx)=0, &amp; j=1,\cdots,m.
 <div style="margin-top:2em;">
 
 </div>
-<p>Es importante remarcar que:</p>
+<div class="alert alert-light text-dark" role="important">
+<p><span class="badge bg-warning text-dark">Importante</span></p>
 <ul>
-<li><p>Las condiciones KKT indican que <span class="math inline">\(-\nabla f(\xx)\)</span> debe estar en el cono normal a la linearización del conjunto de restricciones.</p></li>
+<li><p>Las condiciones KKT indican que <span class="math inline">\(-\nabla f(\xx)\)</span> debe estar en el cono normal a la linearización <span class="math inline">\(\tilde{\Omega}\)</span> del conjunto de restricciones <span class="math inline">\(\Omega\)</span>.</p></li>
 <li><p>La condición de holgura complementaria se resume en:</p></li>
 </ul>
 <div class="myhighlight">
 <p>Si la restricción <span class="math inline">\(g_j(\xx)\leq 0\)</span> no está activa, entonces <span class="math inline">\(\mu_j=0.\)</span></p>
 </div>
-<div style="margin-top:2em;">
+<div style="margin-top:1.5em;">
 
 </div>
 <ul>
-<li>Especialmente:</li>
+<li>Insistimos:</li>
 </ul>
 <div class="myhighlight">
 <p>Las condiciones KKT a menudo son necesarias para la optimalidad, pero no siempre.</p>
 </div>
+</div>
 <div style="margin-top:2em;">
 
 </div>
-<p>A continuación, veremos un ejemplo en el que las condiciones KKT no se verifican en un punto óptimo. Esto nos motivará a estudiar bajo qué circunstancias estas condiciones constituyen realmente un criterio necesario de optimalidad. Este análisis nos llevará, en la próxima sección, a introducir el concepto de <em>cualificación de restricciones</em>.</p>
+<p>A continuación, veremos un ejemplo en el que las condiciones KKT no se verifican en un punto óptimo. Esto nos motivará a estudiar bajo qué circunstancias estas condiciones constituyen realmente un criterio necesario de optimalidad, análisis que se conoce bajo el concepto de <em>cualificación de restricciones</em>.</p>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 4</span></p>
 <p><span class="math display">\[
