@@ -344,23 +344,27 @@ Mostrar detalles
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>La condición <span class="math inline">\(\nabla f(\xx)=\bfzero\)</span> no caracteriza únicamente puntos óptimos en un sentido global, sino también a aquellos donde <span class="math inline">\(f\)</span> alcanza un extremo local. De hecho, la prueba puede adaptarse a tal caso escribiendo <span class="math display">\[
-f(\xx + t \cdot \dd) \geq f(\xx) \quad \text{para todo } 0\leq t&lt;\varepsilon,
-\]</span> donde <span class="math inline">\(\xx\)</span> es un punto de extremo local, <span class="math inline">\(\dd\)</span> es una dirección arbitraria y <span class="math inline">\(\varepsilon&gt;0\)</span> es lo suficientemente pequeño como para que <span class="math inline">\(\xx+t\cdot\dd\)</span> permanezca en un entorno donde se verifica la definición de mínimo local.</p>
+f(\xx + t\dd) \geq f(\xx) \quad \text{para todo } 0\leq t&lt;\varepsilon,
+\]</span> donde <span class="math inline">\(\xx\)</span> es un punto de extremo local, <span class="math inline">\(\dd\)</span> es una dirección arbitraria y <span class="math inline">\(\varepsilon&gt;0\)</span> es lo suficientemente pequeño como para que <span class="math inline">\(\xx+t\dd\)</span> permanezca en un entorno donde se verifica la definición de mínimo local.</p>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <p>Sea <span class="math inline">\(\xx^\star\in\RR^p\)</span> un minimizador de la función <span class="math inline">\(f: \RR^p \to \RR\)</span> y sea <span class="math inline">\(\dd\in\RR^p\)</span> una dirección arbitraria. Entonces se cumple</p>
 <p><span class="math display">\[
-f(\xx^\star + t \cdot \dd) \geq f(\xx) \qquad\forall t \geq 0.
+f(\xx^\star + t \cdot \dd) \geq f(\xx) \qquad\forall t\in\RR.
 \]</span></p>
-<p>En consecuencia, la derivada direccional de <span class="math inline">\(f\)</span> en <span class="math inline">\(\xx\)</span> a lo largo de <span class="math inline">\(\dd\)</span> resulta no negativa:</p>
+<p>Así, tenemos que <span class="math display">\[
+\lim_{t \to 0^-} \frac{f(\xx^\star + t\dd) - f(\xx^\star)}{t} \leq 0
+\quad\mbox{y}\quad
+\lim_{t \to 0^+} \frac{f(\xx^\star + t\dd) - f(\xx^\star)}{t} \geq 0
+\]</span></p>
+<p>En consecuencia, como <span class="math inline">\(f\)</span> es diferenciable, la derivada direccional de <span class="math inline">\(f\)</span> en <span class="math inline">\(\xx\)</span> a lo largo de <span class="math inline">\(\dd\)</span> existe y debe ser</p>
 <p><span class="math display">\[
-\frac{\partial f}{\partial \dd}(\xx^\star)= \lim_{t \to 0} \frac{f(\xx^\star + t \cdot \dd) - f(\xx^\star)}{t} \geq 0.
+\frac{\partial f}{\partial \dd}(\xx^\star):= \lim_{t \to 0} \frac{f(\xx^\star + t\dd) - f(\xx^\star)}{t} = 0.
 \]</span></p>
-<p>Ahora bien, como <span class="math inline">\(f\)</span> es diferenciable, se verifica la propiedad <span class="math inline">\(\frac{\partial f}{\partial \dd}(\xx)=\langle \nabla f(\xx), \dd \rangle\)</span>, por lo que la desigualdad anterior se puede reescribir como:</p>
-<p><span class="math display">\[
-\langle \nabla f(\xx^\star), \dd \rangle \geq 0.
+<p>Usando la propiedad <span class="math inline">\(\frac{\partial f}{\partial \dd}(\xx)=\langle \nabla f(\xx), \dd \rangle\)</span>, se deduce <span class="math display">\[
+\langle \nabla f(\xx^\star), \dd \rangle = 0.
 \]</span></p>
-<p>En particular, eligiendo <span class="math inline">\(\dd = -\nabla f(x)\)</span>, resulta <span class="math inline">\(-\|\nabla f(\xx^\star)\|^2\geq 0\)</span>, lo cual es cierto si y sólo si <span class="math inline">\(\nabla f(\xx^\star)=\mathbf{0}\)</span>. <span class="math inline">\(\qquad\blacksquare\)</span></p>
+<p>Finalmente, dado que <span class="math inline">\(\dd\)</span> es arbitrario, concluimos que <span class="math inline">\(\nabla f(\xx^\star)=\mathbf{0}\)</span>. <span class="math inline">\(\qquad\blacksquare\)</span></p>
 </div>
 </div>
 </div>
@@ -386,7 +390,7 @@ f(\xx^\star + t \cdot \dd) \geq f(\xx) \qquad\forall t \geq 0.
 \]</span></p>
 <p>La clave está en ajustar (2) de manera tal de asegurarnos que las posibles direcciones de movimiento nos permita aproximarnos a puntos factibles <span class="math inline">\(\xx\)</span> sin salirnos del conjunto factible <span class="math inline">\(\Omega\)</span>. Esto conduce a la siguiente reformulación:</p>
 <p><span class="math display">\[
-\langle\nabla f(\xx),\dd\rangle\geq 0\qquad \forall\dd\in\RR^p: \xx+t\cdot\dd\in\Omega,
+\langle\nabla f(\xx),\dd\rangle\geq 0\qquad \forall\dd\in\RR^p: \xx+t\dd\in\Omega,
 \tag{3}
 \]</span></p>
 <p>para cualquier <span class="math inline">\(t&gt;0\)</span> lo suficientemente pequeño. A partir de esto:</p>
@@ -423,7 +427,10 @@ f(\xx^\star + t \cdot \dd) \geq f(\xx) \qquad\forall t \geq 0.
 <div style="margin-top:2em;">
 
 </div>
-<p>Como se puede apreciar en la figura, para un punto óptimo <span class="math inline">\(\xx^\star\)</span>, el vector gradiente forma un ángulo agudo (o recto) con todas las direcciones de la forma <span class="math inline">\(\yy-\xx^\star\)</span>.</p>
+<p>Como se puede apreciar en la figura, para un punto óptimo <span class="math inline">\(\xx^\star\)</span>, el vector gradiente forma un ángulo agudo (o recto) con todas las direcciones de la forma <span class="math inline">\(\yy-\xx^\star\)</span>. Esto se deduce del hecho que <span class="math display">\[
+\langle \nabla f(\xx^\star), \yy - \xx^\star\rangle=\underbrace{\|\nabla f(\xx^\star)\|_2}_{\geq 0}\underbrace{\|\yy-\xx^\star\|_2}_{\geq 0}\cos \alpha\geq 0
+\]</span></p>
+<p>si y sólo si <span class="math inline">\(\cos\alpha\geq 0\)</span> (o equivalentemente, <span class="math inline">\(0\leq\alpha\leq\pi/2\)</span>).</p>
 <p>Ahora bien, nosotros estamos interesados en hallar <span class="math inline">\(\xx^\star\)</span>. Por lo tanto, el Teorema 1 nos da una condición necesaria que nos permite obtener aquellos puntos <span class="math inline">\(\xx\in\Omega\)</span> candidatos a ser óptimos (<mark><em>puntos críticos</em></mark>). Si pensamos en el opuesto del gradiente, <span class="math inline">\(-\nabla f(\xx)\)</span>, la condición se reescribe como <span class="math display">\[
 \langle -\nabla f(\xx),\yy-\xx\rangle\leq 0\qquad \forall\yy\in\Omega.
 \tag{4}
@@ -524,7 +531,7 @@ f(\yy)\geq f(\xx)+\underbrace{\langle\nabla f(\xx),\yy-\xx\rangle}_{\geq 0}\geq 
 \]</span></p>
 <p>donde <span class="math inline">\(A\in\RR^{r\times p}\)</span> es una matriz, cuyas filas denotamos con <span class="math inline">\(\aa_j\)</span> (<span class="math inline">\(j=1,\cdots,r\)</span>), y <span class="math inline">\(\bb\in\RR^r\)</span>. En el Ejemplo 9 de <a href="A2_optimizacion_convexa.html#conos-normales">conos normales</a> hemos visto que:</p>
 <div class="myhighlight">
-<p>El cono normal en un punto en la intersección de dos semiespacios es la envolvente cónica de sus direcciones ortogonales</p>
+<p>El cono normal en un punto en la intersección de las fronteras de dos semiespacios es la envolvente cónica de las direcciones ortogonales.</p>
 </div>
 <div style="margin-top:2em;">
 
@@ -538,7 +545,17 @@ Envolvente cónica de la intersección de dos semiespacios <span class="math inl
 <div style="margin-top:2em;">
 
 </div>
-<p>La generalización al caso de un punto en la intersección de <span class="math inline">\(r\)</span> semiespacios queda contemplada en el siguiente teorema.</p>
+<p>Necesitamos extender ese resultado al caso especial de <span class="math inline">\(\Omega\)</span> que estamos tratando. Para ello, es importante la siguiente definición.</p>
+<div class="definicion">
+<p><strong>Definición 1.</strong> (Restricción activa) Una restricción de desigualdad <span class="math inline">\(g(\xx)\leq 0\)</span> se dice que está <em>activa</em> en un punto <span class="math inline">\(\xx_0\)</span> si allí se cumple con igualdad; es decir, si <span class="math display">\[
+g(\xx_0)= 0.
+\]</span></p>
+<p>Esto significa que <span class="math inline">\(\xx_0\)</span> pertenece a la frontera del conjunto <span class="math inline">\(\{\xx\in\RR^p \mid g(\xx)\leq 0\}\)</span>.</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>Ahora sí presentamos el siguiente resultado, que permite caracterizar el cono normal en cualquier punto del poliedro <span class="math inline">\(\Omega\)</span>, definido como la intersección de <span class="math inline">\(r\)</span> semiespacios.</p>
 <div class="teorema">
 <p><strong>Teorema 3.</strong> Sea <span class="math inline">\(\Omega:=\{\xx\in\RR^p \mid A\xx\preceq \bb\}\)</span> la intersección de <span class="math inline">\(r\)</span> semiespacios. Dado un punto <span class="math inline">\(x\in\Omega\)</span>, sea <span class="math inline">\(I(\xx)\)</span> el conjunto de índices de las <em>restricciones activas</em>; esto es <span class="math display">\[
 I(\xx):=\left\{j\in\{1,\cdots,r\} \mid \aa_j^\top\xx=b_j\right\}.
@@ -710,7 +727,7 @@ Envolvente cónica de la intersección de restricciones <span class="math inline
 
 </div>
 <div class="definicion">
-<p><strong>Definición 1.</strong> (Condiciones de Karush-Kuhn-Tucker (KKT)) Sea un problema de optimización con función objetivo diferenciable y restricciones funcionales, de la forma <span class="math display">\[
+<p><strong>Definición 2.</strong> (Condiciones de Karush-Kuhn-Tucker (KKT)) Sea un problema de optimización con función objetivo diferenciable y restricciones funcionales, de la forma <span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; f(\xx)\\
 \text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\begin{array}{rl}
@@ -803,61 +820,149 @@ h_j(\xx)=0, &amp; j=1,\cdots,m.
 <section id="función-dual-de-lagrange" class="level3">
 <h3 class="anchored" data-anchor-id="función-dual-de-lagrange">Función dual de Lagrange</h3>
 <div class="definicion">
-<p><strong>Definición 2.</strong> (Lagrangiano) Sea el problema de optimización general <span class="math display">\[
-\min f(\xx)
-\]</span> <span class="math display">\[
-\text{sujeto a}\; \xx\in\Omega=\left\{\xx\in\RR^p\left|\begin{array}{rl}
-g_i(\xx)\leq 0,&amp; i=1,\cdots,q\\
-h_j(\xx)= 0, &amp; j=1,\cdots,r
+<p><strong>Definición 3.</strong> (Lagrangiano) Sea un problema de optimización de la forma <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; f(\xx)\\
+\text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\begin{array}{rl}
+g_i(\xx)\leq 0,&amp; i=1,\cdots,r.\\
+h_j(\xx)=0, &amp; j=1,\cdots,m.
 \end{array}\right.\right\}.
+\end{array}
 \]</span></p>
-<p>Se denomina <em>Lagrangiano</em> a la función <span class="math inline">\(\calL:\RR^p\times\RR^q\times\RR^r\to\RR\)</span> definida por <span class="math display">\[
-\calL(\xx,\bflambda,\bfnu):=f(\xx)+\sum_{i=1}^q\lambda_i g_i(\xx)+\sum_{j=1}^r\nu_j h_j(\xx).
+<p>Se denomina <em>Lagrangiano</em> a la función <span class="math inline">\(\calL:\RR^p\times\RR^r\times\RR^m\to\RR\)</span> definida por <span class="math display">\[
+\calL(\xx,\bflambda,\bfnu):=f(\xx)+\sum_{i=1}^r\lambda_i g_i(\xx)+\sum_{j=1}^m\nu_j h_j(\xx),
 \]</span></p>
+<p>con <span class="math inline">\(\text{dom}\,L:=\mathcal{D}\times\RR^r\times\RR^m\)</span>. Las componentes de los vectores <span class="math inline">\(\bflambda\)</span> y <span class="math inline">\(\bfnu\)</span> se denominan <em>multiplicadores de Lagrange</em>.</p>
+</div>
+<div style="margin-top:1em;">
+
+</div>
+<p>Nos referiremos al problema de optimización general como <mark><em>problema primal</em></mark>. A partir del Lagrangiano, construimos a continuación una función que luego nos permitirá derivar una cota inferior para el valor óptimo <span class="math inline">\(p^\star\)</span> del problema primal.</p>
+<div class="definicion">
+<p><strong>Definición 4.</strong> (Función dual) Sea <span class="math inline">\(\calL\)</span> el Lagrangiano de la Definición 3. Se denomina <em>función dual de Lagrange</em> a <span class="math inline">\(\calG:\RR^r\times\RR^m\to\RR\)</span> definida por <span class="math display">\[
+\calG(\bflambda,\bfnu):=\inf_{\xx}\calL(\xx,\bflambda,\bfnu).
+\]</span></p>
+<p>Cuando el Lagrangiano no está acotado inferiormente en <span class="math inline">\(\xx\)</span>, se asume el valor <span class="math inline">\(-\infty\)</span>.</p>
+</div>
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true"><span style="font-size: 1.25em;">①</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false"><span style="font-size: 1.25em;">②</span></a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<p>Para un <span class="math inline">\(\xx\)</span> fijo, el Lagrangiano es una función afín de <span class="math inline">\((\bflambda,\bfnu)\)</span>. Es decir, puede ser escrito de la forma <span class="math display">\[
+\calL(\xx,\bflambda,\bfnu)=A\begin{pmatrix}\bflambda\\\bfnu\end{pmatrix}+\bb
+\]</span></p>
+<div style="margin-top:-0.5em;">
+
+</div>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br> ¿Quiénes son <span class="math inline">\(A\)</span> y <span class="math inline">\(\bb\)</span> en la expresión anterior?</p>
+</div>
+</div>
+</div>
+<p>Por lo tanto, la función dual <span class="math inline">\(\calG\)</span> es el ínfimo puntual de una familia de funciones afines de <span class="math inline">\((\bflambda,\bfnu)\)</span>. Esto significa que <span class="math inline">\(\calG\)</span> es siempre una función cóncava (ver <a href="A2_optimizacion_convexa.html#operaciones-que-preservan-convexidad-1">operaciones que preservan convexidad en C1-S2</a>).</p>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<p>La función dual <span class="math inline">\(\calG\)</span> es una cota inferior del valor óptimo <span class="math inline">\(p^*\)</span> del problema primal, en el siguiente sentido: para todo <span class="math inline">\(\bflambda\succeq \bfzero\)</span> y para todo <span class="math inline">\(\bfnu\)</span>, resulta <span class="math display">\[
+\calG(\bflambda,\bfnu)\leq p^*.
+\]</span></p>
+<div style="margin-top:-0.5em;">
+
+</div>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br> Verificar la propiedad.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</details>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 5</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Solución por mínimos cuadrados de un sistema de ecuaciones lineales </span></p>
+<p>Sean <span class="math inline">\(A\in\RR^{m\times p}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span> y consideremos el problema</p>
+<p><span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \xx^\top\xx\\
+\text{sujeto a }  &amp; A\xx=\bb.
+\end{array}
+\]</span></p>
+<p>Al no haber restricciones de desigualdad, el Lagrangiano es <span class="math display">\[
+L(\xx,\bflambda)=\xx^\top\xx+\bflambda^\top (A\xx-\bb).
+\]</span></p>
+<p>Teniendo en cuenta el Ejemplo 11 de <a href="A2_optimizacion_convexa.html">C1-S2</a>, podemos afirmar que <span class="math inline">\(L\)</span> es una función convexa. Por lo tanto, podemos minimizar respecto de <span class="math inline">\(\xx\)</span> usando la condición de optimalidad <span class="math inline">\(\nabla_{\xx}L(\xx,\bflambda)=\bfzero\)</span>: <span class="math display">\[
+\begin{align*}
+\nabla_{\xx}L(\xx,\bflambda)=2\xx+A^\top\bflambda&amp;=\bfzero\\
+\xx&amp;=-\frac{1}{2}A^\top\bflambda.
+\end{align*}
+\]</span></p>
+<p>La función dual es <span class="math display">\[
+\begin{align*}
+\calG(\bflambda)&amp;=L\left(-\frac{1}{2}A^\top\bflambda,\bflambda\right)\\
+&amp;=\left(-\frac{1}{2}A^\top\bflambda\right)^\top\left(-\frac{1}{2}A^\top\bflambda\right)+\bflambda^\top\left(A\left(-\frac{1}{2}A^\top\bflambda\right)-\bb\right)\\
+&amp;=-\frac{1}{4}\bflambda^\top AA^\top \bflambda-\bflambda^\top \bb,
+\end{align*}
+\]</span></p>
+<p>la cual es una función cuadrática cóncava cuyo máximo resulta de resolver <span class="math display">\[
+\nabla \calG(\bflambda)=-\frac{1}{2}AA^{\top}\bflambda-\bb=\bfzero.
+\]</span></p>
+</div>
+<div style="margin-top:-0.5em;">
+
+</div>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br> Proponga casos para el Ejemplo 5, con <span class="math inline">\(\xx\in\RR^2\)</span> y <span class="math inline">\(\bflambda\in\RR^2\)</span>. En cada uno, de ser posible, compare el valor máximo de la función dual con la solución del problema primal (utilice las herramientas computacionales vistas en <a href="A3_resolucion_computacional.html">C1-S3</a>).</p>
+</div>
+</div>
+</div>
+</section>
+<section id="el-problema-dual-de-lagrange" class="level3">
+<h3 class="anchored" data-anchor-id="el-problema-dual-de-lagrange">El problema dual de Lagrange</h3>
+<p>Inmediatamente nos podemos preguntar:</p>
+<div class="myhighlight3">
+<p>¿Cuál es el valor máximo <span class="math inline">\(d^\star\)</span> de <span class="math inline">\(\calG(\bflambda,\bfnu)\)</span> si asumimos <span class="math inline">\(\bflambda\succeq \bfzero\)</span>?</p>
 </div>
 <div style="margin-top:2em;">
 
 </div>
-<p>Los vectores <span class="math inline">\(\bflambda\)</span> y <span class="math inline">\(\bfnu\)</span>, cuyas componentes son los <em>multiplicadores de Lagrange</em>, se denominan <em>variables duales</em> del problema de optimización, y son el argumento de la función definida a continuación. A su vez, al problema de optimización original se lo denomina <em>problema primal</em>.</p>
-<div class="definicion">
-<p><strong>Definición 3.</strong> (Función dual) Sea <span class="math inline">\(\calL\)</span> el Lagrangiano de la Definición 2. Se denomina <em>función dual de Lagrange</em> a <span class="math inline">\(\calG:\RR^q\times\RR^r\to\RR\)</span> definida por <span class="math display">\[
-\calG(\bflambda,\bfmu)=\inf_{\xx}\calL(\xx,\bflambda,\bfnu).
-\]</span></p>
-<p>Cuando el Lagrangiano no está acotado inferiormente en <span class="math inline">\(\xx\)</span>, se asume el valor <span class="math inline">\(-\infty\)</span>.</p>
-</div>
-<p>Dado que la función dual es el ínfimo puntual de una familia de funciones afínes de <span class="math inline">\((\bflambda,\bfnu)\)</span>, es cóncava, aún cuando el problema primal no sea convexo <span style="color: #800020;">[ver Ejercicio …]</span>.</p>
-<p>La propiedad más importante de la función dual es que es una cota inferior del valor óptimo <span class="math inline">\(p^*\)</span> del problema primal. Es decir, para todo <span class="math inline">\(\bflambda\geq 0\)</span> y cualquier <span class="math inline">\(\bfnu\)</span>, resulta <span class="math display">\[
-\calG(\bflambda,\bfnu)\leq p^*.
-\]</span></p>
-<details>
-<summary>
-Verificación
-</summary>
-<hr>
-<p>Sea <span class="math inline">\(\tilde{\xx}\)</span> un punto factible del problema primal. Entonces <span class="math inline">\(g_i(\tilde{\xx})\leq 0\)</span> y <span class="math inline">\(h_j(\tilde{\xx})=0\)</span> para todo <span class="math inline">\(i=1,\cdots,q\)</span> y <span class="math inline">\(j=1,\cdots,r\)</span>, respectivamente. Por lo tanto, para <span class="math inline">\(\bflambda\geq 0\)</span> se tiene que <span class="math display">\[
-\sum_{i=1}^q\lambda_ig_i(\tilde{\xx})+\sum_{j=1}^r\nu_j h_j(\tilde{\xx})\geq 0.
-\]</span></p>
-<p>Sumando <span class="math inline">\(f(\tilde{\xx})\)</span> a ambos miembros, se obtiene <span class="math inline">\(\calL(\xx,\bflambda,\bfnu)\leq f(\tilde{\xx})\)</span>. Luego, por propiedad del ínfimo, resulta <span class="math display">\[
-\calG(\bflambda,\bfnu)\leq f(\tilde{\xx}).
-\]</span></p>
-<p>Finalmente, dado que <span class="math inline">\(\tilde{\xx}\)</span> es cualquier punto factible, en particular la desigualdad anterior es cierta para un punto óptimo <span class="math inline">\(\xx^*\)</span> tal que <span class="math inline">\(f(\xx^*)=p^*\)</span>.</p>
-<hr>
-</details>
-</section>
-<section id="el-problema-dual-de-lagrange" class="level3">
-<h3 class="anchored" data-anchor-id="el-problema-dual-de-lagrange">El problema dual de Lagrange</h3>
-<p>Inmediatamente nos podemos preguntar: ¿cual es el valor máximo <span class="math inline">\(d^*\)</span> de <span class="math inline">\(\calG(\bflambda,\bfnu)\)</span> si asumimos <span class="math inline">\(\bflambda\geq 0\)</span>? Esto da lugar al problema que definiremos a continuación. Observar que la desigualdad <span class="math inline">\(\calG(\bflambda,\bfnu)\leq p^*\)</span> implica <span class="math display">\[
-d^*\leq p^*.
+<p>Esta pregunta cobra interés de las propiedades de la función dual <span class="math inline">\(\calG\)</span>: es una función cóncava y constituye una cota inferior de <span class="math inline">\(p^\star\)</span> para <span class="math inline">\(\lambda\succeq \bfzero\)</span>. Por lo tanto, maximizarla conduce a un problema de optimización convexo, independientemente de si el problema primal lo es o no. Además, se verifica <span class="math display">\[
+d^\star\leq p^\star.
 \]</span></p>
 <div class="definicion">
-<p><strong>Definición 3.</strong> (Problema dual) Sea <span class="math inline">\(\calG\)</span> la función dual de Lagrange asociado al problema primal de la Definición 2. El <em>problema dual de Lagrange</em> es <span class="math display">\[
+<p><strong>Definición 5.</strong> (Problema dual) Sea <span class="math inline">\(\calG\)</span> la función dual de Lagrange asociado al problema primal. El <em>problema dual de Lagrange</em> es <span class="math display">\[
 \max \calG(\bflambda,\bfnu)
 \]</span> <span class="math display">\[
-\text{sujeto a }\; \bflambda\geq 0.
+\text{sujeto a }\; \bflambda\succeq \bfzero.
+\]</span></p>
+<p>El valor óptimo del problema dual se denota con <span class="math inline">\(d^\star\)</span>. Además, se dice que <span class="math inline">\((\bflambda^\star,\bfnu^\star)\)</span> son los <em>multiplicadores de Lagrange óptimos</em> si verifican <span class="math display">\[
+\calG(\bflambda^*,\bfnu^*)=d^*.
 \]</span></p>
 </div>
-<p>En línea con la notación anterior, denominaremos <em>multiplicadores óptimos</em> a un par <span class="math inline">\((\bflambda^*,\bfnu^*)\)</span> que es solución del problema dual. Es decir, verifican <span class="math inline">\(\calG(\bflambda^*,\bfnu^*)=d^*\)</span>.</p>
-<p>El problema dual de Lagrange es un problema de optimización convexo, independientemente de que el problema primal sea convexo o no. Esto se debe a que la función a maximizar es cóncava y la restricción es un conjunto convexo.</p>
+<p>Resaltamos:</p>
+<div class="myhighlight">
+<p>El problema dual es siempre un problema de optimización convexo.</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
 </section>
 <section id="suboptimalidad-y-criterio-de-parada" class="level3">
 <h3 class="anchored" data-anchor-id="suboptimalidad-y-criterio-de-parada">Suboptimalidad y criterio de parada</h3>
@@ -899,7 +1004,7 @@ f(\xx^*)+ \sum_{i=1}^{q} \lambda_{i}^{*} g_{i}(\xx^{*}) + \sum_{j=1}^{r} \nu_{j}
 </section>
 <section id="relación-entre-dualidad-y-kkt" class="level3">
 <h3 class="anchored" data-anchor-id="relación-entre-dualidad-y-kkt">Relación entre dualidad y KKT</h3>
-<p>Los conceptos de Lagrangiano y su función dual han permitido caracterizar la relación entre los valores óptimos <span class="math inline">\(p^*\)</span> y <span class="math inline">\(d^*\)</span>. En particular, las condiciones de <em>factibilidad dual</em> y de <em>holgura complementaria</em> de la Definición 1 (Condiciones de Karush-Kuhn-Tucker) han permitido primero escribir la desigualdad <span class="math inline">\(\calG(\bflambda,\bfmu)\leq p^*\)</span> y luego analizar qué sucede cuando <span class="math inline">\(p^*=q^*\)</span>.</p>
+<p>Los conceptos de Lagrangiano y su función dual han permitido caracterizar la relación entre los valores óptimos <span class="math inline">\(p^*\)</span> y <span class="math inline">\(d^*\)</span>. En particular, las condiciones de <em>factibilidad dual</em> y de <em>holgura complementaria</em> de la Definición 2 (Condiciones de Karush-Kuhn-Tucker) han permitido primero escribir la desigualdad <span class="math inline">\(\calG(\bflambda,\bfmu)\leq p^*\)</span> y luego analizar qué sucede cuando <span class="math inline">\(p^*=q^*\)</span>.</p>
 <p>Veamos ahora cómo surge la <em>estacionariedad</em> en este contexto. Podemos afirmar que</p>
 <p><span class="math display">\[
 f(\xx^*)\leq f(\xx)+\sum_{i=1}^{q} \lambda_{i}^{*} g_{i}(\xx) + \sum_{j=1}^{r} \nu_{j}^{*} h_{j}(\xx)
@@ -927,7 +1032,6 @@ f(\xx^*)\leq f(\xx)+\sum_{i=1}^{q} \lambda_{i}^{*} g_{i}(\xx) + \sum_{j=1}^{r} \
 <li><p>Considere el problema <span class="math display">\[
 \min x^2\quad\text{sujeto a}\quad 2-x\leq 0.
 \]</span> Obtenga la función dual de Lagrange y verifique graficamente su convexidad. ¿Cuál es el valor de <span class="math inline">\(d^*\)</span>?</p></li>
-<li><p>Probar que la función dual de Lagrange <span class="math inline">\(\calG(\bflambda,\bfmu)\)</span> es cóncava.</p></li>
 <li><p>Mostrar que, si <span class="math inline">\(\xx\)</span> es factible primal y <span class="math inline">\((\bflambda,\bfnu)\)</span> es factible dual, entonces <span class="math inline">\((\bflambda,\bfnu)\)</span> es <span class="math inline">\(\epsilon\)</span>-subóptimo para el problema dual.</p></li>
 </ol>
 <div style="margin-top:2em;">
