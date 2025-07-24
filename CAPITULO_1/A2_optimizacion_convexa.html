@@ -1144,7 +1144,7 @@ N_{\Omega}(\xx_0) = \{\mathbf{0}\}.
 <div class="columns">
 <div class="column" style="width:70%;">
 <p>El cono normal a un punto <span class="math inline">\(\xx_0\in\Omega\)</span> es la recta con dirección <span class="math inline">\(\aa\)</span>. Esto es, <span class="math display">\[
-\mathcal{N}_{\xx_0}(\Omega)=\{\lambda\aa \mid \lambda\in\RR\}.
+N_{\Omega}(\xx_0)=\{\lambda\aa \mid \lambda\in\RR\}.
 \]</span></p>
 <p>La verificación se deja como tarea (📝 Ejercicio 7).</p>
 </div><div class="column" style="width:30%;">
@@ -1162,9 +1162,9 @@ N_{\Omega}(\xx_0) = \{\mathbf{0}\}.
 <div class="columns">
 <div class="column" style="width:70%;">
 <ul>
-<li><p>Si <span class="math inline">\(\xx_0\)</span> está en el interior de <span class="math inline">\(\Omega\)</span>, <span class="math inline">\(\aa^\top\xx_0&lt;b\)</span>, el cono normal es <span class="math inline">\(\mathcal{N}_{\Omega}(\xx_0)=\{\mathbf{0}\}\)</span>.</p></li>
+<li><p>Si <span class="math inline">\(\xx_0\)</span> está en el interior de <span class="math inline">\(\Omega\)</span>, <span class="math inline">\(\aa^\top\xx_0&lt;b\)</span>, el cono normal es <span class="math inline">\(N_{\Omega}(\xx_0)=\{\mathbf{0}\}\)</span>.</p></li>
 <li><p>Si <span class="math inline">\(\xx_0\)</span> está en la frontera de <span class="math inline">\(\Omega\)</span>, <span class="math inline">\(\aa^\top\xx_0=b\)</span>, resulta <span class="math display">\[
-\mathcal{N}_{\xx_0}(\Omega)=\{\lambda\aa \mid \lambda\in\RR_0^+\}.
+N_{\Omega}(\xx_0)=\{\lambda\aa \mid \lambda\in\RR_0^+\}.
 \]</span></p></li>
 </ul>
 <p>La diferencia con el ejemplo anterior radica en que ahora el cono normal es una semirrecta.</p>
@@ -1185,7 +1185,7 @@ N_{\Omega}(\xx_0) = \{\mathbf{0}\}.
 <ul>
 <li><p>Si <span class="math inline">\(\xx_0\)</span> está en el interior de <span class="math inline">\(\Omega\)</span> o en la frontera de solo uno de los semiespacios, el cono normal resulta del ejemplo anterior.</p></li>
 <li><p>Si <span class="math inline">\(\xx_0\)</span> está en la intersección de ambas fronteras, <span class="math inline">\(\aa_1^\top\xx_0=b_1\)</span> y <span class="math inline">\(\aa_2^\top\xx_0=b_2\)</span>, entonces el cono normal es la envolvente cónica de las direcciones <span class="math inline">\(\aa_1\)</span> y <span class="math inline">\(\aa_2\)</span>. Esto es <span class="math display">\[
-\mathcal{N}_{\Omega}(\xx_0)=\{\lambda_1\aa_1+\lambda_2\aa_2 \mid \lambda_1,\lambda_2\in\RR_0^+\}.
+N_{\Omega}(\xx_0)=\{\lambda_1\aa_1+\lambda_2\aa_2 \mid \lambda_1,\lambda_2\in\RR_0^+\}.
 \]</span></p></li>
 </ul>
 </div><div class="column" style="width:30%;">
@@ -1427,7 +1427,7 @@ f(\xx)=\frac{1}{2}\xx^\top A\xx+\bb^\top\xx+c,
 f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
 \]</span></p>
 <p>es convexa, ya que <span class="math inline">\(\xx^\top A\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\((x,y)\in\RR^2\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
-<div id="75aaa648" class="cell" data-execution_count="1">
+<div id="eccc9f89" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1601,7 +1601,7 @@ f(\zz)\leq (1-\theta)f(\xx)+\theta f(\yy)&lt;(1-\theta)f(\xx)+\theta f(\xx)&lt;f
 <li><p>Sea <span class="math inline">\(\{S_i\}_{i\in I}\)</span> una familia de conjuntos convexos. Probar que si <span class="math inline">\(S_i\)</span> es convexo para cada <span class="math inline">\(i\in I\)</span>, entonces <span class="math inline">\(\bigcap_{i\in I} S_i\)</span> es convexo. ¿Qué ocurre con <span class="math inline">\(\bigcup_{i\in I} S_i\)</span>?</p></li>
 <li><p>Sean <span class="math inline">\(S_1\)</span> y <span class="math inline">\(S_2\)</span> conjuntos convexos. Muestre que <span class="math inline">\(S_1\times S_2\)</span> es convexo.</p></li>
 <li><p>Sea <span class="math inline">\(S\subset\RR^p\)</span> un conjunto convexo, <span class="math inline">\(\aa\in\RR^p\)</span> y <span class="math inline">\(\alpha\in\RR\)</span>. Pruebe que los conjuntos <span class="math inline">\(S+\aa:=\{\xx+\aa \mid \xx\in S\}\)</span> y <span class="math inline">\(\alpha S:=\{\alpha\xx \mid \xx\in S\}\)</span> son convexos.</p></li>
-<li><p>Realice la prueba del Ejemplo 7 de cono normal a un hiperplano. Es decir, muestre que <span class="math inline">\(\dd\in\mathcal{N}_{\xx_0}(\Omega)\)</span> si y solo si es de la forma <span class="math inline">\(\dd=\lambda\aa\)</span> para algún <span class="math inline">\(\lambda\in\RR\)</span>. [<em>Ayuda: para el directo, suponga <span class="math inline">\(\dd\neq \lambda\aa\)</span> y utilice el hecho de que <span class="math inline">\(\dd\)</span> puede escribirse como <span class="math inline">\(\dd=(\xx-\xx_0)+k\aa\)</span>, donde <span class="math inline">\(\xx\)</span> es la proyección de <span class="math inline">\(\dd\)</span> sobre <span class="math inline">\(\Omega\)</span> y <span class="math inline">\(k\in\RR\)</span></em>.]</p></li>
+<li><p>Realice la prueba del Ejemplo 7 de cono normal a un hiperplano. Es decir, muestre que <span class="math inline">\(\dd\in N_{\Omega}(\xx_0)\)</span> si y solo si es de la forma <span class="math inline">\(\dd=\lambda\aa\)</span> para algún <span class="math inline">\(\lambda\in\RR\)</span>. [<em>Ayuda: para el directo, suponga <span class="math inline">\(\dd\neq \lambda\aa\)</span> y utilice el hecho de que <span class="math inline">\(\dd\)</span> puede escribirse como <span class="math inline">\(\dd=(\xx-\xx_0)+k\aa\)</span>, donde <span class="math inline">\(\xx\)</span> es la proyección de <span class="math inline">\(\dd\)</span> sobre <span class="math inline">\(\Omega\)</span> y <span class="math inline">\(k\in\RR\)</span></em>.]</p></li>
 <li><p>Muestre que los conjuntos de subnivel de una función <span class="math inline">\(f:\RR^p\to\RR\)</span>, definidos como <span class="math display">\[
 C_\alpha:=\{\xx\in\text{dom}\,f \mid f(\xx)\leq\alpha\}
 \]</span> son convexos (ver Ejemplo 5), pero que el recíproco no se cumple. Para esto último utilice algún contraejemplo.</p></li>
@@ -1626,7 +1626,7 @@ f(\media \xx)\leq \media f(\xx),
 <li><p>Sean <span class="math inline">\(C\subset\RR^p\)</span> y <span class="math inline">\(\|\cdot\|\)</span> una norma en <span class="math inline">\(\RR^p\)</span>. La <em>distancia al punto más lejano</em> de <span class="math inline">\(C\)</span> está dada por <span class="math display">\[
 f(\xx)=\sup_{\yy\in C}\|\xx-\yy\|.
 \]</span> Pruebe que <span class="math inline">\(f\)</span> es convexa.</p></li>
-<li><p>Pruebe que la función <span class="math inline">\(f:\mathbf{S}^n\to\RR\)</span>, definida por <span class="math display">\[
+<li><p>Pruebe que la función <span class="math inline">\(f:\mathbf{S}^p\to\RR\)</span>, definida por <span class="math display">\[
 f(X)=\lambda_{\text{max}}(X),
 \]</span> donde <span class="math inline">\(\lambda_{\text{max}}\)</span> es el <em>valor propio máximo</em> de <span class="math inline">\(X\)</span>, es convexa.</p></li>
 </ol>

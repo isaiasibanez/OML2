@@ -429,7 +429,7 @@ f(\xx^\star + t \cdot \dd) \geq f(\xx) \qquad\forall t\in\RR.
 <p>Como se puede apreciar en la figura, para un punto óptimo <span class="math inline">\(\xx^\star\)</span>, el vector gradiente forma un ángulo agudo (o recto) con todas las direcciones de la forma <span class="math inline">\(\yy-\xx^\star\)</span>. Esto se deduce del hecho que <span class="math display">\[
 \langle \nabla f(\xx^\star), \yy - \xx^\star\rangle=\underbrace{\|\nabla f(\xx^\star)\|_2}_{\geq 0}\underbrace{\|\yy-\xx^\star\|_2}_{\geq 0}\cos \alpha\geq 0
 \]</span></p>
-<p>si y sólo si <span class="math inline">\(\cos\alpha\geq 0\)</span> (o equivalentemente, <span class="math inline">\(0\leq\alpha\leq\pi/2\)</span>).</p>
+<p>si y solo si <span class="math inline">\(\cos\alpha\geq 0\)</span> (o equivalentemente, <span class="math inline">\(0\leq\alpha\leq\pi/2\)</span>).</p>
 <p>Ahora bien, nosotros estamos interesados en hallar <span class="math inline">\(\xx^\star\)</span>. Por lo tanto, el Teorema 1 nos da una condición necesaria que nos permite obtener aquellos puntos <span class="math inline">\(\xx\in\Omega\)</span> candidatos a ser óptimos (<mark><em>puntos críticos</em></mark>). Si pensamos en el opuesto del gradiente, <span class="math inline">\(-\nabla f(\xx)\)</span>, la condición se reescribe como <span class="math display">\[
 \langle -\nabla f(\xx),\yy-\xx\rangle\leq 0\qquad \forall\yy\in\Omega.
 \tag{4}
@@ -667,7 +667,7 @@ N_{\Omega}(\xx)=\left\{A^\top\bflambda+C^\top\bfnu \mid \bflambda^\top(A\xx-\bb)
 <p>Los Teoremas 1 y 2 pueden ser aplicados en este contexto, dado que <span class="math inline">\(\Omega\)</span> es un poliedro y, en consecuencia, es un conjunto convexo. Obtenemos así el siguiente resultado.</p>
 <div class="teorema">
 <p><strong>Corolario 4.</strong> (Condición necesaria de optimalidad de primer orden para un conjunto factible poliedral) Sea <span class="math inline">\(\Omega\)</span> el poliedro definido por (6), y sea <span class="math inline">\(f:\RR^p\to\RR\)</span> una función diferenciable. Si <span class="math inline">\(\xx^\star\in \Omega\)</span> es un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, entonces existen <span class="math inline">\(\tilde{\bflambda}\in(\RR_0^+)^r\)</span> y <span class="math inline">\(\tilde{\bfnu}\in\RR^m\)</span> tales que <span class="math inline">\(\tilde{\lambda}_i(\aa_i^\top\xx-b_i)=0\)</span> para todo <span class="math inline">\(i=1,\ldots,r\)</span> y <span class="math display">\[
-\nabla f(\xx)-\sum_{i=1}^r\tilde{\lambda}_i\aa_i-\sum_{j=1}^m \tilde{\nu}_j\cc_j=0.
+\nabla f(\xx^\star)-\sum_{i=1}^r\tilde{\lambda}_i\aa_i-\sum_{j=1}^m \tilde{\nu}_j\cc_j=0.
 \]</span></p>
 <p>Además, si <span class="math inline">\(f\)</span> es convexa, esta condición es también suficiente.</p>
 </div>
@@ -859,8 +859,8 @@ h_j(\xx)=0, &amp; j=1,\cdots,m.
 <p><span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; -x\\
-\text{sujeto a }  &amp; y-(1-x)^3\leq 0\\
-                  &amp; x\geq 0,\;y\geq 0
+\text{sujeto a }  &amp; y-(1-x)^3\leq 0,\\
+                  &amp; x\geq 0,\;y\geq 0.
 \end{array}
 \]</span></p>
 <p>La función objetivo es <span class="math inline">\(f(x,y)=-x\)</span>, y las restricciones funcionales son <span class="math inline">\(g_1(x,y)=y-(1-x)^3\leq 0\)</span>, <span class="math inline">\(g_2(x,y)=-x\leq 0\)</span> y <span class="math inline">\(g_3(x,y)=-y\leq 0\)</span>. Entonces <span class="math display">\[
