@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -37,7 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-327735d1480bff6f7510335fe22ad292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -529,12 +529,12 @@ f(\yy)\geq f(\xx)+\underbrace{\langle\nabla f(\xx),\yy-\xx\rangle}_{\geq 0}\geq 
 
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 2</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Aplicación de condiciones KKT en un problema de optimización convexa </span></p>
+<p><span class="badge bg-primary">Ejemplo 2</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Aplicación de condición de optimalidad en un problema de optimización convexa </span></p>
 <p><span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; \frac{1}{2}\|A\xx-\bb\|_2^2\\
 \text{sujeto a }  &amp; x_1+x_2\leq 1.5,\\
-                  &amp;x_1\geq 0,\, x_2\geq 0.
+                  &amp;x_1\geq 0,\; x_2\geq 0.
 \end{array}
 \]</span></p>
 <p>con <span class="math display">\[
@@ -666,8 +666,8 @@ N_{\Omega}(\xx)=\left\{A^\top\bflambda+C^\top\bfnu \mid \bflambda^\top(A\xx-\bb)
 </div>
 <p>Los Teoremas 1 y 2 pueden ser aplicados en este contexto, dado que <span class="math inline">\(\Omega\)</span> es un poliedro y, en consecuencia, es un conjunto convexo. Obtenemos así el siguiente resultado.</p>
 <div class="teorema">
-<p><strong>Corolario 4.</strong> (Condición necesaria de optimalidad de primer orden para un conjunto factible poliedral) Sea <span class="math inline">\(\Omega\)</span> el poliedro definido por (6), y sea <span class="math inline">\(f:\RR^p\to\RR\)</span> una función diferenciable. Si <span class="math inline">\(\xx^\star\in \Omega\)</span> es un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, entonces existen <span class="math inline">\(\tilde{\bflambda}\in(\RR_0^+)^r\)</span> y <span class="math inline">\(\tilde{\bfnu}\in\RR^m\)</span> tales que <span class="math inline">\(\tilde{\lambda}_i(\aa_i^\top\xx-b_i)=0\)</span> para todo <span class="math inline">\(i=1,\ldots,r\)</span> y <span class="math display">\[
-\nabla f(\xx^\star)-\sum_{i=1}^r\tilde{\lambda}_i\aa_i-\sum_{j=1}^m \tilde{\nu}_j\cc_j=0.
+<p><strong>Corolario 4.</strong> (Condición necesaria de optimalidad de primer orden para un conjunto factible poliedral) Sea <span class="math inline">\(\Omega\)</span> el poliedro definido por (6), y sea <span class="math inline">\(f:\RR^p\to\RR\)</span> una función diferenciable. Si <span class="math inline">\(\xx^\star\in \Omega\)</span> es un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, entonces existen <span class="math inline">\(\bflambda\in(\RR_0^+)^r\)</span> y <span class="math inline">\(\bfnu\in\RR^m\)</span> tales que <span class="math inline">\(\lambda_i(\aa_i^\top\xx-b_i)=0\)</span> para todo <span class="math inline">\(i=1,\ldots,r\)</span> y <span class="math display">\[
+\nabla f(\xx^\star)-\sum_{i=1}^r\lambda_i\aa_i-\sum_{j=1}^m \nu_j\cc_j=0.
 \]</span></p>
 <p>Además, si <span class="math inline">\(f\)</span> es convexa, esta condición es también suficiente.</p>
 </div>
