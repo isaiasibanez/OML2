@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -37,7 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-327735d1480bff6f7510335fe22ad292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -247,7 +247,6 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#función-dual-de-lagrange" id="toc-función-dual-de-lagrange" class="nav-link" data-scroll-target="#función-dual-de-lagrange">Función dual de Lagrange</a></li>
   <li><a href="#el-problema-dual-de-lagrange" id="toc-el-problema-dual-de-lagrange" class="nav-link" data-scroll-target="#el-problema-dual-de-lagrange">El problema dual de Lagrange</a></li>
-  <li><a href="#holgura-complementaria" id="toc-holgura-complementaria" class="nav-link" data-scroll-target="#holgura-complementaria">Holgura complementaria</a></li>
   <li><a href="#relación-entre-dualidad-y-kkt" id="toc-relación-entre-dualidad-y-kkt" class="nav-link" data-scroll-target="#relación-entre-dualidad-y-kkt">Relación entre dualidad y KKT</a></li>
   </ul></li>
   <li><a href="#actividades" id="toc-actividades" class="nav-link" data-scroll-target="#actividades">Actividades</a></li>
@@ -529,7 +528,7 @@ f(\yy)\geq f(\xx)+\underbrace{\langle\nabla f(\xx),\yy-\xx\rangle}_{\geq 0}\geq 
 
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 2</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Aplicación de condición de optimalidad en un problema de optimización convexa </span></p>
+<p><span class="badge bg-primary">Ejemplo 2</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Aplicación de condiciones KKT en un problema de optimización convexa </span></p>
 <p><span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; \frac{1}{2}\|A\xx-\bb\|_2^2\\
@@ -644,8 +643,8 @@ N_{\Omega}(\xx)=\left\{A^\top\bflambda+C^\top\bfnu \mid \bflambda^\top(A\xx-\bb)
 <p>La condición de optimalidad <span class="math inline">\(-\nabla f(\xx)\in N_{\Omega}(\xx)\)</span> se traduce como <span class="math display">\[
 -\nabla f(\xx)=\sum_{i\in I(\xx)}\lambda_i\aa_i+\sum_{j=1}^m\nu_j\cc_j,\qquad\lambda_i\in\RR^+,\;\nu_j\in\RR.
 \]</span></p>
-<p>Por lo tanto, se puede escribir <span class="math display">\[
-\nabla f(\xx)-\sum_{i\in I(\xx)}\lambda_i \nabla g_i(\xx)-\sum_{j=1}^m\nu_j\nabla h_j(\xx)=0,\qquad\lambda_i\in\RR^+,\;\nu_j\in\RR.
+<p>O, equivalentemente, <span class="math display">\[
+-\nabla f(\xx)=\sum_{i\in I(\xx)}\lambda_i \nabla g_i(\xx)+\sum_{j=1}^m\nu_j\nabla h_j(\xx),\qquad\lambda_i\in\RR^+,\;\nu_j\in\RR.
 \]</span> donde <span class="math inline">\(g_i(\xx)=\aa_i^\top\xx-b_i\)</span> y <span class="math inline">\(h_j(\xx)=\cc_j^\top\xx-d_i\)</span>. Esta última expresión resulta familiar, ya que los coeficientes <span class="math inline">\(\lambda_i\)</span> y <span class="math inline">\(\nu_j\)</span> son precisamente los <mark><em>multiplicadores de Lagrange</em></mark> asociados a las funciones de restricción.</p>
 </div>
 </div>
@@ -667,22 +666,23 @@ N_{\Omega}(\xx)=\left\{A^\top\bflambda+C^\top\bfnu \mid \bflambda^\top(A\xx-\bb)
 <p>Los Teoremas 1 y 2 pueden ser aplicados en este contexto, dado que <span class="math inline">\(\Omega\)</span> es un poliedro y, en consecuencia, es un conjunto convexo. Obtenemos así el siguiente resultado.</p>
 <div class="teorema">
 <p><strong>Corolario 4.</strong> (Condición necesaria de optimalidad de primer orden para un conjunto factible poliedral) Sea <span class="math inline">\(\Omega\)</span> el poliedro definido por (6), y sea <span class="math inline">\(f:\RR^p\to\RR\)</span> una función diferenciable. Si <span class="math inline">\(\xx^\star\in \Omega\)</span> es un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, entonces existen <span class="math inline">\(\bflambda\in(\RR_0^+)^r\)</span> y <span class="math inline">\(\bfnu\in\RR^m\)</span> tales que <span class="math inline">\(\lambda_i(\aa_i^\top\xx-b_i)=0\)</span> para todo <span class="math inline">\(i=1,\ldots,r\)</span> y <span class="math display">\[
-\nabla f(\xx^\star)-\sum_{i=1}^r\lambda_i\aa_i-\sum_{j=1}^m \nu_j\cc_j=0.
+-\nabla f(\xx^\star)=\sum_{i=1}^r\lambda_i\aa_i+\sum_{j=1}^m \nu_j\cc_j.
 \]</span></p>
 <p>Además, si <span class="math inline">\(f\)</span> es convexa, esta condición es también suficiente.</p>
 </div>
 <div class="alert alert-light text-dark" role="important">
 <p><span class="badge bg-warning text-dark">Importante</span></p>
-<p>Las condiciones del Corolario 4, conocidas como <em>condiciones de Karush-Kuhn-Tucker</em> (KKT), permiten definir un criterio para obtener puntos críticos. Se formulan a través de tres componentes:</p>
+<p>Las condiciones del Corolario 4 son conocidas como <em>condiciones de Karush-Kuhn-Tucker</em> (KKT), permiten definir un criterio para obtener puntos críticos. Se formulan a partir de diferentes componentes:</p>
 <ul>
-<li><p><strong>Estacionariedad</strong>: El gradiente debe ser una combinación lineal de los gradientes de las restricciones. <span class="math display">\[
-\nabla f(\xx)=\sum_{i=1}^{r}\lambda_i\aa_i+\sum_{j=1}^m\nu_j\cc_j.
-\]</span></p></li>
+<li><p><strong>Factibilidad primal</strong>: El punto <span class="math inline">\(\xx\)</span> debe ser un punto factible.</p></li>
 <li><p><strong>Factibilidad dual</strong>: Los multiplicadores de Lagrange asociados a las restricciones de desigualdad deben ser no negativos. <span class="math display">\[
 \lambda_i\geq 0 \quad \forall i=1,\cdots,r.
 \]</span></p></li>
 <li><p><strong>Holgura complementaria</strong>: Los multiplicadores de Lagrange asociados a las restricciones de desigualdad solo pueden ser positivos si la restricción está activa. <span class="math display">\[
 \lambda_i\left(\aa_i^\top\xx-b_i\right)=0 \quad \forall i=1,\cdots,r.
+\]</span></p></li>
+<li><p><strong>Estacionariedad</strong>: El opuesto del vector gradiente debe ser una combinación lineal de los gradientes de las restricciones. <span class="math display">\[
+-\nabla f(\xx)=\sum_{i=1}^{r}\lambda_i\aa_i+\sum_{j=1}^m\nu_j\cc_j.
 \]</span></p></li>
 </ul>
 <div style="margin-top:2em;">
@@ -783,10 +783,10 @@ Envolvente cónica de la intersección de restricciones <span class="math inline
 \]</span></p>
 <p>Es importante notar que <span class="math inline">\(\nabla \tilde{g}_i(\xx)=\nabla g_i(\xx^\star)\)</span> y <span class="math inline">\(\nabla \tilde{h}_i(\xx)=\nabla h_i(\xx^\star)\)</span>. En consecuencia, la aplicación del Teorema 3 a <span class="math inline">\(\tilde{\Omega}\)</span> resulta en el siguiente cono normal:</p>
 <p><span class="math display">\[
-\left.N_{\tilde{\Omega}}(\xx^\star)=\left\{\sum_{i=1}^m\lambda_i\nabla h_i(\xx^\star)+\sum_{j\in I(\xx^\star)}\mu_j\nabla g_j(\xx^\star) \,\right| \lambda_i\in\RR, \mu_j\in\RR_{\geq 0}\right\},
+\left.N_{\tilde{\Omega}}(\xx^\star)=\left\{\sum_{i\in I(\xx^\star)}\lambda_i\nabla g_i(\xx^\star)+\sum_{j=1}^m\nu_j\nabla h_j(\xx^\star)+ \,\right| \lambda_i\in\RR_0^+, \nu_j\in\RR\right\},
 \tag{9}
 \]</span></p>
-<p>donde <span class="math inline">\(I(\xx^\star):=\left\{j\in\{1,\cdots,m\} \mid g_j(\xx^\star)=0\right\}\)</span>. Por supuesto, el uso del conjunto índice <span class="math inline">\(I\)</span> puede evitarse utilizando holgura complementaria, tal como antes.</p>
+<p>donde <span class="math inline">\(I(\xx^\star):=\left\{i\in\{1,\cdots,r\} \mid g_i(\xx^\star)=0\right\}\)</span>. Por supuesto, el uso del conjunto índice <span class="math inline">\(I\)</span> puede evitarse utilizando holgura complementaria, tal como antes.</p>
 <div class="question callout callout-style-simple callout-none no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -815,16 +815,21 @@ h_j(\xx)=0, &amp; j=1,\cdots,m.
 \end{array}\right.\right\},
 \end{array}
 \]</span></p>
-<p>y sea <span class="math inline">\(\xx\in\Omega\)</span> (<em>factibilidad primal</em>). Las <em>condiciones KKT</em> en <span class="math inline">\(\xx\)</span> están dadas por:</p>
+<p>Las <em>condiciones KKT</em> en <span class="math inline">\(\xx\)</span> están dadas por:</p>
 <ul>
-<li><p><strong>Estacionariedad</strong>: <span class="math display">\[
--\nabla f(\xx)=\sum_{i=1}^r\lambda_i\nabla h_i(\xx)+\sum_{j=1}^m\mu_j\nabla g_j(\xx).
+<li><p><strong>Factibilidad primal</strong>: <span class="math display">\[
+g_i(\xx)\leq 0\qquad\forall i=1,\ldots,r,
+\]</span> <span class="math display">\[
+h_j(\xx)=0\qquad\forall j=1,\ldots,m.
 \]</span></p></li>
 <li><p><strong>Factibilidad dual</strong>: <span class="math display">\[
-\lambda_i\in\RR, \mu_j\in\RR_{\geq 0}\qquad\forall i=1,\cdots,r,\; \forall j=1,\cdots, m.
+\lambda_i\geq 0\qquad\forall i=1,\cdots,r.
 \]</span></p></li>
 <li><p><strong>Holgura complementaria</strong>: <span class="math display">\[
-\mu_j g_j(\xx)=0\qquad \forall j=1,\cdots,m.
+\lambda_i g_i(\xx)=0\qquad \forall i=1,\cdots,r.
+\]</span></p></li>
+<li><p><strong>Estacionariedad</strong>: <span class="math display">\[
+-\nabla f(\xx)=\sum_{i=1}^r\lambda_i\nabla g_i(\xx)+\sum_{j=1}^m\mu_j\nabla h_j(\xx).
 \]</span></p></li>
 </ul>
 </div>
@@ -838,7 +843,7 @@ h_j(\xx)=0, &amp; j=1,\cdots,m.
 <li><p>La condición de holgura complementaria se resume en:</p></li>
 </ul>
 <div class="myhighlight">
-<p>Si la restricción <span class="math inline">\(g_j(\xx)\leq 0\)</span> no está activa, entonces <span class="math inline">\(\mu_j=0.\)</span></p>
+<p>Si la restricción <span class="math inline">\(g_i(\xx)\leq 0\)</span> no está activa, entonces <span class="math inline">\(\lambda_i=0.\)</span></p>
 </div>
 <div style="margin-top:1.5em;">
 
@@ -902,7 +907,7 @@ h_j(\xx)=0, &amp; j=1,\cdots,m.
 </div>
 <p>La condición de Slater es la cualificación de restricciones más común para garantizar que las condiciones KKT son necesarias para que un punto sea óptimo. Además, si añadimos la hipótesis de que la función objetivo <span class="math inline">\(f\)</span> es convexa, entonces las condiciones KKT también son suficientes. Este escenario corresponde a los problemas de optimización convexa con funciones diferenciables.</p>
 <div class="teorema">
-<p><strong>Teorema 5.</strong> (Teorema de Slater) En un problema de optimización convexa, si tanto la función objetivo <span class="math inline">\(f\)</span> como las funciones de restricción <span class="math inline">\(g_i\)</span> (<span class="math inline">\(i=1,\ldots,r\)</span>) son diferenciables, y además la condición de Slater (10) es cierta, entonces las condiciones KKT son suficientes y necesarias para que un punto sea óptimo.</p>
+<p><strong>Teorema 4.</strong> (Teorema de Slater) En un problema de optimización convexa, si tanto la función objetivo <span class="math inline">\(f\)</span> como las funciones de restricción <span class="math inline">\(g_i\)</span> (<span class="math inline">\(i=1,\ldots,r\)</span>) son diferenciables, y además la condición de Slater (10) es cierta, entonces las condiciones KKT son suficientes y necesarias para que un punto sea óptimo.</p>
 </div>
 <div style="margin-top:2em;">
 
@@ -1094,7 +1099,7 @@ d^\star=p^\star.
 </ul>
 <p>La cualificación de restricciones más común para asegurar la dualidad fuerte es la condición de Slater.</p>
 <div class="teorema">
-<p><strong>Teorema 1.</strong> (Teorema de Slater) Sea un problema de optimización convexo con función objetivo <span class="math inline">\(f\)</span> y conjunto factible <span class="math inline">\(\Omega\subset\RR^p\)</span>. Si se satisface la condición de Slater (10), entonces se cumple la dualidad fuerte.</p>
+<p><strong>Teorema 5.</strong> (Teorema de Slater) Sea un problema de optimización convexo con función objetivo <span class="math inline">\(f\)</span> y conjunto factible <span class="math inline">\(\Omega\subset\RR^p\)</span>. Si se satisface la condición de Slater (10), entonces se cumple la dualidad fuerte.</p>
 </div>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 7</span></p>
@@ -1102,45 +1107,140 @@ d^\star=p^\star.
 </div>
 </section>
 </section>
-<section id="holgura-complementaria" class="level3">
-<h3 class="anchored" data-anchor-id="holgura-complementaria">Holgura complementaria</h3>
-<p>Supongamos que los valores óptimos primal y dual se alcanzan y son iguales. Esto es, se cumple la desigualdad fuerte <span class="math inline">\(p^\star=d^\star\)</span>. Esto significa que para puntos óptimos <span class="math inline">\(\xx^\star\)</span> y <span class="math inline">\((\bflambda^\star,\bfnu^\star)\)</span> se verifica <span class="math display">\[
-\begin{align*}
-f(\xx^\star) &amp;= \calG(\bflambda^\star, \bfnu^\star) \\
-&amp;= \inf_{x} \left( f(\xx) + \sum_{i=1}^{q} \lambda_{i}^\star g_{i}(x) + \sum_{j=1}^{r} \nu_{j}^\star h_{j}(\xx) \right)\\
-&amp; \leq f(\xx^\star) + \sum_{i=1}^{q} \lambda_{i}^\star g_{i}(\xx^\star) + \sum_{j=1}^{r} \nu_{j}^\star h_{j}(\xx^\star) \\&amp;\leq f(\xx^\star).
-\end{align*}
-\]</span></p>
-<p>La justificación de cada uno los pasos es sencilla <span style="color: #800020;">[Ejercicio …]</span>. Concluimos que las dos desigualdades en esta cadena se cumplen con igualdad. En particular, la última igualdad</p>
-<p><span class="math display">\[
-f(\xx^\star)+ \sum_{i=1}^{q} \lambda_{i}^\star g_{i}(\xx^\star) + \sum_{j=1}^{r} \nu_{j}^\star h_{j}(\xx^\star)=f(\xx^\star)
-\]</span></p>
-<p>implica que</p>
-<p><span class="math display">\[
-\sum_{i=1}^{q} \lambda_{i}^\star g_{i}(\xx^\star) = 0.
-\]</span></p>
-<p>Pero cada término en esta suma es no positivo, por lo tanto debe verificarse</p>
-<p><span class="math display">\[
-\boxed{\lambda_{i}^\star g_{i}(\xx^\star) = 0, \quad \forall i = 1, \ldots, q.}
-\]</span></p>
-<p>Esta es la <em>condición de holgura complementaria</em> que hemos visto en la sección anterior. Se cumple para cualquier punto óptimo primal <span class="math inline">\(\xx^\star\)</span> y cualquier punto óptimo dual <span class="math inline">\((\bflambda^\star, \bfnu^\star)\)</span> bajo dualidad fuerte. Recordemos que, en términos generales, esta condición significa que el <span class="math inline">\(i\)</span>-ésimo multiplicador de Lagrange óptimo es cero salvo que la <span class="math inline">\(i\)</span>-ésima restricción esté activa.</p>
-</section>
 <section id="relación-entre-dualidad-y-kkt" class="level3">
 <h3 class="anchored" data-anchor-id="relación-entre-dualidad-y-kkt">Relación entre dualidad y KKT</h3>
-<p>Los conceptos de Lagrangiano y su función dual han permitido caracterizar la relación entre los valores óptimos <span class="math inline">\(p^\star\)</span> y <span class="math inline">\(d^\star\)</span>. En particular, las condiciones de <em>factibilidad dual</em> y de <em>holgura complementaria</em> de la Definición 2 (Condiciones de Karush-Kuhn-Tucker) han permitido primero escribir la desigualdad <span class="math inline">\(\calG(\bflambda,\bfmu)\leq p^\star\)</span> y luego analizar qué sucede cuando <span class="math inline">\(p^\star=q^\star\)</span>.</p>
-<p>Veamos ahora cómo surge la <em>estacionariedad</em> en este contexto. Podemos afirmar que</p>
-<p><span class="math display">\[
-f(\xx^\star)\leq f(\xx)+\sum_{i=1}^{q} \lambda_{i}^\star g_{i}(\xx) + \sum_{j=1}^{r} \nu_{j}^\star h_{j}(\xx)
+<p>Vamos a finalizar esta sección analizando la siguiente pregunta:</p>
+<div class="myhighlight3">
+<p>¿Qué implicancias tiene la dualidad fuerte <span class="math inline">\(d^\star=p^\star\)</span>?</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>Para ello, vamos a suponer que los puntos óptimos existen, tanto para el problema primal (<span class="math inline">\(\xx^\star\)</span>) como para el problema dual (<span class="math inline">\(\bflambda^\star\)</span> y <span class="math inline">\(\bfnu^\star\)</span>). Además, es importante recordar que en el problema dual se impone la restricción <span class="math inline">\(\bflambda\succeq\bfzero\)</span>.</p>
+<p>La dualidad fuerte significa que <span class="math display">\[
+\underbrace{f(\xx^\star)}_{p^\star}=\underbrace{\calG(\bflambda^\star,\bfnu^\star)}_{d^\star}=\inf_{\xx}L(\xx,\bflambda^\star,\bfnu^\star).
+\tag{13}
 \]</span></p>
-<p>para todo punto factible <span class="math inline">\(\xx\)</span>, con igualdad si <span class="math inline">\(\xx=\xx^\star\)</span>. El lado derecho es el Lagrangiano <span class="math inline">\(L(\xx,\bflambda^\star,\bfnu^\star)\)</span>, del cual podemos afirmar que <span class="math inline">\(\xx\)</span> es un minimizador. En consecuencia, debe verificarse</p>
-<p><span class="math display">\[
+<p>Hay que tener cuidado al interpretar la expresión (13): si bien garantiza que <span class="math inline">\(f(\xx^\star)\)</span> es el valor ínfimo del Lagrangiano, no nos dice nada acerca de cuál es el valor de <span class="math inline">\(\xx\)</span> donde dicho ínfimo se alcanza. No obstante, la naturaleza de los multiplicadores de Lagrange y las restricciones funcionales nos permiten deducir, a partir de (13), lo siguiente: <span class="math display">\[
 \begin{align*}
-  \nabla L(\xx^\star,\bflambda^\star,\bfnu^\star)&amp;=0\\
-  \nabla f(\xx^\star)+\sum_{i=1}^q\lambda_i^\star\nabla g_i(\xx^\star)+\sum_{j=1}^r\nu_j^\star\nabla h_j(\xx^\star)&amp;=0.
+f(\xx^\star)&amp;\leq L(\xx^\star,\bflambda^\star,\bfnu^\star)\\
+&amp;=f(\xx^\star)+\underbrace{\sum_{i=1}^r\lambda_ig_i(\xx^\star)}_{\leq\, 0}+\underbrace{\sum_{j=1}^m\nu_j h_j(\xx^\star)}_{=\,0}\\
+&amp;\leq f(\xx^\star)
 \end{align*}
 \]</span></p>
+<p>Luego, por antisimetría, debe ser <span class="math display">\[
+f(\xx^\star)=\underbrace{f(\xx^\star)+\sum_{i=1}^r\lambda_ig_i(\xx^\star)}_{L(\xx^\star,\bflambda^\star,\bfnu^\star)}.
+\tag{14}
+\]</span></p>
+<p>A partir de (13) y (14) podemos concluir que, bajo dualidad fuerte, la terna <span class="math inline">\((\xx^\star,\bflambda^\star,\bfnu^\star)\)</span> verifica dos condiciones KKT de la Definición 2: holgura complementaria y estacionariedad.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">Holgura complementaria</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Estacionariedad</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<p>Para que la igualdad en (14) sea cierta, debe ser <span class="math display">\[
+\sum_{i=1}^r\lambda_ig_i(\xx^\star)=0.
+\]</span></p>
+<p>Pero los términos son no positivos, por lo cual esto es equivalente a pedir <span class="math display">\[
+\lambda_i g_i(\xx^\star)=0\qquad\forall i = 1,\ldots, r.
+\]</span></p>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<p>El ínfimo de <span class="math inline">\(L(\xx,\bflambda^\star,\bfnu^\star)\)</span> sí ocurre en <span class="math inline">\(\xx^\star\)</span>: <span class="math display">\[
+L(\xx^\star,\bflambda^\star,\bfnu^\star)=\inf_{\xx}L(\xx,\bflambda^\star,\bfnu^\star).
+\]</span></p>
+<p>Esto es:</p>
+<div class="myhighlight">
+<p>Bajo dualidad fuerte, <span class="math inline">\(\xx^\star\)</span> es un minimizador de <span class="math inline">\(L(\xx,\bflambda^\star,\bfnu^\star)\)</span>.</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>La suposición de que la función objetivo y las funciones de restricción son diferenciables implica que el Lagrangiano también lo es. Como la diferenciabilidad requiere que las funciones estén definidas en conjuntos abiertos, podemos asegurar que <span class="math inline">\(\text{dom}\,L:=\mathcal{D}\times\RR^r\times\RR^m\)</span> es un conjunto abierto de <span class="math inline">\(\RR^{p+r+m}\)</span>. Así, <span class="math inline">\(\xx^\star\)</span> es un punto interior de <span class="math inline">\(\text{dom}\,L\)</span> y, por lo tanto, la condición de optimalidad asegura que <span class="math display">\[
+\nabla L(\xx^\star,\bflambda^\star,\bfnu^\star)=\bfzero.
+\]</span></p>
+<p>Reemplazando <span class="math display">\[
+\nabla L(\xx^\star,\bflambda^\star,\bfnu^\star)=\nabla f(\xx^\star)+\sum_{i=1}^r\lambda_i^\star\nabla g_i(\xx^\star)+\sum_{j=1}^m\nu_j^\star\nabla h_j(\xx^\star),
+\]</span> obtenemos <span class="math display">\[
+-\nabla f(\xx^\star)=\sum_{i=1}^r\lambda_i^\star\nabla g_i(\xx^\star)+\sum_{j=1}^m\nu_j^\star\nabla h_j(\xx^\star).
+\tag{14}
+\]</span></p>
+</div>
+</div>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>Por supuesto, la factibilidad primal y la factibilidad dual son inmediatas del hecho de asumir que <span class="math inline">\(\xx^\star\)</span> es óptimo para el problema primal y <span class="math inline">\((\bflambda^\star,\bfnu^\star)\)</span> son óptimos para el problema dual, respectivamente. Así, estamos en condiciones de afirmar que las condiciones KKT son necesarias para la dualidad fuerte, tal y como lo establece el siguiente teorema.</p>
 <div class="teorema">
-<p><strong>Teorema 4.</strong> (Dualidad y KKT) Sea <span class="math inline">\(\xx^\star\)</span> un punto óptimo primal y <span class="math inline">\((\bflambda^\star,\bfnu^\star)\)</span> un punto óptimo dual. Si <span class="math inline">\(p^\star=q^\star\)</span>, entonces <span class="math inline">\((\xx^\star,\bflambda^\star,\bfnu^\star)\)</span> satisfacen las condiciones de Karush-Kuhn-Tucker.</p>
+<p><strong>Teorema 6.</strong> (Dualidad y KKT) Sea <span class="math inline">\(\xx^\star\)</span> un punto óptimo primal y <span class="math inline">\((\bflambda^\star,\bfnu^\star)\)</span> un punto óptimo dual. Si <span class="math inline">\(d^\star=p^\star\)</span>, entonces <span class="math inline">\((\xx^\star,\bflambda^\star,\bfnu^\star)\)</span> satisface las condiciones de Karush-Kuhn-Tucker.</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 7</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Problema de <em>water-filling</em> </span></p>
+<p>Veamos un ejemplo clásico de <em>teoría de la información</em>. Consideremos un sistema de comunicación con <span class="math inline">\(p\)</span> canales para transmisión de información y supongamos que la potencia total disponible para transmitir es limitada. El objetivo es distribuir la potencia total, que para facilitar el análisis se normaliza al valor 1. Así, si denotamos <span class="math inline">\(x_i\)</span> la potencia asignada al <span class="math inline">\(i\)</span>-ésimo canal, tenemos que <span class="math display">\[
+\sum_{i=1}^p x_i=1,
+\]</span> con <span class="math inline">\(x_i\geq 0\)</span> para todo <span class="math inline">\(i=1,\ldots,p\)</span>.</p>
+<p>Un modelo típico para la capacidad máxima de transmisión es <span class="math display">\[
+\sum_{i=1}^p\log(x_i+\alpha_i),
+\]</span> donde <span class="math inline">\(\alpha_i&gt;0\)</span> representa el ruido del <span class="math inline">\(i\)</span>-ésimo canal. Esto deriva en el siguiente problema de optimización convexa: <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; -\sum_{i=1}^p\log(x_i+\alpha_i)\\
+\text{sujeto a }  &amp; \mathbf{1}^\top\xx=1,\\
+                  &amp; \xx\succeq \bfzero.
+\end{array}
+\]</span></p>
+<p>Observar que hay <span class="math inline">\(p\)</span> restricciones de desigualdad, con <span class="math inline">\(g_i(\xx)=x_i\)</span>, y una única restricción de igualdad, con <span class="math inline">\(h(\xx)=\mathbf{1}^\top\xx\)</span>.</p>
+<p>Claramente la condición de Slater se cumple: podemos tomar, por ejemplo, el punto estrictamente factible <span class="math inline">\(x_i=1/p\)</span> (para todo <span class="math inline">\(i=1,\ldots,p\)</span>). Por lo tanto, podemos asegurar que se cumple la dualidad fuerte y que las condiciones KKT son suficientes y necesarias para la optimalidad.</p>
+<p>Las condiciones KKT son: <span class="math display">\[
+\begin{array}{cl}
+\xx^\star\succeq \bfzero,\; \mathbf{1}^\top\xx^\star=1\qquad&amp;\text{(Factibilidad primal)}\\[2pt]
+\bflambda^\star\succeq \bfzero\qquad &amp;\text{(Factibilidad dual)}\\[2pt]
+\lambda_i^\star x_i^\star=0\qquad\forall i=1,\ldots,p\qquad&amp;\text{(Holgura complementaria)}\\
+\displaystyle\frac{1}{x_i^\star+\alpha_i}=-\lambda_i^\star+\nu^\star\qquad\forall i=1,\ldots,p\qquad&amp;\text{(Estacionariedad)}
+\end{array}
+\]</span></p>
+<p>La última condición puede reescribirse como <span class="math display">\[
+\lambda_i^\star=\nu^\star-\displaystyle\frac{1}{x_i^\star+\alpha_i},
+\]</span> lo que permite combinarla con las demás condiciones que involucran <span class="math inline">\(\bflambda\)</span>, facilitando así la eliminación de esta variable de holgura. Resulta: <span class="math display">\[
+\xx^\star\succeq\bfzero,\;\mathbf{1}^\top\xx^\star=1,
+\]</span> <span class="math display">\[
+\left(\nu^\star-\displaystyle\frac{1}{x_i^\star+\alpha_i}\right)x_i^\star=0\qquad\forall i = 1,\ldots,p,
+\]</span> <span class="math display">\[
+\nu^\star-\frac{1}{x_i^\star+\alpha_i}\geq 0\qquad\forall i=1,\ldots,p.
+\]</span></p>
+<p>El análisis de las últimas dos expresiones permite deducir que <span class="math display">\[
+x_i^\star=\left\{\begin{array}{cl}
+1/\nu^\star-\alpha_i&amp;\mbox{si }\nu^\star&lt;\frac{1}{\alpha_i},\\
+0&amp;\mbox{si }\nu^\star\geq\frac{1}{\alpha_i}.
+\end{array}\right.,
+\]</span> o, equivalentemente, <span class="math inline">\(x_i^\star=\max\{0,1/\nu^\star-\alpha_i\}\)</span>. Finalmente, el uso de la condición <span class="math inline">\(\mathbf{1}^\top\xx^\star=1\)</span> resulta en <span class="math display">\[
+\sum_{i=1}^p\max\{0,1/\nu^\star-\alpha_i\}=1.
+\tag{15}
+\]</span></p>
+<p>El lado izquierdo de (15) corresponde a una función de <span class="math inline">\(1/\nu^\star\)</span> que es continua, creciente por tramos y con puntos de quiebre en los valores <span class="math inline">\(\alpha_i\)</span>, tal y como lo ejemplifica la siguiente figura:</p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/ej_water_filling_1.png" alt="Texto" width="500px" class="figure-img">
+<figcaption>
+Gráfica de <span class="math inline">\(f(1/\nu^\star)\)</span>. Los valores <span class="math inline">\(a_i\)</span> corresponden a los <span class="math inline">\(\alpha_i\)</span> ordenados de menor a mayor.
+</figcaption>
+</figure>
+<p>Por lo tanto, existe solución y puede ser fácilmente determinada.</p>
+<p>Este método de solución se conoce como <em>water-filling</em> por la siguiente interpretación: si <span class="math inline">\(\alpha_i\)</span> es el nivel del suelo en el punto <span class="math inline">\(i\)</span> e inundamos la región con agua hasta la altura <span class="math inline">\(1/\nu^\star\)</span>, entonces la cantidad total de agua es justamente <span class="math display">\[
+\sum_{i=1}^p\max\{0,1/\nu^\star-\alpha_i\}.
+\]</span></p>
+<p>El problema de optimización, con esta interpretación, consiste en aumentar el nivel de inundación hasta haber usado una cantidad total de agua igual a 1, de manera tal que la profundidad de agua sobre el punto <span class="math inline">\(i\)</span>-ésimo es justamente el valor óptimo <span class="math inline">\(x_i^\star\)</span>.</p>
+</div>
+<p>Vamos a finalizar esta sección con un cuadro resumen con los principales resultados.</p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/cuadro_resumen_A4.png" alt="Texto" width="600px" class="figure-img">
+</figure>
+<div class="highlight">
+<p>⚠️ Recordemos que la condición de Slater es la más común y utilizada para garantizar dualidad fuerte y la validez de las condiciones KKT en problemas convexos. Sin embargo, no es la única condición de cualificación de restricciones existente. Para profundizar en otras condiciones de cualificación, especialmente en el contexto de problemas no convexos, se recomienda consultar textos especializados en optimización no convexa, pero estos temas escapan al alcance de este curso.</p>
+</div>
+<div style="margin-top:2em;">
+
 </div>
 <p><br><br></p>
 </section>
