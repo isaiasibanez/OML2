@@ -721,7 +721,7 @@ P\xx+\qq+A^\top\bfnu &amp;=\bfzero.
 <p>Agregando la factibilidad primal <span class="math inline">\(A^\top\xx=\bb\)</span>, podemos escribir matricialmente <span class="math display">\[
 \begin{pmatrix}P&amp;A^\top\\A&amp;0\end{pmatrix}\begin{pmatrix}\xx\\\bfnu\end{pmatrix}=\begin{pmatrix}-\qq\\\bb\end{pmatrix}.
 \]</span></p>
-<p>Este es un sistema de <span class="math inline">\(p+m\)</span> ecuaciones con <span class="math inline">\(p+m\)</span> incógnitas. Dado que las condiciones KKT son suficientes y necesarias, resolverlo permite hallar <span class="math inline">\(\xx^\star\)</span>. No es necesario verificar condiciones adicionales como la holgura complementaria ni la factibilidad dual, ya que no hay restricciones de desigualdad.</p>
+<p>Este es un sistema de <span class="math inline">\(p+m\)</span> ecuaciones con <span class="math inline">\(p+m\)</span> incógnitas. Dado que se cumplen las hipótesis del Corolario 4, las condiciones KKT son suficientes y necesarias para la optimalidad. Por lo tanto, basta resolver el sistema para hallar <span class="math inline">\(\xx^\star\)</span>. Observar que no fue necesario definir las condiciones de holgura complementaria y factibilidad dual, ya que el problema no presenta restricciones de desigualdad.</p>
 </div>
 <div style="margin-top:-0.5em;">
 
@@ -907,14 +907,42 @@ h_j(\xx)=0\qquad\forall j=1,\ldots,m.
 </div>
 <p>La condición de Slater es la cualificación de restricciones más común para garantizar que las condiciones KKT son necesarias para que un punto sea óptimo. Además, si añadimos la hipótesis de que la función objetivo <span class="math inline">\(f\)</span> es convexa, entonces las condiciones KKT también son suficientes. Este escenario corresponde a los problemas de optimización convexa con funciones diferenciables.</p>
 <div class="teorema">
-<p><strong>Teorema 4.</strong> En un problema de optimización convexa, si la función objetivo <span class="math inline">\(f\)</span> y las funciones de restricción <span class="math inline">\(g_i\)</span> (<span class="math inline">\(i=1,\ldots,r\)</span>) son diferenciables, y además (10) es cierto, entonces las condiciones KKT son suficientes y necesarias para que un punto sea óptimo.</p>
+<p><strong>Teorema 4.</strong> Sea un problema de optimización convexa de la forma <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; f(\xx)\\
+\text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\begin{array}{cl}
+g_i(\xx)\leq 0,&amp; i=1,\cdots,r.\\
+A\xx=\bb
+\end{array}\right.\right\},
+\end{array}
+\]</span> con <span class="math inline">\(A\in\RR^{m\times p}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span>. Si la función objetivo <span class="math inline">\(f\)</span> y las funciones de restricción <span class="math inline">\(g_i\)</span> (<span class="math inline">\(i=1,\ldots,r\)</span>) son diferenciables, y además (10) es cierto, entonces las condiciones KKT son suficientes y necesarias para que un punto sea óptimo.</p>
 </div>
 <div style="margin-top:2em;">
 
 </div>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 5</span></p>
-<p><span style="color:darkred;">Acá un ejemplo para aplicar condición de Slater.</span></p>
+<p><span class="math display">\[
+\begin{array}{cl}
+\text{minimizar } &amp; x_1^2+x_2^2\\
+\text{sujeto a }  &amp; x_1+x_2\leq 1,\\
+                  &amp; x_1\geq 0, x_2\geq 0.
+\end{array}
+\]</span></p>
+<p>Claramente el único punto óptimo es <span class="math inline">\(\xx^\star=\bfzero\)</span>. Además, se cumple la condición de Slater para KKT: en primer lugar, las restricciones de desigualdad están definidas por funciones afines (y, por lo tanto, convexas); en segundo lugar, el punto <span class="math inline">\((0.2,0.2)\)</span> es estrictamente factible para las restricciones activas en <span class="math inline">\(\bfzero\)</span>. Por lo tanto, podemos afirmar que las condiciones KKT son suficientes y necesarias para la optimalidad.</p>
+<p>Vamos a verificar la conclusión anterior. Las condiciones KKT son: <span class="math display">\[
+\begin{array}{cl}
+x_1^\star+x_2^\star-1\leq 0,\; x_1^\star\geq 0,\; x_2^\star\geq 0\qquad&amp;\text{(Factibilidad primal)}\\[3pt]
+\lambda_i^\star\geq 0\qquad\forall i=1,2,3\qquad &amp;\text{(Factibilidad dual)}\\[3pt]
+\lambda_1^\star(x_1^\star+x_2^\star-1)=0,\; \lambda_2^\star x_1^\star=0,\;\lambda_3^\star x_2^\star=0\qquad&amp;\text{(Holgura complementaria)}\\[3pt]
+-2x_1^\star=\lambda_1^\star-\lambda_2^\star,\;-2x_2^\star=\lambda_1^\star-\lambda_3^\star\qquad&amp;\text{(Estacionariedad)}
+\end{array}
+\]</span></p>
+<p>El único punto que cumple todas estas condiciones es <span class="math inline">\(\xx^\star=\bfzero\)</span>, con <span class="math inline">\(\bflambda^\star=\bfzero\)</span>. Para justificar esto, veamos que suponer <span class="math inline">\(x_1^\star&gt; 0\)</span> (análogamente para <span class="math inline">\(x_2^\star&gt;0\)</span>) conduce a un absurdo:</p>
+<ol type="1">
+<li>Por holgura complementaria, debe ser <span class="math inline">\(\lambda_2^\star=0\)</span>.</li>
+<li>La primera condición de estacionariedad implica <span class="math inline">\(\lambda_1^\star&lt;0\)</span>. Esto contradice la factiibilidad dual <span class="math inline">\(\lambda_1^\star\geq 0\)</span>.</li>
+</ol>
 </div>
 </section>
 </section>
@@ -1120,7 +1148,42 @@ A\xx=\bb
 <p>lo cual significa que <span class="math inline">\(\mathcal{D}\)</span> es un conjunto afín y, en consecuencia, ocurre que <span class="math inline">\(\text{aff}\,\mathcal{D}=\mathcal{D}\)</span> tal que <span class="math inline">\(\text{relint}\,\mathcal{D}=\mathcal{D}\)</span>. En tal caso, la condición de Slater se reduce a mostrar que <span class="math inline">\(\Omega\)</span> es no vacío.</p>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 7</span></p>
-<p><span style="color:darkred;">Acá un par ejemplos sobre problema dual.</span></p>
+<p>Consideremos el problema del Ejemplo 6, con <span class="math inline">\(m=1\)</span>: <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \xx^\top\xx\\
+\text{sujeto a }  &amp; \aa^\top\xx=b,
+\end{array}
+\]</span> con <span class="math inline">\(\aa\in\RR^p\)</span> y <span class="math inline">\(b\in\RR\)</span>. Tenemos un solo multiplicador de Lagrange, <span class="math inline">\(\nu\in\RR\)</span>, y la función dual es <span class="math display">\[
+\calG(\nu)=-\frac{1}{4}\|\aa\|_2^2\nu^2-b\nu.
+\]</span></p>
+<p>Por lo tanto, el problema dual es <span class="math display">\[
+\begin{array}{ll}
+\text{maximizar } &amp; -\frac{1}{4}\|\aa\|_2^2\nu^2-b\nu\\
+\text{sujeto a }  &amp; \nu&gt;0.
+\end{array}
+\]</span></p>
+<p>Este es un problema fácil de resolver, porque <span class="math inline">\(\calG(\nu)\)</span> es una función de una variable; más precisamente, una función cuadrática, por lo cual la solución está dado por su vértice. Resulta <span class="math display">\[
+\nu^\star=\frac{2b}{\|\aa\|_2^2},\qquad d^\star=\calG(\nu^\star)=-\frac{3b^2}{\|\aa\|_2^2}.
+\]</span></p>
+<p>Dado que se cumplen las condiciones del Teorema 5 (problema de optimización convexa + condición de Slater), podemos concluir que hay dualidad fuerte. Luego, el valor óptimo del problema primal es <span class="math display">\[
+p^\star=-\frac{3b^2}{\|\aa\|_2^2}.
+\]</span></p>
+</div>
+<div style="margin-top:-0.5em;">
+
+</div>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br> Proponga casos para el Ejemplo 7, con <span class="math inline">\(\xx\in\RR^2\)</span>, y deduzca geométricamente el punto óptimo <span class="math inline">\(\xx^\star\)</span>.</p>
+</div>
+</div>
+</div>
+<div style="margin-top:2em;">
+
 </div>
 </section>
 </section>
