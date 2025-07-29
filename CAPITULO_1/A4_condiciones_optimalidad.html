@@ -1258,7 +1258,7 @@ L(\xx^\star,\bflambda^\star,\bfnu^\star)=\inf_{\xx}L(\xx,\bflambda^\star,\bfnu^\
 
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 7</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Problema de <em>water-filling</em> </span></p>
+<p><span class="badge bg-primary">Ejemplo 8</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Problema de <em>water-filling</em> </span></p>
 <p>Veamos un ejemplo clásico de <em>teoría de la información</em>. Consideremos un sistema de comunicación con <span class="math inline">\(p\)</span> canales para transmisión de información y supongamos que la potencia total disponible para transmitir es limitada. El objetivo es distribuir la potencia total, que para facilitar el análisis se normaliza al valor 1. Así, si denotamos <span class="math inline">\(x_i\)</span> la potencia asignada al <span class="math inline">\(i\)</span>-ésimo canal, tenemos que <span class="math display">\[
 \sum_{i=1}^p x_i=1,
 \]</span> con <span class="math inline">\(x_i\geq 0\)</span> para todo <span class="math inline">\(i=1,\ldots,p\)</span>.</p>
@@ -1310,6 +1310,12 @@ Gráfica de <span class="math inline">\(f(1/\nu^\star)\)</span>. Los valores <sp
 <p>Este método de solución se conoce como <em>water-filling</em> por la siguiente interpretación: si <span class="math inline">\(\alpha_i\)</span> es el nivel del suelo en el punto <span class="math inline">\(i\)</span> e inundamos la región con agua hasta la altura <span class="math inline">\(1/\nu^\star\)</span>, entonces la cantidad total de agua es justamente <span class="math display">\[
 \sum_{i=1}^p\max\{0,1/\nu^\star-\alpha_i\}.
 \]</span></p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/ej_water_filling_2.png" alt="Texto" width="350px" class="figure-img">
+<figcaption>
+Método de <em>water-filling</em>. La región se inunda hasta un nivel <span class="math inline">\(1/\nu^\star\)</span>, utilizando una cantidad total de agua igual a 1.
+</figcaption>
+</figure>
 <p>El problema de optimización, con esta interpretación, consiste en aumentar el nivel de inundación hasta haber usado una cantidad total de agua igual a 1, de manera tal que la profundidad de agua sobre el punto <span class="math inline">\(i\)</span>-ésimo es justamente el valor óptimo <span class="math inline">\(x_i^\star\)</span>.</p>
 </div>
 <div style="margin-top:2em;">
