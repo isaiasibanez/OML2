@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -37,7 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-327735d1480bff6f7510335fe22ad292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -399,7 +399,7 @@ f(\xx^\star + t \cdot \dd) \geq f(\xx) \qquad\forall t\in\RR.
 <div style="margin-top:2em;">
 
 </div>
-<p>Una idea inicial para caracterizar el conjunto de direcciones permitidas es tomar cualquier otro punto <span class="math inline">\(\yy\in\Omega\)</span> y observar qué sucede con la dirección desde <span class="math inline">\(\xx\)</span> hacia <span class="math inline">\(\yy\)</span>. Esta dirección, <span class="math inline">\(\dd=\yy-\xx\)</span>, será válida siempre que <span class="math inline">\(\Omega\)</span> sea convexo (ver Definición 2 de <a href="A2_optimizacion_convexa.html#definiciones-básicas">C1-S2</a>). Claramente, en tal caso, (3) se verifica trivialmente tomando <span class="math inline">\(t=1\)</span>. Por ese motivo, podemos hacer la primera suposición para formalizar una condición necesaria de optimalidad:</p>
+<p>Una idea inicial para caracterizar el conjunto de direcciones permitidas es tomar cualquier otro punto <span class="math inline">\(\yy\in\Omega\)</span> y observar qué sucede con la dirección desde <span class="math inline">\(\xx\)</span> hacia <span class="math inline">\(\yy\)</span>. Esta dirección, <span class="math inline">\(\dd=\yy-\xx\)</span>, será válida siempre que <span class="math inline">\(\Omega\)</span> sea convexo (ver Definición 3 de <a href="A2_optimizacion_convexa.html#definiciones-básicas">C1-S2</a>). Claramente, en tal caso, (3) se verifica trivialmente tomando <span class="math inline">\(t=1\)</span>. Por ese motivo, podemos hacer la primera suposición para formalizar una condición necesaria de optimalidad:</p>
 <div class="myhighlight2">
 <span style="font-size:0.8em;"><em>Primer supuesto</em></span>
 <div style="margin-top:-0.1em;">
@@ -433,7 +433,7 @@ f(\xx^\star + t \cdot \dd) \geq f(\xx) \qquad\forall t\in\RR.
 \langle -\nabla f(\xx),\yy-\xx\rangle\leq 0\qquad \forall\yy\in\Omega.
 \tag{4}
 \]</span></p>
-<p>Esto vincula nuestro análisis con la definición de cono normal (Definición 6 de <a href="A2_optimizacion_convexa.html#conos-normales">C1-S2</a>): la ecuación (4) es equivalente a escribir <span class="math inline">\(-\nabla f(\xx)\in N_{\Omega}(\xx)\)</span>. Así, el Teorema 1 puede ser interpretado en términos de conos normales:</p>
+<p>Esto vincula nuestro análisis con la definición de cono normal (Definición 7 de <a href="A2_optimizacion_convexa.html#conos-normales">C1-S2</a>): la ecuación (4) es equivalente a escribir <span class="math inline">\(-\nabla f(\xx)\in N_{\Omega}(\xx)\)</span>. Así, el Teorema 1 puede ser interpretado en términos de conos normales:</p>
 <div class="myhighlight">
 <p>Bajo las condiciones del Teorema 1, si <span class="math inline">\(\xx^\star\)</span> es un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, entonces <span class="math display">\[
 -\nabla f(\xx^\star)\in N_{\Omega}(\xx^\star).
@@ -451,7 +451,7 @@ Idea geométrica de la condición del gradiente para tres puntos críticos <span
 <div style="margin-top:2em;">
 
 </div>
-<p>En la figura anterior se presenta la geometría derivada de la condición necesaria establecida, para el caso en que <span class="math inline">\(\Omega\)</span> es un poliedro. Las posiciones de los puntos críticos corresponden a los Ejemplos 6, 8 y 9 de conos normales, vistos en el <a href="A2_optimizacion_convexa.html#conos-normales">C1-S2</a>. En particular, para puntos interiores de <span class="math inline">\(\Omega\)</span>, la condición se reduce a la ecuación <span class="math inline">\(\nabla f(\xx)=\bfzero\)</span>, típica de los problemas sin restricciones.</p>
+<p>En la figura anterior se presenta la geometría derivada de la condición necesaria establecida, para el caso en que <span class="math inline">\(\Omega\)</span> es un poliedro. Las posiciones de los puntos críticos corresponden a los Ejemplos 7-10 de conos normales, vistos en el <a href="A2_optimizacion_convexa.html#conos-normales">C1-S2</a>. En particular, para puntos interiores de <span class="math inline">\(\Omega\)</span>, la condición se reduce a la ecuación <span class="math inline">\(\nabla f(\xx)=\bfzero\)</span>, típica de los problemas sin restricciones.</p>
 <p>Todos los casos están caracterizados por el siguiente hecho:</p>
 <div class="myhighlight">
 <p>Los puntos críticos son aquellos en los cuales el opuesto del gradiente forma ángulos no agudos con todas las direcciones factibles.</p>
@@ -496,7 +496,7 @@ Idea geométrica de la condición del gradiente para tres puntos críticos <span
 <div style="margin-top:0.5em;">
 
 </div>
-<p>Para el notable caso de las <mark>funciones convexas</mark> (<a href="A2_optimizacion_convexa.html#funciones-convexas">Definición 7 de C1-S2</a>) la condición establecida en el Teorema 1 sí es suficiente.</p>
+<p>Para el notable caso de las <mark>funciones convexas</mark> (<a href="A2_optimizacion_convexa.html#funciones-convexas">Definición 8 de C1-S2</a>) la condición establecida en el Teorema 1 sí es suficiente.</p>
 <div class="teorema">
 <p><strong>Teorema 2.</strong> (Condición suficiente y necesaria de optimalidad de primer orden para un conjunto factible convexo y una función objetivo convexa) Sea <span class="math inline">\(\Omega \subseteq\RR^p\)</span> convexo y sea <span class="math inline">\(f:\RR^p\to\RR\)</span> una función diferenciable convexa. Entonces <span class="math inline">\(\xx^\star\)</span> es un minimizador de <span class="math inline">\(f\)</span> en <span class="math inline">\(\Omega\)</span> si y solo si se verifica <span class="math display">\[
 -\nabla f(\xx^\star)\in N_{\Omega}(\xx^\star).
@@ -897,8 +897,8 @@ h_j(\xx)=0\qquad\forall j=1,\ldots,m.
 <li><p><strong>Independencia lineal de los gradientes</strong>: Si todas las funciones de restricción son continuamente diferenciables y el conjunto <span class="math display">\[
 \{\nabla g_i(\xx^\star) \mid i\in I(\xx)\}\cup\{\nabla h_j(\xx) \mid j=1,\ldots,m\}
 \]</span> es linealmente independiente, entonces las condiciones KKT se cumplen para <span class="math inline">\(\xx^\star\)</span>.</p></li>
-<li><p><strong>Condición de Slater</strong>: Si las restricciones de desigualdad activas <span class="math inline">\(\{g_i \mid i\in I(\xx)\}\)</span> son funciones diferenciables convexas, las restricciones de igualdad <span class="math inline">\(\{h_j \mid j=1,\ldots, m\}\)</span> son funciones afines y además existe un punto <em>estrictamente factible</em>, es decir <span class="math display">\[
-\exists\xx_0:g_j(\xx_0)&lt;0\qquad\forall j=1,\ldots,r,
+<li><p><strong>Condición de Slater para KKT</strong>: Si las restricciones de desigualdad activas <span class="math inline">\(\{g_i \mid i\in I(\xx)\}\)</span> son funciones diferenciables convexas, las restricciones de igualdad <span class="math inline">\(\{h_j \mid j=1,\ldots, m\}\)</span> son funciones afines y además existe un punto <em>estrictamente factible</em> para las restricciones de desigualdad activas, es decir <span class="math display">\[
+\exists\xx_0:g_j(\xx_0)&lt;0\qquad\forall j\in I(\xx),
 \tag{10}
 \]</span> entonces las condiciones KKT se cumplen para <span class="math inline">\(\xx^\star\)</span>.</p></li>
 </ul>
@@ -907,7 +907,7 @@ h_j(\xx)=0\qquad\forall j=1,\ldots,m.
 </div>
 <p>La condición de Slater es la cualificación de restricciones más común para garantizar que las condiciones KKT son necesarias para que un punto sea óptimo. Además, si añadimos la hipótesis de que la función objetivo <span class="math inline">\(f\)</span> es convexa, entonces las condiciones KKT también son suficientes. Este escenario corresponde a los problemas de optimización convexa con funciones diferenciables.</p>
 <div class="teorema">
-<p><strong>Teorema 4.</strong> (Teorema de Slater) En un problema de optimización convexa, si tanto la función objetivo <span class="math inline">\(f\)</span> como las funciones de restricción <span class="math inline">\(g_i\)</span> (<span class="math inline">\(i=1,\ldots,r\)</span>) son diferenciables, y además la condición de Slater (10) es cierta, entonces las condiciones KKT son suficientes y necesarias para que un punto sea óptimo.</p>
+<p><strong>Teorema 4.</strong> En un problema de optimización convexa, si la función objetivo <span class="math inline">\(f\)</span> y las funciones de restricción <span class="math inline">\(g_i\)</span> (<span class="math inline">\(i=1,\ldots,r\)</span>) son diferenciables, y además (10) es cierto, entonces las condiciones KKT son suficientes y necesarias para que un punto sea óptimo.</p>
 </div>
 <div style="margin-top:2em;">
 
@@ -972,7 +972,7 @@ Mostrar detalles
 </div>
 </div>
 </div>
-<p>Por lo tanto, la función dual <span class="math inline">\(\calG\)</span> es el ínfimo puntual de una familia de funciones afines de <span class="math inline">\((\bflambda,\bfnu)\)</span>. Esto significa que <span class="math inline">\(\calG\)</span> es siempre una función cóncava (ver <a href="A2_optimizacion_convexa.html#operaciones-que-preservan-convexidad-1">operaciones que preservan convexidad en C1-S2</a>).</p>
+<p>Por lo tanto, la función dual <span class="math inline">\(\calG\)</span> es el ínfimo puntual de una familia de funciones afines de <span class="math inline">\((\bflambda,\bfnu)\)</span>. Esto significa que <span class="math inline">\(\calG\)</span> es siempre una función cóncava (ver operaciones que preservan convexidad en <a href="A2_optimizacion_convexa.html#operaciones-que-preservan-convexidad-1">C1-S2</a>).</p>
 </div>
 <div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
 <p>La función dual <span class="math inline">\(\calG\)</span> es una cota inferior del valor óptimo <span class="math inline">\(p^\star\)</span> del problema primal, en el siguiente sentido: para todo <span class="math inline">\(\bflambda\succeq \bfzero\)</span> y para todo <span class="math inline">\(\bfnu\)</span>, resulta <span class="math display">\[
@@ -1010,7 +1010,7 @@ Mostrar detalles
 <p>Al no haber restricciones de desigualdad, el Lagrangiano es <span class="math display">\[
 L(\xx,\bfnu)=\xx^\top\xx+\bfnu^\top (A\xx-\bb).
 \]</span></p>
-<p>Teniendo en cuenta el Ejemplo 11 de <a href="A2_optimizacion_convexa.html">C1-S2</a>, podemos afirmar que <span class="math inline">\(L\)</span> es una función convexa. Por lo tanto, podemos minimizar respecto de <span class="math inline">\(\xx\)</span> usando la condición de optimalidad <span class="math inline">\(\nabla_{\xx}L(\xx,\bfnu)=\bfzero\)</span>: <span class="math display">\[
+<p>Teniendo en cuenta el Ejemplo 12 de <a href="A2_optimizacion_convexa.html">C1-S2</a>, podemos afirmar que <span class="math inline">\(L\)</span> es una función convexa. Por lo tanto, podemos minimizar respecto de <span class="math inline">\(\xx\)</span> usando la condición de optimalidad <span class="math inline">\(\nabla_{\xx}L(\xx,\bfnu)=\bfzero\)</span>: <span class="math display">\[
 \begin{align*}
 \nabla_{\xx}L(\xx,\bfnu)=2\xx+A^\top\bfnu&amp;=\bfzero\\
 \xx&amp;=-\frac{1}{2}A^\top\bfnu.
@@ -1097,10 +1097,27 @@ d^\star=p^\star.
 <li>La dualidad fuerte, en general, no se cumple.</li>
 <li>Si el problema primal es convexo, la dualidad fuerte usualmente se cumple.</li>
 </ul>
-<p>La cualificación de restricciones más común para asegurar la dualidad fuerte es la condición de Slater.</p>
+<p>La cualificación de restricciones más común para asegurar la dualidad fuerte es la <em>condición de Slater</em>, que presentaremos en el siguiente teorema. Observar que difiere sutilmente de la condición vista para KKT en (10).</p>
 <div class="teorema">
-<p><strong>Teorema 5.</strong> (Teorema de Slater) Sea un problema de optimización convexo con función objetivo <span class="math inline">\(f\)</span> y conjunto factible <span class="math inline">\(\Omega\subset\RR^p\)</span>. Si se satisface la condición de Slater (10), entonces se cumple la dualidad fuerte.</p>
+<p><strong>Teorema 5.</strong> (Teorema de Slater) Sea un problema de optimización convexa de la forma <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; f(\xx)\\
+\text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\begin{array}{cl}
+g_i(\xx)\leq 0,&amp; i=1,\cdots,r.\\
+A\xx=\bb
+\end{array}\right.\right\},
+\end{array}
+\]</span> con <span class="math inline">\(A\in\RR^{m\times p}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span>. Si se satisface la <em>condición de Slater</em> de que existe un punto <em>estrictamente factible</em>; esto es <span class="math display">\[
+\exists\xx_0\in\text{relint}\,\mathcal{D}:g_i(\xx_0)&lt;0\qquad\forall i=1,\ldots,r,\qquad A\xx_0=\bb,
+\]</span> entonces se cumple la dualidad fuerte.</p>
 </div>
+<p>Recordemos, del <a href="A2_optimizacion_convexa.html">C1-S2</a>, que <span class="math inline">\(\text{relint}\,\mathcal{D}\)</span> es el interior relativo de <span class="math inline">\(\mathcal{D}\)</span> definido por <span class="math display">\[
+\text{relint}\,\mathcal{D}:=\left\{\xx\in \mathcal{D}\,\left|\exists r&gt;0: B(\xx,r)\cap \text{aff}\,\mathcal{D}\subset \mathcal{D}\right.\right\},
+\]</span></p>
+<p>La aparición de <span class="math inline">\(\text{relint}\,\mathcal{D}\)</span> es fundamental, pues permite aplicar el teorema anterior a problemas donde no hay restricciones de desigualdad. Además, en tales casos, la condición de Slater puede simplificarse bastante. Por ejemplo, si <span class="math inline">\(\text{dom}\,f=\RR^p\)</span> y solo hay restricciones de igualdad, <span class="math inline">\(A\xx=\bb\)</span>, entonces <span class="math display">\[
+\mathcal{D}=\Omega=\{\xx\in\RR^p \mid A\xx=\bb\},
+\]</span></p>
+<p>lo cual significa que <span class="math inline">\(\mathcal{D}\)</span> es un conjunto afín y, en consecuencia, ocurre que <span class="math inline">\(\text{aff}\,\mathcal{D}=\mathcal{D}\)</span> tal que <span class="math inline">\(\text{relint}\,\mathcal{D}=\mathcal{D}\)</span>. En tal caso, la condición de Slater se reduce a mostrar que <span class="math inline">\(\Omega\)</span> es no vacío.</p>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 7</span></p>
 <p><span style="color:darkred;">Acá un par ejemplos sobre problema dual.</span></p>
@@ -1109,7 +1126,7 @@ d^\star=p^\star.
 </section>
 <section id="relación-entre-dualidad-y-kkt" class="level3">
 <h3 class="anchored" data-anchor-id="relación-entre-dualidad-y-kkt">Relación entre dualidad y KKT</h3>
-<p>Vamos a finalizar esta sección analizando la siguiente pregunta:</p>
+<p>Analicemos la siguiente pregunta:</p>
 <div class="myhighlight3">
 <p>¿Qué implicancias tiene la dualidad fuerte <span class="math inline">\(d^\star=p^\star\)</span>?</p>
 </div>
@@ -1232,7 +1249,13 @@ Gráfica de <span class="math inline">\(f(1/\nu^\star)\)</span>. Los valores <sp
 \]</span></p>
 <p>El problema de optimización, con esta interpretación, consiste en aumentar el nivel de inundación hasta haber usado una cantidad total de agua igual a 1, de manera tal que la profundidad de agua sobre el punto <span class="math inline">\(i\)</span>-ésimo es justamente el valor óptimo <span class="math inline">\(x_i^\star\)</span>.</p>
 </div>
+<div style="margin-top:2em;">
+
+</div>
 <p>Vamos a finalizar esta sección con un cuadro resumen con los principales resultados.</p>
+<div style="margin-top:2em;">
+
+</div>
 <figure style="text-align: center;" class="figure">
 <img src="figuras/cuadro_resumen_A4.png" alt="Texto" width="600px" class="figure-img">
 </figure>
