@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -232,12 +266,19 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#actividades" id="toc-actividades" class="nav-link active" data-scroll-target="#actividades">Actividades</a></li>
+  <li><a href="#regresión-ridge" id="toc-regresión-ridge" class="nav-link active" data-scroll-target="#regresión-ridge">Regresión Ridge</a></li>
+  <li><a href="#lasso" id="toc-lasso" class="nav-link" data-scroll-target="#lasso">LASSO</a>
+  <ul class="collapse">
+  <li><a href="#características-del-problema" id="toc-características-del-problema" class="nav-link" data-scroll-target="#características-del-problema">Características del problema</a></li>
+  <li><a href="#condiciones-kkt" id="toc-condiciones-kkt" class="nav-link" data-scroll-target="#condiciones-kkt">Condiciones KKT</a></li>
+  <li><a href="#resolución-mediante-descenso-por-coordenadas" id="toc-resolución-mediante-descenso-por-coordenadas" class="nav-link" data-scroll-target="#resolución-mediante-descenso-por-coordenadas">Resolución mediante descenso por coordenadas</a></li>
+  </ul></li>
+  <li><a href="#actividades" id="toc-actividades" class="nav-link" data-scroll-target="#actividades">Actividades</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../CAPITULO_2/B1_regresion_lineal_logistica.html">2. MODELOS DISCRIMINATIVOS</a></li><li class="breadcrumb-item"><a href="../CAPITULO_2/B3_ridge_lasso.html">2.3 Técnicas de regularización</a></li></ol></nav>
 <div class="quarto-title">
@@ -295,8 +336,424 @@ window.Quarto = {
 \def\argmax{\mathop{\mathrm{arg\,max\,}}}
 \]</span></p>
 </div>
-<p><span style="color:darkred;">Ridge. Lasso.</span></p>
+<p>Una estrategia clásica para simplificar modelos y mejorar su interpretabilidad es la selección de variables, que consiste en identificar un subconjunto de predictores relevantes y descartar el resto. A pesar de que este enfoque puede conducir a modelos más simples, el hecho de ser un procedimiento discreto (en el que una determinada variable o bien es retenida o bien es eliminada) suele traducirse en alta varianza, ya que una pequeña perturbación en los datos podría conducir a un modelo totalmente diferente.</p>
+<p>Por tal motivo, una alternativa más estable y continua son los <em>métodos de regularización</em>, que ajustan los parámetros del modelo mediante penalizaciones, con el propósito de reducir la complejidad del modelo final, mejorar la precisión de las predicciones y controlar el sobreajuste. Estos métodos no seleccionan variables de manera abrupta, sino que introducen una penalización que tiende a reducir (o incluso anular) la influencia de las variables menos relevantes.</p>
+<p>En general, para un problema de aprendizaje supervisado con datos <span class="math inline">\(\{(\xx_i,y_i)\}_{i=1}^n\)</span>, donde se pretende modelar una función <span class="math inline">\(f(\xx;\bftheta)\)</span> que dependa del parámetro <span class="math inline">\(\bftheta\)</span>, el desempeño del modelo se evalúa mediante una función de pérdida de la forma <span class="math display">\[
+L(\bftheta)=\sum_{i=1}^nl(y_i,f(\xx_i)),
+\]</span></p>
+<p>donde <span class="math inline">\(l:\RR\times\RR^p\to\RR_0^+\)</span> mide el error entre las predicciones y las observaciones reales. Por ejemplo, en regresión suele utilizarse la suma de errores al cuadrado (RSS).</p>
+<p>La idea general de los métodos de regularización es modificar la función objetivo incorporando un término de penalización que depende de los parámetros del modelo. Así, en lugar de minimizar solamente la función de pérdida, se minimiza una expresión de la forma</p>
+<p><span class="math display">\[
+L(\bftheta) + \lambda \cdot \text{Penalizacion}(\bftheta),
+\tag{1}
+\]</span></p>
+<p>donde <span class="math inline">\(\lambda\geq 0\)</span> es un parámetro de complejidad que controla la intensidad de la regularización (a mayor <span class="math inline">\(\lambda\)</span>, mayor intensidad), y <span class="math inline">\(\text{Penalizacion}(\bftheta)\)</span> es una función que restringe la complejidad del modelo. La expresión (1) es equivalente al siguiente problema de optimización con restricciones: <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar} &amp; L(\bftheta) \\
+\text{sujeto a} &amp; \text{Penalizacion}(\bftheta) \leq t,
+\end{array}
+\]</span></p>
+<p>donde <span class="math inline">\(t\)</span> es un umbral que limita la complejidad del modelo.</p>
+<p>Dependiendo de la forma del término de penalización, se obtienen diferentes métodos de regularización. En este apunte nos centraremos en las dos variantes principales: <em>ridge regression</em> y <em>LASSO</em>. La diferencia entre ambas es que, mientras ridge reduce la magnitud de los coeficientes, LASSO puede incluso forzar algunos a ser exactamente cero, generando así una forma de selección automática de variables.</p>
+<p>Por supuesto, existen otros métodos de regularización, como Elastic Net (una combinación de ridge y lasso), regularizaciones adaptativas o penalizaciones no convexas. Sin embargo, estos no serán abordados en este curso.</p>
+<div style="margin-top:2em;">
+
+</div>
+<hr>
+<p>En lo que sigue, nos centraremos en el problema de regresión donde una variable respuesta <span class="math inline">\(Y\in\RR\)</span> se modela en función de un conjunto de variables predictoras <span class="math inline">\(\XX\in\RR^p\)</span>. En particular, consideraremos el modelo de regresión lineal multivariada <span class="math display">\[
+f(\xx)=\beta_0+\bfbeta^\top\xx.
+\]</span></p>
+<p>Además, para un conjunto de entrenamiento <span class="math inline">\(\{(\xx_i,y_i)\}_{i=1}^n\)</span>, asumimos como función de pérdida la RSS dada por <span class="math display">\[
+L(\beta_0,\bfbeta):=\sum_{i=1}^n(y_i-f(\xx_i))^2=\sum_{i=1}^n\left(y_i-\beta_0-\bfbeta^\top\xx_i\right)^2.
+\]</span></p>
+<p>Denotamos <span class="math inline">\(X\in\RR^{n\times p}\)</span> la matriz de predictoras y <span class="math inline">\(\yy\in\RR^n\)</span> el vector de respuestas. Por simplicidad, también usaremos la matriz ampliada <span class="math display">\[
+\tilde{X}=\begin{pmatrix}\mathbf{1}&amp;X\end{pmatrix}\in\RR^{n\times (p+1)},
+\]</span> que incorpora una columna de unos a <span class="math inline">\(X\)</span>, con el fin de incorporar el intercepto <span class="math inline">\(\beta_0\)</span> en el vector de coeficientes <span class="math inline">\(\bfbeta\)</span>. De esta manera, podemos escribir <span class="math display">\[
+L(\bfbeta)=\|\yy-\tilde{X}\bfbeta\|_2^2,\qquad \bfbeta=(\beta_0,\beta_1,\ldots,\beta_p).
+\]</span></p>
+<div style="margin-top:2.5em;">
+
+</div>
+<section id="regresión-ridge" class="level2">
+<h2 class="anchored" data-anchor-id="regresión-ridge">Regresión Ridge</h2>
+<div class="alert alert-light text-dark" role="alert">
+<p><span class="badge bg-dark">Formulación</span></p>
+<p><span class="math display">\[
+\begin{array}{ll}
+\text{minimizar} &amp; \|\yy-\tilde{X}\bfbeta\|_2^2 \\
+\text{sujeto a} &amp; \|\bfbeta\|_2\leq t,
+\tag{2}
+\end{array}
+\]</span></p>
+<p>con <span class="math inline">\(\bfbeta=(\beta_0,\beta_1,\ldots,\beta_p)\in\RR^{p+1}\)</span> las variables de optimización. El punto óptimo, denotado por <span class="math inline">\(\hat{\bfbeta}^{\text{ridge}}\)</span>, es el <em>estimador ridge</em> de los coeficientes de la regresión.</p>
+</div>
+</section>
+<section id="lasso" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="lasso">LASSO</h2>
+<div class="alert alert-light text-dark" role="alert">
+<p><span class="badge bg-dark">Formulación</span></p>
+<p><span class="math display">\[
+\begin{array}{ll}
+\text{minimizar} &amp; \|\yy-\tilde{X}\tilde{\bfbeta}\|_2^2 \\
+\text{sujeto a} &amp; \|\bfbeta\|_1\leq t,
+\tag{3}
+\end{array}
+\]</span></p>
+<p>con <span class="math inline">\(\tilde{\bfbeta}=(\beta_0,\beta_1,\ldots,\beta_p)\in\RR^{p+1}\)</span> las variables de optimización. El punto óptimo, denotado por <span class="math inline">\(\hat{\bfbeta}^{\text{lasso}}\)</span>, es el <em>estimador LASSO</em> de los coeficientes de la regresión.</p>
+</div>
+<p>El problema lasso (3) puede ser formulado como un problema de optimización sin restricciones: <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar} &amp; \|\yy-\tilde{X}\tilde{\bfbeta}\|_2^2+\lambda\|\bfbeta\|_1,
+\end{array}
+\tag{4}
+\]</span> con <span class="math inline">\(\lambda\geq 0\)</span> un parámetro predeterminado.</p>
+<div style="margin-top:2em;">
+
+</div>
+<div class="myhighlight">
+<p>El problema lasso es un problema de optimización convexa.</p>
+</div>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br> Justifique la afirmación anterior.</p>
+</div>
+</div>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<section id="características-del-problema" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="características-del-problema">Características del problema</h3>
+<p>En lo que sigue, para facilitar la notación, no incluiremos explícitamente el intercepto <span class="math inline">\(\beta_0\)</span> en el modelo. Así, para hacer énfasis en el estimador lasso, escribimos <span class="math display">\[
+\hat{\bfbeta}^{\text{lasso}}\in\argmin_{\bfbeta\in\RR^{p}}\left(\frac{1}{2}\|\yy-X\bfbeta\|_2^2+\lambda\|\bfbeta\|_1\right).
+\]</span></p>
+<p>El símbolo <span class="math inline">\(\in\)</span> se debe a una importante característica del problema lasso:</p>
+<div class="myhighlight">
+<p>El problema lasso o bien tiene solución única o bien tiene infinitas soluciones.</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>Debemos justificar en primer lugar la existencia de solución, ya que lo que sabemos del <a href="A2_optimizacion_convexa.html#definiciones-básicas">C1-S2</a>) es todo mínimo local es mínimo global (Teorema 3) y que, en caso de que la función objetivo sea estrictamente convexa y exista solución, ésta es única.</p>
+<p>La función objetivo <span class="math display">\[
+\tilde{f}(\bfbeta)=\frac{1}{2}\|\yy-X\bfbeta\|_2^2+\lambda\|\bfbeta\|_1
+\]</span></p>
+<p>crece indefinidamente en cualquier dirección <span class="math inline">\(\dd\in\RR^p\)</span>; es decir, <span class="math display">\[
+\lim_{t\to\infty}\tilde{f}(\bfbeta+t\dd)=\infty.
+\]</span></p>
+<p>Esto permite afirmar que <span class="math inline">\(\tilde{f}\)</span> no tiene direcciones de decrecimiento, las cuales se conocen como <em>direcciones de recesión</em>. Resultados teóricos (ver, por ejemplo, Teorema 27.1 de Rockafellar (1970)) aseguran que en tales condiciones el problema de optimización <mark>tiene al menos una solución</mark>.</p>
+<aside>
+Una dirección <span class="math inline">\(\dd\in\RR^p\)</span> se denomina <em>dirección de recesión</em> de <span class="math inline">\(f:\RR^p\to\RR\)</span> si <span class="math inline">\(f(\xx+t\dd)\leq f(\xx)\)</span> para todo <span class="math inline">\(\xx\in\text{dom}\,f\)</span> y <span class="math inline">\(t\geq 0\)</span>.
+</aside>
+<p>A continuación, las dos posibilidades mencionadas se derivan de la matriz Hessiana de la función objetivo: <span class="math display">\[
+\nabla\tilde{f}(\bfbeta)=X^\top X.
+\]</span></p>
+<ul>
+<li><p>Si <span class="math inline">\(\text{rango}\,X=p\)</span>, entonces <span class="math inline">\(X^\top X\succ 0\)</span> (¿porqué?). Luego, <span class="math inline">\(\tilde{f}\)</span> resulta estrictamente convexa y concluimos que el problema tiene solución única.</p></li>
+<li><p>Si <span class="math inline">\(\text{rango}\,X&lt;p\)</span>, la solución puede no ser única. En caso de no ser única, habrán infinitas soluciones. Para justificar esto último, supongamos <span class="math inline">\(\bfbeta^{\text{lasso},1}\)</span> y <span class="math inline">\(\bfbeta^{\text{lasso},2}\)</span> diferentes estimadores; entonces <span class="math display">\[
+t\bfbeta^{\text{lasso},1}+(1-t)\bfbeta^{\text{lasso},2},\qquad t\in(0,1)
+\]</span> también es una solución, por convexidad del conjunto solución de un problema de optimización convexa (<span style="color:darkred;">esto último deberían ponerlo como ejercicio en la sección 1.2</span>).</p></li>
+</ul>
+<p>Otras características importantes del problema lasso se enuncian en el siguiente lema. La prueba se propone en las <a href="B3_ridge_lasso.html#actividades">Actividades</a> al final de esta sección.</p>
+<div class="teorema">
+<p><strong>Lema 1.</strong> Sean <span class="math inline">\(X\in\RR^{n\times p}\)</span>, <span class="math inline">\(\yy\in\RR^n\)</span> y <span class="math inline">\(\lambda&gt;0\)</span>. El valor <em>fiteado</em> <span class="math inline">\(X\hat{\bfbeta}^{\text{lasso}}\)</span> y la norma <span class="math inline">\(\|\hat{\bfbeta}^{\text{lasso}}\|_1\)</span> son independientes de la elección del estimador lasso.</p>
+</div>
+</section>
+<section id="condiciones-kkt" class="level3">
+<h3 class="anchored" data-anchor-id="condiciones-kkt">Condiciones KKT</h3>
+<p>Para poder definir las condiciones KKT para el problema lasso, debemos primero hacer un abreve introducción a los subdiferenciales, debido a que <span class="math inline">\(\|\bfbeta\|_1\)</span> no es una función diferenciable.</p>
+<div class="alert alert-light text-dark" role="important">
+<p><span class="badge bg-warning text-dark">Importante</span> <span style="font-family: Arial; font-weight: bold; font-size: 0.85em;"> Subdiferencial </span></p>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Subdiferencial de la norma 1 </span></p>
+<p>Sea <span class="math inline">\(h:\RR^p\to\RR\)</span> definida por <span class="math display">\[
+h(\xx)=\|\xx\||_1:=\sum_{i=1}^p|x_i|.
+\]</span></p>
+<p>Esta función es diferenciable en todos los puntos <span class="math inline">\(\xx\)</span> tales que <span class="math inline">\(x_i\neq 0\)</span> para todo <span class="math inline">\(i=1,\ldots,p\)</span>. En tales puntos su subdiferencial coincide con el vector gradiente, el cual es <span class="math display">\[
+\nabla h(\xx)=(\text{sign}(x_1),\ldots,\text{sign}(x_p))\qquad \forall\xx\neq\bfzero.
+\]</span></p>
+<p>Sin embargo, si la <span class="math inline">\(i\)</span>-ésima coordenada es 0, el subgradiente tomará en esa componente el valor <span class="math inline">\([-1,1]\)</span>.</p>
+<p>Por lo tanto, <span class="math inline">\(\partial h(\xx)\)</span> está formado por todos los vectores <span class="math inline">\(\bfgamma\)</span> que verifican <span class="math display">\[
+\gamma_i=\begin{cases}
+{\text{sign}(x_i)} &amp; \mbox{si }x_i\neq 0,\\
+[-1,1] &amp; \mbox{si }x_i=0.
+\end{cases}
+\]</span></p>
+<p><span style="color:darkred;"> Después explico con mas detalle esto, cuando desarrolle “Subdiferencial” </span></p>
+</div>
+</div>
+<p>Para el problema lasso, las condiciones KKT son suficientes y necesarias (¿por qué?). Pero cuando no hay diferenciabilidad, las mismas deben estar escritas en términos de subdiferenciales, en lugar del gradiente. Para escribirlas, es más sencillo partir de la formulación como problema de optimización sin restricciones: <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \frac{1}{2}\|\yy-X\bfbeta\|_2^2+\lambda\|\bfbeta\|_1.
+\end{array}
+\]</span></p>
+<p>Esto se debe a que en este caso las condiciones KKT se reducen a <span class="math inline">\(\nabla \tilde{f}(\bfbeta)=\bfzero\)</span>. Recordemos que nos referimos con <span class="math inline">\(\tilde{f}\)</span> a la función objetivo de esta formulación. La condición de estacionariedad resulta en <span class="math display">\[
+X^\top(X\hat{\bfbeta}^{\text{lasso}}-\yy)+\lambda\bfgamma=\bfzero,
+\]</span> con <span class="math inline">\(\bfgamma\)</span> el subdiferencial de <span class="math inline">\(h(\bfbeta)=\|\bfbeta\|_1\)</span> valuado en <span class="math inline">\(\hat{\bfbeta}^{\text{lasso}}\)</span>, dado por (ver Ejemplo 1): <span class="math display">\[
+\gamma_i=\begin{cases}
+{\text{sign}(\hat{\beta}_i^{\text{lasso}})} &amp; \mbox{si }\hat{\beta}_i^{\text{lasso}}\neq 0,\\
+[-1,1] &amp; \mbox{si }\hat{\beta}_i^{\text{lasso}}=0.
+\end{cases}
+\]</span></p>
+<p>La clave está en reescribir la condición de estacionariedad como <span class="math display">\[
+X^\top(\yy-X\hat{\bfbeta}^{\text{lasso}})=\lambda\bfgamma.
+\tag{5}
+\]</span></p>
+<p>La componente <span class="math inline">\(i\)</span>-ésima del vector del lado izquierdo de (5) mide la relación entre cada variable predictora <span class="math inline">\(X_i\)</span> y el residuo <span class="math inline">\(\mathbf{r}:=\yy-X\hat{\bfbeta}^{\text{lasso}}\)</span>. De hecho, cuando <span class="math inline">\(X_i\)</span> e <span class="math inline">\(\yy\)</span> están estandarizados, entonces esta cantidad es proporcional a la correlación de Pearson: <span class="math display">\[
+\begin{align}
+\text{cor}(X_i,\mathbf{r}):&amp;=\frac{\text{cov}(X_i,\mathbf{r})}{\sqrt{\text{var}(X_i)\text{var}(\mathbf{r})}}\\
+&amp;=\frac{\frac{1}{n}X_i^\top\mathbf{r}}{\sqrt{\frac{1}{n}\|\mathbf{r}\|_2^2}}\\
+&amp;\propto X_i^\top\mathbf{r}.
+\end{align}
+\]</span></p>
+<p>Esta observación motiva la siguiente definición.</p>
+<div class="definicion">
+<p><strong>Definición 1.</strong> (Conjunto de equicorrelación) Sea <span class="math inline">\(\hat{\bfbeta}^{\text{lasso}}\)</span> una solución del problema lasso. Se define el <em>conjunto de equicorrelación</em> <span class="math inline">\(\mathcal{E}\)</span> como <span class="math display">\[
+\mathcal{E}:=\left\{i\in\{1,\ldots,p\} \mid \left|X_i^\top \left(\yy-X\hat{\bfbeta}^{\text{lasso}}\right)\right|=\lambda\right\}
+\]</span></p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>Vamos a separar el vector <span class="math inline">\(\hat{\bfbeta}^{\text{lasso}}\)</span> en dos subvectores, discriminando de acuerdo a si el índice está o no en <span class="math inline">\(\mathcal{E}\)</span>. Para ello, denotamos <span class="math display">\[
+\hat{\bfbeta}_{\mathcal{E}}^{\text{lasso}}=(\hat{\beta}_{i}^{\text{lasso}})_{i\in\mathcal{E}},\qquad \hat{\bfbeta}_{-\mathcal{E}}^{\text{lasso}}=(\hat{\beta}_{i}^{\text{lasso}})_{i\notin\mathcal{E}}.
+\]</span></p>
+<p>La primera afirmación que haremos es:</p>
+<div class="myhighlight">
+<p>Todas las componentes del estimador lasso <span class="math inline">\(\hat{\bfbeta}^{\text{lasso}}\)</span> cuyo índice no pertenece al conjunto <span class="math inline">\(E\)</span> son nulas. Es decir: <span class="math display">\[
+\hat{\bfbeta}_{-\mathcal{E}}^{\text{lasso}}=\bfzero.
+\]</span></p>
+</div>
+<div style="margin-top:1em;">
+
+</div>
+<details>
+<summary>
+¿Por qué?
+</summary>
+<hr>
+<p>Si suponemos <span class="math inline">\(\hat{\beta}_i^{\text{lasso}}\neq 0\)</span>, entonces <span class="math inline">\(|\gamma_i|=1\)</span>. Luego, de (5) se deduce <span class="math display">\[
+|X^\top(\yy-X\hat{\bfbeta}^{\text{lasso}})|=\lambda.
+\]</span></p>
+<p>En consecuencia, es necesario que <span class="math inline">\(i\in\mathcal{E}\)</span> para que <span class="math inline">\(\hat{\beta}_i^{\text{lasso}}\neq 0\)</span>.</p>
+<hr>
+</details>
+<p>Inmediatamente tenemos una segunda afirmación:</p>
+<div class="myhighlight">
+<p>El conjunto <span class="math inline">\(\mathcal{E}\)</span> incluye todos los índices candidatos a tener coeficientes no nulos. A las variables asociadas las llamaremos <em>variables activas</em>.</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>Observar que, de la fórmula de <span class="math inline">\(\gamma\)</span>, podemos afirmar que <span class="math display">\[
+\hat{\beta}_i^{\text{lasso}}=0\Rightarrow |X^\top (\yy-\hat{\bfbeta}^{\text{lasso}})|\leq \lambda.
+\]</span></p>
+<p>Esto implica que las variables activas son las que tienen correlación máxima (en valor absoluto) con el residuo. Esta propiedad justifica por qué el criterio de lasso selecciona dichas variables: no existe fuera del conjunto activo ninguna variable que valga la pena incluir. En otras palabras, el criterio prioriza aquellas variables que más pueden mejorar el ajuste del modelo.</p>
+<p>Ahora bien, solo nos queda un último análisis:</p>
+<div class="myhighlight3">
+<p>¿Hay una expresión analítica para <span class="math inline">\(\hat{\bfbeta}^{\text{lasso}}_{\mathcal{E}}\)</span>?</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>Centraremos nuestro análisis en el bloque <span class="math inline">\(\mathcal{E}\)</span>, es decir trabajaremos con la submatriz <span class="math inline">\(X_{\mathcal{E}}\)</span> formada por las columnas de <span class="math inline">\(X\)</span> cuyos índices estén en <span class="math inline">\(\mathcal{E}\)</span>. Si denotamos <span class="math display">\[
+\mathbf{s} := \text{sign}\left(X_{\mathcal{E}}^\top(\yy-X\hat{\bfbeta}^{\text{lasso}})\right),\qquad \mathbf{s}\in\{-1,1\}^{|E|},
+\]</span></p>
+<p>entonces la condición de estacionariedad resulta en <span class="math display">\[
+X_{\mathcal{E}}^\top\left(\yy-X_{\mathcal{E}}\hat{\bfbeta}^{\text{lasso}}_{\mathcal{E}}\right)=\lambda s.
+\tag{6}
+\]</span></p>
+<p>Esto significa que <span class="math inline">\(\lambda \mathbf{s}\)</span> es una combinación lineal de las filas de <span class="math inline">\(X_{\mathcal{E}}\in\RR^{n\times |E|}\)</span>. Por lo tanto, si utilizamos la proyección sobre el espacio fila <span class="math inline">\(\text{row}\,X_{\mathcal{E}}\)</span> a <span class="math inline">\(\lambda\mathbf{s}\)</span>, deberíamos obtener al mismo <span class="math inline">\(\lambda\mathbf{s}\)</span>. En consecuencia, <span class="math display">\[
+X_{\mathcal{E}}^\top(X_{\mathcal{E}}^\top)^{+}\lambda\mathbf{s}=\lambda\mathbf{s}.
+\tag{7}
+\]</span></p>
+<p>Reemplazando (7) en (6) permite deducir <span class="math display">\[
+X_{\mathcal{E}}^\top X_{\mathcal{E}}\hat{\bfbeta}^{\text{lasso}}=X_{\mathcal{E}}^\top\left(\yy-(X_{\mathcal{E}}^\top)^{+}\lambda\mathbf{s}\right).
+\]</span></p>
+<p>Usando la propiedad de pseudoinversa <span class="math inline">\(X_{\mathcal{E}}^\top=X_{\mathcal{E}}^\top X_{\mathcal{E}}(X_{\mathcal{E}})^{+}\)</span>, se puede verificar que una solución de la ecuación anterior es <span class="math display">\[
+\hat{\bfbeta}_{\mathcal{E}}^{\text{lasso}}=(X_{\mathcal{E}})^{+}\left(\yy-(X_{\mathcal{E}}^\top)^{+}\lambda\mathbf{s}\right).
+\]</span></p>
+<p>Por último, teniendo en cuenta que el valor fiteado <span class="math inline">\(X_{\mathcal{E}}\hat{\bfbeta}_{\mathcal{E}}^{\text{lasso}}\)</span> no cambia si sumamos a esa solución un vector <span class="math inline">\(\bb\in\text{null}\,X_{\mathcal{E}}\)</span>, todas las soluciones del problema lasso quedan determinadas por la forma <span class="math display">\[
+\hat{\bfbeta}_{\mathcal{E}}^{\text{lasso}}=(X_{\mathcal{E}})^{+}\left(\yy-(X_{\mathcal{E}}^\top)^{+}\lambda\mathbf{s}\right)+\bb,
+\]</span> donde <span class="math inline">\(\bb\in\text{null}\,X_{\mathcal{E}}\)</span> es válido siempre que el resultado final sea consistente con respecto a los signos de sus coeficientes no nulos, esto es, se verifique <span class="math inline">\(\text{sign}(\hat{\beta}_i^{\text{lasso}})=s_i\)</span> para todo <span class="math inline">\(\hat{\beta}_i^{\text{lasso}}\neq 0\)</span>.</p>
+<div style="margin-top:2em;">
+
+</div>
+<div class="highlight">
+<p>⚠️ A pesar de haber hallado una expresión analítica de todas las soluciones del problema lasso, su uso práctico es limitado. En general, el conjunto <span class="math inline">\(\mathcal{E}\)</span> no se conoce de antemano y su identificación requiere de un proceso costoso. Además, la expresión depende de la pseudoinversa de submatrices de <span class="math inline">\(X\)</span>, lo cual puede ser computacionalmente costoso e inestable. Por estas razones, en la práctica se utilizan algoritmos iterativos eficientes para resolver el problema lasso. Uno de los más populares y efectivos es el <em>descenso por coordenadas</em>, que describiremos a continuación.</p>
+</div>
+</section>
+<section id="resolución-mediante-descenso-por-coordenadas" class="level3">
+<h3 class="anchored" data-anchor-id="resolución-mediante-descenso-por-coordenadas">Resolución mediante descenso por coordenadas</h3>
+<p>En lo que sigue vamos a considerar el problema lasso sin intercepto. Es decir, vamos a suponer que <span class="math inline">\(X\in\RR^{n\times p}\)</span> es una matriz centrada por columnas y <span class="math inline">\(\yy\in\RR^n\)</span> es un vector centrado. <span style="color:darkred;"> ¿Cuestiones teóricas de centrado e intercepto, van a ejercicios de papel de 2.1/2.2? </span></p>
+<p>Entonces <span class="math inline">\(\bfbeta^{\text{lasso}}\in\RR^p\)</span> es el punto óptimo del problema <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \frac{1}{2}\|\yy-X\bfbeta\|_2^2+\lambda\|\bfbeta\|_1.
+\end{array}
+\tag{8}
+\]</span></p>
+<p>Si denotamos <span class="math inline">\(Q=X^\top X\in\RR^{p\times p}\)</span> y <span class="math inline">\(\vv=X^T\yy\in\RR^{p}\)</span>, el problema (8) es equivalente a <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \frac{1}{2}\bfbeta^\top Q\bfbeta-\bfbeta^\top\vv+\lambda\|\bfbeta\|_1.
+\end{array}
+\tag{9}
+\]</span></p>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br> Justifique la expresión (9).</p>
+</div>
+</div>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>La función objetivo en (9) puede escribirse como <span class="math display">\[
+f(\bfbeta)=\frac{1}{2}\sum_{i=1}^p\sum_{j=1}^p Q_{ij}\beta_i\beta_j-\sum_{i=1}^p v_i\beta_i+\lambda\sum_{i=1}^p|\beta_i|.
+\tag{10}
+\]</span></p>
+<p>Nos planteamos lo siguiente:</p>
+<div class="myhighlight3">
+<p>¿Qué obtenemos al minimizar respecto a un solo parámetro <span class="math inline">\(\beta_k\)</span>, con los demás fijos?</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>Sea <span class="math inline">\(k\in\{1,\ldots,p\}\)</span>. Al dejar fijas todas las variables de optimización <span class="math inline">\(\beta_j\neq\beta_k\)</span> (<span class="math inline">\(j=1,\ldots,p\)</span>), estamos formulando un problema de optimización univariada, cuya función objetivo es <span class="math display">\[
+\tilde{f}(\beta_k)=\beta_k\sum_{\substack{i=1 \\ i \neq k}}^pQ_{ik}\beta_i+\frac{1}{2}Q_{kk}\beta_k^2-v_k\beta_k+\lambda|\beta_k|+\text{constante}.
+\tag{11}
+\]</span></p>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br> Justifique la expresión (11), partiendo de (10) y marcando como constante los términos que no dependen de <span class="math inline">\(k\)</span>.</p>
+</div>
+</div>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>Por lo tanto, resulta <span class="math display">\[
+\frac{\tilde{f}(\beta_k)}{Q_{kk}}=\frac{1}{2}\beta_k^2-\frac{v_k-\sum_{\substack{i=1 \\ i \neq k}}^pQ_{ik}\beta_i}{Q_{kk}}\beta_k+\frac{\lambda}{Q_{kk}}|\beta_k|+\text{constante}.
+\]</span></p>
+<p>Luego, minimizar <span class="math inline">\(\tilde{f}\)</span> en (8) es equivalente a <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \frac{1}{2}\beta_k^2-s\beta_k+\tau|\beta_k|,
+\end{array}
+\tag{12}
+\]</span> con <span class="math display">\[
+s=\frac{v_k-\sum_{\substack{i=1 \\ i \neq k}}^pQ_{ik}\beta_i}{Q_{kk}},\qquad \tau=\frac{\lambda}{Q_{kk}}.
+\]</span></p>
+<p>La solución de (12) es una función de <span class="math inline">\(s\)</span> y <span class="math inline">\(\tau\)</span> denominada <mark>función de <em>soft-thresholding</em></mark>. La estudiaremos a continuación.</p>
+<section id="función-de-soft-thresholding" class="level4">
+<h4 class="anchored" data-anchor-id="función-de-soft-thresholding">Función de <em>soft-thresholding</em></h4>
+<p>El problema (12) es equivalente a <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \frac{1}{2}(\beta-s)^2+\tau|\beta|.
+\end{array}
+\]</span></p>
+<p>Aquí, <span class="math inline">\(s\in\RR\)</span> y <span class="math inline">\(\tau&gt; 0\)</span>. La función objetivo <span class="math inline">\(f\)</span> es convexa pero no diferenciable. Su subdiferencial es <span class="math display">\[
+\partial f(\beta)=\left\{
+  \begin{array}{cl}
+  \beta-s+\tau\,\text{sign}\,\beta &amp; \mbox{si }\beta\neq 0\\
+  [-s-\tau,-s+\tau] &amp; \mbox{si }\beta = 0.
+  \end{array}
+  \right.
+\]</span></p>
+<p>Sabemos que <span class="math inline">\(\beta^\star\)</span> es punto óptimo si y solo si <span class="math inline">\(0\in\partial f(\beta^\star)\)</span>. Por lo tanto, analicemos cuando esta última condición es cierta:</p>
+<ul>
+<li><p><span class="math inline">\(0\in\partial f(0)\)</span> si y solo si <span class="math inline">\(0\in[-s-\tau,-s+\tau]\)</span> . Esto último es cierto si y solo si <span class="math inline">\(|s|\leq \tau\)</span>.</p></li>
+<li><p>Si <span class="math inline">\(\tau &lt; |s|\)</span>, tenemos dos casos:</p>
+<ul>
+<li><p><span class="math inline">\(s&gt;0\)</span>: resulta <span class="math inline">\(s-\tau&gt;0\)</span> tal que <span class="math inline">\(\partial f(s-\tau)=s-\tau-s+\tau=0\)</span>. Esto implica que <span class="math inline">\(0\in \partial f(s-\tau)\)</span>.</p></li>
+<li><p><span class="math inline">\(s&lt;0\)</span>: resulta <span class="math inline">\(s+\tau&lt;0\)</span> tal que <span class="math inline">\(\partial f(s+\tau)=s+\tau-s-\tau=0\)</span>. Es decir, <span class="math inline">\(0\in\partial f(s+t)\)</span>.</p></li>
+</ul></li>
+</ul>
+<p>Finalmente, la solución del problema es <span class="math display">\[
+\beta^\star=\left\{\begin{array}{cl}
+s-\tau &amp; \mbox{si }s&gt;\tau,\\
+0 &amp; \mbox{si }|s|\leq\tau,\\
+s+\tau &amp; \mbox{si }s&lt;-\tau.
+\end{array}
+\right.
+\]</span></p>
+<p>Una expresión alternativa es <span class="math display">\[
+\beta^\star=\text{sign}(s)\cdot\max\{|s|-\tau,0\}.
+\]</span></p>
+<div style="margin-top:2em;">
+
+</div>
+<div class="definicion">
+<p><strong>Definición 1.</strong> (Función <em>soft-thresholding</em>) Sea <span class="math inline">\(\tau&gt;0\)</span>. La función <em>soft-thresholding</em> <span class="math inline">\(\text{soft}_{\tau}:\RR\to\RR\)</span> se define por <span class="math display">\[
+\text{soft}_{\tau}(s):=\text{sign}(s)\cdot\max\{|s|-\tau,0\}.
+\]</span></p>
+</div>
+<p>Veamos la gráfica:</p>
+<div>
+<div id="pyodide-1" class="exercise-cell">
+
+</div>
+<script type="pyodide-1-contents">
+eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRydWUsImZpZy1hbGlnbiI6ImNlbnRlciIsImluY2x1ZGUiOnRydWUsImlucHV0IjpbInRhdSJdfSwiY29kZSI6IlxuaW1wb3J0IG51bXB5IGFzIG5wXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5cbmRlZiBzb2Z0X3RocmVzaG9sZChzLCB0YXUpOlxuICAgIHJldHVybiBucC5zaWduKHMpICogbnAubWF4aW11bShucC5hYnMocykgLSB0YXUsIDApXG5cbiMgUmFuZ28gZGUgc1xuc192YWxzID0gbnAubGluc3BhY2UoLTQsNCwgNTAwKVxuXG4jIENhbGN1bGFyIGxhIGZ1bmNpw7NuIHNvZnQtdGhyZXNob2xkaW5nXG5zb2Z0X3ZhbHMgPSBzb2Z0X3RocmVzaG9sZChzX3ZhbHMsIHRhdSlcblxuIyBHcmFmaWNhclxucGx0LmZpZ3VyZShmaWdzaXplPSg2LDQpKVxucGx0LmF4aGxpbmUoMCwgY29sb3I9J2JsYWNrJywgbGluZXdpZHRoPTEpXG5wbHQuYXh2bGluZSgwLCBjb2xvcj0nYmxhY2snLCBsaW5ld2lkdGg9MSlcbnBsdC5wbG90KHNfdmFscywgc29mdF92YWxzLCBsYWJlbD1yJyRcXG1hdGhjYWx7U31fXFx0YXUocykkJywgY29sb3I9J2JsdWUnLCBsaW5ld2lkdGg9Mi41KVxucGx0LmF4dmxpbmUodGF1LCBjb2xvcj0nZGFya29yYW5nZScsIGxpbmVzdHlsZT0nLS0nLCBsaW5ld2lkdGg9MC41KVxucGx0LmF4dmxpbmUoLXRhdSwgY29sb3I9J2RhcmtvcmFuZ2UnLCBsaW5lc3R5bGU9Jy0tJywgbGluZXdpZHRoPTAuNSlcblxuXG4jIENhbWJpYXIgZXRpcXVldGFzIGRlbCBlamUgeFxueHRpY2tzID0gWy10YXUtMSwtdGF1LCAwLCB0YXUsIHRhdSsxXVxueHRpY2tfbGFiZWxzID0gW3InJC1cXHRhdSAtMSQnLHInJC1cXHRhdSQnLCByJyQwJCcsIHInJFxcdGF1JCcscickXFx0YXUgKzEkJ11cbnBsdC54dGlja3MoeHRpY2tzLCB4dGlja19sYWJlbHMpXG5wbHQueGxpbSgtNCw0KVxucGx0LnlsaW0oLTQsNClcblxucGx0LnhsYWJlbChyJyRzJCcpXG5wbHQueWxhYmVsKHInJFxcdGV4dHtzb2Z0fV9cXHRhdShzKSQnKVxucGx0LnRpZ2h0X2xheW91dCgpXG5wbHQuc2hvdygpIn0=
+</script>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="581" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 580;"><span id="cb1-581"><a href="#cb1-581" aria-hidden="true" tabindex="-1"></a>viewof tau <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.1</span><span class="op">,</span> <span class="fl">2.5</span>]<span class="op">,</span> {</span>
+<span id="cb1-582"><a href="#cb1-582" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
+<span id="cb1-583"><a href="#cb1-583" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"𝜏:"</span><span class="op">,</span></span>
+<span id="cb1-584"><a href="#cb1-584" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span></span>
+<span id="cb1-585"><a href="#cb1-585" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div style="margin-top:2.5em;">
+
+</div>
+</section>
+<section id="descenso-por-coordenadas" class="level4">
+<h4 class="anchored" data-anchor-id="descenso-por-coordenadas">Descenso por coordenadas</h4>
+<p>Volvamos a la expresión (9). Recordemos que el propósito era analizar la solución del problema lasso cuando fijamos todos los parámetros excepto uno. De acuerdo a lo visto, para minimizar <span class="math inline">\(\beta_k\)</span> para algún <span class="math inline">\(k=1,\ldots,p\)</span>, manteniendo el resto fijo, resulta <span class="math display">\[
+\beta_k^\star=\text{soft}_{\tau}\left(\frac{v_k-\sum_{\substack{i=1 \\ i \neq k}}^pQ_{ik}\beta_i}{Q_{kk}}\right),\qquad \tau=\frac{\lambda}{Q_{kk}}.
+\]</span></p>
+<p>Esto conduce de manera natural a un algoritmo iterativo para resolver el problema lasso, conocido como <mark>descenso por coordenada</mark>, en el cual se actualiza un coeficiente a la vez, manteniendo fijos los demás.</p>
+<div style="margin-top:2em;">
+
+</div>
+<div class="highlight">
+<p><span class="badge bg-dark">Método de descenso por coordenadas para LASSO</span></p>
+<hr>
+<p>Dado un <em>párametro inicial</em> <span class="math inline">\(\bfbeta^{(0)}\in\RR^p\)</span> (en general, <span class="math inline">\(\bfbeta^{(0)}=\bfzero\)</span>) y un <em>hiperparámetro de penalización</em> <span class="math inline">\(\lambda&gt;0\)</span>:</p>
+<div style="margin-left: 1em">
+<p><strong>repetir</strong> para <span class="math inline">\(t = 1,2,\dots\)</span>:</p>
+<blockquote class="blockquote">
+<p>Inicializar <span class="math inline">\(\bfbeta^{(t)}=\bfbeta^{(t-1)}\)</span>.</p>
+<p>Para <span class="math inline">\(k=1,\ldots,p\)</span>:</p>
+<p><span class="math inline">\(\qquad\)</span> <strong>1°</strong> Calcular <span class="math inline">\(s_k=\left(v_k-\sum_{\substack{i=1 \\ i \neq k}}^pQ_{ik}\beta_i^{(t)}\right)/Q_{kk}\)</span>.</p>
+<p><span class="math inline">\(\qquad\)</span> <strong>2°</strong> Actualizar <span class="math inline">\(\beta_k^{(t)}=\text{soft}_{\tau}(s_k)\)</span> con <span class="math inline">\(\tau=\lambda/Q_{kk}\)</span>.</p>
+</blockquote>
+<p><strong>hasta</strong> que el criterio de parada se satisfaga.</p>
+</div>
+<hr>
+</div>
+<p>Observar que en cada iteración <span class="math inline">\(t\)</span>, el vector <span class="math inline">\(\bfbeta^{(t)}\)</span> se va actualizando coordenada por coordenada, utilizando los valores más recientes dentro de la misma iteración. Otra alternativa es actualizar todas las coordenadas en bloque a partir del mismo vector <span class="math inline">\(\bfbeta^{(t-1)}\)</span>. Este último enfoque suele presentar una convergencia más lenta en este algoritmo.</p>
+<p><span style="color:darkred;"> Acá va implementación y ejemplo. </span></p>
 <p><br><br></p>
+</section>
+</section>
+</section>
 <section id="actividades" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="actividades">Actividades</h2>
 ✏️ <strong>Conceptuales</strong><br>
@@ -314,10 +771,22 @@ window.Quarto = {
 <ol type="1">
 <li>…</li>
 </ol>
+<div style="margin-top: 5em;">
+
+</div>
+<div class="refs">
+<p><span style="color: #444;"><strong>Referencias</strong></span></p>
+<p>Hastie, T., Tibshirani, R., &amp; Friedman, J. (2009). <em>The Elements of Statistical Learning: Data Mining, Inference, and Prediction</em> (2nd ed.). Capítulo 3, Sección 4. Springer.</p>
+<p>Rothman, A. J. (2024). Apuntes del curso STAT 5701 <em>Lasso-penalized Least Squares</em>. University of Minnesota.</p>
+<p>Tibshirani, R.J. (2013). <em>The Lasso problem and uniqueness</em>. Electron. J. Statist. 7 1456-1490. Disponible <a href="https://projecteuclid.org/journals/electronic-journal-of-statistics/volume-7/issue-none/The-lasso-problem-and-uniqueness/10.1214/13-EJS815.full">aquí</a>.</p>
+</div>
 
 
+<script type="pyodide-data">
+eyJvcHRpb25zIjp7ImVudiI6eyJQTE9UTFlfUkVOREVSRVIiOiJwbG90bHlfbWltZXR5cGUifSwiaW5kZXhVUkwiOiJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvcHlvZGlkZS92MC4yNy4wL2Z1bGwvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsicHlvZGlkZV9odHRwIiwibWljcm9waXAiLCJpcHl0aG9uIl19fQ==
+</script>
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W119
+eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoiX3B5b2RpZGVfdmFsdWVfMSA9IHtcbiAgY29uc3QgeyBoaWdobGlnaHRQeXRob24sIGI2NERlY29kZX0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgLy8gRGVmYXVsdCBldmFsdWF0aW9uIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oe1xuICAgIGlkOiBcInB5b2RpZGUtMS1jb250ZW50c1wiLFxuICAgIGVjaG86IHRydWUsXG4gICAgb3V0cHV0OiB0cnVlXG4gIH0sIGJsb2NrLmF0dHIpO1xuXG4gIC8vIEV2YWx1YXRlIHRoZSBwcm92aWRlZCBQeXRob24gY29kZVxuICBjb25zdCByZXN1bHQgPSBweW9kaWRlT2pzLnByb2Nlc3Moe2NvZGU6IGJsb2NrLmNvZGUsIG9wdGlvbnN9LCB7dGF1fSk7XG5cbiAgLy8gRWFybHkgeWllbGQgd2hpbGUgd2Ugd2FpdCBmb3IgdGhlIGZpcnN0IGV2YWx1YXRpb24gYW5kIHJlbmRlclxuICBpZiAob3B0aW9ucy5vdXRwdXQgJiYgIShcIjFcIiBpbiBweW9kaWRlT2pzLnJlbmRlcmVkT2pzKSkge1xuICAgIGNvbnN0IGNvbnRhaW5lciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIik7XG4gICAgY29uc3Qgc3Bpbm5lciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIik7XG5cbiAgICBpZiAob3B0aW9ucy5lY2hvKSB7XG4gICAgICAvLyBTaG93IG91dHB1dCBhcyBoaWdobGlnaHRlZCBzb3VyY2VcbiAgICAgIGNvbnN0IHByZUVsZW0gPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwicHJlXCIpO1xuICAgICAgY29udGFpbmVyLmNsYXNzTmFtZSA9IFwic291cmNlQ29kZVwiO1xuICAgICAgcHJlRWxlbS5jbGFzc05hbWUgPSBcInNvdXJjZUNvZGUgcHl0aG9uXCI7XG4gICAgICBwcmVFbGVtLmFwcGVuZENoaWxkKGhpZ2hsaWdodFB5dGhvbihibG9jay5jb2RlKSk7XG4gICAgICBzcGlubmVyLmNsYXNzTmFtZSA9IFwic3Bpbm5lci1ncm93IHNwaW5uZXItZ3Jvdy1zbSBtLTIgcG9zaXRpb24tYWJzb2x1dGUgdG9wLTAgZW5kLTBcIjtcbiAgICAgIHByZUVsZW0uYXBwZW5kQ2hpbGQoc3Bpbm5lcik7XG4gICAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQocHJlRWxlbSk7XG4gICAgfSBlbHNlIHtcbiAgICAgIHNwaW5uZXIuY2xhc3NOYW1lID0gXCJzcGlubmVyLWJvcmRlciBzcGlubmVyLWJvcmRlci1zbVwiO1xuICAgICAgY29udGFpbmVyLmFwcGVuZENoaWxkKHNwaW5uZXIpO1xuICAgIH1cblxuICAgIHlpZWxkIGNvbnRhaW5lcjtcbiAgfVxuXG4gIHB5b2RpZGVPanMucmVuZGVyZWRPanNbXCIxXCJdID0gdHJ1ZTtcbiAgeWllbGQgYXdhaXQgcmVzdWx0O1xufVxuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtcHJlbHVkZSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InB5b2RpZGVPanMgPSB7XG4gIGNvbnN0IHtcbiAgICBQeW9kaWRlRXZhbHVhdG9yLFxuICAgIFB5b2RpZGVFbnZpcm9ubWVudE1hbmFnZXIsXG4gICAgc2V0dXBQeXRob24sXG4gICAgc3RhcnRQeW9kaWRlV29ya2VyLFxuICAgIGI2NERlY29kZSxcbiAgICBjb2xsYXBzZVBhdGgsXG4gIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHN0YXR1c0NvbnRhaW5lciA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKFwiZXhlcmNpc2UtbG9hZGluZy1zdGF0dXNcIik7XG4gIGNvbnN0IGluZGljYXRvckNvbnRhaW5lciA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKFwiZXhlcmNpc2UtbG9hZGluZy1pbmRpY2F0b3JcIik7XG4gIGluZGljYXRvckNvbnRhaW5lci5jbGFzc0xpc3QucmVtb3ZlKFwiZC1ub25lXCIpO1xuXG4gIGxldCBzdGF0dXNUZXh0ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcImRpdlwiKVxuICBzdGF0dXNUZXh0LmNsYXNzTGlzdCA9IFwiZXhlcmNpc2UtbG9hZGluZy1kZXRhaWxzXCI7XG4gIHN0YXR1c1RleHQgPSBzdGF0dXNDb250YWluZXIuYXBwZW5kQ2hpbGQoc3RhdHVzVGV4dCk7XG4gIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgSW5pdGlhbGlzZWA7XG5cbiAgLy8gSG9pc3QgaW5kaWNhdG9yIG91dCBmcm9tIGZpbmFsIHNsaWRlIHdoZW4gcnVubmluZyB1bmRlciByZXZlYWxcbiAgY29uc3QgcmV2ZWFsU3RhdHVzID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcihcIi5yZXZlYWwgLmV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpZiAocmV2ZWFsU3RhdHVzKSB7XG4gICAgcmV2ZWFsU3RhdHVzLnJlbW92ZSgpO1xuICAgIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsID4gLnNsaWRlc1wiKS5hcHBlbmRDaGlsZChyZXZlYWxTdGF0dXMpO1xuICB9XG5cbiAgLy8gTWFrZSBhbnkgcmV2ZWFsIHNsaWRlcyB3aXRoIGxpdmUgY2VsbHMgc2Nyb2xsYWJsZVxuICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKFwiLnJldmVhbCAuZXhlcmNpc2UtY2VsbFwiKS5mb3JFYWNoKChlbCkgPT4ge1xuICAgIGVsLmNsb3Nlc3QoJ3NlY3Rpb24uc2xpZGUnKS5jbGFzc0xpc3QuYWRkKFwic2Nyb2xsYWJsZVwiKTtcbiAgfSlcblxuICAvLyBQeW9kaWRlIHN1cHBsZW1lbnRhbCBkYXRhIGFuZCBvcHRpb25zXG4gIGNvbnN0IGRhdGFDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtZGF0YVxcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGRhdGEgPSBKU09OLnBhcnNlKGI2NERlY29kZShkYXRhQ29udGVudCkpO1xuXG4gIC8vIEdyYWIgbGlzdCBvZiByZXNvdXJjZXMgdG8gYmUgZG93bmxvYWRlZFxuICBjb25zdCBmaWxlc0NvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwidmZzLWZpbGVcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBmaWxlcyA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKGZpbGVzQ29udGVudCkpO1xuXG4gIGxldCBweW9kaWRlUHJvbWlzZSA9IChhc3luYyAoKSA9PiB7XG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBQeW9kaWRlYDtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgc3RhcnRQeW9kaWRlV29ya2VyKGRhdGEub3B0aW9ucyk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHBhY2thZ2U6IG1pY3JvcGlwYDtcbiAgICBhd2FpdCBweW9kaWRlLmxvYWRQYWNrYWdlKFwibWljcm9waXBcIik7XG4gICAgY29uc3QgbWljcm9waXAgPSBhd2FpdCBweW9kaWRlLnB5aW1wb3J0KFwibWljcm9waXBcIik7XG4gICAgYXdhaXQgZGF0YS5wYWNrYWdlcy5wa2dzLm1hcCgocGtnKSA9PiAoKSA9PiB7XG4gICAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHBhY2thZ2U6ICR7cGtnfWA7XG4gICAgICByZXR1cm4gbWljcm9waXAuaW5zdGFsbChwa2cpO1xuICAgIH0pLnJlZHVjZSgoY3VyLCBuZXh0KSA9PiBjdXIudGhlbihuZXh0KSwgUHJvbWlzZS5yZXNvbHZlKCkpO1xuICAgIGF3YWl0IG1pY3JvcGlwLmRlc3Ryb3koKTtcblxuICAgIC8vIERvd25sb2FkIGFuZCBpbnN0YWxsIHJlc291cmNlc1xuICAgIGF3YWl0IGZpbGVzLm1hcCgoZmlsZSkgPT4gYXN5bmMgKCkgPT4ge1xuICAgICAgY29uc3QgbmFtZSA9IGZpbGUuc3Vic3RyaW5nKGZpbGUubGFzdEluZGV4T2YoJy8nKSArIDEpO1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyByZXNvdXJjZTogJHtuYW1lfWA7XG4gICAgICBjb25zdCByZXNwb25zZSA9IGF3YWl0IGZldGNoKGZpbGUpO1xuICAgICAgaWYgKCFyZXNwb25zZS5vaykge1xuICAgICAgICB0aHJvdyBuZXcgRXJyb3IoYENhbid0IGRvd25sb2FkIFxcYCR7ZmlsZX1cXGAuIEVycm9yICR7cmVzcG9uc2Uuc3RhdHVzfTogXCIke3Jlc3BvbnNlLnN0YXR1c1RleHR9XCIuYCk7XG4gICAgICB9XG4gICAgICBjb25zdCBkYXRhID0gYXdhaXQgcmVzcG9uc2UuYXJyYXlCdWZmZXIoKTtcblxuICAgICAgLy8gU3RvcmUgVVJMcyBpbiB0aGUgY3dkIHdpdGhvdXQgYW55IHN1YmRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGlmIChmaWxlLmluY2x1ZGVzKFwiOi8vXCIpKSB7XG4gICAgICAgIGZpbGUgPSBuYW1lO1xuICAgICAgfVxuXG4gICAgICAvLyBDb2xsYXBzZSBoaWdoZXIgZGlyZWN0b3J5IHN0cnVjdHVyZVxuICAgICAgZmlsZSA9IGNvbGxhcHNlUGF0aChmaWxlKTtcblxuICAgICAgLy8gQ3JlYXRlIGRpcmVjdG9yeSB0cmVlLCBpZ25vcmluZyBcImRpcmVjdG9yeSBleGlzdHNcIiBWRlMgZXJyb3JzXG4gICAgICBjb25zdCBwYXJ0cyA9IGZpbGUuc3BsaXQoJy8nKS5zbGljZSgwLCAtMSk7XG4gICAgICBsZXQgcGF0aCA9ICcnO1xuICAgICAgd2hpbGUgKHBhcnRzLmxlbmd0aCA+IDApIHtcbiAgICAgICAgcGF0aCArPSBwYXJ0cy5zaGlmdCgpICsgJy8nO1xuICAgICAgICB0cnkge1xuICAgICAgICAgIGF3YWl0IHB5b2RpZGUuRlMubWtkaXIocGF0aCk7XG4gICAgICAgIH0gY2F0Y2ggKGUpIHtcbiAgICAgICAgICBpZiAoZS5uYW1lICE9PSBcIkVycm5vRXJyb3JcIikgdGhyb3cgZTtcbiAgICAgICAgICBpZiAoZS5lcnJubyAhPT0gMjApIHtcbiAgICAgICAgICAgIGNvbnN0IGVycm9yVGV4dFB0ciA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5fc3RyZXJyb3IoZS5lcnJubyk7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgICAgICB0aHJvdyBuZXcgRXJyb3IoYEZpbGVzeXN0ZW0gRXJyb3IgJHtlLmVycm5vfSBcIiR7ZXJyb3JUZXh0fVwiLmApO1xuICAgICAgICAgIH1cbiAgICAgICAgfVxuICAgICAgfVxuXG4gICAgICAvLyBXcml0ZSB0aGlzIGZpbGUgdG8gdGhlIFZGU1xuICAgICAgdHJ5IHtcbiAgICAgICAgcmV0dXJuIGF3YWl0IHB5b2RpZGUuRlMud3JpdGVGaWxlKGZpbGUsIG5ldyBVaW50OEFycmF5KGRhdGEpKTtcbiAgICAgIH0gY2F0Y2ggKGUpIHtcbiAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgIGNvbnN0IGVycm9yVGV4dFB0ciA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5fc3RyZXJyb3IoZS5lcnJubyk7XG4gICAgICAgIGNvbnN0IGVycm9yVGV4dCA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5VVEY4VG9TdHJpbmcoZXJyb3JUZXh0UHRyKTtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgIH1cbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcblxuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgUHlvZGlkZSBlbnZpcm9ubWVudCBzZXR1cGA7XG4gICAgYXdhaXQgc2V0dXBQeXRob24ocHlvZGlkZSk7XG5cbiAgICBzdGF0dXNUZXh0LnJlbW92ZSgpO1xuICAgIGlmIChzdGF0dXNDb250YWluZXIuY2hpbGRyZW4ubGVuZ3RoID09IDApIHtcbiAgICAgIHN0YXR1c0NvbnRhaW5lci5wYXJlbnROb2RlLnJlbW92ZSgpO1xuICAgIH1cbiAgICByZXR1cm4gcHlvZGlkZTtcbiAgfSkoKS5jYXRjaCgoZXJyKSA9PiB7XG4gICAgc3RhdHVzVGV4dC5zdHlsZS5jb2xvciA9IFwidmFyKC0tZXhlcmNpc2UtZWRpdG9yLWhsLWVyLCAjQUQwMDAwKVwiO1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBlcnIubWVzc2FnZTtcbiAgICAvL2luZGljYXRvckNvbnRhaW5lci5xdWVyeVNlbGVjdG9yKFwiLnNwaW5uZXItZ3Jvd1wiKS5jbGFzc0xpc3QuYWRkKFwiZC1ub25lXCIpO1xuICAgIHRocm93IGVycjtcbiAgfSk7XG5cbiAgLy8gS2VlcCB0cmFjayBvZiBpbml0aWFsIE9KUyBibG9jayByZW5kZXJcbiAgY29uc3QgcmVuZGVyZWRPanMgPSB7fTtcblxuICBjb25zdCBwcm9jZXNzID0gYXN5bmMgKGNvbnRleHQsIGlucHV0cykgPT4ge1xuICAgIGNvbnN0IHB5b2RpZGUgPSBhd2FpdCBweW9kaWRlUHJvbWlzZTtcbiAgICBjb25zdCBldmFsdWF0b3IgPSBuZXcgUHlvZGlkZUV2YWx1YXRvcihweW9kaWRlLCBjb250ZXh0KTtcbiAgICBhd2FpdCBldmFsdWF0b3IucHJvY2VzcyhpbnB1dHMpO1xuICAgIHJldHVybiBldmFsdWF0b3IuY29udGFpbmVyO1xuICB9XG5cbiAgcmV0dXJuIHtcbiAgICBweW9kaWRlUHJvbWlzZSxcbiAgICByZW5kZXJlZE9qcyxcbiAgICBwcm9jZXNzLFxuICB9O1xufVxuIn1dfQ==
 </script>
 <div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
 <div id="exercise-loading-status" class="d-flex gap-2">
@@ -334,7 +803,7 @@ W10=
 
 </main> <!-- /main -->
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W119
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InZpZXdvZiB0YXUgPSBJbnB1dHMucmFuZ2UoWzAuMSwgMi41XSwge1xuICBzdGVwOiAwLjEsXG4gIGxhYmVsOiBcIvCdnI86XCIsXG4gIHZhbHVlOiAxXG59KVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCd0YXUnKSJ9XX0=
 </script>
 <script type="module">
 if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }

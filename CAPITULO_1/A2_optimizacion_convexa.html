@@ -1460,7 +1460,7 @@ f(\xx)=\frac{1}{2}\xx^\top A\xx+\bb^\top\xx+c,
 f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
 \]</span></p>
 <p>es convexa, ya que <span class="math inline">\(\xx^\top A\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\((x,y)\in\RR^2\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
-<div id="320a1ceb" class="cell" data-execution_count="1">
+<div id="dea26fb7" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1567,7 +1567,7 @@ g_i(\xx)\leq 0,&amp; i=1,\cdots,r.\\
 \aa_j^\top \xx-b_i=0, &amp; j=1,\cdots,m.
 \end{array}\right.\right\},
 \end{array}
-\]</span> como un problema de optimización convexo, si la función objetivo es cóncava y las funciones de restricción de desigualdad <span class="math inline">\(g_i\)</span> son convexas. De hecho, claramente el problema de maximización cóncava se resuelve minimizando la función convexa <span class="math inline">\(-f\)</span>, razón por la cual todos los resultados y conclusiones que describiremos para el problema de minimización se extienden al caso de maximización.</p>
+\]</span> como un problema de optimización convexa, si la función objetivo es cóncava y las funciones de restricción de desigualdad <span class="math inline">\(g_i\)</span> son convexas. De hecho, claramente el problema de maximización cóncava se resuelve minimizando la función convexa <span class="math inline">\(-f\)</span>, razón por la cual todos los resultados y conclusiones que describiremos para el problema de minimización se extienden al caso de maximización.</p>
 <p>Los problemas de optimización convexa tienen una propiedad fundamental que los caracteriza y que explica su gran importancia, la cual enunciaremos a continuación para concluir esta sección. Más adelante estudiaremos cómo la convexidad potencia las condiciones de optimalidad en un punto factible, facilitando su análisis y aplicación.</p>
 <div class="teorema">
 <p><strong>Teorema 3.</strong> (Optimalidad global de un mínimo local en problemas convexos) Si <span class="math inline">\(\xx\in\Omega\)</span> es un mínimo local de un problema de optimización convexa, entonces <span class="math inline">\(\xx\)</span> es un mínimo global.</p>
