@@ -358,14 +358,14 @@ y_i(\bfbeta^\top\xx_i+\beta_0)&gt;0\qquad\forall i=1,\ldots, n.
 </div>
 <p>Cada vector <span class="math inline">\(\bfbeta\in\RR^p\)</span> puede definir un único hiperplano separador.</p>
 </div>
-<p>Dado <span class="math inline">\(\bfbeta\in\RR^p\)</span>, asociamos a él el hiperplano separador con vector normal <span class="math inline">\(\bfbeta\)</span> que <em>equidista</em> a los dos grupos. Para poder caracterizar esto matemáticamente, necesitamos antes imponer una restricción de normalización, debido a que la distancia de un punto al hiperplano depende de <span class="math inline">\(\|\bfbeta\|\)</span>.</p>
+<p>Dado <span class="math inline">\(\bfbeta\in\RR^p\)</span>, asociamos a él el hiperplano separador con vector normal <span class="math inline">\(\bfbeta\)</span> que <em>equidista</em> a los dos grupos. Para poder caracterizar esto matemáticamente, necesitamos antes imponer una restricción de normalización, debido a que la distancia de un punto al hiperplano depende de <span class="math inline">\(\|\bfbeta\|_2\)</span>.</p>
 <div class="question callout callout-style-simple callout-none no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><span style="font-size: 1.3em;">📝</span><br> Pruebe que la distancia entre un punto <span class="math inline">\(\xx_0\in\RR^p\)</span> y el hiperplano <span class="math inline">\(\bfbeta^\top\xx+\beta_0=0\)</span> es igual a <span class="math inline">\(|f(\xx_0)|/\|\bfbeta\|\)</span>.</p>
+<p><span style="font-size: 1.3em;">📝</span><br> Pruebe que la distancia entre un punto <span class="math inline">\(\xx_0\in\RR^p\)</span> y el hiperplano <span class="math inline">\(\bfbeta^\top\xx+\beta_0=0\)</span> es igual a <span class="math inline">\(|f(\xx_0)|/\|\bfbeta\|_2\)</span>.</p>
 </div>
 </div>
 </div>
@@ -374,7 +374,7 @@ y_i(\bfbeta^\top\xx_i+\beta_0)&gt;0\qquad\forall i=1,\ldots, n.
 <div style="margin-top:0em;">
 
 </div>
-<p>Se restringe la elección de <span class="math inline">\(\bfbeta\)</span> a aquellos vectores que cumplen <span class="math inline">\(\|\bfbeta\|=1\)</span>.</p>
+<p>Se restringe la elección de <span class="math inline">\(\bfbeta\)</span> a aquellos vectores que cumplen <span class="math inline">\(\|\bfbeta\|_2=1\)</span>.</p>
 </div>
 <p>Bajo estas condiciones, la distancia entre cualquier punto <span class="math inline">\(\xx_i\)</span> y el hiperplano <span class="math inline">\(\bfbeta^\top\xx+\beta_0=0\)</span> está dada por <span class="math display">\[
 |f(\xx_i)|=y_i(\bfbeta^\top\xx_i+\beta_0),
@@ -403,27 +403,27 @@ y_i(\bfbeta^\top\xx_i+\beta_0)\geq M\qquad\forall i=1,\ldots,n,
 \begin{array}{ll}
 \text{maximizar } &amp; M\\
 \text{sujeto a }  &amp; y_i(\bfbeta^\top\xx_i+\beta_0)\geq M,\qquad i=1,\ldots,n,\\
-                  &amp; \|\bfbeta\|=1.
+                  &amp; \|\bfbeta\|_2=1.
 \end{array}
 \tag{4}
 \]</span></p>
 <p>Por supuesto, las variables de optimización son <span class="math inline">\(\bfbeta\in\RR^p\)</span> y <span class="math inline">\(\beta_0\in\RR\)</span>. Si bien esta formulación refleja directamente la intención de maximizar el margen, vamos a ajustarla para obtener una formulación clásica más conveniente.</p>
 <section id="formulación-clásica" class="level3">
 <h3 class="anchored" data-anchor-id="formulación-clásica">Formulación clásica</h3>
-<p>La restricción <span class="math inline">\(\|\bfbeta\|=1\)</span> permite interpretar a <span class="math inline">\(M\)</span> como la distancia mínima de los puntos al hiperplano. Si se relaja dicha condición, dicha interpretación sigue siendo cierta si se escribe <span class="math display">\[
-\frac{y_i(\bfbeta^\top\xx_i+\beta_0)}{\|\bfbeta\|}\geq M,\qquad i=1,\ldots,n.
+<p>La restricción <span class="math inline">\(\|\bfbeta\|_2=1\)</span> permite interpretar a <span class="math inline">\(M\)</span> como la distancia mínima de los puntos al hiperplano. Si se relaja dicha condición, dicha interpretación sigue siendo cierta si se escribe <span class="math display">\[
+\frac{y_i(\bfbeta^\top\xx_i+\beta_0)}{\|\bfbeta\|_2}\geq M,\qquad i=1,\ldots,n.
 \]</span></p>
 <p>En consecuencia, el problema (4) se puede reescribir como <span class="math display">\[
 \begin{array}{ll}
 \text{maximizar } &amp; M\\
-\text{sujeto a }  &amp; y_i(\bfbeta^\top\xx_i+\beta_0)\geq \|\bfbeta\|M,\qquad i=1,\ldots,n,
+\text{sujeto a }  &amp; y_i(\bfbeta^\top\xx_i+\beta_0)\geq \|\bfbeta\|_2M,\qquad i=1,\ldots,n,
 \end{array}
 \tag{5}
 \]</span> con una pequeña diferencia: dado un punto óptimo <span class="math inline">\(\bfbeta^\star\)</span>, ahora habrán infinitos puntos óptimos <span class="math inline">\(k\bfbeta^\star\)</span>, con <span class="math inline">\(k\in\RR\)</span>. De todos ellos, nos interesa particularmente aquel que verifica <span class="math display">\[
-\|\bfbeta^\star\|=\frac{1}{M^\star},
+\|\bfbeta^\star\|_2=\frac{1}{M^\star},
 \]</span> donde <span class="math inline">\(M^\star\)</span> es el margen óptimo. Esta idea nos va a permitir reformular el problema de optimización:</p>
 <div class="myhighlight">
-<p>Para cada valor <span class="math inline">\(M\)</span> de la función objetivo, elegimos como vector normal del hiperplano separador asociado a aquel <span class="math inline">\(\bfbeta\)</span> que verifica <span class="math inline">\(\|\bfbeta\|=1/M\)</span>.</p>
+<p>Para cada valor <span class="math inline">\(M\)</span> de la función objetivo, elegimos como vector normal del hiperplano separador asociado a aquel <span class="math inline">\(\bfbeta\)</span> que verifica <span class="math inline">\(\|\bfbeta\|_2=1/M\)</span>.</p>
 </div>
 <div style="margin-top:2em;">
 
