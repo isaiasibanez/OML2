@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -37,7 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-327735d1480bff6f7510335fe22ad292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -232,7 +232,16 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#actividades" id="toc-actividades" class="nav-link active" data-scroll-target="#actividades">Actividades</a></li>
+  <li><a href="#hiperplano-separador-óptimo" id="toc-hiperplano-separador-óptimo" class="nav-link active" data-scroll-target="#hiperplano-separador-óptimo">Hiperplano separador óptimo</a>
+  <ul class="collapse">
+  <li><a href="#formulación-clásica" id="toc-formulación-clásica" class="nav-link" data-scroll-target="#formulación-clásica">Formulación clásica</a></li>
+  <li><a href="#aplicación-de-dualidad-y-condiciones-kkt" id="toc-aplicación-de-dualidad-y-condiciones-kkt" class="nav-link" data-scroll-target="#aplicación-de-dualidad-y-condiciones-kkt">Aplicación de dualidad y condiciones KKT</a></li>
+  </ul></li>
+  <li><a href="#variables-de-holgura-y-margen-suave" id="toc-variables-de-holgura-y-margen-suave" class="nav-link" data-scroll-target="#variables-de-holgura-y-margen-suave">Variables de holgura y margen suave</a></li>
+  <li><a href="#núcleos-reproductores" id="toc-núcleos-reproductores" class="nav-link" data-scroll-target="#núcleos-reproductores">Núcleos reproductores</a></li>
+  <li><a href="#máquinas-de-vectores-soporte" id="toc-máquinas-de-vectores-soporte" class="nav-link" data-scroll-target="#máquinas-de-vectores-soporte">Máquinas de vectores soporte</a></li>
+  <li><a href="#ejemplos-de-aplicación" id="toc-ejemplos-de-aplicación" class="nav-link" data-scroll-target="#ejemplos-de-aplicación">Ejemplos de aplicación</a></li>
+  <li><a href="#actividades" id="toc-actividades" class="nav-link" data-scroll-target="#actividades">Actividades</a></li>
   </ul>
 </nav>
     </div>
@@ -299,8 +308,168 @@ window.Quarto = {
 \def\argmax{\mathop{\mathrm{arg\,max\,}}}
 \]</span></p>
 </div>
-<p><span style="color:darkred;">SVM completo.</span></p>
+<p>En esta sección vamos a estudiar un algoritmo de aprendizaje supervisado ampliamente utilizado para problemas de clasificación, que ha demostrado ser especialmente efectivo en tareas donde se requiere obtener fronteras de decisión robustas y con buena capacidad de generalización. Su construcción sigue una secuencia natural de conceptos: en primer lugar, se aborda la formulación básica basada en hiperplanos separadores óptimos, cuyo objetivo es maximizar el margen de separación entre clases perfectamente separables; luego, se incorpora el uso de <em>variables de holgura</em> para tratar datos no separables; y, finalmente, se presenta la generalización mediante <em>núcleos reproductores</em>, lo que permite obtener fronteras de decisión no lineales.</p>
+<p>Una característica distintiva de estos métodos es que su desarrollo se apoya fuertemente en la formulación dual de problemas de optimización y en las condiciones de Karush-Kuhn-Tucker (KKT), lo que proporciona una interpretación clara en términos de vectores soporte y explica su gran potencial.</p>
+<div style="margin-top:2em;">
+
+</div>
+<hr>
+<p>En lo que sigue, vamos a asumir que estamos trabajando con un conjunto de datos de entrenamiento <span class="math inline">\(\{(\xx_i,y_i)\}_{i=1}^n\)</span> de un problema de clasificación binaria cuya variable respuesta, por cuestiones de simplicidad, se considera <span class="math inline">\(Y\in\{-1,+1\}\)</span>.</p>
+<div style="margin-top:2em;">
+
+</div>
+<section id="hiperplano-separador-óptimo" class="level2">
+<h2 class="anchored" data-anchor-id="hiperplano-separador-óptimo">Hiperplano separador óptimo</h2>
+<p>El caso más simple de análisis surge de suponer que los grupos <span class="math inline">\(\{\xx_i \mid y_i=-1\}\)</span> y <span class="math inline">\(\{\xx_i \mid y_i=+1\}\)</span> pueden ser separados totalmente por una frontera lineal.</p>
+<div class="definicion">
+<p><strong>Definición 1.</strong> (Separabilidad lineal) Un conjunto de datos <span class="math inline">\(\{(\xx_i,y_i)\}_{i=1}^n\)</span>, con <span class="math inline">\(y_i\in\{-1,+1\}\)</span>, se dice que es <em>linealmente separable</em> si existen <span class="math inline">\(\bfbeta\in\RR^p\)</span> y <span class="math inline">\(\beta_0\in\RR\)</span> tales que <span class="math display">\[
+y_i=\text{sign}(\bfbeta^\top\xx_i+\beta_0)\qquad \forall i=1,\ldots,n.
+\tag{1}
+\]</span></p>
+<p>El hiperplano <span class="math inline">\(\bfbeta^\top\xx+\beta_0=0\)</span> se denomina <em>hiperplano separador</em> y la función <span class="math inline">\(f:\RR^p\to\RR\)</span> definida por <span class="math inline">\(f(\xx)=\bfbeta^\top\xx+\beta_0\)</span> se conoce como <em>función score</em>.</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br> Pruebe que <span class="math inline">\(\bfbeta\)</span> es el vector normal al hiperplano.</p>
+</div>
+</div>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/svm_01.png" alt="…" width="400px" class="figure-img">
+<figcaption>
+<strong>Figura 1</strong>. Datos totalmente separables y algunos hiperplanos separadores.
+</figcaption>
+</figure>
+<div style="margin-top:2em;">
+
+</div>
+<p>Observar que la expresión (1) es equivalente a requerir <span class="math display">\[
+y_i(\bfbeta^\top\xx_i+\beta_0)&gt;0\qquad\forall i=1,\ldots, n.
+\tag{2}
+\]</span></p>
+<p>Algo intuitivo (ver Figura 1) es que si los grupos son totalmente separables, existen infinitos hiperplanos separadores. Por lo tanto, resulta necesario definir un criterio que permita seleccionar un hiperplano único y óptimo.</p>
+<div class="myhighlight2">
+<span style="font-size:0.8em;"><em>Primer principio</em></span>
+<div style="margin-top:0em;">
+
+</div>
+<p>Cada vector <span class="math inline">\(\bfbeta\in\RR^p\)</span> puede definir un único hiperplano separador.</p>
+</div>
+<p>Dado <span class="math inline">\(\bfbeta\in\RR^p\)</span>, asociamos a él el hiperplano separador con vector normal <span class="math inline">\(\bfbeta\)</span> que <em>equidista</em> a los dos grupos. Para poder caracterizar esto matemáticamente, necesitamos antes imponer una restricción de normalización, debido a que la distancia de un punto al hiperplano depende de <span class="math inline">\(\|\bfbeta\|\)</span>.</p>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br> Pruebe que la distancia entre un punto <span class="math inline">\(\xx_0\in\RR^p\)</span> y el hiperplano <span class="math inline">\(\bfbeta^\top\xx+\beta_0=0\)</span> es igual a <span class="math inline">\(|f(\xx_0)|/\|\bfbeta\|\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="myhighlight2">
+<span style="font-size:0.8em;"><em>Segundo principio</em></span>
+<div style="margin-top:0em;">
+
+</div>
+<p>Se restringe la elección de <span class="math inline">\(\bfbeta\)</span> a aquellos vectores que cumplen <span class="math inline">\(\|\bfbeta\|=1\)</span>.</p>
+</div>
+<p>Bajo estas condiciones, la distancia entre cualquier punto <span class="math inline">\(\xx_i\)</span> y el hiperplano <span class="math inline">\(\bfbeta^\top\xx+\beta_0=0\)</span> está dada por <span class="math display">\[
+|f(\xx_i)|=y_i(\bfbeta^\top\xx_i+\beta_0),
+\]</span> lo cual significa que decir que un hiperplano <span class="math inline">\(\bfbeta^\top\xx+\beta_0=0\)</span> equidista de los grupos es equivalente a afirmar que existe una <em>distancia mínima</em> <span class="math inline">\(M\in\RR\)</span> tal que <span class="math display">\[
+y_i(\bfbeta^\top\xx_i+\beta_0)\geq M\qquad\forall i=1,\ldots,n,
+\tag{3}
+\]</span> con igualdad para al menos un punto de cada clase. Los puntos para los cuales se cumple la igualdad en la restricción son los que caracterizan al hiperplano y se conocen como sus <mark>puntos soporte</mark>.</p>
+<div style="margin-top:2em;">
+
+</div>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/svm_02.png" alt="…" width="400px" class="figure-img">
+<figcaption>
+<strong>Figura 2</strong>. Hiperplanos separadores y sus margenes asociados.
+</figcaption>
+</figure>
+<div style="margin-top:2em;">
+
+</div>
+<p>Ya estamos en condiciones de determinar qué consideraremos como hiperplano separador óptimo.</p>
+<div class="definicion">
+<p><strong>Definición 2.</strong> (Hiperplano separador óptimo) Sea <span class="math inline">\(\{(\xx_i,y_i)\}_{i=1}^n\)</span>, con <span class="math inline">\(y_i\in\{-1,+1\}\)</span>, un conjunto de datos linealmente separable. El <em>hiperplano separador óptimo</em> es aquel que maximiza el <em>margen</em> <span class="math inline">\(M\)</span>, definido como la distancia mínima entre el hiperplano y cada grupo.</p>
+</div>
+<p>En base a lo descrito, la búsqueda del hiperplano separador óptimo queda determinada por el siguiente problema de optimización:</p>
+<p><span class="math display">\[
+\begin{array}{ll}
+\text{maximizar } &amp; M\\
+\text{sujeto a }  &amp; y_i(\bfbeta^\top\xx_i+\beta_0)\geq M,\qquad i=1,\ldots,n,\\
+                  &amp; \|\bfbeta\|=1.
+\end{array}
+\tag{4}
+\]</span></p>
+<p>Por supuesto, las variables de optimización son <span class="math inline">\(\bfbeta\in\RR^p\)</span> y <span class="math inline">\(\beta_0\in\RR\)</span>. Si bien esta formulación refleja directamente la intención de maximizar el margen, vamos a ajustarla para obtener una formulación clásica más conveniente.</p>
+<section id="formulación-clásica" class="level3">
+<h3 class="anchored" data-anchor-id="formulación-clásica">Formulación clásica</h3>
+<p>La restricción <span class="math inline">\(\|\bfbeta\|=1\)</span> permite interpretar a <span class="math inline">\(M\)</span> como la distancia mínima de los puntos al hiperplano. Si se relaja dicha condición, dicha interpretación sigue siendo cierta si se escribe <span class="math display">\[
+\frac{y_i(\bfbeta^\top\xx_i+\beta_0)}{\|\bfbeta\|}\geq M,\qquad i=1,\ldots,n.
+\]</span></p>
+<p>En consecuencia, el problema (4) se puede reescribir como <span class="math display">\[
+\begin{array}{ll}
+\text{maximizar } &amp; M\\
+\text{sujeto a }  &amp; y_i(\bfbeta^\top\xx_i+\beta_0)\geq \|\bfbeta\|M,\qquad i=1,\ldots,n,
+\end{array}
+\tag{5}
+\]</span> con una pequeña diferencia: dado un punto óptimo <span class="math inline">\(\bfbeta^\star\)</span>, ahora habrán infinitos puntos óptimos <span class="math inline">\(k\bfbeta^\star\)</span>, con <span class="math inline">\(k\in\RR\)</span>. De todos ellos, nos interesa particularmente aquel que verifica <span class="math display">\[
+\|\bfbeta^\star\|=\frac{1}{M^\star},
+\]</span> donde <span class="math inline">\(M^\star\)</span> es el margen óptimo. Esta idea nos va a permitir reformular el problema de optimización:</p>
+<div class="myhighlight">
+<p>Para cada valor <span class="math inline">\(M\)</span> de la función objetivo, elegimos como vector normal del hiperplano separador asociado a aquel <span class="math inline">\(\bfbeta\)</span> que verifica <span class="math inline">\(\|\bfbeta\|=1/M\)</span>.</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>Claramente, bajo estas condiciones, maximizar <span class="math inline">\(M\)</span> es equivalente a minimizar <span class="math inline">\(\|\bfbeta\|_2\)</span> y, convenientemente, también equivalente a minimizar <span class="math inline">\(\frac{1}{2}\|\bfbeta\|_2^2\)</span>. De esta manera, retomando (5), podemos redefinir el problema de optimización (4) como sigue: <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \frac{1}{2}\|\bfbeta\|_2^2\\
+\text{sujeto a }  &amp; y_i(\bfbeta^\top\xx_i+\beta_0)\geq 1,\qquad i=1,\ldots,n.
+\end{array}
+\tag{6}
+\]</span></p>
+<div style="margin-top:2em;">
+
+</div>
+<div class="myhighlight">
+<p>El problema (6) es un problema de optimización convexa cuyo conjunto factible es un poliedro.</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>El Corolario 5 del <a href="A4_condiciones_optimalidad.html#el-caso-particular-de-restricciones-afines">C1-S4</a> nos asegura que las condiciones de Karush-Kuhn-Tucker (KKT) son suficientes y necesarias para la optimalidad. Más aún, gracias al Teorema 7 de dicha sección, podemos afirmar que se cumple la dualidad fuerte, asegurando que el valor óptimo del problema primal coincide con el del problema dual.</p>
+</section>
+<section id="aplicación-de-dualidad-y-condiciones-kkt" class="level3">
+<h3 class="anchored" data-anchor-id="aplicación-de-dualidad-y-condiciones-kkt">Aplicación de dualidad y condiciones KKT</h3>
+</section>
+</section>
+<section id="variables-de-holgura-y-margen-suave" class="level2">
+<h2 class="anchored" data-anchor-id="variables-de-holgura-y-margen-suave">Variables de holgura y margen suave</h2>
+</section>
+<section id="núcleos-reproductores" class="level2">
+<h2 class="anchored" data-anchor-id="núcleos-reproductores">Núcleos reproductores</h2>
+</section>
+<section id="máquinas-de-vectores-soporte" class="level2">
+<h2 class="anchored" data-anchor-id="máquinas-de-vectores-soporte">Máquinas de vectores soporte</h2>
+</section>
+<section id="ejemplos-de-aplicación" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplos-de-aplicación">Ejemplos de aplicación</h2>
 <p><br><br></p>
+</section>
 <section id="actividades" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="actividades">Actividades</h2>
 ✏️ <strong>Conceptuales</strong><br>
@@ -318,6 +487,13 @@ window.Quarto = {
 <ol type="1">
 <li>…</li>
 </ol>
+<div style="margin-top: 5em;">
+
+</div>
+<div class="refs">
+<p><span style="color: #444;"><strong>Referencias</strong></span></p>
+<p>Hastie, T., Tibshirani, R., &amp; Friedman, J. (2009). <em>The Elements of Statistical Learning: Data Mining, Inference, and Prediction</em> (2nd ed.). Capítulo 4, Sección 5 y Capítulo 12. Springer.</p>
+</div>
 
 
 <script type="ojs-module-contents">
