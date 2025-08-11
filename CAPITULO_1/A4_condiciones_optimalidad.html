@@ -1158,9 +1158,10 @@ d^\star\leq p^\star.
 <p>El problema de optimización convexo mencionado lo definimos formalmente a continuación.</p>
 <div class="definicion">
 <p><strong>Definición 5.</strong> (Problema dual) Sea <span class="math inline">\(\calG\)</span> la función dual de Lagrange asociado al problema primal. El <em>problema dual de Lagrange</em> es <span class="math display">\[
-\max \calG(\bflambda,\bfnu)
-\]</span> <span class="math display">\[
-\text{sujeto a }\; \bflambda\succeq \bfzero.
+\begin{array}{ll}
+\text{minimizar } &amp; \calG(\bflambda,\bfnu)\\
+\text{sujeto a }  &amp; \bflambda\succeq \bfzero.
+\end{array}
 \]</span></p>
 <p>El valor óptimo del problema dual se denota con <span class="math inline">\(d^\star\)</span>. Además, se dice que <span class="math inline">\((\bflambda^\star,\bfnu^\star)\)</span> son los <em>multiplicadores de Lagrange óptimos</em> si verifican <span class="math display">\[
 \calG(\bflambda^\star,\bfnu^\star)=d^\star.

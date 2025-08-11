@@ -228,7 +228,7 @@ window.Quarto = {
   <li><a href="#hiperplano-separador-óptimo" id="toc-hiperplano-separador-óptimo" class="nav-link active" data-scroll-target="#hiperplano-separador-óptimo">Hiperplano separador óptimo</a>
   <ul class="collapse">
   <li><a href="#formulación-clásica" id="toc-formulación-clásica" class="nav-link" data-scroll-target="#formulación-clásica">Formulación clásica</a></li>
-  <li><a href="#aplicación-de-dualidad-y-condiciones-kkt" id="toc-aplicación-de-dualidad-y-condiciones-kkt" class="nav-link" data-scroll-target="#aplicación-de-dualidad-y-condiciones-kkt">Aplicación de dualidad y condiciones KKT</a></li>
+  <li><a href="#aplicación-de-condiciones-kkt-y-dualidad" id="toc-aplicación-de-condiciones-kkt-y-dualidad" class="nav-link" data-scroll-target="#aplicación-de-condiciones-kkt-y-dualidad">Aplicación de condiciones KKT y dualidad</a></li>
   </ul></li>
   <li><a href="#variables-de-holgura-y-margen-suave" id="toc-variables-de-holgura-y-margen-suave" class="nav-link" data-scroll-target="#variables-de-holgura-y-margen-suave">Variables de holgura y margen suave</a></li>
   <li><a href="#núcleos-reproductores" id="toc-núcleos-reproductores" class="nav-link" data-scroll-target="#núcleos-reproductores">Núcleos reproductores</a></li>
@@ -338,7 +338,7 @@ y_i=\text{sign}(\bfbeta^\top\xx_i+\beta_0)\qquad \forall i=1,\ldots,n.
 
 </div>
 <figure style="text-align: center;" class="figure">
-<img src="figuras/svm_01.png" alt="…" width="400px" class="figure-img">
+<img src="figuras/svm_01.png" alt="…" width="450px" class="figure-img">
 <figcaption>
 <strong>Figura 1</strong>. Datos totalmente separables y algunos hiperplanos separadores.
 </figcaption>
@@ -386,7 +386,7 @@ y_i(\bfbeta^\top\xx_i+\beta_0)\geq M\qquad\forall i=1,\ldots,n,
 
 </div>
 <figure style="text-align: center;" class="figure">
-<img src="figuras/svm_02.png" alt="…" width="400px" class="figure-img">
+<img src="figuras/svm_02.png" alt="…" width="450px" class="figure-img">
 <figcaption>
 <strong>Figura 2</strong>. Hiperplanos separadores y sus margenes asociados.
 </figcaption>
@@ -446,8 +446,119 @@ y_i(\bfbeta^\top\xx_i+\beta_0)\geq M\qquad\forall i=1,\ldots,n,
 </div>
 <p>El Corolario 5 del <a href="A4_condiciones_optimalidad.html#el-caso-particular-de-restricciones-afines">C1-S4</a> nos asegura que las condiciones de Karush-Kuhn-Tucker (KKT) son suficientes y necesarias para la optimalidad. Más aún, gracias al Teorema 7 de dicha sección, podemos afirmar que se cumple la dualidad fuerte, asegurando que el valor óptimo del problema primal coincide con el del problema dual.</p>
 </section>
-<section id="aplicación-de-dualidad-y-condiciones-kkt" class="level3">
-<h3 class="anchored" data-anchor-id="aplicación-de-dualidad-y-condiciones-kkt">Aplicación de dualidad y condiciones KKT</h3>
+<section id="aplicación-de-condiciones-kkt-y-dualidad" class="level3">
+<h3 class="anchored" data-anchor-id="aplicación-de-condiciones-kkt-y-dualidad">Aplicación de condiciones KKT y dualidad</h3>
+<p>Las condiciones KKT son <span class="math display">\[
+\begin{array}{cl}
+y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-1\geq 0\qquad\forall i=1,\ldots,n\qquad&amp;\text{(Factibilidad primal)}\\[3pt]
+\lambda_i^\star\geq 0\qquad\forall i=1,\ldots,n\qquad &amp;\text{(Factibilidad dual)}\\[3pt]
+\lambda_i^\star\left[y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-1\right]=0\qquad\forall i=1,\ldots,n\qquad&amp;\text{(Holgura complementaria)}\\[3pt]
+\bfbeta^\star=\sum_{i=1}^n\lambda_i^\star y_i\xx_i,\quad 0=\sum_{i=1}^n\lambda_i^\star y_i\qquad&amp;\text{(Estacionariedad)}
+\end{array}
+\]</span></p>
+<div style="margin-top:2em;">
+
+</div>
+<p>Si bien las condiciones KKT permiten caracterizar completamente la solución óptima, no proporcionan un método directo y eficiente para calcular <span class="math inline">\(\bflambda^\star\)</span>. Por ello, resulta conveniente formular el problema dual de Lagrange, cuya resolución es computacionalmente más sencilla, esto último debido a que resulta ser un problema de optimización cuadrática.</p>
+<p>El Lagrangiano asociado al problema (6) es <span class="math inline">\(\calL:\RR^p\times\RR^n\)</span> definido por <span class="math display">\[
+\calL(\bfbeta,\bflambda)=\frac{1}{2}\|\bfbeta\|_2^2-\sum_{i=1}^n\lambda_i\left[y_i(\bfbeta^\top\xx_i+\beta_0)-1\right].
+\]</span></p>
+<p>Como ya sabemos, la ecuación <span class="math inline">\(\nabla\calL=\bfzero\)</span> conduce a las condiciones de estacionariedad de las KKT. Por lo tanto, la función dual <span class="math display">\[
+\calG(\bflambda):=\inf_{\bfbeta}\calL(\bfbeta,\bflambda)
+\]</span> resulta de sustituir dichas condiciones en el Lagrangiano. Es decir, <span class="math display">\[
+\begin{align}
+\calG(\bflambda)&amp;=\frac{1}{2}\left\|\sum_{i=1}^n\lambda_iy_i\xx_i\right\|_2^2-\sum_{i=1}^n\lambda_iy_i\left(\sum_{j=1}^n\lambda_jy_j\xx_j\right)^\top\xx_i-\beta_0\underbrace{\sum_{i=1}^n\lambda_iy_i}_{=0}+\sum_{i=1}^n\lambda_i\\
+&amp;=\frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\lambda_i\lambda_j y_iy_j \xx_i^\top\xx_i-\sum_{i=1}^n\sum_{j=1}^n\lambda_i\lambda_j y_i y_j\xx_j^\top\xx_i+\sum_{i=1}^n\lambda_i\\
+&amp;=\sum_{i=1}^n\lambda_i-\frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\lambda_i\lambda_j y_iy_j\xx_j^\top\xx_i.
+\end{align}
+\]</span></p>
+<p>Por lo tanto, el problema dual es <span class="math display">\[
+\begin{array}{ll}
+\text{maximizar } &amp; \sum_{i=1}^n\lambda_i-\frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\lambda_i\lambda_j y_iy_j\xx_j^\top\xx_i\\
+\text{sujeto a }  &amp; \bflambda\succeq\bfzero.
+\end{array}
+\tag{7}
+\]</span></p>
+<div style="margin-top:2em;">
+
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Interpretación de KKT</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Procedimiento</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Pongamos foco en la factibilidad primal y la holgura complementaria:</p>
+<p><span class="math display">\[
+\begin{array}{cl}
+y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-1\geq 0\qquad\forall i=1,\ldots,n\qquad&amp;\text{(Factibilidad primal)}\\[3pt]
+\lambda_i^\star\left[y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-1\right]=0\qquad\forall i=1,\ldots,n\qquad&amp;\text{(Holgura complementaria)}\\[3pt]
+\end{array}
+\]</span></p>
+<p>Si <span class="math inline">\(\lambda_i^\star&gt;0\)</span>, entonces <span class="math display">\[
+y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-1=0,
+\]</span> lo cual significa que <span class="math inline">\(\xx_i\)</span> es un punto soporte (es decir, está sobre el <em>borde</em> del margen). O lo que es lo mismo:</p>
+<div class="myhighlight">
+<p>Si <span class="math inline">\(\xx_i\)</span> no es un punto soporte, entonces <span class="math inline">\(\lambda_i^\star=0\)</span>.</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/svm_03.png" alt="…" width="450px" class="figure-img">
+<figcaption>
+<strong>Figura 3</strong>. Puntos soporte de un hiperplano separador óptimo.
+</figcaption>
+</figure>
+<p>Por lo tanto, de la condición de estacionariedad, podemos afirmar que el punto óptimo <span class="math inline">\(\bfbeta^\star\)</span> está totalmente determinado por los puntos soporte. Podemos escribir <span class="math display">\[
+\bfbeta^\star=\sum_{\substack{i=1\\\lambda_i^\star\neq 0}}^n\lambda_i^\star y_i\xx_i.
+\]</span></p>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Para obtener el hiperplano separador óptimo de un conjunto de datos linealmente separable:</p>
+<ol type="1">
+<li><p>Se resuelve el problema dual (6) para obtener <span class="math inline">\(\bflambda^\star\)</span>.</p></li>
+<li><p>Se obtiene el punto óptimo <span class="math inline">\(\bfbeta^\star\)</span> mediante la condición de estacionariedad <span class="math display">\[
+\bfbeta^\star=\sum_{\substack{i=1\\\lambda_i^\star\neq 0}}^n\lambda_i^\star y_i\xx_i.
+\]</span></p></li>
+<li><p>Se calcula el intercepto <span class="math inline">\(\beta_0^\star\)</span>, usando el valor promedio sobre los puntos soporte de <span class="math display">\[
+\beta_0^\star=y_i-\bfbeta^\top\xx_i.
+\]</span> Esta expresión resulta de despejar <span class="math inline">\(\beta_0^\star\)</span> de la condición de holgura complementaria.</p></li>
+</ol>
+<div style="margin-top:2em;">
+
+</div>
+</div>
+</div>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>Una vez obtenidos los puntos óptimos <span class="math inline">\(\bfbeta^\star\)</span> y <span class="math inline">\(\beta_0^\star\)</span>, resultan:</p>
+<table style="margin-left:auto; margin-right:auto; border-collapse: collapse; text-align: center; background-color: #f0fff5;">
+<tbody><tr style="border-bottom: 1px solid #cccccc;">
+<td style="padding: 16px 8px;">
+Hiperplano separador óptimo
+</td>
+<td style="padding: 16px 8px;">
+<span class="math inline">\((\bfbeta^\star)^\top\xx+\beta_0^\star=0\)</span>
+</td>
+</tr>
+<tr style="border-bottom: 1px solid #cccccc;">
+<td style="padding: 16px 8px;">
+Función score
+</td>
+<td style="padding: 16px 8px;">
+<span class="math inline">\(\hat{f}(\xx)=(\bfbeta^\star)^\top\xx+\beta_0^\star\)</span>
+</td>
+</tr>
+<tr>
+<td style="padding: 16px 8px;">
+Clasificador
+</td>
+<td style="padding: 16px 8px;">
+<span class="math inline">\(\hat{G}(\xx)=\text{sign}(\hat{f}(\xx))\)</span>
+</td>
+</tr>
+</tbody></table>
 </section>
 </section>
 <section id="variables-de-holgura-y-margen-suave" class="level2">
