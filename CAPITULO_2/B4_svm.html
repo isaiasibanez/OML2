@@ -230,9 +230,12 @@ window.Quarto = {
   <li><a href="#formulación-clásica" id="toc-formulación-clásica" class="nav-link" data-scroll-target="#formulación-clásica">Formulación clásica</a></li>
   <li><a href="#aplicación-de-condiciones-kkt-y-dualidad" id="toc-aplicación-de-condiciones-kkt-y-dualidad" class="nav-link" data-scroll-target="#aplicación-de-condiciones-kkt-y-dualidad">Aplicación de condiciones KKT y dualidad</a></li>
   </ul></li>
-  <li><a href="#variables-de-holgura-y-margen-suave" id="toc-variables-de-holgura-y-margen-suave" class="nav-link" data-scroll-target="#variables-de-holgura-y-margen-suave">Variables de holgura y margen suave</a></li>
+  <li><a href="#variables-de-holgura-y-margen-suave" id="toc-variables-de-holgura-y-margen-suave" class="nav-link" data-scroll-target="#variables-de-holgura-y-margen-suave">Variables de holgura y margen suave</a>
+  <ul class="collapse">
+  <li><a href="#aplicación-de-condiciones-kkt-y-dualidad-1" id="toc-aplicación-de-condiciones-kkt-y-dualidad-1" class="nav-link" data-scroll-target="#aplicación-de-condiciones-kkt-y-dualidad-1">Aplicación de condiciones KKT y dualidad</a></li>
+  </ul></li>
   <li><a href="#núcleos-reproductores" id="toc-núcleos-reproductores" class="nav-link" data-scroll-target="#núcleos-reproductores">Núcleos reproductores</a></li>
-  <li><a href="#máquinas-de-vectores-soporte" id="toc-máquinas-de-vectores-soporte" class="nav-link" data-scroll-target="#máquinas-de-vectores-soporte">Máquinas de vectores soporte</a></li>
+  <li><a href="#máquinas-de-vectores-soporte-no-lineal" id="toc-máquinas-de-vectores-soporte-no-lineal" class="nav-link" data-scroll-target="#máquinas-de-vectores-soporte-no-lineal">Máquinas de vectores soporte no lineal</a></li>
   <li><a href="#ejemplos-de-aplicación" id="toc-ejemplos-de-aplicación" class="nav-link" data-scroll-target="#ejemplos-de-aplicación">Ejemplos de aplicación</a></li>
   <li><a href="#actividades" id="toc-actividades" class="nav-link" data-scroll-target="#actividades">Actividades</a></li>
   </ul>
@@ -287,6 +290,8 @@ window.Quarto = {
 \def\SS{{\bf S}}
 \def\bfg{{\bf g}}
 \def\bftheta{\boldsymbol{\theta}}
+\def\bfmu{\boldsymbol{\mu}}
+\def\bfxi{\boldsymbol{\xi}}
 \def\bflambda{\boldsymbol{\lambda}}
 \def\bfgamma{\boldsymbol{\gamma}}
 \def\bfbeta{\boldsymbol{\beta}}
@@ -313,7 +318,7 @@ window.Quarto = {
 </div>
 <section id="hiperplano-separador-óptimo" class="level2">
 <h2 class="anchored" data-anchor-id="hiperplano-separador-óptimo">Hiperplano separador óptimo</h2>
-<p>El caso más simple de análisis surge de suponer que los grupos <span class="math inline">\(\{\xx_i \mid y_i=-1\}\)</span> y <span class="math inline">\(\{\xx_i \mid y_i=+1\}\)</span> pueden ser separados totalmente por una frontera lineal.</p>
+<p>El caso más simple de análisis surge de suponer que las clases <span class="math inline">\(\{\xx_i \mid y_i=-1\}\)</span> y <span class="math inline">\(\{\xx_i \mid y_i=+1\}\)</span> pueden ser separados totalmente por una frontera lineal.</p>
 <div class="definicion">
 <p><strong>Definición 1.</strong> (Separabilidad lineal) Un conjunto de datos <span class="math inline">\(\{(\xx_i,y_i)\}_{i=1}^n\)</span>, con <span class="math inline">\(y_i\in\{-1,+1\}\)</span>, se dice que es <em>linealmente separable</em> si existen <span class="math inline">\(\bfbeta\in\RR^p\)</span> y <span class="math inline">\(\beta_0\in\RR\)</span> tales que <span class="math display">\[
 y_i=\text{sign}(\bfbeta^\top\xx_i+\beta_0)\qquad \forall i=1,\ldots,n.
@@ -321,7 +326,7 @@ y_i=\text{sign}(\bfbeta^\top\xx_i+\beta_0)\qquad \forall i=1,\ldots,n.
 \]</span></p>
 <p>El hiperplano <span class="math inline">\(\bfbeta^\top\xx+\beta_0=0\)</span> se denomina <em>hiperplano separador</em> y la función <span class="math inline">\(f:\RR^p\to\RR\)</span> definida por <span class="math inline">\(f(\xx)=\bfbeta^\top\xx+\beta_0\)</span> se conoce como <em>función score</em>.</p>
 </div>
-<div style="margin-top:2em;">
+<div style="margin-top:1em;">
 
 </div>
 <div class="question callout callout-style-simple callout-none no-icon">
@@ -330,7 +335,7 @@ y_i=\text{sign}(\bfbeta^\top\xx_i+\beta_0)\qquad \forall i=1,\ldots,n.
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><span style="font-size: 1.3em;">📝</span><br> Pruebe que <span class="math inline">\(\bfbeta\)</span> es el vector normal al hiperplano.</p>
+<p><span style="font-size: 1.3em;">📝</span><br> Pruebe que <span class="math inline">\(\bfbeta\)</span> es el vector normal al hiperplano <span class="math inline">\(\bfbeta^\top\xx+\beta_0=0\)</span>.</p>
 </div>
 </div>
 </div>
@@ -338,7 +343,7 @@ y_i=\text{sign}(\bfbeta^\top\xx_i+\beta_0)\qquad \forall i=1,\ldots,n.
 
 </div>
 <figure style="text-align: center;" class="figure">
-<img src="figuras/svm_01.png" alt="…" width="450px" class="figure-img">
+<img src="figuras/svm_01.png" alt="…" width="500px" class="figure-img">
 <figcaption>
 <strong>Figura 1</strong>. Datos totalmente separables y algunos hiperplanos separadores.
 </figcaption>
@@ -350,7 +355,7 @@ y_i=\text{sign}(\bfbeta^\top\xx_i+\beta_0)\qquad \forall i=1,\ldots,n.
 y_i(\bfbeta^\top\xx_i+\beta_0)&gt;0\qquad\forall i=1,\ldots, n.
 \tag{2}
 \]</span></p>
-<p>Algo intuitivo (ver Figura 1) es que si los grupos son totalmente separables, existen infinitos hiperplanos separadores. Por lo tanto, resulta necesario definir un criterio que permita seleccionar un hiperplano único y óptimo.</p>
+<p>Algo intuitivo (ver Figura 1) es que si las clases son totalmente separables, existen infinitos hiperplanos separadores. Por lo tanto, resulta necesario definir un criterio que permita seleccionar un hiperplano único y óptimo.</p>
 <div class="myhighlight2">
 <span style="font-size:0.8em;"><em>Primer principio</em></span>
 <div style="margin-top:0em;">
@@ -358,7 +363,7 @@ y_i(\bfbeta^\top\xx_i+\beta_0)&gt;0\qquad\forall i=1,\ldots, n.
 </div>
 <p>Cada vector <span class="math inline">\(\bfbeta\in\RR^p\)</span> puede definir un único hiperplano separador.</p>
 </div>
-<p>Dado <span class="math inline">\(\bfbeta\in\RR^p\)</span>, asociamos a él el hiperplano separador con vector normal <span class="math inline">\(\bfbeta\)</span> que <em>equidista</em> a los dos grupos. Para poder caracterizar esto matemáticamente, necesitamos antes imponer una restricción de normalización, debido a que la distancia de un punto al hiperplano depende de <span class="math inline">\(\|\bfbeta\|_2\)</span>.</p>
+<p>Dado <span class="math inline">\(\bfbeta\in\RR^p\)</span>, asociamos a él el hiperplano separador con vector normal <span class="math inline">\(\bfbeta\)</span> que <em>equidista</em> a ambas clases. Para poder caracterizar esto matemáticamente, necesitamos antes imponer una restricción de normalización, debido a que la distancia de un punto al hiperplano depende de <span class="math inline">\(\|\bfbeta\|_2\)</span>.</p>
 <div class="question callout callout-style-simple callout-none no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -378,7 +383,7 @@ y_i(\bfbeta^\top\xx_i+\beta_0)&gt;0\qquad\forall i=1,\ldots, n.
 </div>
 <p>Bajo estas condiciones, la distancia entre cualquier punto <span class="math inline">\(\xx_i\)</span> y el hiperplano <span class="math inline">\(\bfbeta^\top\xx+\beta_0=0\)</span> está dada por <span class="math display">\[
 |f(\xx_i)|=y_i(\bfbeta^\top\xx_i+\beta_0),
-\]</span> lo cual significa que decir que un hiperplano <span class="math inline">\(\bfbeta^\top\xx+\beta_0=0\)</span> equidista de los grupos es equivalente a afirmar que existe una <em>distancia mínima</em> <span class="math inline">\(M\in\RR\)</span> tal que <span class="math display">\[
+\]</span> lo cual significa que decir que un hiperplano <span class="math inline">\(\bfbeta^\top\xx+\beta_0=0\)</span> equidista a ambas clases es equivalente a afirmar que existe una <em>distancia mínima</em> <span class="math inline">\(M\in\RR\)</span> tal que <span class="math display">\[
 y_i(\bfbeta^\top\xx_i+\beta_0)\geq M\qquad\forall i=1,\ldots,n,
 \tag{3}
 \]</span> con igualdad para al menos un punto de cada clase. Los puntos para los cuales se cumple la igualdad en la restricción son los que caracterizan al hiperplano y se conocen como sus <mark>puntos soporte</mark>.</p>
@@ -386,7 +391,7 @@ y_i(\bfbeta^\top\xx_i+\beta_0)\geq M\qquad\forall i=1,\ldots,n,
 
 </div>
 <figure style="text-align: center;" class="figure">
-<img src="figuras/svm_02.png" alt="…" width="450px" class="figure-img">
+<img src="figuras/svm_02.png" alt="…" width="500px" class="figure-img">
 <figcaption>
 <strong>Figura 2</strong>. Hiperplanos separadores y sus margenes asociados.
 </figcaption>
@@ -396,7 +401,7 @@ y_i(\bfbeta^\top\xx_i+\beta_0)\geq M\qquad\forall i=1,\ldots,n,
 </div>
 <p>Ya estamos en condiciones de determinar qué consideraremos como hiperplano separador óptimo.</p>
 <div class="definicion">
-<p><strong>Definición 2.</strong> (Hiperplano separador óptimo) Sea <span class="math inline">\(\{(\xx_i,y_i)\}_{i=1}^n\)</span>, con <span class="math inline">\(y_i\in\{-1,+1\}\)</span>, un conjunto de datos linealmente separable. El <em>hiperplano separador óptimo</em> es aquel que maximiza el <em>margen</em> <span class="math inline">\(M\)</span>, definido como la distancia mínima entre el hiperplano y cada grupo.</p>
+<p><strong>Definición 2.</strong> (Hiperplano separador óptimo) Sea <span class="math inline">\(\{(\xx_i,y_i)\}_{i=1}^n\)</span>, con <span class="math inline">\(y_i\in\{-1,+1\}\)</span>, un conjunto de datos linealmente separable. El <em>hiperplano separador óptimo</em> es aquel que maximiza el <em>margen</em> <span class="math inline">\(M\)</span>, definido como la distancia mínima entre el hiperplano y cada clase.</p>
 </div>
 <p>En base a lo descrito, la búsqueda del hiperplano separador óptimo queda determinada por el siguiente problema de optimización:</p>
 <p><span class="math display">\[
@@ -494,7 +499,7 @@ y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-1\geq 0\qquad\forall i=1,\ldots,n\q
 \end{array}
 \]</span></p>
 <p>Si <span class="math inline">\(\lambda_i^\star&gt;0\)</span>, entonces <span class="math display">\[
-y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-1=0,
+y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)=1,
 \]</span> lo cual significa que <span class="math inline">\(\xx_i\)</span> es un punto soporte (es decir, está sobre el <em>borde</em> del margen). O lo que es lo mismo:</p>
 <div class="myhighlight">
 <p>Si <span class="math inline">\(\xx_i\)</span> no es un punto soporte, entonces <span class="math inline">\(\lambda_i^\star=0\)</span>.</p>
@@ -503,7 +508,7 @@ y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-1=0,
 
 </div>
 <figure style="text-align: center;" class="figure">
-<img src="figuras/svm_03.png" alt="…" width="450px" class="figure-img">
+<img src="figuras/svm_03.png" alt="…" width="500px" class="figure-img">
 <figcaption>
 <strong>Figura 3</strong>. Puntos soporte de un hiperplano separador óptimo.
 </figcaption>
@@ -513,19 +518,17 @@ y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-1=0,
 \]</span></p>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p><span class="badge bg-success">Hiperplano separador óptimo</span></p>
 <p>Para obtener el hiperplano separador óptimo de un conjunto de datos linealmente separable:</p>
 <ol type="1">
 <li><p>Se resuelve el problema dual (6) para obtener <span class="math inline">\(\bflambda^\star\)</span>.</p></li>
 <li><p>Se obtiene el punto óptimo <span class="math inline">\(\bfbeta^\star\)</span> mediante la condición de estacionariedad <span class="math display">\[
 \bfbeta^\star=\sum_{\substack{i=1\\\lambda_i^\star\neq 0}}^n\lambda_i^\star y_i\xx_i.
 \]</span></p></li>
-<li><p>Se calcula el intercepto <span class="math inline">\(\beta_0^\star\)</span>, usando el valor promedio sobre los puntos soporte de <span class="math display">\[
-\beta_0^\star=y_i-\bfbeta^\top\xx_i.
-\]</span> Esta expresión resulta de despejar <span class="math inline">\(\beta_0^\star\)</span> de la condición de holgura complementaria.</p></li>
+<li><p>Se calcula el intercepto <span class="math inline">\(\beta_0^\star\)</span>, promediando sobre los puntos soporteel valor <span class="math display">\[
+\beta_0^\star=y_i-\bfbeta^\top\xx_i,
+\]</span> que resulta de despejar <span class="math inline">\(\beta_0^\star\)</span> de la condición de holgura complementaria.</p></li>
 </ol>
-<div style="margin-top:2em;">
-
-</div>
 </div>
 </div>
 </div>
@@ -533,7 +536,7 @@ y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-1=0,
 
 </div>
 <p>Una vez obtenidos los puntos óptimos <span class="math inline">\(\bfbeta^\star\)</span> y <span class="math inline">\(\beta_0^\star\)</span>, resultan:</p>
-<table style="margin-left:auto; margin-right:auto; border-collapse: collapse; text-align: center; background-color: #f0fff5;">
+<table style="margin-left:auto; margin-right:auto; border-collapse: collapse; text-align: center; background-color: #f7faf7;">
 <tbody><tr style="border-bottom: 1px solid #cccccc;">
 <td style="padding: 16px 8px;">
 Hiperplano separador óptimo
@@ -563,12 +566,308 @@ Clasificador
 </section>
 <section id="variables-de-holgura-y-margen-suave" class="level2">
 <h2 class="anchored" data-anchor-id="variables-de-holgura-y-margen-suave">Variables de holgura y margen suave</h2>
+<p>En la formulación del hiperplano separador óptimo, se asume que el conjunto de datos <span class="math inline">\(\{(\xx_i,y_i)\}_{i=1}^n\)</span> es linealmente separable. Sin embargo, en la práctica lo habitual es que exista solapamiento entre las clases. Para extender el análisis del apartado anterior, la estrategia consiste en introducir <em>variables de holgura</em>, simbolizadas con <span class="math inline">\(\boldsymbol{\xi}\in\RR^n\)</span>, que permitan que algunos puntos violen el margen o incluso queden mal clasificados. Este enfoque, conocido como <em>margen suave</em> (<em>soft-margin</em>, en inglés), es lo que desarrollaremos a continuación.</p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/svm_04.png" alt="…" width="500px" class="figure-img">
+<figcaption>
+<strong>Figura 4</strong>. Variables de holgura.
+</figcaption>
+</figure>
+<p>Partimos de la formulación primal del problema (6). Para incorporar las variables de holgura <span class="math inline">\(\bfxi\)</span>, esta se modifica de la siguiente manera:</p>
+<p><span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \frac{1}{2}\|\bfbeta\|_2^2\\
+\text{sujeto a }  &amp; y_i(\bfbeta^\top\xx_i+\beta_0)\geq 1-\xi_i,\qquad i=1,\ldots,n,\\
+                  &amp; \bfxi\succeq\bfzero,\;\sum_{i=1}^n\xi_i\leq\text{cte}.
+\end{array}
+\tag{8}
+\]</span></p>
+<p>Este nuevo problema de optimización tiene variables <span class="math inline">\(\bfbeta\in\RR^p\)</span>, <span class="math inline">\(\beta_0\in\RR\)</span> y <span class="math inline">\(\bfxi\in\RR^{n}\)</span>. La restricción <span class="math inline">\(\sum_{i=1}^n=\xi_i\leq\text{cte}\)</span> permite controlar el grado de tolerancia a puntos que están dentro o del lado incorrecto del margen. Este control es más natural pensarlo como una penalización en la función objetivo, tal como vimos en los métodos de regularización en el capítulo anterior. En consecuencia, es conveniente usar una forma alternativa de (8):</p>
+<p><span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \frac{1}{2}\|\bfbeta\|_2^2+C\sum_{i=1}^n\xi_i\\
+\text{sujeto a }  &amp; y_i(\bfbeta^\top\xx_i+\beta_0)\geq 1-\xi_i,\qquad i=1,\ldots,n,\\
+                  &amp; \bfxi\succeq\bfzero.
+\end{array}
+\tag{9}
+\]</span></p>
+<p>A <span class="math inline">\(C&gt;0\)</span> se lo conoce como <mark><em>hiperparámetro de costo</em></mark>. Cuanto mayor es su valor, mayor es la penalización que el modelo impone sobre las violaciones del margen, lo que conduce a un clasificador más estricto que busca minimizar los errores de clasificación a costa de un margen posiblemente más estrecho.</p>
+<div style="margin-top:2em;">
+
+</div>
+<div class="myhighlight">
+<p>El problema (9) es un problema de optimización convexa cuyo conjunto factible es un poliedro.</p>
+</div>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br> Justifique la afirmación anterior.</p>
+</div>
+</div>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>Estamos en condiciones de aplicar nuevamente las condiciones de Karush-Kuhn-Tucker (KKT) y la dualidad para caracterizar la solución de este problema. De ahora en adelante, nos referiremos al método construido hasta aquí como <mark>Máquinas de Vectores Soporte (SVM) lineales </mark>.</p>
+<section id="aplicación-de-condiciones-kkt-y-dualidad-1" class="level3">
+<h3 class="anchored" data-anchor-id="aplicación-de-condiciones-kkt-y-dualidad-1">Aplicación de condiciones KKT y dualidad</h3>
+<p>Es importante remarcar que el problema de optimización (9) tiene <span class="math inline">\(2n\)</span> restricciones de desigualdad, pues se han agregado <span class="math display">\[
+\xi_i\geq 0\qquad\forall i=1,\ldots,n.
+\]</span></p>
+<p>Distinguiremos los multiplicadores asociados a estas restricciones con la notación <span class="math inline">\(\bfmu=(\mu_1,\ldots,\mu_n)\)</span>. Las condiciones KKT son <span class="math display">\[
+\begin{array}{cl}
+y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-(1-\xi_i^\star)\geq 0\qquad\forall i=1,\ldots,n\qquad&amp;\text{(Factibilidad primal)}\\[3pt]
+\lambda_i^\star\geq 0,\;\mu_i^\star\geq 0\qquad\forall i=1,\ldots,n\qquad &amp;\text{(Factibilidad dual)}\\[3pt]
+\lambda_i^\star\left[y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-(1-\xi_i^\star)\right]=0,\quad\mu_i^\star\xi_i^\star=0\qquad\forall i=1,\ldots,n\qquad&amp;\text{(Holgura complementaria)}\\[3pt]
+\bfbeta^\star=\sum_{i=1}^n\lambda_i^\star y_i\xx_i,\quad 0=\sum_{i=1}^n\lambda_i^\star y_i,\quad C=\lambda_i^\star+\mu_i^\star\;(\forall i)\qquad&amp;\text{(Estacionariedad)}
+\end{array}
+\]</span></p>
+<div style="margin-top:2em;">
+
+</div>
+<p>Como antes, es conveniente formular el problema dual de Lagrange, el cual es un problema de optimización cuadrática. El Lagrangiano asociado al problema (8) es <span class="math inline">\(\calL:\RR^p\times\RR^n\times\RR^n\)</span> definido por <span class="math display">\[
+\calL(\bfbeta,\bflambda,\bfmu)=\frac{1}{2}\|\bfbeta\|_2^2+C\sum_{i=1}^n\xi_i-\sum_{i=1}^n\lambda_i\left[y_i(\bfbeta^\top\xx_i+\beta_0)-(1-\xi_i)\right]-\sum_{i=1}^n\mu_i\xi_i.
+\]</span></p>
+<p>Sustituimos las condiciones de estacionariedad para obtener la función dual: <span class="math display">\[
+\begin{align}
+\calG(\bflambda)&amp;=\frac{1}{2}\left\|\sum_{i=1}^n\lambda_iy_i\xx_i\right\|_2^2+C\sum_{i=1}^n\xi_i-\sum_{i=1}^n\lambda_iy_i\left(\sum_{j=1}^n\lambda_jy_j\xx_j\right)^\top\xx_i-\beta_0\underbrace{\sum_{i=1}^n\lambda_iy_i}_{=0}+\sum_{i=1}^n\lambda_i-\sum_{i=1}^n\underbrace{(\lambda_i+\mu_i)}_{=C}\xi_i\\
+&amp;=\frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\lambda_i\lambda_j y_iy_j \xx_i^\top\xx_i-\sum_{i=1}^n\sum_{j=1}^n\lambda_i\lambda_j y_i y_j\xx_j^\top\xx_i+\sum_{i=1}^n\lambda_i\\
+&amp;=\sum_{i=1}^n\lambda_i-\frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\lambda_i\lambda_j y_iy_j\xx_j^\top\xx_i.
+\end{align}
+\]</span></p>
+<p>Hemos obtenido la misma función dual que para el caso sin variables de holgura. Sin embargo, el problema dual no es el mismo, puesto que hay que considerar la restricción <span class="math inline">\(\bfmu\succeq \bfzero\)</span>. Resulta: <span class="math display">\[
+\begin{array}{ll}
+\text{maximizar } &amp; \sum_{i=1}^n\lambda_i-\frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\lambda_i\lambda_j y_iy_j\xx_j^\top\xx_i\\
+\text{sujeto a }  &amp; \bflambda\succeq\bfzero,\;\bfmu\succeq\bfzero.
+\end{array}
+\]</span></p>
+<p>De la condición de estacionariedad <span class="math inline">\(C=\lambda_i+\mu_i\)</span>, podemos combinar las restricciones de no negatividad escribiendo <span class="math inline">\(0\leq \lambda_i\leq C\)</span>. Finalmente, el problema de optimización dual es <span class="math display">\[
+\begin{array}{ll}
+\text{maximizar } &amp; \sum_{i=1}^n\lambda_i-\frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\lambda_i\lambda_j y_iy_j\xx_j^\top\xx_i\\
+\text{sujeto a }  &amp; 0\leq \lambda_i\leq C,\quad i=1,\ldots,n.
+\end{array}
+\tag{10}
+\]</span></p>
+<div style="margin-top:2em;">
+
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Interpretación de KKT</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Procedimiento</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p>Nuevamente pongamos foco en la factibilidad primal y la holgura complementaria:</p>
+<p><span class="math display">\[
+\begin{array}{cl}
+y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-(1-\xi_i)\geq 0\qquad\forall i=1,\ldots,n\qquad&amp;\text{(Factibilidad primal)}\\[3pt]
+\lambda_i^\star\left[y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-(1-\xi_i)\right]=0\qquad\forall i=1,\ldots,n\qquad&amp;\text{(Holgura complementaria)}\\[3pt]
+\end{array}
+\]</span></p>
+<p>Si <span class="math inline">\(\lambda_i^\star&gt;0\)</span>, entonces <span class="math display">\[
+y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)=1-\xi_i^\star.
+\]</span></p>
+<p>Si, además, <span class="math inline">\(\xi_i^\star=0\)</span>, podemos afirmar que <span class="math inline">\(\xx_i\)</span> es un punto soporte (es decir, está sobre el <em>borde</em> del margen). Si, por el contrario, <span class="math inline">\(\xi_i&gt;0\)</span>, entonces <span class="math inline">\(\xx_i\)</span> viola el margen.</p>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br> Analice en qué caso un punto soporte queda mal clasificado.</p>
+</div>
+</div>
+</div>
+<p>Dado que queremos identificar como puntos soporte únicamente aquellos datos que realmente influyen en la solución del problema, definimos formalmente:</p>
+<div class="definicion">
+<p><strong>Definición 1.</strong> (Vector soporte) Un dato <span class="math inline">\(\xx_i\)</span> se denomina <em>vector soporte</em> si el multiplicador asociado <span class="math inline">\(\lambda_i\)</span> es estrictamente positivo.</p>
+</div>
+<div class="myhighlight">
+<p>Todo vector soporte se encuentra en una de las siguientes posiciones respecto al margen: en el borde, dentro del margen o fuera del margen pero mal clasificado.</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/svm_05.png" alt="…" width="500px" class="figure-img">
+<figcaption>
+<strong>Figura 5</strong>. Puntos soporte de un hiperplano óptimo con margen suave.
+</figcaption>
+</figure>
+<div style="margin-top:2em;">
+
+</div>
+<p>Por otro lado, si <span class="math inline">\(y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)&gt;1-\xi_i^\star\)</span>, la holgura complementaria indica que debe ocurrir <span class="math inline">\(\lambda_i^\star=0\)</span>. ¡Atención! Esto no descarta que pueden existir puntos con holgura positiva que no sean vectores soporte. Por ese motivo, analicemos la siguiente pregunta:</p>
+<div class="myhighlight3">
+<p>¿Qué característica tienen los puntos con holgura positiva?</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>Si <span class="math inline">\(\xi_i^\star&gt;0\)</span>, la condición de holgura complementaria <span class="math inline">\(\mu_i^\star\xi_i^\star=0\)</span> junto a la condición de estacionariedad <span class="math inline">\(C=\lambda_i^\star+\mu_i^\star\)</span>, nos permiten deducir que se verifica <span class="math display">\[
+\lambda_i^\star=C.
+\]</span></p>
+<p>Dado que asumimos <span class="math inline">\(C&gt;0\)</span>, concluimos que:</p>
+<div class="myhighlight">
+<p>Todo punto con holgura positiva es un vector soporte.</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>A continuación, resumamos las posibilidades para un punto <span class="math inline">\(\xx_i\)</span> con multiplicador <span class="math inline">\(\lambda_i^\star\)</span>.</p>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<span style="font-size: 1.3em;">📝</span><br>
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+
+  th {
+    color: black;
+  }
+
+  tr {
+    border-bottom: 1px solid lightgray;
+  }
+
+  td:first-child, th:first-child {
+    white-space: nowrap;
+    text-align: center;
+  }
+</style>
+<table>
+<thead>
+<tr>
+<th>
+Multiplicador
+</th>
+<th>
+¿Es vector soporte?
+</th>
+<th>
+¿Tiene holgura positiva?
+</th>
+<th>
+Posición respecto al margen
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<span class="math inline">\(\lambda_i^\star=0\)</span>
+</td>
+<td>
+<input type="checkbox" name="afin1">
+</td>
+<td>
+<input type="checkbox" name="cono1">
+</td>
+<td>
+<select name="miSelect1"> <option value="" disabled="" selected="">Seleccioná una opción…</option> <option value="opcion1">En el borde, bien clasificado.</option> <option value="opcion2">En el borde o fuera, pero bien clasificado.</option> <option value="opcion3">Viola el margen, mal clasificado.</option> <option value="opcion4">Viola el margen, bien o mal clasificado.</option> <option value="opcion5">Fuera, bien clasificado</option> <option value="opcion6">Fuera, mal clasificado</option> </select>
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(0&lt;\lambda_i^\star&lt;C\)</span>
+</td>
+<td>
+<input type="checkbox" name="afin2">
+</td>
+<td>
+<input type="checkbox" name="cono2">
+</td>
+<td>
+<select name="miSelect2"> <option value="" disabled="" selected="">Seleccioná una opción…</option> <option value="opcion1">En el borde, bien clasificado.</option> <option value="opcion2">En el borde o fuera, pero bien clasificado.</option> <option value="opcion3">Viola el margen, mal clasificado.</option> <option value="opcion4">Viola el margen, bien o mal clasificado.</option> <option value="opcion5">Fuera, bien clasificado</option> <option value="opcion6">Fuera, mal clasificado</option> </select>
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(\lambda_i^\star=C\)</span>
+</td>
+<td>
+<input type="checkbox" name="afin2">
+</td>
+<td>
+<input type="checkbox" name="cono2">
+</td>
+<td>
+<select name="miSelect3"> <option value="" disabled="" selected="">Seleccioná una opción…</option> <option value="opcion1">En el borde, bien clasificado.</option> <option value="opcion2">En el borde o fuera, pero bien clasificado.</option> <option value="opcion3">Viola el margen, mal clasificado.</option> <option value="opcion4">Viola el margen, bien o mal clasificado.</option> <option value="opcion5">Fuera, bien clasificado</option> <option value="opcion6">Fuera, mal clasificado</option> </select>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<p><span class="badge bg-success">SVM lineal</span></p>
+<p>Para obtener el hiperplano óptimo de un conjunto de datos:</p>
+<ol type="1">
+<li><p>Se resuelve el problema dual (10) para obtener <span class="math inline">\(\bflambda^\star\)</span>.</p></li>
+<li><p>Se obtiene el punto óptimo <span class="math inline">\(\bfbeta^\star\)</span> mediante la condición de estacionariedad <span class="math display">\[
+\bfbeta^\star=\sum_{\substack{i=1\\\lambda_i^\star\neq 0}}^n\lambda_i^\star y_i\xx_i.
+\]</span></p></li>
+<li><p>Se calcula el intercepto <span class="math inline">\(\beta_0^\star\)</span>, promediando sobre los vectores soporte con holgura nula el valor <span class="math display">\[
+\beta_0^\star=y_i-\bfbeta^\top\xx_i,
+\]</span> que resulta de despejar <span class="math inline">\(\beta_0^\star\)</span> de la condición de holgura complementaria.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>Tal como antes, una vez obtenidos los puntos óptimos <span class="math inline">\(\bfbeta^\star\)</span> y <span class="math inline">\(\beta_0^\star\)</span>, resultan:</p>
+<table style="margin-left:auto; margin-right:auto; border-collapse: collapse; text-align: center; background-color: #f7faf7;">
+<tbody><tr style="border-bottom: 1px solid #cccccc;">
+<td style="padding: 16px 8px;">
+Hiperplano de decisión
+</td>
+<td style="padding: 16px 8px;">
+<span class="math inline">\((\bfbeta^\star)^\top\xx+\beta_0^\star=0\)</span>
+</td>
+</tr>
+<tr style="border-bottom: 1px solid #cccccc;">
+<td style="padding: 16px 8px;">
+Función score
+</td>
+<td style="padding: 16px 8px;">
+<span class="math inline">\(\hat{f}(\xx)=(\bfbeta^\star)^\top\xx+\beta_0^\star\)</span>
+</td>
+</tr>
+<tr>
+<td style="padding: 16px 8px;">
+Clasificador
+</td>
+<td style="padding: 16px 8px;">
+<span class="math inline">\(\hat{G}(\xx)=\text{sign}(\hat{f}(\xx))\)</span>
+</td>
+</tr>
+</tbody></table>
+</section>
 </section>
 <section id="núcleos-reproductores" class="level2">
 <h2 class="anchored" data-anchor-id="núcleos-reproductores">Núcleos reproductores</h2>
 </section>
-<section id="máquinas-de-vectores-soporte" class="level2">
-<h2 class="anchored" data-anchor-id="máquinas-de-vectores-soporte">Máquinas de vectores soporte</h2>
+<section id="máquinas-de-vectores-soporte-no-lineal" class="level2">
+<h2 class="anchored" data-anchor-id="máquinas-de-vectores-soporte-no-lineal">Máquinas de vectores soporte no lineal</h2>
 </section>
 <section id="ejemplos-de-aplicación" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplos-de-aplicación">Ejemplos de aplicación</h2>
