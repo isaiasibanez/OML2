@@ -379,6 +379,9 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </div>
 </div>
 </div>
+<div style="margin-top:2.5em;">
+
+</div>
 <section id="conjuntos-convexos" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="conjuntos-convexos">Conjuntos convexos</h2>
 <p>Una gran parte del éxito de los métodos de optimización convexa radica en una idea geométrica simple pero poderosa: la convexidad del conjunto factible <span class="math inline">\(\Omega\)</span>.</p>
@@ -400,7 +403,7 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </script>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb2" data-startfrom="155" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 154;"><span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>viewof theta <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ:"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb2" data-startfrom="156" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 155;"><span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>viewof theta <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ:"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-2" data-nodetype="declaration">
 
@@ -470,15 +473,15 @@ C=V+\xx_0=\{v+\xx_0 \mid v\in V\}.
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Conjunto solución de un sistema de ecuaciones lineales </span></p>
 <p>Sea <span class="math inline">\(A\xx=\bb\)</span> un sistema de ecuaciones lineales, con <span class="math inline">\(A\in\RR^{m\times p}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span>. El conjunto solución <span class="math display">\[
-C = \{\xx \mid A\xx=\bb\}
-\]</span> es un conjunto afín. De hecho, si <span class="math inline">\(\xx_1,\xx_2\in C\)</span>, entonces <span class="math inline">\(A\xx_1=\bb\)</span> y <span class="math inline">\(A\xx_2=\bb\)</span>, tal que para cualquier <span class="math inline">\(\theta\in\RR\)</span> se verifica <span class="math display">\[
+S := \{\xx \mid A\xx=\bb\}
+\]</span> es un conjunto afín. De hecho, si <span class="math inline">\(\xx_1,\xx_2\in S\)</span>, entonces <span class="math inline">\(A\xx_1=\bb\)</span> y <span class="math inline">\(A\xx_2=\bb\)</span>, tal que para cualquier <span class="math inline">\(\theta\in\RR\)</span> se verifica <span class="math display">\[
 \begin{align*}
 A(\theta\xx_1+(1-\theta)\xx_2)&amp;=\theta A\xx_1+(1-\theta)A\xx_2\\
 &amp;=\theta\bb+(1-\theta)\bb\\
 &amp;=\bb.
 \end{align*}
 \]</span></p>
-<p>Esto prueba que la combinación afín <span class="math inline">\(\theta\xx_1+(1-\theta)\xx_2\in C\)</span> y, dado que <span class="math inline">\(\xx_1\)</span>, <span class="math inline">\(\xx_2\)</span> y <span class="math inline">\(\theta\)</span> son arbitrarios, concluimos que <span class="math inline">\(C\)</span> es un conjunto afín.</p>
+<p>Esto prueba que <span class="math inline">\(\theta\xx_1+(1-\theta)\xx_2\in S\)</span>. Dado que <span class="math inline">\(\xx_1\)</span>, <span class="math inline">\(\xx_2\)</span> y <span class="math inline">\(\theta\)</span> son arbitrarios, concluimos que <span class="math inline">\(S\)</span> es un conjunto afín.</p>
 </div>
 <div style="margin-top:-0.5em;">
 
@@ -498,7 +501,7 @@ A(\theta\xx_1+(1-\theta)\xx_2)&amp;=\theta A\xx_1+(1-\theta)A\xx_2\\
 </div>
 <div class="definicion">
 <p><strong>Definición 2.</strong> (Envolvente afín) La <em>envolvente afín</em> de un conjunto <span class="math inline">\(C\subset\RR^p\)</span> es el conjunto de todas las combinaciones afines de puntos en <span class="math inline">\(C\)</span>. Esto es <span class="math display">\[
-\text{aff}\,C := \left\{\theta_{1} x_{1} + \cdots + \theta_{k} x_{k}\,\left| x_{i} \in C,\;\sum_{i=1}^k\theta_{i} = 1\right.\right\}.
+\text{aff}\,C := \left\{\theta_{1} \xx_{1} + \cdots + \theta_{k} \xx_{k}\,\left|\,\xx_{i} \in C,\;\sum_{i=1}^k\theta_{i} = 1\right.\right\}.
 \]</span></p>
 </div>
 <p>El concepto de <em>envolvente afín</em> es muy importante para optimización, ya que de él se derivan dos nociones que, si bien no son muy comunes, serán fundamentales más adelante: la <em>dimensión afín</em> y el <em>interior relativo</em>.</p>
@@ -561,7 +564,7 @@ Mostrar detalles
 </div>
 <ul>
 <li>¿Cuáles son subconjuntos convexos de <span class="math inline">\(\RR\)</span>?</li>
-<li><strong>Todo conjunto afín es convexo.</strong> ¿Porqué?</li>
+<li><strong>Todo conjunto afín es convexo.</strong> ¿Por qué?</li>
 </ul>
 </div>
 </div>
@@ -573,7 +576,7 @@ Mostrar detalles
 <figure style="text-align: center;" class="figure">
 <img src="figuras/conjuntos_convexos_01.png" alt="Conjuntos convexos y no convexos en $\RR^2$" width="500px" class="figure-img">
 <figcaption>
-Conjuntos en <span class="math inline">\(\RR^2\)</span>. Únicamente el hexágono, que incluye su frontera, es convexo. ¿Por qué la tercera figura no lo es?
+<strong>Figura 1</strong>. Conjuntos en <span class="math inline">\(\RR^2\)</span>. Únicamente el hexágono, que incluye su frontera, es convexo. ¿Por qué la tercera figura no lo es?
 </figcaption>
 </figure>
 <div style="margin-top:2em;">
@@ -598,7 +601,7 @@ Conjuntos en <span class="math inline">\(\RR^2\)</span>. Únicamente el hexágon
 <p><span style="display:block; height:0.25em;"></span></p>
 <div class="definicion">
 <p><strong>Definición 4.</strong> (Envolvente convexa) La <em>envolvente convexa</em> de un conjunto <span class="math inline">\(C\subset\RR^p\)</span> es el conjunto de todas las combinaciones convexas de puntos en <span class="math inline">\(C\)</span>. Esto es <span class="math display">\[
-\text{conv}\,C := \left\{\theta_{1} x_{1} + \cdots + \theta_{k} x_{k}\;\Big|\; x_{i} \in C,\; \theta_{i} \geq 0,\;\sum_{i=1}^k\theta_{i} = 1\right\}.
+\text{conv}\,C := \left\{\theta_{1} \xx_{1} + \cdots + \theta_{k} \xx_{k}\,\left|\, \xx_{i} \in C,\; \theta_{i} \geq 0,\;\sum_{i=1}^k\theta_{i} = 1\right.\right\}.
 \]</span></p>
 </div>
 <details>
@@ -620,7 +623,7 @@ Mostrar detalles
 <figure style="text-align: center;" class="figure">
 <img src="figuras/envolvente_convexa.png" alt="Envolvente convexa de dos conjuntos en $\RR^2$" width="400px" class="figure-img">
 <figcaption>
-Envolvente convexa de dos conjuntos: (Izq.) La envolvente convexa de un numero finito de puntos. (Der.) La envolvente convexa de un conjunto infinito no convexo.
+<strong>Figura 2</strong>. Envolvente convexa de dos conjuntos: (Izq.) La envolvente convexa de un numero finito de puntos. (Der.) La envolvente convexa de un conjunto infinito no convexo.
 </figcaption>
 </figure>
 <p><span style="display:block; height:0.25em;"></span></p>
@@ -636,7 +639,17 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiaW1w
 </script>
 </div>
 </div>
-<div style="margin-top:2em;">
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br> Explore la envolvente convexa de diferentes conjuntos de puntos en <span class="math inline">\(\RR^2\)</span>, modificando el código anterior.</p>
+</div>
+</div>
+</div>
+<div style="margin-top:2.5em;">
 
 </div>
 <div class="definicion">
@@ -678,7 +691,7 @@ Mostrar detalles
 <figure style="text-align: center;" class="figure">
 <img src="figuras/cono_convexo.png" alt="Idea de cono convexo en $\RR^2$" width="300px" class="figure-img">
 <figcaption>
-Conjunto de puntos de la forma <span class="math inline">\(\theta_1\xx_1+\theta_2\xx_2\)</span> para <span class="math inline">\(\xx_1,\xx_2\in\RR^2\)</span>.
+<strong>Figura 3</strong>. Conjunto de puntos de la forma <span class="math inline">\(\theta_1\xx_1+\theta_2\xx_2\)</span> para <span class="math inline">\(\xx_1,\xx_2\in\RR^2\)</span>.
 </figcaption>
 </figure>
 <div style="margin-top:2em;">
@@ -691,7 +704,7 @@ Conjunto de puntos de la forma <span class="math inline">\(\theta_1\xx_1+\theta_
 </div>
 <p>En <span class="math inline">\(\RR^3\)</span>, el conjunto <span class="math display">\[
 C=\{(x,y,z)\in\RR^3 \mid z=\sqrt{x^2+y^2}\}
-\]</span> es un cono, pero no es convexo. En la figura se muestran un par de puntos pertenecientes a <span class="math inline">\(C\)</span>, pero el segmento entre ellos no. La condición de la Definición 5 de cono es inmediata: <span class="math display">\[
+\]</span> es un cono, pero no es convexo. En la figura se muestran un par de puntos que pertenecen a <span class="math inline">\(C\)</span>, mientras que el segmento entre ellos no. La condición de la Definición 5 de cono es inmediata: <span class="math display">\[
 z=\sqrt{x^2+y^2}\Rightarrow\theta z=\sqrt{(\theta x)^2+(\theta y)^2}\qquad\forall\theta\geq 0.
 \]</span></p>
 <p>Ahora bien, si consideramos los segmentos entre pares de puntos, obtenemos su envolvente convexa: <span class="math display">\[
@@ -707,8 +720,8 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </script>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="605" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 604;"><span id="cb3-605"><a href="#cb3-605" aria-hidden="true" tabindex="-1"></a>viewof theta1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ₁:"</span>})</span>
-<span id="cb3-606"><a href="#cb3-606" aria-hidden="true" tabindex="-1"></a>viewof theta2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ₂:"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="613" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 612;"><span id="cb3-613"><a href="#cb3-613" aria-hidden="true" tabindex="-1"></a>viewof theta1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ₁:"</span>})</span>
+<span id="cb3-614"><a href="#cb3-614" aria-hidden="true" tabindex="-1"></a>viewof theta2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ₂:"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-3-1" data-nodetype="declaration">
@@ -738,12 +751,12 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </div>
 </div>
 </div>
-<div style="margin-top:2em;">
+<div style="margin-top:2.5em;">
 
 </div>
 <div class="definicion">
 <p><strong>Definición 6.</strong> (Envolvente cónica) La <em>envolvente cónica</em> de un conjunto <span class="math inline">\(C\in\RR^p\)</span> es el conjunto de todas las combinaciones cónicas de puntos en <span class="math inline">\(C\)</span>. Esto es <span class="math display">\[
-\text{cone}\,C = \left\{\theta_{1} \xx_{1} + \cdots + \theta_{k} \xx_{k}\mid x_{i} \in C,\; \theta_{i} \geq 0\right\}.
+\text{cone}\,C := \left\{\theta_{1} \xx_{1} + \cdots + \theta_{k} \xx_{k}\mid \xx_{i} \in C,\; \theta_{i} \geq 0\right\}.
 \]</span></p>
 </div>
 <details>
@@ -765,20 +778,20 @@ Mostrar detalles
 <figure style="text-align: center;" class="figure">
 <img src="figuras/envolvente_conica.png" alt="Envolvente cónica de dos conjuntos en $\RR^2$" width="400px" class="figure-img">
 <figcaption>
-Envolvente cónica de dos conjuntos: (Izq.) La envolvente convexa de un numero finito de puntos. (Der.) La envolvente convexa de un conjunto infinito no convexo.
+<strong>Figura 4</strong>. Envolvente cónica de dos conjuntos: (Izq.) La envolvente convexa de un numero finito de puntos. (Der.) La envolvente convexa de un conjunto infinito no convexo.
 </figcaption>
 </figure>
 </section>
 <section id="operaciones-que-preservan-convexidad" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="operaciones-que-preservan-convexidad">Operaciones que preservan convexidad</h3>
-<p>En esta sección describimos algunas operaciones que preservan la convexidad de conjuntos o nos permiten construir conjuntos convexos a partir de otros. Estas operaciones, junto con los ejemplos simples descritos anteriormente, forman un cálculo de conjuntos convexos que es útil para determinar o establecer la convexidad de conjuntos. Las verificaciones se dejan como ejercicio.</p>
+<p>En esta sección describiremos algunas operaciones que preservan la convexidad de conjuntos y que nos permiten construir conjuntos convexos a partir de otros. Estas operaciones, junto con los ejemplos simples descritos anteriormente, forman un cálculo de conjuntos convexos que es útil para analizar convexidad.</p>
 <ul>
 <li><strong>Intersección</strong>.</li>
 </ul>
 <div class="myhighlight">
 <p>La intersección de cualquier número de conjuntos convexos es convexo.</p>
 </div>
-<div style="margin-top:2em;">
+<div style="margin-top:2.5em;">
 
 </div>
 <ul>
@@ -792,6 +805,16 @@ Envolvente cónica de dos conjuntos: (Izq.) La envolvente convexa de un numero f
 S_{1} + S_{2} := \{\xx_1 + \xx_2 \mid \xx_1 \in S_{1}, \xx_2 \in S_{2}\}
 \]</span> es un conjunto convexo.</li>
 </ul>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br> Verifique que las operaciones indicadas efectivamente preservan la convexidad.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="conjuntos-convexos-notables" class="level3">
 <h3 class="anchored" data-anchor-id="conjuntos-convexos-notables">Conjuntos convexos notables</h3>
@@ -988,7 +1011,7 @@ Mostrar detalles
 </div>
 <ul>
 <li>¿Qué es un hiperplano en <span class="math inline">\(\RR^2\)</span> y <span class="math inline">\(\RR^3\)</span>? Proponga ejemplos.</li>
-<li><strong>Un hiperplano es un conjunto afín.</strong> ¿Porqué?</li>
+<li><strong>Un hiperplano es un conjunto afín.</strong> ¿Por qué?</li>
 </ul>
 </div>
 </div>
@@ -1000,7 +1023,7 @@ Mostrar detalles
 <figure style="text-align: center;" class="figure">
 <img src="figuras/hiperplano.png" alt="…" width="350px" class="figure-img">
 <figcaption>
-Hiperplano en <span class="math inline">\(\RR^2\)</span> con vector normal <span class="math inline">\(\aa\)</span>.
+<strong>Figura 5</strong>. Hiperplano en <span class="math inline">\(\RR^2\)</span> con vector normal <span class="math inline">\(\aa\)</span>.
 </figcaption>
 </figure>
 <div style="margin-top:2em;">
@@ -1012,7 +1035,7 @@ Hiperplano en <span class="math inline">\(\RR^2\)</span> con vector normal <span
 <figure style="text-align: center;" class="figure">
 <img src="figuras/semiespacio.png" alt="…" width="350px" class="figure-img">
 <figcaption>
-Los dos semiespacios definidos por un hiperplano en <span class="math inline">\(\RR^2\)</span>.
+<strong>Figura 6</strong>. Los dos semiespacios definidos por un hiperplano en <span class="math inline">\(\RR^2\)</span>.
 </figcaption>
 </figure>
 <div style="margin-top:-0.5em;">
@@ -1084,7 +1107,7 @@ B(\xx_0,r):=\{\xx \mid \|\xx-\xx_0\|_2\leq r\},\qquad \xx_0\in\RR^p,\;r\in\RR^+.
 <figure style="text-align: center;" class="figure">
 <img src="figuras/poliedro.png" alt="…" width="350px" class="figure-img">
 <figcaption>
-Un poliedro generado por la intersección de 5 semiespacios.
+<strong>Figura 7</strong>. Un poliedro generado por la intersección de 5 semiespacios.
 </figcaption>
 </figure>
 <div class="question callout callout-style-simple callout-none no-icon">
@@ -1113,7 +1136,7 @@ Un poliedro generado por la intersección de 5 semiespacios.
 <figure style="text-align: center;" class="figure">
 <img src="figuras/2_simplex.png" alt="2-simplex" width="300px" class="figure-img">
 <figcaption>
-<span class="math inline">\(\Delta^2\)</span> es un triángulo en <span class="math inline">\(\RR^3\)</span> de vértices <span class="math inline">\((1,0,0)\)</span>, <span class="math inline">\((0,1,0)\)</span> y <span class="math inline">\((0,0,1)\)</span>.
+<strong>Figura 8</strong>. <span class="math inline">\(\Delta^2\)</span> es un triángulo en <span class="math inline">\(\RR^3\)</span> de vértices <span class="math inline">\((1,0,0)\)</span>, <span class="math inline">\((0,1,0)\)</span> y <span class="math inline">\((0,0,1)\)</span>.
 </figcaption>
 </figure>
 </div>
@@ -1228,6 +1251,9 @@ N_{\Omega}(\xx_0)=\{\lambda_1\aa_1+\lambda_2\aa_2 \mid \lambda_1,\lambda_2\in\RR
 </div>
 </div>
 <p>Probaremos este resultado, generalizado a <span class="math inline">\(r\)</span> semiespacios, en <a href="A4_condiciones_optimalidad.html#condiciones-de-karush-kuhn-tucker-kkt">C1-S2</a>.</p>
+</div>
+<div style="margin-top:1.5em;">
+
 </div>
 </section>
 </section>
@@ -1460,7 +1486,7 @@ f(\xx)=\frac{1}{2}\xx^\top A\xx+\bb^\top\xx+c,
 f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
 \]</span></p>
 <p>es convexa, ya que <span class="math inline">\(\xx^\top A\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\((x,y)\in\RR^2\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
-<div id="ad444f4d" class="cell" data-execution_count="1">
+<div id="94d79f4d" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1522,6 +1548,9 @@ f(\xx) = \sup_{i \in \mathcal{A}} f_i(\xx)
 \text{dom}\,f = \{\xx \mid \xx \in \text{dom}\,f_i (\forall i \in \mathcal{A}),\; \sup_{i \in \mathcal{A}} f_i(\xx) &lt; \infty\}.
 \]</span> De manera similar, el ínfimo puntual de un conjunto de funciones cóncavas es una función cóncava.</p></li>
 </ul>
+<div style="margin-top:1.5em;">
+
+</div>
 </section>
 </section>
 <section id="problemas-de-optimización-convexa" class="level2">

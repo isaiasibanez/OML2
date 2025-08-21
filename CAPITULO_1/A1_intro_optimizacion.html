@@ -331,6 +331,9 @@ window.Quarto = {
 \]</span></p>
 </div>
 <p>La optimización es una herramienta fundamental en matemática aplicada, ciencia de datos y otras disciplinas. En términos generales, el objetivo de un problema de optimización es encontrar el valor de una <em>variable</em> (o conjunto de variables) que <em>minimice</em> o <em>maximice</em> una determinada función, posiblemente bajo ciertas <em>restricciones</em>.</p>
+<div style="margin-top:2.5em;">
+
+</div>
 <section id="optimización-matemática" class="level2">
 <h2 class="anchored" data-anchor-id="optimización-matemática">Optimización matemática</h2>
 <div class="definicion">
@@ -538,6 +541,9 @@ f(1,1)=f(-1,-1)=2.
 <li><p><strong>Optimización en logística</strong>: Se busca determinar la mejor forma de mover productos a través de una cadena de suministro o rutas de distribución. Las variables representan las cantidades transportadas entre diferentes puntos, y las restricciones pueden incluir la capacidad de los vehículos, los horarios de entrega y la demanda de los clientes. La función objetivo suele minimizar costos totales, tiempos de transporte o ambas cosas a la vez.</p></li>
 </ul>
 <p>Estas aplicaciones son solo una pequeña muestra de la enorme variedad de problemas prácticos que pueden plantearse como problemas de optimización, presentes en áreas como ingeniería, control automático, diseño, finanzas, logística, redes, entre otras.</p>
+<div style="margin-top:2.5em;">
+
+</div>
 </section>
 <section id="mínimos-cuadrados-y-programación-lineal" class="level2">
 <h2 class="anchored" data-anchor-id="mínimos-cuadrados-y-programación-lineal">Mínimos cuadrados y programación lineal</h2>
@@ -664,7 +670,7 @@ b^{\star}
 \]</span></p>
 <p><br></p>
 <p>En Python, podemos resolver problemas de mínimos cuadrados con la función <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"><code>numpy.linalg.lstsq</code></a>.</p>
-<div id="e87b540f" class="cell" data-execution_count="1">
+<div id="e694968b" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos:</span></span>
@@ -771,7 +777,7 @@ Mostrar detalles
 <p>La relación geométrica en este ejemplo no es casual: en programación lineal, el óptimo (si existe) se alcanza siempre en alguno de los vértices de la región factible. Este hecho constituye la base del método del simplex y de otros algoritmos clásicos.</p>
 <p><br></p>
 <p>En Python, se pueden resolver problemas de este tipo utilizando <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linprog.html"><code>scipy.optimize.linprog</code></a>.</p>
-<div id="55a39b5b" class="cell" data-execution_count="2">
+<div id="fcc04993" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> linprog</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Coeficientes de la función objetivo (negativos porque linprog minimiza):</span></span>
@@ -811,11 +817,11 @@ Formule el siguiente problema y resuélvalo geométricamente. Luego, verifique s
 
 Una nutricionista debe diseñar una dieta usando dos alimentos, A y B. El alimento A cuesta $2 por unidad y contiene 3g de proteína y 1g de carbohidratos por unidad. El alimento B cuesta $3 por unidad y contiene 2g de proteína y 2g de carbohidratos por unidad. La dieta debe contener al menos 60g de proteína y 30g de carbohidratos. ¿Cuántas unidades de cada alimento debe incluir para minimizar el costo?
 
-```pvovufodxdzxgvrj
+```hnimxsvtwfvgcqga
 # Grafique aquí.
 ``` 
 
-```pvovufodxdzxgvrj
+```hnimxsvtwfvgcqga
 # Verifique la solución aquí.
 ``` 
 
