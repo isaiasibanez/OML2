@@ -612,7 +612,7 @@ Mostrar detalles
 <p>Como su nombre lo indica, la envolvente convexa <span class="math inline">\(\text{conv}\,C\)</span> es siempre un conjunto convexo (📝 Ejercicio 3).</p>
 </div>
 <div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
-<p>La envolvente convexa <span class="math inline">\(\text{conv}\,C\)</span> es el conjunto convexo más pequeño que contiene a <span class="math inline">\(C\)</span>: si <span class="math inline">\(B\)</span> es cualquier conjunto convexo que contiene a <span class="math inline">\(C\)</span>, entonces <span class="math inline">\(\text{conv}\,C \subset B\)</span>.</p>
+<p>La envolvente convexa <span class="math inline">\(\text{conv}\,C\)</span> es el conjunto convexo más pequeño que contiene a <span class="math inline">\(C\)</span>: si <span class="math inline">\(E\)</span> es cualquier conjunto convexo que contiene a <span class="math inline">\(C\)</span>, entonces <span class="math inline">\(\text{conv}\,C \subset E\)</span>.</p>
 </div>
 </div>
 </div>
@@ -653,7 +653,7 @@ Mostrar detalles
 <div class="tab-content">
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
 <p>Llamamos <em>combinación cónica</em> a un punto de la forma <span class="math display">\[
-\theta_1\xx_1+\cdot+\theta_k\xx_j,\qquad \theta_i\geq 0.
+\theta_1\xx_1+\cdots+\theta_k\xx_j,\qquad \theta_i\geq 0.
 \]</span></p>
 </div>
 <div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
@@ -757,7 +757,7 @@ Mostrar detalles
 <p>La envolvente cónica <span class="math inline">\(\text{cone}\,C\)</span> es siempre un conjunto convexo (📝 Ejercicio 3).</p>
 </div>
 <div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
-<p>La envolvente cónica <span class="math inline">\(\text{cone}\,C\)</span> es el cono convexo más pequeño que contiene a <span class="math inline">\(C\)</span> conjunto convexo más pequeño que contiene a <span class="math inline">\(C\)</span>: si <span class="math inline">\(B\)</span> es cualquier conjunto convexo que contiene a <span class="math inline">\(C\)</span>, entonces <span class="math inline">\(\text{conv}\,C \subset B\)</span>.</p>
+<p>La envolvente cónica <span class="math inline">\(\text{cone}\,C\)</span> es el cono convexo más pequeño que contiene a <span class="math inline">\(C\)</span>: si <span class="math inline">\(E\)</span> es cualquier cono convexo que contiene a <span class="math inline">\(C\)</span>, entonces <span class="math inline">\(\text{conv}\,C \subset E\)</span>.</p>
 </div>
 </div>
 </div>
@@ -973,7 +973,7 @@ Mostrar detalles
 <p>El vector <span class="math inline">\(\aa\)</span> es <em>normal</em> al hiperplano. Dado un punto <span class="math inline">\(\xx_0\)</span> del hiperplano, se verifica <span class="math inline">\(\aa^\top (\xx-\xx_0)=0\)</span> para todo punto <span class="math inline">\(\xx\)</span> del hiperplano.</p>
 </div>
 <div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
-<p>El escalar <span class="math inline">\(b\)</span> determina el desplazamiento del hiperplano respecto del origen. En efecto, la distancia del hiperplano al origen es <span class="math inline">\(b/\|\aa\|\)</span> (probaremos esto más adelante en este capítulo).</p>
+<p>El escalar <span class="math inline">\(b\)</span> determina el desplazamiento del hiperplano respecto del origen. En efecto, la distancia del hiperplano al origen es <span class="math inline">\(b/\|\aa\|_2\)</span> (probaremos esto más adelante en este capítulo).</p>
 </div>
 <div id="tabset-6-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-3-tab">
 <div class="question callout callout-style-simple callout-none no-icon">
@@ -1129,7 +1129,7 @@ N_{\Omega}(\xx_0) := \{\dd\in\RR^p \mid \langle\dd,\xx-\xx_0\rangle\leq 0,\;\for
 \]</span></p>
 </div>
 <p>Si bien la expresión <span class="math inline">\(\langle \dd,\xx-\xx_0\rangle\)</span> puede escribirse como <span class="math inline">\(\dd^\top(\xx-\xx_0)\)</span>, la notación con producto interno permite una rápida interpretación de este concepto. Si usamos la propiedad <span class="math inline">\(\langle\uu,\vv\rangle =\|\uu\|_2\|\vv\|_2\cos \alpha\)</span>, donde <span class="math inline">\(\alpha\)</span> es el ángulo entre <span class="math inline">\(\uu\)</span> y <span class="math inline">\(\vv\)</span>, podemos decir que <span class="math inline">\(\dd\in N_{\Omega}(\xx_0)\)</span> si <span class="math display">\[
-\|\dd\|\|\xx-\xx_0\|\cos \alpha \leq 0,
+\|\dd\|_2\|\xx-\xx_0\|_2\cos \alpha \leq 0,
 \]</span> con <span class="math inline">\(\alpha\)</span> el ángulo entre los vectores <span class="math inline">\(\dd\)</span> y <span class="math inline">\(\xx-\xx_0\)</span>. Esto es cierto si <span class="math display">\[
 -\frac{\pi}{2}\leq \alpha\leq\pi.
 \]</span></p>
@@ -1160,7 +1160,7 @@ N_{\Omega}(\xx_0) = \{\mathbf{0}\}.
 <div class="columns">
 <div class="column" style="width:70%;">
 <p>Esto se debe a que <span class="math inline">\(\xx-\xx_0\)</span> puede ser <em>cualquier</em> dirección y, en consecuencia, no es posible que <span class="math inline">\(\dd\neq\bfzero\)</span> forme un ángulo obtuso o recto con todas las direcciones <span class="math inline">\(\xx-\xx_0\)</span>. En efecto, si <span class="math inline">\(\dd\neq\mathbf{0}\)</span>, podemos tomar un <span class="math inline">\(\delta&gt;0\)</span> lo suficientemente pequeño para que <span class="math inline">\(\xx=\xx_0+\delta\dd\in\Omega\)</span>, tal que <span class="math display">\[
-\langle \dd,\xx-\xx_0\rangle=\langle\dd,\delta\dd\rangle=\delta\|\dd\|^2\geq 0.
+\langle \dd,\xx-\xx_0\rangle=\langle\dd,\delta\dd\rangle=\delta\|\dd\|_2^2\geq 0.
 \]</span></p>
 </div><div class="column" style="width:30%;">
 <figure style="text-align: center;" class="figure">
@@ -1304,7 +1304,7 @@ Epígrafo de una función <span class="math inline">\(f\)</span>.
 <div style="margin-top:2em;">
 
 </div>
-<p>La prueba es sencilla (📝Ejercicio …). De manera análoga, una función es cóncava si y solo si su <em>hipógrafo</em>, definido como <span class="math display">\[
+<p>La prueba es sencilla (📝Ejercicio 9). De manera análoga, una función es cóncava si y solo si su <em>hipógrafo</em>, definido como <span class="math display">\[
 \text{hypo}\,f = \{(\xx, t) \mid t \leq f(\xx)\},
 \]</span> es un conjunto convexo.</p>
 <section id="condiciones-de-convexidad" class="level3 page-columns page-full">
@@ -1460,7 +1460,7 @@ f(\xx)=\frac{1}{2}\xx^\top A\xx+\bb^\top\xx+c,
 f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
 \]</span></p>
 <p>es convexa, ya que <span class="math inline">\(\xx^\top A\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\((x,y)\in\RR^2\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
-<div id="7b2259c9" class="cell" data-execution_count="1">
+<div id="ad444f4d" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1531,8 +1531,8 @@ f(\xx) = \sup_{i \in \mathcal{A}} f_i(\xx)
 \begin{array}{ll}
 \text{minimizar } &amp; f(\xx)\\
 \text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\begin{array}{cl}
-g_i(\xx)\leq 0,&amp; i=1,\cdots,r.\\
-\aa_j^\top \xx-b_i=0, &amp; j=1,\cdots,m.
+g_i(\xx)\leq 0,&amp; i=1,\ldots,r.\\
+\aa_j^\top \xx-b_i=0, &amp; j=1,\ldots,m.
 \end{array}\right.\right\},
 \end{array}
 \]</span></p>
@@ -1563,8 +1563,8 @@ g_i(\xx)\leq 0,&amp; i=1,\cdots,r.\\
 \begin{array}{ll}
 \text{maximizar } &amp; f(\xx)\\
 \text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\begin{array}{cl}
-g_i(\xx)\leq 0,&amp; i=1,\cdots,r.\\
-\aa_j^\top \xx-b_i=0, &amp; j=1,\cdots,m.
+g_i(\xx)\leq 0,&amp; i=1,\ldots,r.\\
+\aa_j^\top \xx-b_i=0, &amp; j=1,\ldots,m.
 \end{array}\right.\right\},
 \end{array}
 \]</span> como un problema de optimización convexa, si la función objetivo es cóncava y las funciones de restricción de desigualdad <span class="math inline">\(g_i\)</span> son convexas. De hecho, claramente el problema de maximización cóncava se resuelve minimizando la función convexa <span class="math inline">\(-f\)</span>, razón por la cual todos los resultados y conclusiones que describiremos para el problema de minimización se extienden al caso de maximización.</p>
@@ -1627,6 +1627,13 @@ f(\zz)\leq (1-\theta)f(\xx)+\theta f(\yy)&lt;(1-\theta)f(\xx)+\theta f(\xx)&lt;f
 ✏️ <strong>Conceptuales</strong><br>
 
 <hr class="linea-corta">
+<details>
+<summary>
+Mostrar
+</summary>
+<div style="margin-top:1em;">
+
+</div>
 <ol type="1">
 <li><p>Muestre que:</p>
 <ul>
@@ -1644,9 +1651,10 @@ f(\zz)\leq (1-\theta)f(\xx)+\theta f(\yy)&lt;(1-\theta)f(\xx)+\theta f(\xx)&lt;f
 <li><p>Sean <span class="math inline">\(S_1\)</span> y <span class="math inline">\(S_2\)</span> conjuntos convexos. Muestre que <span class="math inline">\(S_1\times S_2\)</span> es convexo.</p></li>
 <li><p>Sea <span class="math inline">\(S\subset\RR^p\)</span> un conjunto convexo, <span class="math inline">\(\aa\in\RR^p\)</span> y <span class="math inline">\(\alpha\in\RR\)</span>. Pruebe que los conjuntos <span class="math inline">\(S+\aa:=\{\xx+\aa \mid \xx\in S\}\)</span> y <span class="math inline">\(\alpha S:=\{\alpha\xx \mid \xx\in S\}\)</span> son convexos.</p></li>
 <li><p>Realice la prueba del Ejemplo 8 de cono normal a un hiperplano. Es decir, muestre que <span class="math inline">\(\dd\in N_{\Omega}(\xx_0)\)</span> si y solo si es de la forma <span class="math inline">\(\dd=\lambda\aa\)</span> para algún <span class="math inline">\(\lambda\in\RR\)</span>. [<em>Ayuda: para el directo, suponga <span class="math inline">\(\dd\neq \lambda\aa\)</span> y utilice el hecho de que <span class="math inline">\(\dd\)</span> puede escribirse como <span class="math inline">\(\dd=(\xx-\xx_0)+k\aa\)</span>, donde <span class="math inline">\(\xx\)</span> es la proyección de <span class="math inline">\(\dd\)</span> sobre <span class="math inline">\(\Omega\)</span> y <span class="math inline">\(k\in\RR\)</span></em>.]</p></li>
-<li><p>Muestre que los conjuntos de subnivel de una función <span class="math inline">\(f:\RR^p\to\RR\)</span>, definidos como <span class="math display">\[
-C_\alpha:=\{\xx\in\text{dom}\,f \mid f(\xx)\leq\alpha\}
-\]</span> son convexos (ver Ejemplo 6), pero que el recíproco no se cumple. Para esto último utilice algún contraejemplo.</p></li>
+<li><p>Muestre que los conjuntos de subnivel de una función <span class="math inline">\(f:\RR^p\to\RR\)</span> convexa, definidos como <span class="math display">\[
+C_\alpha:=\{\xx\in\text{dom}\,f \mid f(\xx)\leq\alpha\},
+\]</span> son convexos, pero que el recíproco no se cumple. Para esto último utilice algún contraejemplo.</p></li>
+<li><p>Pruebe que una función es convexa si y solo si su epígrafo es un conjunto convexo.</p></li>
 <li><p>Pruebe la suficiencia de la condición de primer orden del Teorema 1 para funciones de una variable. [<em>Ayuda: para <span class="math inline">\(x_1\neq x_2\)</span> arbitrarios y <span class="math inline">\(0\leq \theta\leq 1\)</span>, defina <span class="math inline">\(x_3=\theta x_1+(1-\theta) x_2\)</span> y aplique la condición tanto a <span class="math inline">\((x_3,x_1)\)</span> como a <span class="math inline">\((x_3,x_2)\)</span></em>.]</p></li>
 <li><p>El requisito separado de que <span class="math inline">\(\text{dom}\,f\)</span> sea convexo no puede eliminarse de las caracterizaciones de primer o segundo orden de convexidad y concavidad de <span class="math inline">\(f\)</span>. Analice el caso <span class="math inline">\(f(x)=1/x^2\)</span>.</p></li>
 <li><p>Justifique, utilizando alguno de los teoremas vistos, la convexidad de las siguientes funciones:</p>
@@ -1657,31 +1665,42 @@ C_\alpha:=\{\xx\in\text{dom}\,f \mid f(\xx)\leq\alpha\}
 <li><span class="math inline">\(f:(\RR^+)^p\to\RR: f(\xx)=\sum_{i=1}^p\xx_i\log \xx_i\)</span>.</li>
 <li><span class="math inline">\(f:(\RR^+)^p\to\RR: f(\xx)=-\sum_{i=1}^p\log \xx_i\)</span>.</li>
 </ul></li>
-<li><p>Dada la función cuadrática <span class="math inline">\(f:\RR^2\to\RR\)</span> definida por <span class="math display">\[
-f(x)=\frac{1}{2}\xx^\top A\xx,
-\]</span> proponga distintas matrices <span class="math inline">\(A\)</span>, grafique la función y decida si <span class="math inline">\(A\)</span> es semidefinida positiva, negativa o indefinida. Además, calcule los autovalores de <span class="math inline">\(A\)</span> y explique qué relación observa.</p></li>
-<li><p>La desigualdad de Jensen establece que si <span class="math inline">\(\xx\in\text{dom}\,f\)</span> y <span class="math inline">\(f\)</span> es una función convexa, entonces <span class="math display">\[
-f(\media \xx)\leq \media f(\xx),
+<li><p>Dada una matriz <span class="math inline">\(A\in\RR^{2\times 2}\)</span>, sea <span class="math inline">\(f:\RR^2\to\RR\)</span> la función cuadrática definida por <span class="math display">\[
+f(x)=\frac{1}{2}\xx^\top A\xx,\qquad A\in\RR^{2\times 2}.
+\]</span></p>
+<ul>
+<li>Proponga distintas matrices <span class="math inline">\(A\)</span>, grafique la función y explique qué observa con respecto a su convexidad.</li>
+<li>Determine si <span class="math inline">\(A\)</span> es semidefinida positiva, negativa o indefinida.</li>
+<li>Calcule los autovalores de <span class="math inline">\(A\)</span> y explique qué relación observa.</li>
+</ul></li>
+<li><p>La desigualdad de Jensen establece que si <span class="math inline">\(\XX\)</span> es una variable aleatoria tal que <span class="math inline">\(\XX\in\text{dom}\,f\)</span> con probabilidad uno y <span class="math inline">\(f\)</span> es una función convexa, entonces <span class="math display">\[
+f(\media \XX)\leq \media f(\XX),
 \]</span> siempre que la esperanza exista. Hallar una variable aleatoria <span class="math inline">\(\XX\)</span> que permita recuperar la desigualdad básica de la Definición 8 de función convexa a partir de la desigualdad de Jensen.</p></li>
 <li><p>Verifique que las operaciones presentadas efectivamente preservan la convexidad de las funciones. [<em>Ayuda: para el caso de supremo puntual, muestre que <span class="math inline">\(\text{epi}\,f=\bigcap_{i\in\mathcal{A}}\text{epi}\,f_i\)</span></em>.]</p></li>
 <li><p>Determine cuáles de las operaciones que preservan la convexidad siguen preservándola en el caso de funciones estrictamente convexas, ajustando las hipótesis cuando sea necesario.</p></li>
 <li><p>Sean <span class="math inline">\(C\subset\RR^p\)</span> y <span class="math inline">\(\|\cdot\|\)</span> una norma en <span class="math inline">\(\RR^p\)</span>. La <em>distancia al punto más lejano</em> de <span class="math inline">\(C\)</span> está dada por <span class="math display">\[
 f(\xx)=\sup_{\yy\in C}\|\xx-\yy\|.
 \]</span> Pruebe que <span class="math inline">\(f\)</span> es convexa.</p></li>
-<li><p>Pruebe que la función <span class="math inline">\(f:\mathbf{S}^p\to\RR\)</span>, definida por <span class="math display">\[
+<li><p>Dada una matriz simétrica, <span class="math inline">\(X\in\SS^p\)</span>, nos referimos con <span class="math inline">\(\lambda_{\text{max}}(X)\)</span> a su <em>valor propio máximo</em>. Pruebe que la función <span class="math inline">\(f:\mathbf{S}^p\to\RR\)</span>, definida por <span class="math display">\[
 f(X)=\lambda_{\text{max}}(X),
-\]</span> donde <span class="math inline">\(\lambda_{\text{max}}\)</span> es el <em>valor propio máximo</em> de <span class="math inline">\(X\)</span>, es convexa.</p></li>
+\]</span> es convexa.</p></li>
 </ol>
+</details>
 <div style="margin-top:2em;">
 
 </div>
 💻 <strong>Prácticas</strong><br>
 
 <hr class="linea-corta">
-<ol type="1">
-<li><p><span style="color:darkred;">Ejercicios de promedios ponderado y envolvente convexa, esto último usando <code>ConvexHull</code>.</span></p></li>
-<li><p><span style="color:darkred;">Ejercicios de envolvente cónica. Acá no hay nada que lo haga automáticamente: una posible opción sería generar un conjunto de puntos que sean combinaciones y plotearlos, se podría hacer una grilla para los <span class="math inline">\(\theta_i\)</span> o randomizarlos.</span></p></li>
-</ol>
+<!--
+<div style="text-align:left;">
+  <a href="https://colab.research.google.com/drive/1gSAmoTQHiCQ-TlYiYbE4xdYdGrlyC86F?usp=drive_link" target="_blank">
+    <img src="https://colab.research.google.com/assets/colab-badge.svg" 
+         alt="Colab" 
+         style="height:1.4em;">
+  </a>
+</div>
+-->
 <div style="margin-top: 5em;">
 
 </div>

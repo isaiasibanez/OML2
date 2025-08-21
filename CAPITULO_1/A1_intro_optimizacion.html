@@ -330,7 +330,7 @@ window.Quarto = {
 \def\argmax{\mathop{\mathrm{arg\,max\,}}}
 \]</span></p>
 </div>
-<p>La optimización es una herramienta fundamental en matemática aplicada, ciencia de datos y otras disciplinas. En términos generales, el objetivo de un problema de optimización es encontrar el valor de una <em>variable</em> (o conjunto de variables) que <em>minimice</em> o <em>maximice</em> una determinada <em>función</em>, posiblemente bajo ciertas <em>restricciones</em>.</p>
+<p>La optimización es una herramienta fundamental en matemática aplicada, ciencia de datos y otras disciplinas. En términos generales, el objetivo de un problema de optimización es encontrar el valor de una <em>variable</em> (o conjunto de variables) que <em>minimice</em> o <em>maximice</em> una determinada función, posiblemente bajo ciertas <em>restricciones</em>.</p>
 <section id="optimización-matemática" class="level2">
 <h2 class="anchored" data-anchor-id="optimización-matemática">Optimización matemática</h2>
 <div class="definicion">
@@ -357,22 +357,32 @@ p^\star:=\inf\{f(\xx) \mid \xx\in\text{dom}\,f\;\land\;\xx\in\Omega\}.
 <p>En el caso que <span class="math inline">\(p^\star\)</span> existe y es finito, un vector <span class="math inline">\(\xx^\star\in\Omega\)</span> se denomina <em>punto óptimo</em> si <span class="math inline">\(f(\xx^\star)=p^\star\)</span>.</p>
 </div>
 <p><span style="display:block; height:0.25em;"></span></p>
+<div class="myhighlight">
+<p>Un problema de optimización tiene solución si existe al menos un punto óptimo <span class="math inline">\(x^\star\)</span>. En tal caso, es válido escribir <span class="math display">\[
+p^\star=\min\{f(x) \mid \xx\in \text{dom}\,f\;\land\xx\in\Omega\},
+\]</span> <span class="math display">\[
+\xx^\star\in\argmin\{f(x) \mid \xx\in \text{dom}\,f\;\land\xx\in\Omega\}.
+\]</span></p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
 <p>En general, se asume que la función objetivo <span class="math inline">\(f\)</span> es continua. Además, a menudo se suele imponer la condición de que también sea diferenciable, ya que facilita el análisis teórico y permite el diseño de métodos de optimización.</p>
 <p>Por otra parte, son de especial interés los problemas con <em>restricciones funcionales</em>, que son aquellos en los cuales el conjunto factible es de la forma</p>
 <p><span class="math display">\[
 \Omega=\left\{\xx\in\RR^p\left|\begin{array}{cl}
-\; g_i(\xx)\leq 0,&amp; i=1,\cdots,r\\
-\; h_j(\xx)=0, &amp; j=1,\cdots,m
+\; g_i(\xx)\leq 0,&amp; i=1,\ldots,r\\
+\; h_j(\xx)=0, &amp; j=1,\ldots,m
 \end{array}\right.\right\}.
 \tag{2}
 \]</span></p>
-<p>Es decir, <span class="math inline">\(\Omega\)</span> queda definido a partir de un conjunto de <em>funciones de restricción</em>, tanto de desigualdad (<span class="math inline">\(g_i:\RR^p\to\RR\)</span>) como de igualdad (<span class="math inline">\(h_j:\RR^p\to\RR\)</span>). En función de las características de estas funciones, el conjunto factible puede adquirir ciertas propiedades geométricas fundamentales.</p>
+<p>Es decir, <span class="math inline">\(\Omega\)</span> queda definido a partir de un conjunto de <em>funciones de restricción</em>, tanto de desigualdad, <span class="math inline">\(g_i:\RR^p\to\RR\)</span>, como de igualdad, <span class="math inline">\(h_j:\RR^p\to\RR\)</span>. En función de las características de estas funciones, el conjunto factible puede adquirir ciertas propiedades geométricas fundamentales.</p>
 <div class="alert alert-light text-dark" role="important">
 <p><span class="badge bg-warning text-dark">Importante</span></p>
-<p>Un problema de optimización cuyo conjunto factible es de la forma (3) tiene una <em>restricción implícita</em>, a saber: <span class="math display">\[
+<p>Un problema de optimización cuyo conjunto factible es de la forma (2) tiene una <em>restricción implícita</em>, a saber: <span class="math display">\[
 \xx\in\mathcal{D}:=\text{dom}\,f\cap\bigcap_{i=1}^r\text{dom}\,g_i\cap\bigcap_{j=1}^m\text{dom}\,h_j.
 \]</span></p>
-<p>Algunas observaciones importantes son:</p>
+<p>Algunas consideraciones importantes son:</p>
 <ul>
 <li><p><span class="math inline">\(\mathcal{D}\)</span> es el <em>dominio</em> del problema.</p></li>
 <li><p>Las restricciones funcionales <span class="math inline">\(g_i(\xx)\leq 0\)</span> y <span class="math inline">\(h_i(\xx)=0\)</span> son <em>restricciones explícitas</em>.</p></li>
@@ -412,30 +422,42 @@ p^\star:=\inf\{f(\xx) \mid \xx\in\text{dom}\,f\;\land\;\xx\in\Omega\}.
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><span style="font-size: 1.3em;">📝</span><br> Analizar el problema de optimización sin restricciones <span class="math display">\[
+<p><span style="font-size: 1.3em;">📝</span><br> Analice el problema de optimización sin restricciones</p>
+<p><span class="math display">\[
 \text{minimizar } f(x)
-\]</span> para cada una de las siguientes funciones:</p>
+\]</span></p>
+<p>para cada una de las siguientes funciones:</p>
+<div class="columns">
+<div class="column">
 <ul>
-<li><p><span class="math inline">\(f: \mathbb{R}^+ \to \mathbb{R}: f(x) = x^3.\)</span></p></li>
-<li><p><span class="math inline">\(f: \mathbb{R} \to \mathbb{R}: f(x) = xe^x.\)</span></p></li>
-<li><p><span class="math inline">\(f: \mathbb{R} \to \mathbb{R}:&nbsp;f(x)&nbsp;=&nbsp;|x^2-1|.\)</span></p></li>
-<li><p><span class="math inline">\(f: (-1,1) \to \mathbb{R}: f(x) = \displaystyle\frac{1}{1-x^2}.\)</span></p></li>
+<li><p><span class="math inline">\(f: \mathbb{R}^+ \to \mathbb{R},\quad f(x) = x^3\)</span></p></li>
+<li><p><span class="math inline">\(f: \mathbb{R} \to \mathbb{R},\quad f(x) = x e^x\)</span></p></li>
 </ul>
+</div><div class="column">
+<ul>
+<li><p><span class="math inline">\(f: \mathbb{R} \to \mathbb{R},\quad f(x) = |x^2-1|\)</span></p></li>
+<li><p><span class="math inline">\(f: (-1,1) \to \mathbb{R},\quad f(x) = \displaystyle\frac{1}{1-x^2}\)</span></p></li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div style="margin-top:2em;">
 
 </div>
-<p>Generalmente, consideramos familias o clases de problemas de optimización, caracterizadas por formas particulares de las funciones objetivo y de las funciones de restricción. Algunos ejemplos importantes son:</p>
+<p>Generalmente, consideramos familias o clases de problemas de optimización, caracterizadas por formas particulares de la función objetivo y de las funciones de restricción. Algunos ejemplos importantes son:</p>
 <ul>
-<li><p><strong>Programa lineal</strong>: Un problema de optimización es un <em>programa lineal</em> si tanto la función objetivo <span class="math inline">\(f\)</span> como las funciones de restricción <span class="math inline">\(g_i\)</span> y <span class="math inline">\(h_j\)</span> son funciones lineales; esto es, son funciones <span class="math inline">\(\varphi:\RR^p\to\RR\)</span> que satisfacen la igualdad: <span class="math display">\[
+<li><p><strong>Programa lineal</strong>: Un problema de optimización es un <em>programa lineal</em> si tanto la función objetivo <span class="math inline">\(f\)</span> como las funciones de restricción <span class="math inline">\(g_i\)</span> y <span class="math inline">\(h_j\)</span> son funciones lineales; esto es, son funciones <span class="math inline">\(\varphi:\RR^p\to\RR\)</span> que satisfacen la igualdad <span class="math display">\[
 \varphi(\alpha\xx+\beta\yy)=\alpha\,\varphi(\xx)+\beta\,\varphi(\yy),
 \]</span> para todo <span class="math inline">\(\xx,\yy\in\RR^p\)</span> y para todo <span class="math inline">\(\alpha,\beta\in\RR\)</span>.</p></li>
-<li><p><strong>Optimización convexa</strong>: Un problema de <em>optimización convexa</em> es aquel en el que tanto la función objetivo como las funciones de restricción son funciones convexas; esto es, son funciones <span class="math inline">\(\varphi:\RR^p\to\RR\)</span> que satisfacen la desigualdad: <span class="math display">\[
+<li><p><strong>Optimización convexa</strong>: Un problema de <em>optimización convexa</em> es aquel en el que tanto la función objetivo como las funciones de restricción son funciones convexas; esto es, son funciones <span class="math inline">\(\varphi:\RR^p\to\RR\)</span> que satisfacen la desigualdad <span class="math display">\[
 \varphi(\alpha \xx+\beta \yy)\leq \alpha\,\varphi(\xx)+\beta\,\varphi(\yy),
 \]</span> para todo <span class="math inline">\(\xx,\yy\in\RR^p\)</span> y para todo <span class="math inline">\(\alpha,\beta\in[0,1]\)</span> con <span class="math inline">\(\alpha+\beta=1\)</span>.</p></li>
 </ul>
+<div style="margin-top:1em;">
+
+</div>
 <p>Comparando los dos ejemplos anteriores, vemos que la convexidad es más general que la linealidad: la desigualdad reemplaza la igualdad más restrictiva, y además la desigualdad debe cumplirse solo para ciertos valores de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span>. Por lo tanto, cualquier programa lineal es un problema de optimización convexa.</p>
 <p>El estudio de los problemas de optimización convexa lo realizaremos en <a href="A2_optimizacion_convexa.html">C1-S2</a>. Respecto a programación lineal, veremos un ejemplo básico en esta misma sección más adelante, y otros ejemplos de aplicación se presentarán en <a href="A3_resolucion_computacional.html">C1-S3</a> cuando exploremos un par de librerías de Python útiles para resolver problemas de optimización.</p>
 <p>Por lo pronto, veamos a continuación algunos ejemplos básicos de ejercicios de optimización, que seguramente les resultarán familiares de cursos previos.</p>
@@ -449,11 +471,11 @@ p^\star:=\inf\{f(\xx) \mid \xx\in\text{dom}\,f\;\land\;\xx\in\Omega\}.
 <div style="float: right; width: 30%; margin-left: 1em; margin-bottom: 1em;">
 <p><img src="figuras/ej_basico_1.png" alt="Ejemplo" style="width: 100%;"></p>
 </div>
-<p>En este problema no se imponen restricciones sobre el valor de <span class="math inline">\(x\)</span>, más allá de pedirle que pertenezca al dominio de la función. En estos casos, se dice que es un <em>problema sin restricciones</em>.</p>
+<p>En este problema no se imponen restricciones sobre el valor de <span class="math inline">\(x\)</span>, más allá de pedirle que pertenezca al dominio de la función. Por lo tanto, es un <em>problema sin restricciones</em>.</p>
 <p>La función objetivo es <span class="math inline">\(f(x)=x^2-4x+5\)</span>. Al ser una función cuadrática con coeficiente cuadrático positivo, sabemos que el punto óptimo ocurre en su vértice. Es decir, <span class="math display">\[
 x^\star=-\frac{-4}{2\cdot 1}=2.
 \]</span></p>
-<p>Luego, el valor óptimo es <span class="math inline">\(f(2)=2^2-4\cdot 2+5=1\)</span>.</p>
+<p>Luego, el valor óptimo es <span class="math inline">\(p^\star=f(2)=2^2-4\cdot 2+5=1\)</span>.</p>
 </div>
 <p><span style="display:block; height:0.25em;"></span></p>
 <div class="callout-example">
@@ -468,10 +490,10 @@ x^\star=-\frac{-4}{2\cdot 1}=2.
 </div>
 <p>En este problema de optimización, la función objetivo es <span class="math inline">\(f(x,y)=x^3-3x+y^2\)</span>. Dado que no hay restricciones, podemos obtener en primer lugar los <em>puntos críticos</em> que anulan el vector gradiente. Así, a partir de <span class="math display">\[
 \nabla f(x,y)=(3x^2-3,2y)=(0,0)
-\]</span> obtenemos los candidatos <span class="math inline">\((-1,0)\)</span> y <span class="math inline">\((1,0)\)</span>. Para determinar la condición de estos puntos, tenemos como herramienta el <em>criterio del Hessiano</em>, el cual inspecciona la matriz de derivadas de segundo orden: <span class="math display">\[
+\]</span> obtenemos los candidatos <span class="math inline">\((-1,0)\)</span> y <span class="math inline">\((1,0)\)</span>. Para determinar la condición de estos puntos, tenemos como herramienta el <em>criterio del Hessiano</em>, el cual inspecciona la matriz de derivadas de segundo orden <span class="math display">\[
 H(x,y)=\begin{pmatrix}6x&amp;0\\0&amp;2\end{pmatrix}.
 \]</span></p>
-<p>Al aplicar dicho criterio, resulta que en <span class="math inline">\((1,0)\)</span> hay un mínimo local, mientras que <span class="math inline">\((-1,0)\)</span> se descarta por ser punto silla (verificar). No obstante, esto no quiere decir que hallamos encontrado el punto óptimo, ya que nuestro problema de optimización requiere que el valor óptimo sea global.</p>
+<p>Al aplicar dicho criterio, resulta que en <span class="math inline">\((1,0)\)</span> hay un mínimo local, mientras que <span class="math inline">\((-1,0)\)</span> se descarta por ser punto silla. No obstante, esto no quiere decir que hallamos encontrado el punto óptimo, ya que nuestro problema de optimización requiere que el valor óptimo sea global.</p>
 <p>Es importante remarcar lo siguiente:</p>
 <div class="myhighlight">
 <p>Ser mínimo local es una condición necesaria, pero no suficiente, para ser mínimo global.</p>
@@ -479,7 +501,7 @@ H(x,y)=\begin{pmatrix}6x&amp;0\\0&amp;2\end{pmatrix}.
 <div style="margin-top:1.5em;">
 
 </div>
-<p>De hecho, para este problema no hay un punto óptimo, puesto que la función no está acotada inferiormente, tal como se puede apreciar en su gráfica. Analíticamente, notar que para <span class="math inline">\(y=0\)</span> ocurre que <span class="math inline">\(\lim_{x\to-\infty}(x^3-3x)=-\infty\)</span>.</p>
+<p>De hecho, para este problema no hay un punto óptimo, puesto que la función no está acotada inferiormente, tal como se puede apreciar en su gráfica. Analíticamente, es suficiente ver que, para <span class="math inline">\(y=0\)</span>, ocurre que <span class="math inline">\(\displaystyle\lim_{x\to-\infty}(x^3-3x)=-\infty\)</span>.</p>
 </div>
 <p><span style="display:block; height:0.25em;"></span></p>
 <div class="callout-example">
@@ -496,19 +518,16 @@ H(x,y)=\begin{pmatrix}6x&amp;0\\0&amp;2\end{pmatrix}.
 <div style="float: right; width: 25%; margin-left: 1em; margin-bottom: 1em;">
 <p><img src="figuras/ej_basico_3.png" alt="Ejemplo" style="width: 100%;"></p>
 </div>
-<p>En este caso, tenemos una restricción funcional de igualdad definida por <span class="math inline">\(h(x,y)=xy-1\)</span>. Este problema se puede resolver aplicando el método de <em>multiplicadores de Lagrange</em>, el cual consiste en analizar la ecuación <span class="math display">\[
+<p>En este caso, tenemos una restricción funcional de igualdad definida por <span class="math inline">\(h(x,y)=xy-1\)</span>. Este problema se puede resolver aplicando el método de <em>multiplicadores de Lagrange</em>, el cual consiste en analizar la igualdad <span class="math display">\[
 \begin{align*}
 \nabla f(x,y)-\lambda\nabla h(x,y)&amp;=(0,0)\\
 (2x-\lambda y,2y-\lambda x)&amp;=(0,0).
 \end{align*}
 \]</span></p>
-<p>Los puntos críticos son <span class="math inline">\((1,1)\)</span> y <span class="math inline">\((-1,-1)\)</span>, ambos con <span class="math inline">\(\lambda=2\)</span> (verificar). Al valuar la función objetivo, se obtiene <span class="math display">\[
+<p>Al resolver el sistema de ecuaciones, se obtienen los puntos críticos <span class="math inline">\((1,1)\)</span> y <span class="math inline">\((-1,-1)\)</span>, ambos con <span class="math inline">\(\lambda=2\)</span>. Además, <span class="math display">\[
 f(1,1)=f(-1,-1)=2.
 \]</span></p>
-<p>Este es el valor óptimo de la función objetivo en el conjunto factible (¿por qué?). En consecuencia, tanto <span class="math inline">\((1,1)\)</span> como <span class="math inline">\((-1,-1)\)</span> son puntos óptimos.</p>
-<p>Observar que este problema se puede interpretar geométricamente como <em>el punto de la hipérbola <span class="math inline">\(xy=1\)</span> más cercano al origen</em>. Esto se deduce del hecho que la distancia de un punto <span class="math inline">\((x,y)\)</span> al origen es <span class="math display">\[
-\|(x,y)-(0,0)\|_2=\sqrt{x^2+y^2}.
-\]</span></p>
+<p>Este es el valor óptimo de la función objetivo en el conjunto factible. La justificación resulta de interpretar geométricamente el problema como <em>el punto de la hipérbola <span class="math inline">\(xy=1\)</span> más cercano al origen</em>. En consecuencia, tanto <span class="math inline">\((1,1)\)</span> como <span class="math inline">\((-1,-1)\)</span> son puntos óptimos.</p>
 </div>
 <p><span style="display:block; height:0.25em;"></span></p>
 <p>Los ejemplos anteriores buscan conectar la idea de los problemas de optimización con los ejercicios clásicos de Cálculo, en los que se busca el valor mínimo (o máximo) de una función. Sin embargo, estudiar optimización no se limita a resolver este tipo de ejercicios, sino que implica aprender a formular problemas, comprender sus componentes fundamentales y desarrollar herramientas teóricas y computacionales para abordarlos, incluso cuando no tienen solución analítica o presentan múltiples soluciones.</p>
@@ -526,7 +545,7 @@ f(1,1)=f(-1,-1)=2.
 <div class="definicion">
 <p><strong>Definición 2.</strong> (Problema de mínimos cuadrados) Un <em>problema de mínimos cuadrados</em> es de la forma <span class="math display">\[
 \begin{array}{ll}
-\text{minimizar } &amp; \|A\xx-\bb\|_2^2=\sum_{i=1}^k(\aa_i^{\top}\xx-b_i)^2,
+\text{minimizar } &amp; \|A\xx-\bb\|_2^2,
 \end{array}
 \tag{3}
 \]</span> donde <span class="math inline">\(A\in\RR^{k\times p}\)</span> (<span class="math inline">\(k\geq p\)</span>), <span class="math inline">\(\aa_i^{\top}\)</span> son las filas de <span class="math inline">\(A\)</span> y <span class="math inline">\(\bb\in\RR^k\)</span>. La variable de optimización es <span class="math inline">\(\xx\in\RR^p\)</span>.</p>
@@ -555,7 +574,7 @@ Mostrar detalles
 \sum_{i=1}^k w_i(\aa_i^{\top}\xx-b_i)^2,
 \]</span> donde <span class="math inline">\(w_i\)</span> son pesos positivos. Otra técnica es la <em>regularización</em>, que consiste en agregar términos adicionales a la función objetivo para controlar ciertas propiedades de la solución. El caso más simple es <span class="math display">\[
 \sum_{i=1}^{k}(\aa_{i}^{\top}\xx - b_{i})^{2} + \lambda \sum_{i=1}^{n}x_{i}^{2}.
-\]</span> En el Capítulo 2 exploraremos con mayor detalle las técnicas de regularización y sus variantes.</p></li>
+\]</span> En el Capítulo 2 exploraremos con mayor detalle los métodos de regularización más clásicos.</p></li>
 </ul>
 </div>
 </div>
@@ -565,7 +584,7 @@ Mostrar detalles
 
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 4</span></p>
+<p><span class="badge bg-primary">Ejemplo 5</span></p>
 <div style="float: right; width: 30%; margin-left: 1em; margin-bottom: 1em;">
 <p><img src="figuras/ej_minimos_cuadrados.png" alt="Ejemplo" style="width: 100%;"></p>
 </div>
@@ -645,7 +664,7 @@ b^{\star}
 \]</span></p>
 <p><br></p>
 <p>En Python, podemos resolver problemas de mínimos cuadrados con la función <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"><code>numpy.linalg.lstsq</code></a>.</p>
-<div id="3b80a859" class="cell" data-execution_count="1">
+<div id="e87b540f" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos:</span></span>
@@ -710,7 +729,7 @@ Mostrar detalles
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <ul>
 <li><p>No existe una fórmula analítica simple para la solución, pero hay una variedad de métodos muy efectivos para resolver el problema, como el método simplex de Datnzig y los métodos de punto interior.</p></li>
-<li><p>En la práctica, la complejidad es del orden de <span class="math inline">\(n^2m\)</span> (asumiento <span class="math inline">\(m\geq n\)</span>), pero con una constante que está menos caracterizada que en el caso de mínimos cuadrados.</p></li>
+<li><p>En la práctica, la complejidad es del orden de <span class="math inline">\(p^2m\)</span> (asumiendo <span class="math inline">\(m\geq p\)</span>), pero con una constante que está menos caracterizada que en el caso de mínimos cuadrados.</p></li>
 </ul>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
@@ -733,7 +752,7 @@ Mostrar detalles
 
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 5</span></p>
+<p><span class="badge bg-primary">Ejemplo 6</span></p>
 <p>Una fábrica produce dos productos, en cantidades que definimos como <span class="math inline">\(x_1\)</span> y <span class="math inline">\(x_2\)</span>, los cuales generan ganancias de 3 y 5 unidades monetarias, respectivamente. Producir una unidad de cualquiera de los productos requiere 1 hora de tiempo de producción. Además, la producción de una unidad del primer producto consume 1 unidad de materia prima, mientras que para producir una unidad del segundo producto se necesitan 3 unidades de materia prima. Queremos maximizar la ganancia, teniendo en cuenta que se dispone de 5 horas de producción y 9 unidades de materia prima.</p>
 <p>La formulación del problema es</p>
 <p><span class="math display">\[
@@ -752,7 +771,7 @@ Mostrar detalles
 <p>La relación geométrica en este ejemplo no es casual: en programación lineal, el óptimo (si existe) se alcanza siempre en alguno de los vértices de la región factible. Este hecho constituye la base del método del simplex y de otros algoritmos clásicos.</p>
 <p><br></p>
 <p>En Python, se pueden resolver problemas de este tipo utilizando <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linprog.html"><code>scipy.optimize.linprog</code></a>.</p>
-<div id="806ae8dd" class="cell" data-execution_count="2">
+<div id="55a39b5b" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> linprog</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Coeficientes de la función objetivo (negativos porque linprog minimiza):</span></span>
@@ -784,34 +803,24 @@ Ganancia máxima = 19.0</code></pre>
 </div>
 </div>
 </div>
-<div class="question callout callout-style-simple callout-none no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p><span style="font-size: 1.3em;">📝</span><br></p>
-<p>Formule el problema y resuélvalo geométricamente. Luego, verifique su resultado utilizando <code>scipy.optimize.linprog.</code>.</p>
-<p>Una nutricionista debe diseñar una dieta usando dos alimentos, A y B. El alimento A cuesta $2 por unidad y contiene 3g de proteína y 1g de carbohidratos por unidad. El alimento B cuesta $3 por unidad y contiene 2g de proteína y 2g de carbohidratos por unidad. La dieta debe contener al menos 60g de proteína y 30g de carbohidratos. ¿Cuántas unidades de cada alimento debe incluir para minimizar&nbsp;el&nbsp;costo?</p>
-<div>
-<div id="pyodide-2" class="exercise-cell">
+<!-- 
+::: {.callout .question}
+<span style="font-size: 1.3em;">📝</span><br>
 
-</div>
-<script type="pyodide-2-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiIyBHcmFmaXF1ZSBhcXXDrS4ifQ==
-</script>
-</div>
-<div>
-<div id="pyodide-3" class="exercise-cell">
+Formule el siguiente problema y resuélvalo geométricamente. Luego, verifique su resultado utilizando `scipy.optimize.linprog.`.
 
-</div>
-<script type="pyodide-3-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiIyBWZXJpZmlxdWUgbGEgc29sdWNpw7NuIGFxdcOtLiJ9
-</script>
-</div>
-</div>
-</div>
-</div>
+Una nutricionista debe diseñar una dieta usando dos alimentos, A y B. El alimento A cuesta $2 por unidad y contiene 3g de proteína y 1g de carbohidratos por unidad. El alimento B cuesta $3 por unidad y contiene 2g de proteína y 2g de carbohidratos por unidad. La dieta debe contener al menos 60g de proteína y 30g de carbohidratos. ¿Cuántas unidades de cada alimento debe incluir para minimizar el costo?
+
+```pvovufodxdzxgvrj
+# Grafique aquí.
+``` 
+
+```pvovufodxdzxgvrj
+# Verifique la solución aquí.
+``` 
+
+:::
+-->
 <p><br><br></p>
 </section>
 <section id="actividades" class="level2 unnumbered">
@@ -819,50 +828,48 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiIyBW
 ✏️ <strong>Conceptuales</strong><br>
 
 <hr class="linea-corta">
+<details>
+<summary>
+Mostrar
+</summary>
+<div style="margin-top:1em;">
+
+</div>
 <ol type="1">
 <li><p>Dé ejemplos de problemas que haya resuelto en cursos anteriores que involucren maximizar o minimizar alguna cantidad. Para cada ejemplo, identifique sus elementos: función objetivo, variables de optimización, conjunto de restricciones.</p></li>
 <li><p>Muestre que efectivamente el problema de mínimos cuadrados se reduce a <span class="math inline">\((A^{\top} A)\xx=A^{\top}\bb\)</span>.</p></li>
 <li><p>Reescriba el problema de mínimos cuadrados ponderados como un problema de mínimos cuadrados estándar.</p></li>
 <li><p>Justifique cómo se reescribe el problema de aproximación de Chebyshev como un programa lineal.</p></li>
 </ol>
+</details>
 <div style="margin-top:2em;">
 
 </div>
 💻 <strong>Prácticas</strong><br>
 
 <hr class="linea-corta">
-<p><span style="color:darkred;">Ejercicios de mínimos cuadrados y programación lineal.</span></p>
-<ol type="1">
-<li><p>Encuentre la recta que pasa por el origen que mejor ajusta, en el sentido de mínimos cuadrados, a los puntos <span class="math inline">\((1, 2)\)</span>,&nbsp;<span class="math inline">\((2,&nbsp;3)\)</span> y <span class="math inline">\((3,&nbsp;6)\)</span>.</p></li>
-<li><p>Dado el vector <span class="math inline">\(\bb=(4,2,5)\)</span> y los vectores <span class="math inline">\(\vv_1=(1,0,1)\)</span>, <span class="math inline">\(\vv_2=(0,1,1)\)</span>, encuentre la combinación lineal <span class="math inline">\(\alpha_1\vv_1+\alpha_2\vv_2\)</span> que mejor aproxime a <span class="math inline">\(\bb\)</span>, utilizando mínimos cuadrados.</p></li>
-<li><p>Una carpintería produce mesas y sillas. Cada mesa requiere 3 horas de trabajo y 2 metros de madera, generando una ganancia de $40. Cada silla requiere 1 hora de trabajo y 1 metro de madera, generando una ganancia de $15. La carpintería dispone de 18 horas de trabajo y 12 metros de madera por día. ¿Cuántas mesas y sillas debe producir para maximizar&nbsp;la&nbsp;ganancia?</p></li>
-<li><p>Una empresa tiene 2 fábricas (F1 y F2) que producen 100 y 150 unidades respectivamente. Debe abastecer a 3 almacenes (A1, A2, A3) con demandas de 80, 90 y 80 unidades respectivamente. Los costos de transporte por unidad son:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th></th>
-<th>A1</th>
-<th>A2</th>
-<th>A3</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>F1</td>
-<td>$4</td>
-<td>$6</td>
-<td>$8</td>
-</tr>
-<tr class="even">
-<td>F2</td>
-<td>$5</td>
-<td>$3</td>
-<td>$7</td>
-</tr>
-</tbody>
-</table>
-<p>Determine el plan de transporte de costo mínimo.</p></li>
-</ol>
+<div style="text-align:left;">
+<p><a href="https://colab.research.google.com/drive/1gSAmoTQHiCQ-TlYiYbE4xdYdGrlyC86F?usp=drive_link" target="_blank"> <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab" style="height:1.4em;"> </a></p>
+</div>
+<!-- 
+1. Encuentre la recta que pasa por el origen que mejor ajusta, en el sentido de mínimos cuadrados, a los puntos $(1, 2)$, $(2, 3)$ y $(3, 6)$.
+
+
+1. Dado el vector $\bb=(4,2,5)$ y los vectores $\vv_1=(1,0,1)$, $\vv_2=(0,1,1)$, encuentre la combinación lineal $\alpha_1\vv_1+\alpha_2\vv_2$ que mejor aproxime a $\bb$, utilizando mínimos cuadrados.
+
+
+1. Una carpintería produce mesas y sillas. Cada mesa requiere 3 horas de trabajo y 2 metros de madera, generando una ganancia de $40. Cada silla requiere 1 hora de trabajo y 1 metro de madera, generando una ganancia de $15. La carpintería dispone de 18 horas de trabajo y 12 metros de madera por día. ¿Cuántas mesas y sillas debe producir para maximizar la ganancia?
+
+
+1. Una empresa tiene 2 fábricas (F1 y F2) que producen 100 y 150 unidades respectivamente. Debe abastecer a 3 almacenes (A1, A2, A3) con demandas de 80, 90 y 80 unidades respectivamente. Los costos de transporte por unidad son:
+
+   |     | A1  | A2  | A3  |
+   |-----|-----|-----|-----|
+   | F1  | $4  | $6  | $8  |
+   | F2  | $5  | $3  | $7  |
+
+   Determine el plan de transporte de costo mínimo.
+-->
 <div style="margin-top: 5em;">
 
 </div>
@@ -877,7 +884,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiIyBW
 eyJvcHRpb25zIjp7ImVudiI6eyJQTE9UTFlfUkVOREVSRVIiOiJwbG90bHlfbWltZXR5cGUifSwiaW5kZXhVUkwiOiJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvcHlvZGlkZS92MC4yNy4wL2Z1bGwvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsicHlvZGlkZV9odHRwIiwibWljcm9waXAiLCJpcHl0aG9uIl19fQ==
 </script>
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTMiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8zID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0zLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzMgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzMsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTIiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8yID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0yLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMi1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzIgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzIsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8xID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzEgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLXByZWx1ZGUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJweW9kaWRlT2pzID0ge1xuICBjb25zdCB7XG4gICAgUHlvZGlkZUV2YWx1YXRvcixcbiAgICBQeW9kaWRlRW52aXJvbm1lbnRNYW5hZ2VyLFxuICAgIHNldHVwUHl0aG9uLFxuICAgIHN0YXJ0UHlvZGlkZVdvcmtlcixcbiAgICBiNjREZWNvZGUsXG4gICAgY29sbGFwc2VQYXRoLFxuICB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzdGF0dXNDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctc3RhdHVzXCIpO1xuICBjb25zdCBpbmRpY2F0b3JDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpbmRpY2F0b3JDb250YWluZXIuY2xhc3NMaXN0LnJlbW92ZShcImQtbm9uZVwiKTtcblxuICBsZXQgc3RhdHVzVGV4dCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIilcbiAgc3RhdHVzVGV4dC5jbGFzc0xpc3QgPSBcImV4ZXJjaXNlLWxvYWRpbmctZGV0YWlsc1wiO1xuICBzdGF0dXNUZXh0ID0gc3RhdHVzQ29udGFpbmVyLmFwcGVuZENoaWxkKHN0YXR1c1RleHQpO1xuICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYEluaXRpYWxpc2VgO1xuXG4gIC8vIEhvaXN0IGluZGljYXRvciBvdXQgZnJvbSBmaW5hbCBzbGlkZSB3aGVuIHJ1bm5pbmcgdW5kZXIgcmV2ZWFsXG4gIGNvbnN0IHJldmVhbFN0YXR1cyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsIC5leGVyY2lzZS1sb2FkaW5nLWluZGljYXRvclwiKTtcbiAgaWYgKHJldmVhbFN0YXR1cykge1xuICAgIHJldmVhbFN0YXR1cy5yZW1vdmUoKTtcbiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnJldmVhbCA+IC5zbGlkZXNcIikuYXBwZW5kQ2hpbGQocmV2ZWFsU3RhdHVzKTtcbiAgfVxuXG4gIC8vIE1ha2UgYW55IHJldmVhbCBzbGlkZXMgd2l0aCBsaXZlIGNlbGxzIHNjcm9sbGFibGVcbiAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbChcIi5yZXZlYWwgLmV4ZXJjaXNlLWNlbGxcIikuZm9yRWFjaCgoZWwpID0+IHtcbiAgICBlbC5jbG9zZXN0KCdzZWN0aW9uLnNsaWRlJykuY2xhc3NMaXN0LmFkZChcInNjcm9sbGFibGVcIik7XG4gIH0pXG5cbiAgLy8gUHlvZGlkZSBzdXBwbGVtZW50YWwgZGF0YSBhbmQgb3B0aW9uc1xuICBjb25zdCBkYXRhQ29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLWRhdGFcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBkYXRhID0gSlNPTi5wYXJzZShiNjREZWNvZGUoZGF0YUNvbnRlbnQpKTtcblxuICAvLyBHcmFiIGxpc3Qgb2YgcmVzb3VyY2VzIHRvIGJlIGRvd25sb2FkZWRcbiAgY29uc3QgZmlsZXNDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInZmcy1maWxlXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgZmlsZXMgPSBKU09OLnBhcnNlKGI2NERlY29kZShmaWxlc0NvbnRlbnQpKTtcblxuICBsZXQgcHlvZGlkZVByb21pc2UgPSAoYXN5bmMgKCkgPT4ge1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgUHlvZGlkZWA7XG4gICAgY29uc3QgcHlvZGlkZSA9IGF3YWl0IHN0YXJ0UHlvZGlkZVdvcmtlcihkYXRhLm9wdGlvbnMpO1xuXG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiBtaWNyb3BpcGA7XG4gICAgYXdhaXQgcHlvZGlkZS5sb2FkUGFja2FnZShcIm1pY3JvcGlwXCIpO1xuICAgIGNvbnN0IG1pY3JvcGlwID0gYXdhaXQgcHlvZGlkZS5weWltcG9ydChcIm1pY3JvcGlwXCIpO1xuICAgIGF3YWl0IGRhdGEucGFja2FnZXMucGtncy5tYXAoKHBrZykgPT4gKCkgPT4ge1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiAke3BrZ31gO1xuICAgICAgcmV0dXJuIG1pY3JvcGlwLmluc3RhbGwocGtnKTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcbiAgICBhd2FpdCBtaWNyb3BpcC5kZXN0cm95KCk7XG5cbiAgICAvLyBEb3dubG9hZCBhbmQgaW5zdGFsbCByZXNvdXJjZXNcbiAgICBhd2FpdCBmaWxlcy5tYXAoKGZpbGUpID0+IGFzeW5jICgpID0+IHtcbiAgICAgIGNvbnN0IG5hbWUgPSBmaWxlLnN1YnN0cmluZyhmaWxlLmxhc3RJbmRleE9mKCcvJykgKyAxKTtcbiAgICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgcmVzb3VyY2U6ICR7bmFtZX1gO1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChmaWxlKTtcbiAgICAgIGlmICghcmVzcG9uc2Uub2spIHtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBDYW4ndCBkb3dubG9hZCBcXGAke2ZpbGV9XFxgLiBFcnJvciAke3Jlc3BvbnNlLnN0YXR1c306IFwiJHtyZXNwb25zZS5zdGF0dXNUZXh0fVwiLmApO1xuICAgICAgfVxuICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IHJlc3BvbnNlLmFycmF5QnVmZmVyKCk7XG5cbiAgICAgIC8vIFN0b3JlIFVSTHMgaW4gdGhlIGN3ZCB3aXRob3V0IGFueSBzdWJkaXJlY3Rvcnkgc3RydWN0dXJlXG4gICAgICBpZiAoZmlsZS5pbmNsdWRlcyhcIjovL1wiKSkge1xuICAgICAgICBmaWxlID0gbmFtZTtcbiAgICAgIH1cblxuICAgICAgLy8gQ29sbGFwc2UgaGlnaGVyIGRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGZpbGUgPSBjb2xsYXBzZVBhdGgoZmlsZSk7XG5cbiAgICAgIC8vIENyZWF0ZSBkaXJlY3RvcnkgdHJlZSwgaWdub3JpbmcgXCJkaXJlY3RvcnkgZXhpc3RzXCIgVkZTIGVycm9yc1xuICAgICAgY29uc3QgcGFydHMgPSBmaWxlLnNwbGl0KCcvJykuc2xpY2UoMCwgLTEpO1xuICAgICAgbGV0IHBhdGggPSAnJztcbiAgICAgIHdoaWxlIChwYXJ0cy5sZW5ndGggPiAwKSB7XG4gICAgICAgIHBhdGggKz0gcGFydHMuc2hpZnQoKSArICcvJztcbiAgICAgICAgdHJ5IHtcbiAgICAgICAgICBhd2FpdCBweW9kaWRlLkZTLm1rZGlyKHBhdGgpO1xuICAgICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgICAgaWYgKGUuZXJybm8gIT09IDIwKSB7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICAgICAgY29uc3QgZXJyb3JUZXh0ID0gYXdhaXQgcHlvZGlkZS5fbW9kdWxlLlVURjhUb1N0cmluZyhlcnJvclRleHRQdHIpO1xuICAgICAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgIH1cblxuICAgICAgLy8gV3JpdGUgdGhpcyBmaWxlIHRvIHRoZSBWRlNcbiAgICAgIHRyeSB7XG4gICAgICAgIHJldHVybiBhd2FpdCBweW9kaWRlLkZTLndyaXRlRmlsZShmaWxlLCBuZXcgVWludDhBcnJheShkYXRhKSk7XG4gICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgIGlmIChlLm5hbWUgIT09IFwiRXJybm9FcnJvclwiKSB0aHJvdyBlO1xuICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgIHRocm93IG5ldyBFcnJvcihgRmlsZXN5c3RlbSBFcnJvciAke2UuZXJybm99IFwiJHtlcnJvclRleHR9XCIuYCk7XG4gICAgICB9XG4gICAgfSkucmVkdWNlKChjdXIsIG5leHQpID0+IGN1ci50aGVuKG5leHQpLCBQcm9taXNlLnJlc29sdmUoKSk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYFB5b2RpZGUgZW52aXJvbm1lbnQgc2V0dXBgO1xuICAgIGF3YWl0IHNldHVwUHl0aG9uKHB5b2RpZGUpO1xuXG4gICAgc3RhdHVzVGV4dC5yZW1vdmUoKTtcbiAgICBpZiAoc3RhdHVzQ29udGFpbmVyLmNoaWxkcmVuLmxlbmd0aCA9PSAwKSB7XG4gICAgICBzdGF0dXNDb250YWluZXIucGFyZW50Tm9kZS5yZW1vdmUoKTtcbiAgICB9XG4gICAgcmV0dXJuIHB5b2RpZGU7XG4gIH0pKCkuY2F0Y2goKGVycikgPT4ge1xuICAgIHN0YXR1c1RleHQuc3R5bGUuY29sb3IgPSBcInZhcigtLWV4ZXJjaXNlLWVkaXRvci1obC1lciwgI0FEMDAwMClcIjtcbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gZXJyLm1lc3NhZ2U7XG4gICAgLy9pbmRpY2F0b3JDb250YWluZXIucXVlcnlTZWxlY3RvcihcIi5zcGlubmVyLWdyb3dcIikuY2xhc3NMaXN0LmFkZChcImQtbm9uZVwiKTtcbiAgICB0aHJvdyBlcnI7XG4gIH0pO1xuXG4gIC8vIEtlZXAgdHJhY2sgb2YgaW5pdGlhbCBPSlMgYmxvY2sgcmVuZGVyXG4gIGNvbnN0IHJlbmRlcmVkT2pzID0ge307XG5cbiAgY29uc3QgcHJvY2VzcyA9IGFzeW5jIChjb250ZXh0LCBpbnB1dHMpID0+IHtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgcHlvZGlkZVByb21pc2U7XG4gICAgY29uc3QgZXZhbHVhdG9yID0gbmV3IFB5b2RpZGVFdmFsdWF0b3IocHlvZGlkZSwgY29udGV4dCk7XG4gICAgYXdhaXQgZXZhbHVhdG9yLnByb2Nlc3MoaW5wdXRzKTtcbiAgICByZXR1cm4gZXZhbHVhdG9yLmNvbnRhaW5lcjtcbiAgfVxuXG4gIHJldHVybiB7XG4gICAgcHlvZGlkZVByb21pc2UsXG4gICAgcmVuZGVyZWRPanMsXG4gICAgcHJvY2VzcyxcbiAgfTtcbn1cbiJ9XX0=
+eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8xID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzEgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLXByZWx1ZGUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJweW9kaWRlT2pzID0ge1xuICBjb25zdCB7XG4gICAgUHlvZGlkZUV2YWx1YXRvcixcbiAgICBQeW9kaWRlRW52aXJvbm1lbnRNYW5hZ2VyLFxuICAgIHNldHVwUHl0aG9uLFxuICAgIHN0YXJ0UHlvZGlkZVdvcmtlcixcbiAgICBiNjREZWNvZGUsXG4gICAgY29sbGFwc2VQYXRoLFxuICB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzdGF0dXNDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctc3RhdHVzXCIpO1xuICBjb25zdCBpbmRpY2F0b3JDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpbmRpY2F0b3JDb250YWluZXIuY2xhc3NMaXN0LnJlbW92ZShcImQtbm9uZVwiKTtcblxuICBsZXQgc3RhdHVzVGV4dCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIilcbiAgc3RhdHVzVGV4dC5jbGFzc0xpc3QgPSBcImV4ZXJjaXNlLWxvYWRpbmctZGV0YWlsc1wiO1xuICBzdGF0dXNUZXh0ID0gc3RhdHVzQ29udGFpbmVyLmFwcGVuZENoaWxkKHN0YXR1c1RleHQpO1xuICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYEluaXRpYWxpc2VgO1xuXG4gIC8vIEhvaXN0IGluZGljYXRvciBvdXQgZnJvbSBmaW5hbCBzbGlkZSB3aGVuIHJ1bm5pbmcgdW5kZXIgcmV2ZWFsXG4gIGNvbnN0IHJldmVhbFN0YXR1cyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsIC5leGVyY2lzZS1sb2FkaW5nLWluZGljYXRvclwiKTtcbiAgaWYgKHJldmVhbFN0YXR1cykge1xuICAgIHJldmVhbFN0YXR1cy5yZW1vdmUoKTtcbiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnJldmVhbCA+IC5zbGlkZXNcIikuYXBwZW5kQ2hpbGQocmV2ZWFsU3RhdHVzKTtcbiAgfVxuXG4gIC8vIE1ha2UgYW55IHJldmVhbCBzbGlkZXMgd2l0aCBsaXZlIGNlbGxzIHNjcm9sbGFibGVcbiAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbChcIi5yZXZlYWwgLmV4ZXJjaXNlLWNlbGxcIikuZm9yRWFjaCgoZWwpID0+IHtcbiAgICBlbC5jbG9zZXN0KCdzZWN0aW9uLnNsaWRlJykuY2xhc3NMaXN0LmFkZChcInNjcm9sbGFibGVcIik7XG4gIH0pXG5cbiAgLy8gUHlvZGlkZSBzdXBwbGVtZW50YWwgZGF0YSBhbmQgb3B0aW9uc1xuICBjb25zdCBkYXRhQ29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLWRhdGFcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBkYXRhID0gSlNPTi5wYXJzZShiNjREZWNvZGUoZGF0YUNvbnRlbnQpKTtcblxuICAvLyBHcmFiIGxpc3Qgb2YgcmVzb3VyY2VzIHRvIGJlIGRvd25sb2FkZWRcbiAgY29uc3QgZmlsZXNDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInZmcy1maWxlXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgZmlsZXMgPSBKU09OLnBhcnNlKGI2NERlY29kZShmaWxlc0NvbnRlbnQpKTtcblxuICBsZXQgcHlvZGlkZVByb21pc2UgPSAoYXN5bmMgKCkgPT4ge1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgUHlvZGlkZWA7XG4gICAgY29uc3QgcHlvZGlkZSA9IGF3YWl0IHN0YXJ0UHlvZGlkZVdvcmtlcihkYXRhLm9wdGlvbnMpO1xuXG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiBtaWNyb3BpcGA7XG4gICAgYXdhaXQgcHlvZGlkZS5sb2FkUGFja2FnZShcIm1pY3JvcGlwXCIpO1xuICAgIGNvbnN0IG1pY3JvcGlwID0gYXdhaXQgcHlvZGlkZS5weWltcG9ydChcIm1pY3JvcGlwXCIpO1xuICAgIGF3YWl0IGRhdGEucGFja2FnZXMucGtncy5tYXAoKHBrZykgPT4gKCkgPT4ge1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiAke3BrZ31gO1xuICAgICAgcmV0dXJuIG1pY3JvcGlwLmluc3RhbGwocGtnKTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcbiAgICBhd2FpdCBtaWNyb3BpcC5kZXN0cm95KCk7XG5cbiAgICAvLyBEb3dubG9hZCBhbmQgaW5zdGFsbCByZXNvdXJjZXNcbiAgICBhd2FpdCBmaWxlcy5tYXAoKGZpbGUpID0+IGFzeW5jICgpID0+IHtcbiAgICAgIGNvbnN0IG5hbWUgPSBmaWxlLnN1YnN0cmluZyhmaWxlLmxhc3RJbmRleE9mKCcvJykgKyAxKTtcbiAgICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgcmVzb3VyY2U6ICR7bmFtZX1gO1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChmaWxlKTtcbiAgICAgIGlmICghcmVzcG9uc2Uub2spIHtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBDYW4ndCBkb3dubG9hZCBcXGAke2ZpbGV9XFxgLiBFcnJvciAke3Jlc3BvbnNlLnN0YXR1c306IFwiJHtyZXNwb25zZS5zdGF0dXNUZXh0fVwiLmApO1xuICAgICAgfVxuICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IHJlc3BvbnNlLmFycmF5QnVmZmVyKCk7XG5cbiAgICAgIC8vIFN0b3JlIFVSTHMgaW4gdGhlIGN3ZCB3aXRob3V0IGFueSBzdWJkaXJlY3Rvcnkgc3RydWN0dXJlXG4gICAgICBpZiAoZmlsZS5pbmNsdWRlcyhcIjovL1wiKSkge1xuICAgICAgICBmaWxlID0gbmFtZTtcbiAgICAgIH1cblxuICAgICAgLy8gQ29sbGFwc2UgaGlnaGVyIGRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGZpbGUgPSBjb2xsYXBzZVBhdGgoZmlsZSk7XG5cbiAgICAgIC8vIENyZWF0ZSBkaXJlY3RvcnkgdHJlZSwgaWdub3JpbmcgXCJkaXJlY3RvcnkgZXhpc3RzXCIgVkZTIGVycm9yc1xuICAgICAgY29uc3QgcGFydHMgPSBmaWxlLnNwbGl0KCcvJykuc2xpY2UoMCwgLTEpO1xuICAgICAgbGV0IHBhdGggPSAnJztcbiAgICAgIHdoaWxlIChwYXJ0cy5sZW5ndGggPiAwKSB7XG4gICAgICAgIHBhdGggKz0gcGFydHMuc2hpZnQoKSArICcvJztcbiAgICAgICAgdHJ5IHtcbiAgICAgICAgICBhd2FpdCBweW9kaWRlLkZTLm1rZGlyKHBhdGgpO1xuICAgICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgICAgaWYgKGUuZXJybm8gIT09IDIwKSB7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICAgICAgY29uc3QgZXJyb3JUZXh0ID0gYXdhaXQgcHlvZGlkZS5fbW9kdWxlLlVURjhUb1N0cmluZyhlcnJvclRleHRQdHIpO1xuICAgICAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgIH1cblxuICAgICAgLy8gV3JpdGUgdGhpcyBmaWxlIHRvIHRoZSBWRlNcbiAgICAgIHRyeSB7XG4gICAgICAgIHJldHVybiBhd2FpdCBweW9kaWRlLkZTLndyaXRlRmlsZShmaWxlLCBuZXcgVWludDhBcnJheShkYXRhKSk7XG4gICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgIGlmIChlLm5hbWUgIT09IFwiRXJybm9FcnJvclwiKSB0aHJvdyBlO1xuICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgIHRocm93IG5ldyBFcnJvcihgRmlsZXN5c3RlbSBFcnJvciAke2UuZXJybm99IFwiJHtlcnJvclRleHR9XCIuYCk7XG4gICAgICB9XG4gICAgfSkucmVkdWNlKChjdXIsIG5leHQpID0+IGN1ci50aGVuKG5leHQpLCBQcm9taXNlLnJlc29sdmUoKSk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYFB5b2RpZGUgZW52aXJvbm1lbnQgc2V0dXBgO1xuICAgIGF3YWl0IHNldHVwUHl0aG9uKHB5b2RpZGUpO1xuXG4gICAgc3RhdHVzVGV4dC5yZW1vdmUoKTtcbiAgICBpZiAoc3RhdHVzQ29udGFpbmVyLmNoaWxkcmVuLmxlbmd0aCA9PSAwKSB7XG4gICAgICBzdGF0dXNDb250YWluZXIucGFyZW50Tm9kZS5yZW1vdmUoKTtcbiAgICB9XG4gICAgcmV0dXJuIHB5b2RpZGU7XG4gIH0pKCkuY2F0Y2goKGVycikgPT4ge1xuICAgIHN0YXR1c1RleHQuc3R5bGUuY29sb3IgPSBcInZhcigtLWV4ZXJjaXNlLWVkaXRvci1obC1lciwgI0FEMDAwMClcIjtcbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gZXJyLm1lc3NhZ2U7XG4gICAgLy9pbmRpY2F0b3JDb250YWluZXIucXVlcnlTZWxlY3RvcihcIi5zcGlubmVyLWdyb3dcIikuY2xhc3NMaXN0LmFkZChcImQtbm9uZVwiKTtcbiAgICB0aHJvdyBlcnI7XG4gIH0pO1xuXG4gIC8vIEtlZXAgdHJhY2sgb2YgaW5pdGlhbCBPSlMgYmxvY2sgcmVuZGVyXG4gIGNvbnN0IHJlbmRlcmVkT2pzID0ge307XG5cbiAgY29uc3QgcHJvY2VzcyA9IGFzeW5jIChjb250ZXh0LCBpbnB1dHMpID0+IHtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgcHlvZGlkZVByb21pc2U7XG4gICAgY29uc3QgZXZhbHVhdG9yID0gbmV3IFB5b2RpZGVFdmFsdWF0b3IocHlvZGlkZSwgY29udGV4dCk7XG4gICAgYXdhaXQgZXZhbHVhdG9yLnByb2Nlc3MoaW5wdXRzKTtcbiAgICByZXR1cm4gZXZhbHVhdG9yLmNvbnRhaW5lcjtcbiAgfVxuXG4gIHJldHVybiB7XG4gICAgcHlvZGlkZVByb21pc2UsXG4gICAgcmVuZGVyZWRPanMsXG4gICAgcHJvY2VzcyxcbiAgfTtcbn1cbiJ9XX0=
 </script>
 <div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
 <div id="exercise-loading-status" class="d-flex gap-2">
