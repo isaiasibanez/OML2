@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-327735d1480bff6f7510335fe22ad292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -379,6 +379,18 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </div>
 </div>
 </div>
+<div style="margin-top:2em;">
+
+</div>
+<hr>
+<p>De ahora en adelante, utilizaremos algunas notaciones básicas.</p>
+<p>En <span class="math inline">\(\RR^p\)</span> consideraremos el producto interno usual <span class="math display">\[
+\langle \xx,\yy\rangle_2:=\xx^\top\yy=\sum_{i=1}^px_iy_i,
+\]</span> y escribiremos indistintamente <span class="math inline">\(\langle \xx,\yy\rangle_2\)</span> o <span class="math inline">\(\xx^\top \yy\)</span>, según conveniencia. La norma euclidiana correspondiente es <span class="math display">\[
+\|\xx\|_2:=\xx^\top\xx)^{1/2}.
+\]</span></p>
+<p>Asimismo, recordemos que una matriz <span class="math inline">\(A\)</span> se dice <em>semidefinida positiva</em> (<span class="math inline">\(A\succeq 0\)</span>), si verifica <span class="math inline">\(\xx^\top A\xx\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^p\)</span>, mientras que se dice <em>definida positiva</em> (<span class="math inline">\(A\succ 0\)</span>) si la desigualdad es estricta. De manera análoga, se definen las matrices semidefinidas negativas (<span class="math inline">\(A \preceq 0\)</span>) y definidas negativas (<span class="math inline">\(A \prec 0\)</span>).</p>
+<p>Al conjunto de matrices simétricas lo denotaremos <span class="math inline">\(\SS^p\)</span>, mientras que con <span class="math inline">\(\SS_+^p\)</span> y <span class="math inline">\(\SS_{++}^p\)</span> nos referiremos al conjunto de matrices simétricas semidefinidas positivas y simétricas definidas positivas, respectivamente.</p>
 <div style="margin-top:2.5em;">
 
 </div>
@@ -403,7 +415,7 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </script>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb2" data-startfrom="156" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 155;"><span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>viewof theta <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ:"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb2" data-startfrom="177" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 176;"><span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>viewof theta <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ:"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-2" data-nodetype="declaration">
 
@@ -492,7 +504,7 @@ A(\theta\xx_1+(1-\theta)\xx_2)&amp;=\theta A\xx_1+(1-\theta)A\xx_2\\
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><span style="font-size: 1.3em;">📝</span><br> En el ejemplo anterior: ¿quién es el subespacio <span class="math inline">\(V\)</span> asociado a <span class="math inline">\(C\)</span>? ¿se cumple el recíproco?</p>
+<p><span style="font-size: 1.3em;">📝</span><br> En el ejemplo anterior: ¿quién es el subespacio <span class="math inline">\(V\)</span> asociado a <span class="math inline">\(S\)</span>? ¿se cumple el recíproco?</p>
 </div>
 </div>
 </div>
@@ -635,7 +647,7 @@ Mostrar detalles
 
 </div>
 <script type="pyodide-3-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG51bXB5IGFzIG5wXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5mcm9tIHNjaXB5LnNwYXRpYWwgaW1wb3J0IENvbnZleEh1bGxcblxuIyBQdW50b3M6XG5uID0gMTBcbm5wLnJhbmRvbS5zZWVkKDQyKSBcbnBvaW50cyA9IG5wLnJhbmRvbS51bmlmb3JtKDAsIDEwLCAobiwgMikpXG5cbiMgRW52b2x2ZW50ZSBjb252ZXhhOlxuaHVsbCA9IENvbnZleEh1bGwocG9pbnRzKVxuXG5cbiMg8J+TiDpcbnBsdC5maWd1cmUoZmlnc2l6ZT0oNCwzKSlcblxuIyBHcsOhZmljYSBkZSBwdW50b3M6XG5wbHQuc2NhdHRlcihwb2ludHNbOiwgMF0sIHBvaW50c1s6LCAxXSwgY29sb3I9J2JsYWNrJylcblxuIyBHcsOhZmljYSBkZSBlbnZvbHZlbnRlIGNvbnZleGE6XG5mb3Igc2ltcGxleCBpbiBodWxsLnNpbXBsaWNlczpcbiAgICBwbHQucGxvdChwb2ludHNbc2ltcGxleCwgMF0sIHBvaW50c1tzaW1wbGV4LCAxXSwgJ2ItJylcblxucGx0LmdyaWQoVHJ1ZSlcbnBsdC50aWdodF9sYXlvdXQoKVxucGx0LnNob3coKVxuXG5cbiMg8J+TizpcbnByaW50KFwiw41uZGljZXMgZGUgbG9zIHbDqXJ0aWNlczpcIiwgaHVsbC52ZXJ0aWNlcylcbnByaW50KFwiQ29vcmRlbmFkYXMgZGUgbG9zIHbDqXJ0aWNlczpcIilcbmZvciBpIGluIGh1bGwudmVydGljZXM6XG4gIHByaW50KHBvaW50c1tpXSkgICJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbGlnbiI6ImNlbnRlciIsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG51bXB5IGFzIG5wXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5mcm9tIHNjaXB5LnNwYXRpYWwgaW1wb3J0IENvbnZleEh1bGxcblxuIyBQdW50b3M6XG5uID0gMTBcbm5wLnJhbmRvbS5zZWVkKDQyKSBcbnBvaW50cyA9IG5wLnJhbmRvbS51bmlmb3JtKDAsIDEwLCAobiwgMikpXG5cbiMgRW52b2x2ZW50ZSBjb252ZXhhOlxuaHVsbCA9IENvbnZleEh1bGwocG9pbnRzKVxuXG4jIPCfk4g6XG5wbHQuZmlndXJlKGZpZ3NpemU9KDQsMykpXG5cbiMgR3LDoWZpY2EgZGUgcHVudG9zOlxucGx0LnNjYXR0ZXIocG9pbnRzWzosIDBdLCBwb2ludHNbOiwgMV0sIGNvbG9yPSdibGFjaycpXG5cbiMgR3LDoWZpY2EgZGUgZW52b2x2ZW50ZSBjb252ZXhhIChib3JkZSk6XG5mb3Igc2ltcGxleCBpbiBodWxsLnNpbXBsaWNlczpcbiAgICBwbHQucGxvdChwb2ludHNbc2ltcGxleCwgMF0sIHBvaW50c1tzaW1wbGV4LCAxXSwgJ2ItJylcblxuIyBSZWxsZW5hciBlbCBpbnRlcmlvciBkZWwgY29udmV4IGh1bGw6XG5odWxsX3BvaW50cyA9IHBvaW50c1todWxsLnZlcnRpY2VzXVxucGx0LmZpbGwoaHVsbF9wb2ludHNbOiwgMF0sIGh1bGxfcG9pbnRzWzosIDFdLCAnc2t5Ymx1ZScsIGFscGhhPTAuMylcblxucGx0LmdyaWQoVHJ1ZSlcbnBsdC50aWdodF9sYXlvdXQoKVxucGx0LnNob3coKVxuXG4jIPCfk4s6XG5wcmludChcIsONbmRpY2VzIGRlIGxvcyB2w6lydGljZXM6XCIsIGh1bGwudmVydGljZXMpXG5wcmludChcIkNvb3JkZW5hZGFzIGRlIGxvcyB2w6lydGljZXM6XCIpXG5mb3IgaSBpbiBodWxsLnZlcnRpY2VzOlxuICAgIHByaW50KHBvaW50c1tpXSkgICJ9
 </script>
 </div>
 </div>
@@ -720,8 +732,8 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </script>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="613" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 612;"><span id="cb3-613"><a href="#cb3-613" aria-hidden="true" tabindex="-1"></a>viewof theta1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ₁:"</span>})</span>
-<span id="cb3-614"><a href="#cb3-614" aria-hidden="true" tabindex="-1"></a>viewof theta2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ₂:"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="638" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 637;"><span id="cb3-638"><a href="#cb3-638" aria-hidden="true" tabindex="-1"></a>viewof theta1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ₁:"</span>})</span>
+<span id="cb3-639"><a href="#cb3-639" aria-hidden="true" tabindex="-1"></a>viewof theta2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ₂:"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-3-1" data-nodetype="declaration">
@@ -770,7 +782,7 @@ Mostrar detalles
 <p>La envolvente cónica <span class="math inline">\(\text{cone}\,C\)</span> es siempre un conjunto convexo (📝 Ejercicio 3).</p>
 </div>
 <div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
-<p>La envolvente cónica <span class="math inline">\(\text{cone}\,C\)</span> es el cono convexo más pequeño que contiene a <span class="math inline">\(C\)</span>: si <span class="math inline">\(E\)</span> es cualquier cono convexo que contiene a <span class="math inline">\(C\)</span>, entonces <span class="math inline">\(\text{conv}\,C \subset E\)</span>.</p>
+<p>La envolvente cónica <span class="math inline">\(\text{cone}\,C\)</span> es el cono convexo más pequeño que contiene a <span class="math inline">\(C\)</span>: si <span class="math inline">\(E\)</span> es cualquier cono convexo que contiene a <span class="math inline">\(C\)</span>, entonces <span class="math inline">\(\text{cone}\,C \subset E\)</span>.</p>
 </div>
 </div>
 </div>
@@ -812,6 +824,63 @@ S_{1} + S_{2} := \{\xx_1 + \xx_2 \mid \xx_1 \in S_{1}, \xx_2 \in S_{2}\}
 </div>
 <div class="callout-body-container">
 <p><span style="font-size: 1.3em;">📝</span><br> Verifique que las operaciones indicadas efectivamente preservan la convexidad.</p>
+</div>
+</div>
+</div>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 6</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Suma de un polígono y un disco </span></p>
+<p>En <span class="math inline">\(\RR^2\)</span>, consideremos</p>
+<ul>
+<li><span class="math inline">\(S_1\)</span> un pentágono regular.</li>
+<li><span class="math inline">\(S_2\)</span> el disco de centro <span class="math inline">\((0,0)\)</span> y radio <span class="math inline">\(r\)</span>; es decir, <span class="math display">\[
+S_2:=\{(x,y)\in\RR^2\mid x^2+y^2\leq r\}.
+\]</span></li>
+</ul>
+<div style="margin-top:2em;">
+
+</div>
+<div id="ba9bf555" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="A2_optimizacion_convexa_files/figure-html/cell-2-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div style="margin-top:-0.5em;">
+
+</div>
+<p>Ambos conjuntos son convexos (¿por qué?), por lo tanto <span class="math inline">\(S_1+S_2\)</span> también lo es.</p>
+</div>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 7</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Elipsoide </span></p>
+<p>Sea <span class="math inline">\(\xx_0\in\RR^2\)</span> y <span class="math inline">\(P\in\SS_{++}^2\)</span>. El <em>elipsoide</em> <span class="math display">\[
+E=\{\xx\in\RR^p\mid (\xx-\xx_0)^\top P^{-1}(\xx-\xx_c)\leq 1\}
+\]</span> es un conjunto convexo, ya que es la imagen del disco unitario <span class="math inline">\(B(\bfzero,1):=\{\xx\in\RR^2\mid\|\xx\|\leq 1\}\)</span> bajo la transformación afín <span class="math inline">\(f:\RR^2\to\RR^2\)</span> definida por <span class="math display">\[
+f(\xx)=P^{1/2}\xx+\xx_0.
+\]</span></p>
+</div>
+<div style="margin-top:-1em;">
+
+</div>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br></p>
+<figure style="float: right; width: 35%; margin-left: 1em; margin-bottom: 1em;" class="figure">
+<img src="figuras/ej_elipsoide.png" alt="…" style="width: 100%;" class="figure-img">
+</figure>
+<p>En la figura se muestra la imagen del disco unitario <span class="math inline">\(B(\bfzero,1)\)</span> bajo la transformación afín <span class="math display">\[
+f(\xx)=\begin{pmatrix}
+2&amp;1\\
+1&amp;2
+\end{pmatrix}\xx+\begin{pmatrix}3\\2\end{pmatrix}.
+\]</span></p>
+<p>Obtenga la expresión cuadrática que define el elipsoide <span class="math inline">\(E=f(B(\bfzero,1))\)</span>.</p>
 </div>
 </div>
 </div>
@@ -1060,16 +1129,6 @@ Mostrar detalles
 <p>Un <mark><em>bola</em></mark> en <span class="math inline">\(\RR^p\)</span>, de <em>centro</em> <span class="math inline">\(\xx_0\)</span> y <em>radio</em> <span class="math inline">\(r\)</span>, es un conjunto de la forma <span class="math display">\[
 B(\xx_0,r):=\{\xx \mid \|\xx-\xx_0\|_2\leq r\},\qquad \xx_0\in\RR^p,\;r\in\RR^+.
 \]</span></p>
-<div class="question callout callout-style-simple callout-none no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p><span style="font-size: 1.3em;">📝</span><br> ¿Qué es una bola en <span class="math inline">\(\RR^2\)</span> y <span class="math inline">\(\RR^3\)</span>? Proponga ejemplos.</p>
-</div>
-</div>
-</div>
 <div style="margin-top:-0.5em;">
 
 </div>
@@ -1124,7 +1183,7 @@ B(\xx_0,r):=\{\xx \mid \|\xx-\xx_0\|_2\leq r\},\qquad \xx_0\in\RR^p,\;r\in\RR^+.
 
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 6</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Símplex </span></p>
+<p><span class="badge bg-primary">Ejemplo 8</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Símplex </span></p>
 <p>El <em><span class="math inline">\(p\)</span>-símplex estándar</em> en <span class="math inline">\(\RR^{n}\)</span> es el conjunto <span class="math display">\[
 \Delta^{p-1}=\left\{\xx\in\RR^p \left|\;\sum_{i=1}^p x_i=1,\; t_i\geq 0\, (\forall i=1,\ldots,p)\right.\right\}.
 \]</span></p>
@@ -1148,10 +1207,10 @@ B(\xx_0,r):=\{\xx \mid \|\xx-\xx_0\|_2\leq r\},\qquad \xx_0\in\RR^p,\;r\in\RR^+.
 <p>El cono normal es una herramienta geométrica fundamental para describir esas direcciones. Nos permitirá luego expresar condiciones que caracterizan soluciones óptimas a partir de información local del conjunto factible.</p>
 <div class="definicion">
 <p><strong>Definición 7.</strong> (Cono normal) Sean <span class="math inline">\(\Omega\subset\RR^p\)</span> un conjunto convexo y <span class="math inline">\(\xx_0\in\Omega\)</span>. El <em>cono normal de <span class="math inline">\(\Omega\)</span> en <span class="math inline">\(\xx\)</span></em> se define como <span class="math display">\[
-N_{\Omega}(\xx_0) := \{\dd\in\RR^p \mid \langle\dd,\xx-\xx_0\rangle\leq 0,\;\forall\xx\in\Omega\}.
+N_{\Omega}(\xx_0) := \{\dd\in\RR^p \mid \langle\dd,\xx-\xx_0\rangle_2\leq 0,\;\forall\xx\in\Omega\}.
 \]</span></p>
 </div>
-<p>Si bien la expresión <span class="math inline">\(\langle \dd,\xx-\xx_0\rangle\)</span> puede escribirse como <span class="math inline">\(\dd^\top(\xx-\xx_0)\)</span>, la notación con producto interno permite una rápida interpretación de este concepto. Si usamos la propiedad <span class="math inline">\(\langle\uu,\vv\rangle =\|\uu\|_2\|\vv\|_2\cos \alpha\)</span>, donde <span class="math inline">\(\alpha\)</span> es el ángulo entre <span class="math inline">\(\uu\)</span> y <span class="math inline">\(\vv\)</span>, podemos decir que <span class="math inline">\(\dd\in N_{\Omega}(\xx_0)\)</span> si <span class="math display">\[
+<p>Si bien la expresión <span class="math inline">\(\langle \dd,\xx-\xx_0 \rangle_2\)</span> puede escribirse como <span class="math inline">\(\dd^\top(\xx-\xx_0)\)</span>, la notación con producto interno permite una rápida interpretación de este concepto. Si usamos la propiedad <span class="math inline">\(\langle\uu,\vv\rangle_2 =\|\uu\|_2\|\vv\|_2\cos \alpha\)</span>, donde <span class="math inline">\(\alpha\)</span> es el ángulo entre <span class="math inline">\(\uu\)</span> y <span class="math inline">\(\vv\)</span>, podemos decir que <span class="math inline">\(\dd\in N_{\Omega}(\xx_0)\)</span> si <span class="math display">\[
 \|\dd\|_2\|\xx-\xx_0\|_2\cos \alpha \leq 0,
 \]</span> con <span class="math inline">\(\alpha\)</span> el ángulo entre los vectores <span class="math inline">\(\dd\)</span> y <span class="math inline">\(\xx-\xx_0\)</span>. Esto es cierto si <span class="math display">\[
 -\frac{\pi}{2}\leq \alpha\leq\pi.
@@ -1166,7 +1225,7 @@ N_{\Omega}(\xx_0) := \{\dd\in\RR^p \mid \langle\dd,\xx-\xx_0\rangle\leq 0,\;\for
 <figure style="text-align: center;" class="figure">
 <img src="figuras/cono_normal_01.png" alt="Conos normales de un conjunto convexo" width="400px" class="figure-img">
 <figcaption>
-Conos normales de un conjunto convexo. A diferencia de lo que ocurre en <span class="math inline">\(\xx_2\)</span> (vértice de <span class="math inline">\(\Omega\)</span>), en <span class="math inline">\(\xx_1\)</span> el cono normal es una semirrecta normal a <span class="math inline">\(\Omega\)</span>.
+<strong>Figura 9</strong>. Conos normales de un conjunto convexo. A diferencia de lo que ocurre en <span class="math inline">\(\xx_2\)</span> (vértice de <span class="math inline">\(\Omega\)</span>), en <span class="math inline">\(\xx_1\)</span> el cono normal es una semirrecta normal a <span class="math inline">\(\Omega\)</span>.
 </figcaption>
 </figure>
 <p><span style="display:block; height:0.25em;"></span></p>
@@ -1175,7 +1234,7 @@ Conos normales de un conjunto convexo. A diferencia de lo que ocurre en <span cl
 
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 7</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Cono normal a un punto interior </span></p>
+<p><span class="badge bg-primary">Ejemplo 9</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Cono normal a un punto interior </span></p>
 <p>Si <span class="math inline">\(\xx_0\)</span> es un punto interior de <span class="math inline">\(\Omega\)</span>, el cono normal contiene únicamente el vector cero:<br>
 <span class="math display">\[
 N_{\Omega}(\xx_0) = \{\mathbf{0}\}.
@@ -1183,7 +1242,7 @@ N_{\Omega}(\xx_0) = \{\mathbf{0}\}.
 <div class="columns">
 <div class="column" style="width:70%;">
 <p>Esto se debe a que <span class="math inline">\(\xx-\xx_0\)</span> puede ser <em>cualquier</em> dirección y, en consecuencia, no es posible que <span class="math inline">\(\dd\neq\bfzero\)</span> forme un ángulo obtuso o recto con todas las direcciones <span class="math inline">\(\xx-\xx_0\)</span>. En efecto, si <span class="math inline">\(\dd\neq\mathbf{0}\)</span>, podemos tomar un <span class="math inline">\(\delta&gt;0\)</span> lo suficientemente pequeño para que <span class="math inline">\(\xx=\xx_0+\delta\dd\in\Omega\)</span>, tal que <span class="math display">\[
-\langle \dd,\xx-\xx_0\rangle=\langle\dd,\delta\dd\rangle=\delta\|\dd\|_2^2\geq 0.
+\langle \dd,\xx-\xx_0\rangle_2=\langle\dd,\delta\dd\rangle_2=\delta\|\dd\|_2^2\geq 0.
 \]</span></p>
 </div><div class="column" style="width:30%;">
 <figure style="text-align: center;" class="figure">
@@ -1193,7 +1252,7 @@ N_{\Omega}(\xx_0) = \{\mathbf{0}\}.
 </div>
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 8</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Cono normal a un hiperplano </span></p>
+<p><span class="badge bg-primary">Ejemplo 10</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Cono normal a un hiperplano </span></p>
 <p>Sea <span class="math inline">\(\aa\in\RR^p\)</span>, <span class="math inline">\(\aa\neq\mathbf{0}\)</span>, y <span class="math inline">\(b\in\RR\)</span>. Consideramos el hiperplano <span class="math display">\[
 \Omega:=\{\xx\in\RR^p \mid \aa^\top\xx=b\}.
 \]</span></p>
@@ -1211,7 +1270,7 @@ N_{\Omega}(\xx_0)=\{\lambda\aa \mid \lambda\in\RR\}.
 </div>
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 9</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Cono normal a un semiespacio </span></p>
+<p><span class="badge bg-primary">Ejemplo 11</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Cono normal a un semiespacio </span></p>
 <p>Sean <span class="math inline">\(\aa\in\RR^p\)</span>, <span class="math inline">\(\aa\neq\mathbf{0}\)</span>, y <span class="math inline">\(b\in\RR\)</span>. Definimos el semiespacio <span class="math display">\[
 \Omega:=\{\xx\in\RR^p \mid \aa^\top\xx\leq b\}.
 \]</span></p>
@@ -1232,7 +1291,7 @@ N_{\Omega}(\xx_0)=\{\lambda\aa \mid \lambda\in\RR_0^+\}.
 </div>
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 10</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Cono normal a la intersección de dos semiespacios </span></p>
+<p><span class="badge bg-primary">Ejemplo 12</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Cono normal a la intersección de dos semiespacios </span></p>
 <p>Sean <span class="math inline">\(\aa_1,\aa_2\in\RR^p\)</span> no nulos, y <span class="math inline">\(b_1,b_2\in\RR\)</span>. Definimos la intersección de dos semiplanos como <span class="math display">\[
 \Omega:=\{\xx\in\RR^p \mid \aa_1^\top\xx\leq b_1\quad\text{y}\quad\aa_2^\top\xx\leq b_2\}.
 \]</span></p>
@@ -1257,7 +1316,7 @@ N_{\Omega}(\xx_0)=\{\lambda_1\aa_1+\lambda_2\aa_2 \mid \lambda_1,\lambda_2\in\RR
 </div>
 </section>
 </section>
-<section id="funciones-convexas" class="level2 page-columns page-full">
+<section id="funciones-convexas" class="level2">
 <h2 class="anchored" data-anchor-id="funciones-convexas">Funciones convexas</h2>
 <div class="definicion">
 <p><strong>Definición 8.</strong> (Función convexa) Una función <span class="math inline">\(f:\RR^p\rightarrow\RR\)</span> es <em>convexa</em> si <span class="math inline">\(\text{dom}\,f\)</span> es un conjunto convexo y si verifica <span class="math display">\[
@@ -1277,7 +1336,7 @@ Mostrar detalles
 <figure style="text-align: center;" class="figure">
 <img src="figuras/funcion_convexa_01.png" alt="Grafo de una función convexa" width="400px" class="figure-img">
 <figcaption>
-Grafo de una función convexa.
+<strong>Figura 10</strong>. Grafo de una función convexa.
 </figcaption>
 </figure>
 </div>
@@ -1294,7 +1353,7 @@ Grafo de una función convexa.
 
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 11</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Función cuadrática de una variable </span></p>
+<p><span class="badge bg-primary">Ejemplo 13</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Función cuadrática de una variable </span></p>
 <p>Vamos a probar la convexidad de la función <span class="math inline">\(f(x)=x^2\)</span>. Para <span class="math inline">\(\theta\in[0,1]\)</span> resulta <span class="math display">\[
 \begin{align*}
 f(\theta x_1+(1-\theta)x_2)&amp;=(\theta x_1+(1-\theta)x_2)^2\\
@@ -1320,7 +1379,7 @@ f(\theta x_1+(1-\theta)x_2)-\left[\theta f(x_1)+(1-\theta) f(x_2)\right]&amp;=(\
 <figure style="text-align: center;" class="figure">
 <img src="figuras/epigrafo_01.png" alt="Epígrafo de una función" width="350px" class="figure-img">
 <figcaption>
-Epígrafo de una función <span class="math inline">\(f\)</span>.
+<strong>Figura 11</strong>. Epígrafo de una función <span class="math inline">\(f\)</span>.
 </figcaption>
 </figure>
 <p>La relación entre conjuntos convexos y funciones convexas es a través del epígrafo:</p>
@@ -1333,7 +1392,7 @@ Epígrafo de una función <span class="math inline">\(f\)</span>.
 <p>La prueba es sencilla (📝Ejercicio 9). De manera análoga, una función es cóncava si y solo si su <em>hipógrafo</em>, definido como <span class="math display">\[
 \text{hypo}\,f = \{(\xx, t) \mid t \leq f(\xx)\},
 \]</span> es un conjunto convexo.</p>
-<section id="condiciones-de-convexidad" class="level3 page-columns page-full">
+<section id="condiciones-de-convexidad" class="level3">
 <h3 class="anchored" data-anchor-id="condiciones-de-convexidad">Condiciones de convexidad</h3>
 <p>Probar que una función es convexa utilizando la Definición 8 puede ser tedioso. Afortunadamente, existen criterios basados en sus derivadas. Estos permiten caracterizar la convexidad en términos del comportamiento local de la función, ya sea a través del gradiente (primera derivada) o de la matriz Hessiana (segunda derivada).</p>
 <p>Primero, recordemos que:</p>
@@ -1354,13 +1413,14 @@ Epígrafo de una función <span class="math inline">\(f\)</span>.
 <p><span class="badge bg-warning text-dark">Importante</span></p>
 <p>Diremos que <span class="math inline">\(f:\RR^p\to\RR\)</span> es <em>diferenciable</em> si su gradiente <span class="math inline">\(\nabla f\)</span> existe en todo su dominio, y que es <em>dos veces diferenciable</em> si además su hessiana <span class="math inline">\(\nabla^2 f\)</span> existe en todo su dominio. En ambos casos, asumimos que dicho dominio es un conjunto abierto.</p>
 </div>
-<p><span style="color:darkred;">Acá recordar Taylor…</span></p>
-<div style="margin-top:2em;">
-
-</div>
+<p>Ahora bien, si una función <span class="math inline">\(f:\RR^p\to\RR\)</span> es dos veces diferenciable, la expansión de Taylor nos permite escribir, para <span class="math inline">\(\dd\in\RR^p\)</span>, la aproximación</p>
+<p><span class="math display">\[
+f(\xx+\dd)\approx f(\xx)+\nabla f(\xx)^\top\dd+\frac{1}{2}\dd^\top \nabla^2 f(\xx)\,\dd
+\]</span></p>
+<p>Esta expansión muestra cómo el valor de la función en un punto cercano puede aproximarse mediante el gradiente y la Hessiana, lo que proporciona la base para analizar propiedades locales de la función.</p>
 <div class="teorema">
 <p><strong>Teorema 1.</strong> (Condición de primer orden para convexidad) Sea <span class="math inline">\(f:\RR^p\to\RR\)</span> una función diferenciable. <span class="math inline">\(f\)</span> es convexa si y solo si <span class="math inline">\(\text{dom}\,f\)</span> es convexo y <span class="math display">\[
-f(\xx_2)\geq f(\xx_1)+\langle\nabla f(\xx_1),\xx_2-\xx_1\rangle\qquad\forall\xx_1,\xx_2\in\text{dom}\,f.
+f(\xx_2)\geq f(\xx_1)+\langle\nabla f(\xx_1),\xx_2-\xx_1\rangle_2\qquad\forall\xx_1,\xx_2\in\text{dom}\,f.
 \]</span></p>
 </div>
 <details>
@@ -1371,22 +1431,22 @@ Mostrar detalles
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true"><span style="font-size: 1.25em;">①</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false"><span style="font-size: 1.25em;">②</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-3" role="tab" aria-controls="tabset-8-3" aria-selected="false"><span style="font-size: 1.25em;">③</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-4" role="tab" aria-controls="tabset-8-4" aria-selected="false"><span style="border: 1px solid #ddd; padding: 2px 6px; border-radius: 4px;"><em>Demostración</em></span></a></li></ul>
 <div class="tab-content">
 <div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
-<p>La función afín de <span class="math inline">\(\xx_2\)</span>, definida por <span class="math inline">\(f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle\)</span>, es la aproximación lineal de <span class="math inline">\(f\)</span> cerca de <span class="math inline">\(\xx_1\)</span>. En consecuencia, la desigualdad del teorema implica que la aproximación lineal de <span class="math inline">\(f\)</span> en <span class="math inline">\(\xx_1\)</span> es un <em>subestimador global</em> de <span class="math inline">\(f\)</span>.</p>
+<p>La función afín de <span class="math inline">\(\xx_2\)</span>, definida por <span class="math inline">\(f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle_2\)</span>, es la aproximación lineal de <span class="math inline">\(f\)</span> cerca de <span class="math inline">\(\xx_1\)</span>. En consecuencia, la desigualdad del teorema implica que la aproximación lineal de <span class="math inline">\(f\)</span> en <span class="math inline">\(\xx_1\)</span> es un <em>subestimador global</em> de <span class="math inline">\(f\)</span>.</p>
 <figure style="text-align: center;" class="figure">
 <img src="figuras/condicion_convexidad_01.png" alt="Condición de primer orden para convexidad" width="500px" class="figure-img">
 <figcaption>
-Grafo de una función convexa <span class="math inline">\(f\)</span> y su aproximación lineal.
+<strong>Figura 12</strong>. Grafo de una función convexa <span class="math inline">\(f\)</span> y su aproximación lineal.
 </figcaption>
 </figure>
 </div>
 <div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
 <p>La convexidad estricta también puede caracterizarse por una condición de primer orden: <span class="math inline">\(f\)</span> es estrictamente convexa si y solo si <span class="math inline">\(\text{dom}\,f\)</span> es convexo y <span class="math display">\[
-f(\xx_2) &gt; f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle
+f(\xx_2) &gt; f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle_2
 \]</span> para todo <span class="math inline">\(\xx_1, \xx_2 \in \text{dom}\,f\)</span>, con <span class="math inline">\(\xx_1 \neq \xx_2\)</span>.</p>
 </div>
 <div id="tabset-8-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-3-tab">
 <p>Para funciones cóncavas, tenemos la caracterización correspondiente: <span class="math inline">\(f\)</span> es cóncava si y solo si <span class="math inline">\(\text{dom}\,f\)</span> es convexo y <span class="math display">\[
-f(\xx_2) \leq f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle
+f(\xx_2) \leq f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle_2
 \]</span> para todo <span class="math inline">\(\xx_1, \xx_2 \in \text{dom}\,f\)</span>.</p>
 </div>
 <div id="tabset-8-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-4-tab">
@@ -1398,15 +1458,15 @@ f(\xx_1+t(\xx_2-\xx_1))=f((1-t)\xx_1+t\xx_2)\leq (1-t)f(\xx_1)+tf(\xx_2).
 <p><span class="math display">\[
 f(\xx_2)\geq f(\xx_1)+\frac{f(\xx_1+t(\xx_2-\xx_1))-f(\xx_1)}{t}.
 \]</span></p>
-<p>Al tomar límite cuando <span class="math inline">\(t\to 0\)</span>, el cociente incremental del lado derecho es la derivada direccional de <span class="math inline">\(f\)</span> en <span class="math inline">\(\xx_1\)</span> en la dirección del vector <span class="math inline">\(\xx_2-\xx_1\)</span>, lo cual es equivalente a <span class="math inline">\(\langle \nabla f(\xx_1),\xx_2-\xx_1\rangle\)</span> en virtud de la diferenciabilidad de <span class="math inline">\(f\)</span>. Luego,</p>
+<p>Al tomar límite cuando <span class="math inline">\(t\to 0\)</span>, el cociente incremental del lado derecho es la derivada direccional de <span class="math inline">\(f\)</span> en <span class="math inline">\(\xx_1\)</span> en la dirección del vector <span class="math inline">\(\xx_2-\xx_1\)</span>, lo cual es equivalente a <span class="math inline">\(\langle \nabla f(\xx_1),\xx_2-\xx_1\rangle_2\)</span> en virtud de la diferenciabilidad de <span class="math inline">\(f\)</span>. Luego,</p>
 <p><span class="math display">\[
-f(\xx_2)\geq f(\xx_1)+\langle\nabla f(\xx_1),\xx_2-\xx_1\rangle.
+f(\xx_2)\geq f(\xx_1)+\langle\nabla f(\xx_1),\xx_2-\xx_1\rangle_2.
 \]</span></p>
 <p>Para probar la suficiencia, vamos a asumir que sí se cumple para funciones de una variable (se deja como ejercicio). Sean <span class="math inline">\(\xx_1,\xx_2\in\text{dom}\,f\)</span> y <span class="math inline">\(t,\tilde{t}\in(0,1]\)</span>. Partimos de la desigualdad</p>
 <p><span class="math display">\[
-f(t\xx_2+(1-t)\xx_1)\geq f(\tilde{t}\xx_2+(1-\tilde{t})\xx_1)+\langle \nabla f(\tilde{t}\xx_2+(1-\tilde{t})\xx_1),(\xx_2-\xx_1)\rangle (t-\tilde{t}).
+f(t\xx_2+(1-t)\xx_1)\geq f(\tilde{t}\xx_2+(1-\tilde{t})\xx_1)+\langle \nabla f(\tilde{t}\xx_2+(1-\tilde{t})\xx_1),(\xx_2-\xx_1)\rangle_2 (t-\tilde{t}).
 \]</span></p>
-<p>Si restringimos <span class="math inline">\(f\)</span> a la recta entre <span class="math inline">\(\xx_1\)</span> y <span class="math inline">\(\xx_2\)</span>, tenemos la función de una variable <span class="math inline">\(g(t)=f(t\xx_2+(1-t)\xx_1)\)</span>. Por regla de la cadena, tenemos <span class="math inline">\(g'(t)\langle \nabla f(t\xx_2+(1-t)\xx_1),\xx_2-\xx_1\rangle\)</span>. En consecuencia, la desigualdad anterior puede reescribirse como</p>
+<p>Si restringimos <span class="math inline">\(f\)</span> a la recta entre <span class="math inline">\(\xx_1\)</span> y <span class="math inline">\(\xx_2\)</span>, tenemos la función de una variable <span class="math inline">\(g(t)=f(t\xx_2+(1-t)\xx_1)\)</span>. Por regla de la cadena, tenemos <span class="math inline">\(g'(t)\langle \nabla f(t\xx_2+(1-t)\xx_1),\xx_2-\xx_1\rangle_2\)</span>. En consecuencia, la desigualdad anterior puede reescribirse como</p>
 <p><span class="math display">\[
 g(t)\geq g(\tilde{t})+g'(\tilde{t})(t-\tilde{t}).
 \]</span></p>
@@ -1427,9 +1487,6 @@ g(t)\geq g(\tilde{t})+g'(\tilde{t})(t-\tilde{t}).
 \nabla^2 f(\xx)\succeq 0\qquad\forall\xx\in\text{dom}\,f.
 \]</span></p>
 </div>
-<aside>
-<span class="math inline">\(A\succeq 0\)</span> significa que <span class="math inline">\(A\)</span> es <em>semidefinida positiva</em>. Esto es, <span class="math inline">\(\xx^\top A\xx\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^p\)</span>.
-</aside>
 <details>
 <summary>
 Mostrar detalles
@@ -1454,7 +1511,7 @@ Mostrar detalles
 </div>
 </div>
 </details>
-<div style="margin-top:-0.5em;">
+<div style="margin-top:-1em;">
 
 </div>
 <div class="question callout callout-style-simple callout-none no-icon">
@@ -1474,8 +1531,11 @@ Mostrar detalles
 </div>
 </div>
 </div>
+<div style="margin-top:1em;">
+
+</div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 12</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Función cuadrática de varias variables </span></p>
+<p><span class="badge bg-primary">Ejemplo 14</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Función cuadrática de varias variables </span></p>
 <p>Consideremos la función cuadrática <span class="math inline">\(f:\RR^p\to\RR\)</span> definida por</p>
 <p><span class="math display">\[
 f(\xx)=\frac{1}{2}\xx^\top A\xx+\bb^\top\xx+c,
@@ -1486,7 +1546,7 @@ f(\xx)=\frac{1}{2}\xx^\top A\xx+\bb^\top\xx+c,
 f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
 \]</span></p>
 <p>es convexa, ya que <span class="math inline">\(\xx^\top A\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\((x,y)\in\RR^2\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
-<div id="94d79f4d" class="cell" data-execution_count="1">
+<div id="6a1f4c3c" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1517,20 +1577,40 @@ f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&a
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="A2_optimizacion_convexa_files/figure-html/cell-2-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="476" height="464"></p>
+<p><img src="A2_optimizacion_convexa_files/figure-html/cell-3-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 13</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Funciones de varias variables </span></p>
-<p><span style="color:darkred;">Acá van un par de ejemplos más del Boyd, y después el resto como ejercicios..</span></p>
+<p><span class="badge bg-primary">Ejemplo 15</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Norma en <span class="math inline">\(\RR^p\)</span> </span></p>
+<p>Toda norma en <span class="math inline">\(\RR^p\)</span> es una función convexa. En efecto, si <span class="math inline">\(f(\xx)=\|\xx\|\)</span>, la desigualdad de la Definición 8 es inmediata de la desigualdad triangular: <span class="math display">\[
+f(\theta\xx_1+(1-\theta)\xx_2)=\|\theta\xx_1+(1-\theta)\xx_2\|\leq\theta\|\xx_1\|+(1-\theta)\|\xx_2\|.
+\]</span></p>
+<p>Analicemos las condiciones de convexidad para el caso particular de la norma euclidiana <span class="math inline">\(f(\xx)=\|\xx\|_2=(\xx^\top\xx)^{1/2}\)</span>. Resultan <span class="math display">\[
+\nabla f(\xx)=\frac{\xx}{\|\xx\|_2}\qquad\mbox{y}\qquad\nabla^2 f(\xx)=\frac{I_p}{\|\xx\|_2}-\frac{\xx\xx^\top}{\|\xx\|_2^3}.
+\]</span></p>
+<ul>
+<li><p><em>Condición de primer orden</em>: <span class="math display">\[
+  \begin{align}
+  f(\xx_2)&amp;\geq f(\xx_1)+\frac{1}{\|\xx_1\|_2}\langle \xx_1,\xx_2-\xx_1\rangle_2\\
+  \|\xx_2\|_2 &amp; \geq \|\xx_1\|_2+\frac{\langle \xx_1,\xx_2\rangle_2}{\|\xx_1\|_2}-\|\xx_1\|_2\\
+  \langle \xx_1,\xx_2\rangle_2&amp;\leq \|\xx_1\|_2\|\xx_2\|_2.
+  \end{align}
+  \]</span> La última expresión es cierta (desigualdad de Cauchy Schwarz).</p></li>
+<li><p><em>Condición de segundo orden</em>: para todo <span class="math inline">\(\xx\in\RR^p\)</span> y <span class="math inline">\(\vv\in\RR^p\)</span> se tiene <span class="math display">\[
+  \begin{align}
+  \vv^\top \nabla^2 f(\xx)\,\vv&amp;=\vv^T\left(\frac{I_p}{\|\xx\|_2}-\frac{\xx\xx^\top}{\|\xx\|_2^3}\right)\vv\\
+  &amp;= \frac{\|\vv\|_2^2}{\|\xx\|_2}-\frac{(\vv^\top\xx)^2}{\|\xx\|_2^3}\\
+  &amp;\geq \underbrace{\frac{\|\vv\|_2^2}{\|\xx\|_2}-\frac{\|\xx\|_2^2\|\vv\|_2^2}{\|\xx\|_2^3}}_{=0}
+  \end{align}
+  \]</span> Por lo tanto, <span class="math inline">\(\nabla^2 f(\xx)\succeq 0\)</span>, tal como esperábamos.</p></li>
+</ul>
 </div>
 </section>
 <section id="operaciones-que-preservan-convexidad-1" class="level3">
 <h3 class="anchored" data-anchor-id="operaciones-que-preservan-convexidad-1">Operaciones que preservan convexidad</h3>
-<p><span style="color:darkred;">Acá falta agregar ejemplos.</span></p>
 <p>En esta sección describimos algunas operaciones que preservan la convexidad o concavidad de funciones, o que permiten construir nuevas funciones convexas y cóncavas. (📝 Las verificaciones se piden en Ejercicio 14).</p>
 <ul>
 <li><p><strong>Sumas ponderadas no negativas</strong>. Si <span class="math inline">\(f\)</span> es una función convexa y <span class="math inline">\(\alpha \geq 0\)</span>, entonces la función <span class="math inline">\(\alpha f\)</span> es convexa. Si <span class="math inline">\(f_1\)</span> y <span class="math inline">\(f_2\)</span> son ambas funciones convexas, entonces su suma <span class="math inline">\(f_1 + f_2\)</span> también lo es. Combinando estas dos propiedades, se obtiene que el conjunto de funciones convexas es en sí mismo un cono convexo: una suma ponderada no negativa de funciones convexas, <span class="math display">\[
@@ -1548,6 +1628,19 @@ f(\xx) = \sup_{i \in \mathcal{A}} f_i(\xx)
 \text{dom}\,f = \{\xx \mid \xx \in \text{dom}\,f_i (\forall i \in \mathcal{A}),\; \sup_{i \in \mathcal{A}} f_i(\xx) &lt; \infty\}.
 \]</span> De manera similar, el ínfimo puntual de un conjunto de funciones cóncavas es una función cóncava.</p></li>
 </ul>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 16</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Suma de las mayores componentes de un vector </span></p>
+<p>Para <span class="math inline">\(\xx\in\RR^p\)</span>, se denota con <span class="math inline">\(x_{[i]}\)</span> la <span class="math inline">\(i\)</span>-ésima componente de mayor valor de <span class="math inline">\(\xx\)</span>. Es decir, podemos escribir <span class="math display">\[
+x_{[1]}\geq x_{[2]}\geq\ldots\geq x_{[p]}.
+\]</span></p>
+<p>Para <span class="math inline">\(r\leq n\)</span> se define <span class="math inline">\(f:\RR^p\to\RR\)</span> como <span class="math display">\[
+f(\xx)=\sum_{i=1}^rx_{[i]}.
+\]</span></p>
+<p>Esta función puede ser reescrita como <span class="math display">\[
+f(\xx)=\max\left\{x_{i_1}+\cdots+x_{i_n} \mid 1\leq i_1 \leq \ldots\leq i_r\leq n \right\};
+\]</span></p>
+<p>esto es, el máximo de todas las posibles sumas de <span class="math inline">\(r\)</span> diferentes componentes de <span class="math inline">\(\xx\)</span>. Dado que tales sumas son funciones lineales (y, por lo tanto, convexas), concluimos que <span class="math inline">\(f\)</span> es convexa.</p>
+</div>
 <div style="margin-top:1.5em;">
 
 </div>
@@ -1578,12 +1671,14 @@ g_i(\xx)\leq 0,&amp; i=1,\ldots,r.\\
 <summary>
 ¿Por qué?
 </summary>
+<hr>
 <p>En efecto, es la intersección de los siguientes conjuntos convexos:</p>
 <ul>
 <li><span class="math inline">\(\bigcap_{i=0}^r\text{dom}\,f_i\)</span>.</li>
 <li><span class="math inline">\(r\)</span> conjunto de subnivel <span class="math inline">\(\{\xx \mid g_i(\xx)\leq 0\}\)</span>.</li>
 <li><span class="math inline">\(m\)</span> hiperplanos <span class="math inline">\(\{\xx \mid \aa_i^\top\xx-b_i=0\}\)</span>.</li>
 </ul>
+<hr>
 </details>
 <div style="margin-top:2em;">
 
@@ -1597,9 +1692,25 @@ g_i(\xx)\leq 0,&amp; i=1,\ldots,r.\\
 \end{array}\right.\right\},
 \end{array}
 \]</span> como un problema de optimización convexa, si la función objetivo es cóncava y las funciones de restricción de desigualdad <span class="math inline">\(g_i\)</span> son convexas. De hecho, claramente el problema de maximización cóncava se resuelve minimizando la función convexa <span class="math inline">\(-f\)</span>, razón por la cual todos los resultados y conclusiones que describiremos para el problema de minimización se extienden al caso de maximización.</p>
+<div style="margin-top:2em;">
+
+</div>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 17</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Minimización de norma con restricción lineal </span></p>
+<p>El problema <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \|\xx\|_2^2\\
+\text{sujeto a }  &amp; \bfone^\top\xx\geq 1,
+\end{array}
+\]</span></p>
+<p>con <span class="math inline">\(\aa\in\RR^p\)</span>, es de optimización convexa. La función objetivo es una función convexa (ver Ejemplo 15) y la única restricción está definida a partir de <span class="math inline">\(g(\xx)=-\bfone^\top\xx=-(x_1+\cdots+x_n)\)</span>, la cual es una función lineal (y, por lo tanto, convexa).</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
 <p>Los problemas de optimización convexa tienen una propiedad fundamental que los caracteriza y que explica su gran importancia, la cual enunciaremos a continuación para concluir esta sección. Más adelante estudiaremos cómo la convexidad potencia las condiciones de optimalidad en un punto factible, facilitando su análisis y aplicación.</p>
 <div class="teorema">
-<p><strong>Teorema 3.</strong> (Optimalidad global de un mínimo local en problemas convexos) Si <span class="math inline">\(\xx\in\Omega\)</span> es un mínimo local de un problema de optimización convexa, entonces <span class="math inline">\(\xx\)</span> es un mínimo global.</p>
+<p><strong>Teorema 3.</strong> (Optimalidad global de un mínimo local en problemas convexos) Si <span class="math inline">\(\xx\in\Omega\)</span> es un mínimo local de un problema de optimización convexa, entonces <span class="math inline">\(\xx\)</span> es un punto óptimo (es decir, un mínimo global).</p>
 </div>
 <details>
 <summary>
@@ -1642,13 +1753,6 @@ f(\zz)\leq (1-\theta)f(\xx)+\theta f(\yy)&lt;(1-\theta)f(\xx)+\theta f(\xx)&lt;f
 </div>
 </div>
 </details>
-<div style="margin-top:2em;">
-
-</div>
-<div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 14</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Funciones de varias variables </span></p>
-<p><span style="color:darkred;">Acá va un ejemplo de problema de optimización convexo.</span></p>
-</div>
 <p><br><br></p>
 </section>
 <section id="actividades" class="level2 unnumbered">
@@ -1679,7 +1783,7 @@ Mostrar
 <li><p>Sea <span class="math inline">\(\{S_i\}_{i\in I}\)</span> una familia de conjuntos convexos. Probar que si <span class="math inline">\(S_i\)</span> es convexo para cada <span class="math inline">\(i\in I\)</span>, entonces <span class="math inline">\(\bigcap_{i\in I} S_i\)</span> es convexo. ¿Qué ocurre con <span class="math inline">\(\bigcup_{i\in I} S_i\)</span>?</p></li>
 <li><p>Sean <span class="math inline">\(S_1\)</span> y <span class="math inline">\(S_2\)</span> conjuntos convexos. Muestre que <span class="math inline">\(S_1\times S_2\)</span> es convexo.</p></li>
 <li><p>Sea <span class="math inline">\(S\subset\RR^p\)</span> un conjunto convexo, <span class="math inline">\(\aa\in\RR^p\)</span> y <span class="math inline">\(\alpha\in\RR\)</span>. Pruebe que los conjuntos <span class="math inline">\(S+\aa:=\{\xx+\aa \mid \xx\in S\}\)</span> y <span class="math inline">\(\alpha S:=\{\alpha\xx \mid \xx\in S\}\)</span> son convexos.</p></li>
-<li><p>Realice la prueba del Ejemplo 8 de cono normal a un hiperplano. Es decir, muestre que <span class="math inline">\(\dd\in N_{\Omega}(\xx_0)\)</span> si y solo si es de la forma <span class="math inline">\(\dd=\lambda\aa\)</span> para algún <span class="math inline">\(\lambda\in\RR\)</span>. [<em>Ayuda: para el directo, suponga <span class="math inline">\(\dd\neq \lambda\aa\)</span> y utilice el hecho de que <span class="math inline">\(\dd\)</span> puede escribirse como <span class="math inline">\(\dd=(\xx-\xx_0)+k\aa\)</span>, donde <span class="math inline">\(\xx\)</span> es la proyección de <span class="math inline">\(\dd\)</span> sobre <span class="math inline">\(\Omega\)</span> y <span class="math inline">\(k\in\RR\)</span></em>.]</p></li>
+<li><p>Realice la prueba del Ejemplo 12 de cono normal a un hiperplano. Es decir, muestre que <span class="math inline">\(\dd\in N_{\Omega}(\xx_0)\)</span> si y solo si es de la forma <span class="math inline">\(\dd=\lambda\aa\)</span> para algún <span class="math inline">\(\lambda\in\RR\)</span>. [<em>Ayuda: para el directo, suponga <span class="math inline">\(\dd\neq \lambda\aa\)</span> y utilice el hecho de que <span class="math inline">\(\dd\)</span> puede escribirse como <span class="math inline">\(\dd=(\xx-\xx_0)+k\aa\)</span>, donde <span class="math inline">\(\xx\)</span> es la proyección de <span class="math inline">\(\dd\)</span> sobre <span class="math inline">\(\Omega\)</span> y <span class="math inline">\(k\in\RR\)</span></em>.]</p></li>
 <li><p>Muestre que los conjuntos de subnivel de una función <span class="math inline">\(f:\RR^p\to\RR\)</span> convexa, definidos como <span class="math display">\[
 C_\alpha:=\{\xx\in\text{dom}\,f \mid f(\xx)\leq\alpha\},
 \]</span> son convexos, pero que el recíproco no se cumple. Para esto último utilice algún contraejemplo.</p></li>
