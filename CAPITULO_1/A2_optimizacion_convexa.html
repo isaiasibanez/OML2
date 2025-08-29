@@ -387,7 +387,7 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 <p>En <span class="math inline">\(\RR^p\)</span> consideraremos el producto interno usual <span class="math display">\[
 \langle \xx,\yy\rangle_2:=\xx^\top\yy=\sum_{i=1}^px_iy_i,
 \]</span> y escribiremos indistintamente <span class="math inline">\(\langle \xx,\yy\rangle_2\)</span> o <span class="math inline">\(\xx^\top \yy\)</span>, según conveniencia. La norma euclidiana correspondiente es <span class="math display">\[
-\|\xx\|_2:=\xx^\top\xx)^{1/2}.
+\|\xx\|_2:=(\xx^\top\xx)^{1/2}.
 \]</span></p>
 <p>Asimismo, recordemos que una matriz <span class="math inline">\(A\)</span> se dice <em>semidefinida positiva</em> (<span class="math inline">\(A\succeq 0\)</span>), si verifica <span class="math inline">\(\xx^\top A\xx\geq 0\)</span> para todo <span class="math inline">\(\xx\in\RR^p\)</span>, mientras que se dice <em>definida positiva</em> (<span class="math inline">\(A\succ 0\)</span>) si la desigualdad es estricta. De manera análoga, se definen las matrices semidefinidas negativas (<span class="math inline">\(A \preceq 0\)</span>) y definidas negativas (<span class="math inline">\(A \prec 0\)</span>).</p>
 <p>Al conjunto de matrices simétricas lo denotaremos <span class="math inline">\(\SS^p\)</span>, mientras que con <span class="math inline">\(\SS_+^p\)</span> y <span class="math inline">\(\SS_{++}^p\)</span> nos referiremos al conjunto de matrices simétricas semidefinidas positivas y simétricas definidas positivas, respectivamente.</p>
@@ -489,7 +489,7 @@ C=V+\xx_0=\{v+\xx_0 \mid v\in V\}.
 S := \{\xx \mid A\xx=\bb\}
 \]</span> es un conjunto afín. De hecho, si <span class="math inline">\(\xx_1,\xx_2\in S\)</span>, entonces <span class="math inline">\(A\xx_1=\bb\)</span> y <span class="math inline">\(A\xx_2=\bb\)</span>, tal que para cualquier <span class="math inline">\(\theta\in\RR\)</span> se verifica <span class="math display">\[
 \begin{align*}
-A(\theta\xx_1+(1-\theta)\xx_2)&amp;=\theta A\xx_1+(1-\theta)A\xx_2\\
+A(\theta\xx_1+(1-\theta)\xx_2)&amp;=\theta A\xx_1+(1-\theta)A\xx_2\\[1 pt]
 &amp;=\theta\bb+(1-\theta)\bb\\
 &amp;=\bb.
 \end{align*}
@@ -846,7 +846,7 @@ S_2:=\{(x,y)\in\RR^2\mid x^2+y^2\leq r\}.
 <div style="margin-top:2em;">
 
 </div>
-<div id="9c13708d" class="cell" data-execution_count="1">
+<div id="2cbcd775" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -864,8 +864,16 @@ S_2:=\{(x,y)\in\RR^2\mid x^2+y^2\leq r\}.
 <p><span class="badge bg-primary">Ejemplo 7</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Elipsoide </span></p>
 <p>Sea <span class="math inline">\(\xx_0\in\RR^2\)</span> y <span class="math inline">\(P\in\SS_{++}^2\)</span>. El <em>elipsoide</em> <span class="math display">\[
 E=\{\xx\in\RR^p\mid (\xx-\xx_0)^\top P^{-1}(\xx-\xx_0)\leq 1\}
-\]</span> es un conjunto convexo, ya que es la imagen del disco unitario <span class="math inline">\(B(\bfzero,1):=\{\xx\in\RR^2\mid\|\xx\|\leq 1\}\)</span> bajo la transformación afín <span class="math inline">\(f:\RR^2\to\RR^2\)</span> definida por <span class="math display">\[
+\]</span> es un conjunto convexo, ya que es la imagen del disco unitario <span class="math inline">\(B(\bfzero,1):=\{\xx\in\RR^2\mid\|\xx\|_2\leq 1\}\)</span> bajo la transformación afín <span class="math inline">\(f:\RR^2\to\RR^2\)</span> definida por <span class="math display">\[
 f(\xx)=P^{1/2}\xx+\xx_0.
+\]</span></p>
+<p>En efecto, <span class="math display">\[
+\begin{align}
+(f(\xx)-\xx_0)^\top P^{-1}(f(\xx)-\xx_0)&amp;=(P^{1/2}\xx)^\top P^{-1}(P^{1/2}\xx)\\
+&amp;=\xx^\top \underbrace{P^{1/2}P^{-1}P^{1/2}}_{I_2}\xx\\
+&amp;=\|\xx\|_2^2\\[2pt]
+&amp;\leq 1.
+\end{align}
 \]</span></p>
 </div>
 <div style="margin-top:-1em;">
@@ -1367,18 +1375,18 @@ f\Big(\sum_{i=1}^k\theta_i\xx_i\Big)\leq\sum_{i=1}^k\theta_i f(\xx_i),\qquad\sum
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 13</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Función cuadrática de una variable </span></p>
 <p>Vamos a probar la convexidad de la función <span class="math inline">\(f(x)=x^2\)</span>. Para <span class="math inline">\(\theta\in[0,1]\)</span> resulta <span class="math display">\[
-\begin{align*}
-f(\theta x_1+(1-\theta)x_2)&amp;=(\theta x_1+(1-\theta)x_2)^2\\
+\begin{align}
+f(\theta x_1+(1-\theta)x_2)&amp;=(\theta x_1+(1-\theta)x_2)^2\\[1 pt]
 &amp;=\theta^2x_1^2+2\theta(1-\theta)x_1x_2+(1-\theta)^2x_2^2
-\end{align*}
+\end{align}
 \]</span></p>
 <p>Entonces <span class="math display">\[
-\begin{align*}
+\begin{align}
 f(\theta x_1+(1-\theta)x_2)-\left[\theta f(x_1)+(1-\theta) f(x_2)\right]&amp;=(\theta^2-\theta)x_1^2+2\theta(1-\theta)x_1x_2+(\theta^2-\theta)x_2^2\\
 &amp;=-\theta(1-\theta)(x_1^2-2x_1x_2+x_2^2)\\
 &amp;=-\theta(1-\theta)(x_1-x_2)^2\\
 &amp;\leq 0
-\end{align*}
+\end{align}
 \]</span></p>
 <p>lo cual concluye la prueba.</p>
 </div>
@@ -1497,11 +1505,11 @@ Mostrar detalles
 g(h)=\frac{\varphi(t_0-h)-2\varphi(t_0)+\varphi(t_0+h)}{h^2}.
 \]</span></p>
 <p>La convexidad implica <span class="math inline">\(g(h)\ge 0\)</span> para todo <span class="math inline">\(h&gt;0\)</span>. En efecto, la no negatividad del numerador resulta de aplicar la desigualdad de Jensen (3) a <span class="math inline">\(\xx_1=t_0-h\)</span>, <span class="math inline">\(\xx_2=t_0\)</span> y <span class="math inline">\(\xx_3=t_0+h\)</span> con <span class="math inline">\(\theta_1=\theta_2=\theta_3=\frac{1}{3}\)</span>: <span class="math display">\[
-\begin{align*}
+\begin{align}
 \varphi(t_0)&amp;\leq\frac{1}{3}\left(\varphi(t_0-h)+\varphi(t_0)+\varphi(t_0+h)\right)\\
-0&amp;\leq \varphi(t_0-h)+\varphi(t_0)+\varphi(t_0+h)-3\varphi(t_0) \\
+0&amp;\leq \varphi(t_0-h)+\varphi(t_0)+\varphi(t_0+h)-3\varphi(t_0) \\[2 pt]
 0&amp;\leq \varphi(t_0-h)-2\varphi(t_0)+\varphi(t_0+h).
-\end{align*}
+\end{align}
 \]</span></p>
 <p>Pero <span class="math inline">\(g(h)\to \varphi''(t_0)\)</span> cuando <span class="math inline">\(h\to 0\)</span>. Luego, <span class="math inline">\(\varphi''(t_0)\ge 0\)</span>. <span class="math inline">\(\qquad\blacksquare\)</span></p>
 </div>
@@ -1559,7 +1567,7 @@ f(\xx_2) \leq f(\xx_1) + \langle \nabla f(\xx_1), \xx_2 - \xx_1 \rangle_2
 <p>Denotando <span class="math inline">\(\yy_i=\xx_1+t_i(\xx_2-\xx_1)\)</span>, tal que <span class="math inline">\(f(\yy_i)=\varphi(t_i)\)</span>, vamos a reescribir (5) para poder utilizar la convexidad de <span class="math inline">\(f\)</span>: <span class="math display">\[
 \begin{align}
 \varphi(\theta t_1+(1-\theta)t_2) &amp;= f\big(\theta \yy_1+(1-\theta)\yy_2\big) \\
-&amp;\leq \theta f(\yy_1)+(1-\theta)f(\yy_2)\\
+&amp;\leq \theta f(\yy_1)+(1-\theta)f(\yy_2)\\[2 pt]
 &amp;= \theta \varphi(t_1)+(1-\theta)\varphi(t_2).
 \end{align}
 \]</span></p>
@@ -1588,9 +1596,9 @@ f(\xx_2)\geq f(\xx_\theta)+\langle\nabla f(\xx_\theta),\,\xx_2-\xx_\theta\rangle
 (1-\theta)f(\xx_1)+\theta f(\xx_2)&amp;\geq
 (1-\theta)\Big(f(\xx_\theta)+\langle\nabla f(\xx_\theta),\,\xx_1-\xx_\theta\rangle_2\Big)
 +\theta\Big(f(\xx_\theta)+\langle\nabla f(\xx_\theta),\,\xx_2-\xx_\theta\rangle_2\Big) \\
-&amp;= f(\xx_\theta)+\langle\nabla f(\xx_\theta),(1-\theta)(\xx_1-\xx_\theta)+\theta (\xx_2-\xx_\theta)\rangle_2\\
+&amp;= f(\xx_\theta)+\langle\nabla f(\xx_\theta),(1-\theta)(\xx_1-\xx_\theta)+\theta (\xx_2-\xx_\theta)\rangle_2\\[2pt]
 &amp;=f(\xx_\theta)+\langle\nabla f(\xx_\theta),\underbrace{(1-\theta)\xx_1+\theta\xx_2}_{\xx_\theta}-\xx_\theta\rangle_2\\
-&amp;=f(\xx_\theta)+\langle\nabla f(\xx_\theta),\bfzero\rangle_2\\
+&amp;=f(\xx_\theta)+\langle\nabla f(\xx_\theta),\bfzero\rangle_2\\[2pt]
 &amp;=f(\xx_\theta).
 \end{align}
 \]</span></p>
@@ -1615,7 +1623,7 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </script>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb4" data-startfrom="1730" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1729;"><span id="cb4-1730"><a href="#cb4-1730" aria-hidden="true" tabindex="-1"></a>viewof theta3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ:"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb4" data-startfrom="1740" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1739;"><span id="cb4-1740"><a href="#cb4-1740" aria-hidden="true" tabindex="-1"></a>viewof theta3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ:"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-4" data-nodetype="declaration">
 
@@ -1708,7 +1716,7 @@ f(\xx)=\frac{1}{2}\xx^\top A\xx+\bb^\top\xx+c,
 f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
 \]</span></p>
 <p>es convexa, ya que <span class="math inline">\(\xx^\top A\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\((x,y)\in\RR^2\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
-<div id="aa17291a" class="cell" data-execution_count="2">
+<div id="8c58f6b0" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1747,7 +1755,7 @@ f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&a
 </div>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 15</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Norma en <span class="math inline">\(\RR^p\)</span> </span></p>
-<p>Toda norma en <span class="math inline">\(\RR^p\)</span> es una función convexa. En efecto, si <span class="math inline">\(f(\xx)=\|\xx\|\)</span>, la desigualdad de la Definición 8 es inmediata de la desigualdad triangular: <span class="math display">\[
+<p>Toda norma <span class="math inline">\(\|\cdot\|\)</span> en <span class="math inline">\(\RR^p\)</span> es una función convexa. En efecto, si <span class="math inline">\(f(\xx)=\|\xx\|\)</span>, la desigualdad de la Definición 8 es inmediata de la desigualdad triangular: <span class="math display">\[
 f(\theta\xx_1+(1-\theta)\xx_2)=\|\theta\xx_1+(1-\theta)\xx_2\|\leq\theta\|\xx_1\|+(1-\theta)\|\xx_2\|.
 \]</span></p>
 <p>Analicemos las condiciones de convexidad para el caso particular de la norma euclidiana <span class="math inline">\(f(\xx)=\|\xx\|_2=(\xx^\top\xx)^{1/2}\)</span>. Resultan <span class="math display">\[
@@ -1757,14 +1765,14 @@ f(\theta\xx_1+(1-\theta)\xx_2)=\|\theta\xx_1+(1-\theta)\xx_2\|\leq\theta\|\xx_1\
 <li><p><em>Condición de primer orden</em>: <span class="math display">\[
   \begin{align}
   f(\xx_2)&amp;\geq f(\xx_1)+\frac{1}{\|\xx_1\|_2}\langle \xx_1,\xx_2-\xx_1\rangle_2\\
-  \|\xx_2\|_2 &amp; \geq \|\xx_1\|_2+\frac{\langle \xx_1,\xx_2\rangle_2}{\|\xx_1\|_2}-\|\xx_1\|_2\\
+  \|\xx_2\|_2 &amp; \geq \|\xx_1\|_2+\frac{\langle \xx_1,\xx_2\rangle_2}{\|\xx_1\|_2}-\|\xx_1\|_2\\[2pt]
   \langle \xx_1,\xx_2\rangle_2&amp;\leq \|\xx_1\|_2\|\xx_2\|_2.
   \end{align}
   \]</span> La última expresión es cierta (desigualdad de Cauchy Schwarz).</p></li>
 <li><p><em>Condición de segundo orden</em>: para todo <span class="math inline">\(\xx\in\RR^p\)</span> y <span class="math inline">\(\vv\in\RR^p\)</span> se tiene <span class="math display">\[
   \begin{align}
   \vv^\top \nabla^2 f(\xx)\,\vv&amp;=\vv^T\left(\frac{I_p}{\|\xx\|_2}-\frac{\xx\xx^\top}{\|\xx\|_2^3}\right)\vv\\
-  &amp;= \frac{\|\vv\|_2^2}{\|\xx\|_2}-\frac{(\vv^\top\xx)^2}{\|\xx\|_2^3}\\
+  &amp;= \frac{\|\vv\|_2^2}{\|\xx\|_2}-\frac{(\vv^\top\xx)^2}{\|\xx\|_2^3}\\[4pt]
   &amp;\geq \underbrace{\frac{\|\vv\|_2^2}{\|\xx\|_2}-\frac{\|\xx\|_2^2\|\vv\|_2^2}{\|\xx\|_2^3}}_{=0}
   \end{align}
   \]</span> Por lo tanto, <span class="math inline">\(\nabla^2 f(\xx)\succeq 0\)</span>, tal como esperábamos.</p></li>
