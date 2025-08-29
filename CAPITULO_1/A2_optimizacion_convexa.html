@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-327735d1480bff6f7510335fe22ad292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -846,11 +846,11 @@ S_2:=\{(x,y)\in\RR^2\mid x^2+y^2\leq r\}.
 <div style="margin-top:2em;">
 
 </div>
-<div id="f1b6062f" class="cell" data-execution_count="1">
+<div id="22bf767b" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="A2_optimizacion_convexa_files/figure-html/cell-2-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="545" height="191"></p>
+<p><img src="A2_optimizacion_convexa_files/figure-html/cell-2-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -863,7 +863,7 @@ S_2:=\{(x,y)\in\RR^2\mid x^2+y^2\leq r\}.
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 7</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Elipsoide </span></p>
 <p>Sea <span class="math inline">\(\xx_0\in\RR^2\)</span> y <span class="math inline">\(P\in\SS_{++}^2\)</span>. El <em>elipsoide</em> <span class="math display">\[
-E=\{\xx\in\RR^p\mid (\xx-\xx_0)^\top P^{-1}(\xx-\xx_c)\leq 1\}
+E=\{\xx\in\RR^p\mid (\xx-\xx_0)^\top P^{-1}(\xx-\xx_0)\leq 1\}
 \]</span> es un conjunto convexo, ya que es la imagen del disco unitario <span class="math inline">\(B(\bfzero,1):=\{\xx\in\RR^2\mid\|\xx\|\leq 1\}\)</span> bajo la transformación afín <span class="math inline">\(f:\RR^2\to\RR^2\)</span> definida por <span class="math display">\[
 f(\xx)=P^{1/2}\xx+\xx_0.
 \]</span></p>
@@ -1611,11 +1611,11 @@ f(\xx_2)\geq f(\xx_\theta)+\langle\nabla f(\xx_\theta),\,\xx_2-\xx_\theta\rangle
 
 </div>
 <script type="pyodide-5-contents">
-eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRydWUsImZpZy1hbGlnbiI6ImNlbnRlciIsImluY2x1ZGUiOnRydWUsImlucHV0IjpbInRoZXRhMyJdfSwiY29kZSI6ImltcG9ydCBudW1weSBhcyBucFxuaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdFxuXG4jIEZ1bmNpw7NuIGNvbnZleGEgZGUgZWplbXBsbzpcbmRlZiBmKHgpOlxuICAgIHJldHVybiAzLjUqeCoqMiAgXG5cbiMgUHVudG9zIHgxIHkgeDIgeSBjb21iaW5hY2lvbiBjb252ZXhhOlxueDEgPSAxXG54MiA9IDNcbnRoZXRhID0gdGhldGEzXG54ID0gdGhldGEgKiB4MSArICgxIC0gdGhldGEpICogeDJcblxuIyBWYWxvcmVzIGRlIGxhIGZ1bmNpw7NuOlxueTEgPSBmKHgxKVxueTIgPSBmKHgyKVxueSA9IGYoeClcbnlfbGluZSA9IHRoZXRhICogeTEgKyAoMSAtIHRoZXRhKSAqIHkyXG5cbiMgRnVuY2nDs24gZGVyaXZhZGE6XG5kZWYgZGYoeCk6XG4gICAgcmV0dXJuIDcqeFxuXG4jIFJlY3RhIHRhbmdlbnRlIGVuIHg6XG54X3RhbmdlbnQgPSBucC5saW5zcGFjZShtaW4oeDEseDIpLTEsIG1heCh4MSx4MikrMSwgMTAwKVxueV90YW5nZW50ID0geSArIGRmKHgpKih4X3RhbmdlbnQgLSB4KVxuXG4jIEdyw6FmaWNhOlxucGx0LmZpZ3VyZShmaWdzaXplPSg1LDQpKVxuWCA9IG5wLmxpbnNwYWNlKDAsIDQsIDQwMClcbnBsdC5wbG90KFgsIGYoWCksIGxhYmVsPVwiZih4KVwiLCBjb2xvcj0nYmx1ZScsIGxpbmV3aWR0aD0yLHpvcmRlcj00KVxuXG4jIE1hcmNhciBwdW50b3M6XG5wbHQuc2NhdHRlcihbeDEsIHgyXSwgW3kxLCB5Ml0sIGNvbG9yPSdkYXJrcmVkJywgem9yZGVyPTUpXG5wbHQuc2NhdHRlcihbeF0sIFt5XSwgY29sb3I9J2RhcmtncmVlbicsIHpvcmRlcj01KVxucGx0LnNjYXR0ZXIoW3hdLCBbeV9saW5lXSwgY29sb3I9J2JsYWNrJywgem9yZGVyPTUpXG5cbiMgTMOtbmVhcyBhdXhpbGlhcmVzOlxucGx0LnBsb3QoW3gxLCB4Ml0sIFt5MSwgeTJdLCAnOicsIGNvbG9yPSdncmF5JywgbGFiZWw9J1JlY3RhIHNlY2FudGUgZW50cmUgJCh4XzEsZih4XzEpKSQgeSAkKHhfMixmKHhfMikpJCcpXG5wbHQucGxvdCh4X3RhbmdlbnQsIHlfdGFuZ2VudCwgY29sb3I9J21lZGl1bXNlYWdyZWVuJywgbGFiZWw9cidSZWN0YSB0YW5nZW50ZSBhICRmJCBlbiAkeCQnKVxuXG4jIERpYnVqYXIgZWplIHg6XG5wbHQuYXhobGluZSgwLCBjb2xvcj0nYmxhY2snLCBsaW5ld2lkdGg9MSlcblxuIyBNYXJjYXIgbG9zIHB1bnRvcyBlbiBlbCBlamUgeCBjb24gdGljcyB2ZXJ0aWNhbGVzOlxuZm9yIHhpLCBsYWJlbCBpbiB6aXAoW3gxLCB4MiwgeF0sIFsnJHhfMSQnLCAnJHhfMiQnLCAnJHgkJ10pOlxuICAgIHBsdC5wbG90KFt4aSwgeGldLCBbMCwgMC4yXSwgY29sb3I9J2JsYWNrJykgICMgbMOtbmVhIHZlcnRpY2FsIGNvcnRhXG4gICAgcGx0LnRleHQoeGktMC4wMiwgLTEuOCwgbGFiZWwsIGhhPSdjZW50ZXInLCBmb250c2l6ZT0xMCkgICMgbm9tYnJlIGRlYmFqbyBkZWwgZWplXG5cbnBsdC50ZXh0KHgtMC43NSwgeV9saW5lLCByJyRcXHRoZXRhIGYoeF8xKSsoMS1cXHRoZXRhKWYoeF8yKSQnLCBjb2xvcj0nYmxhY2snLCBmb250c2l6ZT0xMClcblxuIyBBanVzdGVzOlxucGx0LnhsaW0oWzAuOCwzLjJdKVxucGx0LnlsaW0oWy00LDM1XSlcbnBsdC54dGlja3MoW10pXG5wbHQueXRpY2tzKFtdKVxucGx0LnRpZ2h0X2xheW91dCgpXG5wbHQuc2hvdygpIn0=
+eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRydWUsImZpZy1hbGlnbiI6ImNlbnRlciIsImluY2x1ZGUiOnRydWUsImlucHV0IjpbInRoZXRhMyJdfSwiY29kZSI6ImltcG9ydCBudW1weSBhcyBucFxuaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdFxuXG4jIEZ1bmNpw7NuIGNvbnZleGEgZGUgZWplbXBsbzpcbmRlZiBmKHgpOlxuICAgIHJldHVybiAzLjUqeCoqMiAgXG5cbiMgUHVudG9zIHgxIHkgeDIgeSBjb21iaW5hY2lvbiBjb252ZXhhOlxueDEgPSAxXG54MiA9IDNcbnRoZXRhID0gdGhldGEzXG54ID0gdGhldGEgKiB4MSArICgxIC0gdGhldGEpICogeDJcblxuIyBWYWxvcmVzIGRlIGxhIGZ1bmNpw7NuOlxueTEgPSBmKHgxKVxueTIgPSBmKHgyKVxueSA9IGYoeClcbnlfbGluZSA9IHRoZXRhICogeTEgKyAoMSAtIHRoZXRhKSAqIHkyXG5cbiMgRnVuY2nDs24gZGVyaXZhZGE6XG5kZWYgZGYoeCk6XG4gICAgcmV0dXJuIDcqeFxuXG4jIFJlY3RhIHRhbmdlbnRlIGVuIHg6XG54X3RhbmdlbnQgPSBucC5saW5zcGFjZShtaW4oeDEseDIpLTEsIG1heCh4MSx4MikrMSwgMTAwKVxueV90YW5nZW50ID0geSArIGRmKHgpKih4X3RhbmdlbnQgLSB4KVxuXG4jIEdyw6FmaWNhOlxucGx0LmZpZ3VyZShmaWdzaXplPSg1LDQpKVxuWCA9IG5wLmxpbnNwYWNlKDAsIDQsIDQwMClcbnBsdC5wbG90KFgsIGYoWCksIGxhYmVsPVwiZih4KVwiLCBjb2xvcj0nYmx1ZScsIGxpbmV3aWR0aD0yLHpvcmRlcj00KVxuXG4jIE1hcmNhciBwdW50b3M6XG5wbHQuc2NhdHRlcihbeDEsIHgyXSwgW3kxLCB5Ml0sIGNvbG9yPSdkYXJrcmVkJywgem9yZGVyPTUpXG5wbHQuc2NhdHRlcihbeF0sIFt5XSwgY29sb3I9J2RhcmtncmVlbicsIHpvcmRlcj01KVxucGx0LnNjYXR0ZXIoW3hdLCBbeV9saW5lXSwgY29sb3I9J2JsYWNrJywgem9yZGVyPTUpXG5cbiMgTMOtbmVhcyBhdXhpbGlhcmVzOlxucGx0LnBsb3QoW3gxLCB4Ml0sIFt5MSwgeTJdLCAnOicsIGNvbG9yPSdncmF5JywgbGFiZWw9J1JlY3RhIHNlY2FudGUgZW50cmUgJCh4XzEsZih4XzEpKSQgeSAkKHhfMixmKHhfMikpJCcpXG5wbHQucGxvdCh4X3RhbmdlbnQsIHlfdGFuZ2VudCwgY29sb3I9J21lZGl1bXNlYWdyZWVuJywgbGFiZWw9cidSZWN0YSB0YW5nZW50ZSBhICRmJCBlbiAkeCQnKVxuXG4jIERpYnVqYXIgZWplIHg6XG5wbHQuYXhobGluZSgwLCBjb2xvcj0nYmxhY2snLCBsaW5ld2lkdGg9MSlcblxuIyBNYXJjYXIgbG9zIHB1bnRvcyBlbiBlbCBlamUgeCBjb24gdGljcyB2ZXJ0aWNhbGVzOlxuZm9yIHhpLCBsYWJlbCBpbiB6aXAoW3gxLCB4MiwgeF0sIFsnJHhfMSQnLCAnJHhfMiQnLCByJyR4PVxcdGhldGEgeF8xKygxLVxcdGhldGEpIHhfMiQnXSk6XG4gICAgcGx0LnBsb3QoW3hpLCB4aV0sIFswLCAwLjJdLCBjb2xvcj0nYmxhY2snKSAgIyBsw61uZWEgdmVydGljYWwgY29ydGFcblxuZm9yIHhpLCBsYWJlbCBpbiB6aXAoW3gxLCB4MiwgeC0wLjJdLCBbJyR4XzEkJywgJyR4XzIkJywgcickeD1cXHRoZXRhIHhfMSsoMS1cXHRoZXRhKSB4XzIkJ10pOlxuICAgIHBsdC50ZXh0KHhpLTAuMDIsIC0xLjgsIGxhYmVsLCBoYT0nY2VudGVyJywgZm9udHNpemU9MTApICAjIG5vbWJyZSBkZWJham8gZGVsIGVqZVxuXG5wbHQudGV4dCh4LTAuNzUsIHlfbGluZSwgcickXFx0aGV0YSBmKHhfMSkrKDEtXFx0aGV0YSlmKHhfMikkJywgY29sb3I9J2JsYWNrJywgZm9udHNpemU9MTApXG5cbiMgQWp1c3RlczpcbnBsdC54bGltKFswLjgsMy4yXSlcbnBsdC55bGltKFstNCwzNV0pXG5wbHQueHRpY2tzKFtdKVxucGx0Lnl0aWNrcyhbXSlcbnBsdC50aWdodF9sYXlvdXQoKVxucGx0LnNob3coKSJ9
 </script>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb4" data-startfrom="1728" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1727;"><span id="cb4-1728"><a href="#cb4-1728" aria-hidden="true" tabindex="-1"></a>viewof theta3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ:"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb4" data-startfrom="1730" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1729;"><span id="cb4-1730"><a href="#cb4-1730" aria-hidden="true" tabindex="-1"></a>viewof theta3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"θ:"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-4" data-nodetype="declaration">
 
@@ -1708,7 +1708,7 @@ f(\xx)=\frac{1}{2}\xx^\top A\xx+\bb^\top\xx+c,
 f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\frac{1}{2}(2x^2+2xy+3y^2)
 \]</span></p>
 <p>es convexa, ya que <span class="math inline">\(\xx^\top A\xx=2x^2+2xy+3y^2=x^2+(x+y)^2+2y^2\geq 0\)</span> para todo <span class="math inline">\((x,y)\in\RR^2\)</span>, lo cual significa que <span class="math inline">\(A\succeq 0\)</span>.</p>
-<div id="a2e98ff4" class="cell" data-execution_count="2">
+<div id="3b2b7943" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1739,7 +1739,7 @@ f(x,y)=\frac{1}{2}\begin{pmatrix}x&amp;y\end{pmatrix}\begin{pmatrix}2&amp;1\\1&a
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="A2_optimizacion_convexa_files/figure-html/cell-3-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="476" height="464"></p>
+<p><img src="A2_optimizacion_convexa_files/figure-html/cell-3-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1770,21 +1770,6 @@ f(\theta\xx_1+(1-\theta)\xx_2)=\|\theta\xx_1+(1-\theta)\xx_2\|\leq\theta\|\xx_1\
   \]</span> Por lo tanto, <span class="math inline">\(\nabla^2 f(\xx)\succeq 0\)</span>, tal como esperábamos.</p></li>
 </ul>
 </div>
-<div class="question callout callout-style-simple callout-none no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p><span style="font-size: 1.3em;">📝</span><br> Verifique que las siguientes funciones son convexas:</p>
-<ul>
-<li><p><span class="math inline">\(f(\xx)=\alpha\,\|A\xx-\bb\|_2^2+\beta\,\|C\xx-\dd\|_1,\qquad \alpha,\beta\geq 0.\)</span></p></li>
-<li><p><span class="math inline">\(f(\xx)=\displaystyle\sum_{i=1}^m w_i\,\bigl|\aa_i^\top \xx+b_i\bigr|,\qquad w_i\geq 0.\)</span></p></li>
-<li><p><span class="math inline">\(f(\xx)=\log\left(\displaystyle\sum_{i=1}^m \exp\big(\aa_i^\top \xx + b_i\big)\right).\)</span></p></li>
-</ul>
-</div>
-</div>
-</div>
 <div style="margin-top:2em;">
 
 </div>
@@ -1794,7 +1779,7 @@ f(\theta\xx_1+(1-\theta)\xx_2)=\|\theta\xx_1+(1-\theta)\xx_2\|\leq\theta\|\xx_1\
 <p>En esta sección describimos algunas operaciones que preservan la convexidad o concavidad de funciones, o que permiten construir nuevas funciones convexas y cóncavas (📝 las verificaciones se piden en Ejercicio 14).</p>
 <ul>
 <li><p><strong>Sumas ponderadas no negativas</strong>. Si <span class="math inline">\(f\)</span> es una función convexa y <span class="math inline">\(\alpha \geq 0\)</span>, entonces la función <span class="math inline">\(\alpha f\)</span> es convexa. Si <span class="math inline">\(f_1\)</span> y <span class="math inline">\(f_2\)</span> son ambas funciones convexas, entonces su suma <span class="math inline">\(f_1 + f_2\)</span> también lo es. Combinando estas dos propiedades, se obtiene que el conjunto de funciones convexas es en sí mismo un cono convexo: una suma ponderada no negativa de funciones convexas, <span class="math display">\[
-f = w_1 f_1 + \cdots + w_m f_m,
+f = w_1 f_1 + \cdots + w_m f_m,\qquad w_i\geq 0,
 \]</span> es convexa. De manera similar, una suma ponderada no negativa de funciones cóncavas es cóncava.</p></li>
 <li><p><strong>Composición con una aplicación afín</strong>. Sean <span class="math inline">\(f:\RR^p\to\RR\)</span>, <span class="math inline">\(A\in\RR^{p\times m}\)</span> y <span class="math inline">\(\bb\in\RR^p\)</span>. Definimos <span class="math inline">\(g:\RR^m\to\RR\)</span> como <span class="math display">\[
 g(\xx):=f(A\xx+\bb)
@@ -1820,6 +1805,21 @@ f(\xx)=\sum_{i=1}^rx_{[i]}.
 f(\xx)=\max\left\{x_{i_1}+\cdots+x_{i_n} \mid 1\leq i_1 \leq \ldots\leq i_r\leq n \right\};
 \]</span></p>
 <p>esto es, el máximo de todas las posibles sumas de <span class="math inline">\(r\)</span> diferentes componentes de <span class="math inline">\(\xx\)</span>. Dado que tales sumas son funciones lineales (y, por lo tanto, convexas), concluimos que <span class="math inline">\(f\)</span> es convexa.</p>
+</div>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br> Verifique que las siguientes funciones son convexas:</p>
+<ul>
+<li><p><span class="math inline">\(f(\xx)=\alpha\,\|A\xx-\bb\|_2^2+\beta\,\|C\xx-\dd\|_1,\qquad \alpha,\beta\geq 0.\)</span></p></li>
+<li><p><span class="math inline">\(f(\xx)=\displaystyle\sum_{i=1}^m w_i\,\bigl|\aa_i^\top \xx+b_i\bigr|,\qquad w_i\geq 0.\)</span></p></li>
+<li><p><span class="math inline">\(f(\xx)=\log\left(\displaystyle\sum_{i=1}^m \exp\big(\aa_i^\top \xx + b_i\big)\right).\)</span></p></li>
+</ul>
+</div>
+</div>
 </div>
 <div style="margin-top:1.5em;">
 
@@ -1963,7 +1963,8 @@ Mostrar
 <li><p>Sea <span class="math inline">\(\{S_i\}_{i\in I}\)</span> una familia de conjuntos convexos. Probar que si <span class="math inline">\(S_i\)</span> es convexo para cada <span class="math inline">\(i\in I\)</span>, entonces <span class="math inline">\(\bigcap_{i\in I} S_i\)</span> es convexo. ¿Qué ocurre con <span class="math inline">\(\bigcup_{i\in I} S_i\)</span>?</p></li>
 <li><p>Sean <span class="math inline">\(S_1\)</span> y <span class="math inline">\(S_2\)</span> conjuntos convexos. Muestre que <span class="math inline">\(S_1\times S_2\)</span> es convexo.</p></li>
 <li><p>Sea <span class="math inline">\(S\subset\RR^p\)</span> un conjunto convexo, <span class="math inline">\(\aa\in\RR^p\)</span> y <span class="math inline">\(\alpha\in\RR\)</span>. Pruebe que los conjuntos <span class="math inline">\(S+\aa:=\{\xx+\aa \mid \xx\in S\}\)</span> y <span class="math inline">\(\alpha S:=\{\alpha\xx \mid \xx\in S\}\)</span> son convexos.</p></li>
-<li><p>Realice la prueba del Ejemplo 12 de cono normal a un hiperplano. Es decir, muestre que <span class="math inline">\(\dd\in N_{\Omega}(\xx_0)\)</span> si y solo si es de la forma <span class="math inline">\(\dd=\lambda\aa\)</span> para algún <span class="math inline">\(\lambda\in\RR\)</span>. [<em>Ayuda: para el directo, suponga <span class="math inline">\(\dd\neq \lambda\aa\)</span> y utilice el hecho de que <span class="math inline">\(\dd\)</span> puede escribirse como <span class="math inline">\(\dd=(\xx-\xx_0)+k\aa\)</span>, donde <span class="math inline">\(\xx\)</span> es la proyección de <span class="math inline">\(\dd\)</span> sobre <span class="math inline">\(\Omega\)</span> y <span class="math inline">\(k\in\RR\)</span></em>.]</p></li>
+<li><p>(a) Realice la prueba del Ejemplo 12 de cono normal a un hiperplano. Es decir, muestre que <span class="math inline">\(\dd\in N_{\Omega}(\xx_0)\)</span> si y solo si es de la forma <span class="math inline">\(\dd=\lambda\aa\)</span> para algún <span class="math inline">\(\lambda\in\RR\)</span>. [<em>Ayuda: para el directo, suponga <span class="math inline">\(\dd\neq \lambda\aa\)</span> y utilice el hecho de que <span class="math inline">\(\dd\)</span> puede escribirse como <span class="math inline">\(\dd=(\xx-\xx_0)+k\aa\)</span>, donde <span class="math inline">\(\xx\)</span> es la proyección de <span class="math inline">\(\dd\)</span> sobre <span class="math inline">\(\Omega\)</span> y <span class="math inline">\(k\in\RR\)</span></em>.]</p>
+<p>(b) Considere el&nbsp;subconjunto de <span class="math inline">\(\RR^2\)</span> determinado por <span class="math inline">\(x_1+x_2 \leq \frac{1}{2}\)</span>, <span class="math inline">\(x_1\geq 0\)</span>, <span class="math inline">\(x_2\geq 0\)</span>, y utilice el resultado de (a) para hallar gráfica y simbólicamente los conos normales en cada vértice y lado del subconjunto.</p></li>
 <li><p>Muestre que los conjuntos de subnivel de una función <span class="math inline">\(f:\RR^p\to\RR\)</span> convexa, definidos como <span class="math display">\[
 C_\alpha:=\{\xx\in\text{dom}\,f \mid f(\xx)\leq\alpha\},
 \]</span> son convexos, pero que el recíproco no se cumple. Para esto último utilice algún contraejemplo.</p></li>
@@ -2004,15 +2005,9 @@ f(X)=\lambda_{\text{max}}(X),
 💻 <strong>Prácticas</strong><br>
 
 <hr class="linea-corta">
-<!--
 <div style="text-align:left;">
-  <a href="https://colab.research.google.com/drive/1gSAmoTQHiCQ-TlYiYbE4xdYdGrlyC86F?usp=drive_link" target="_blank">
-    <img src="https://colab.research.google.com/assets/colab-badge.svg" 
-         alt="Colab" 
-         style="height:1.4em;">
-  </a>
+<p><a href="https://colab.research.google.com/drive/19_X9Rj39rFVf2DFTYfbzBaEI5Rtc3tzQ?usp=drive_link" target="_blank"> <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab" style="height:1.4em;"> </a></p>
 </div>
--->
 <div style="margin-top: 5em;">
 
 </div>
