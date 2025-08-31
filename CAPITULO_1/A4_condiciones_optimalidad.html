@@ -474,21 +474,20 @@ Idea geométrica de la condición del gradiente para tres puntos críticos <span
 <p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Punto crítico pero no óptimo en un poliedro </span></p>
 <p><span class="math display">\[
 \begin{array}{ll}
-\text{maximizar } &amp; -x_1\\
-\text{sujeto a }  &amp; x_1+x_2\leq 1,\\
-                  &amp; x_1\geq 0,\;x_2\geq 0.
+\text{minimizar } &amp; x_2-x_1^2\\
+\text{sujeto a }  &amp; 2x_1+x_2\leq 1,\\
+                  &amp; -2x_1+x_2\leq 1,\\
+                  &amp; x_2\geq 0.
 \end{array}
 \]</span></p>
-<p>El conjunto factible <span class="math inline">\(\Omega\)</span> es el triángulo de vértices <span class="math inline">\((0,0)\)</span>, <span class="math inline">\((1,0)\)</span> y <span class="math inline">\((0,1)\)</span>. En el vértice <span class="math inline">\(\xx=(1,0)\)</span> se tiene <span class="math inline">\(\nabla f(0,0)=(-1,0)\)</span>. La condición del Teorema 2 para este punto se expresa como <span class="math display">\[
-\langle (-1,0),\yy-(1,0)\rangle=1-y_1\geq 0\qquad\forall \yy\in\Omega.
+<p>El conjunto factible <span class="math inline">\(\Omega\)</span> es el triángulo de vértices <span class="math inline">\((-\frac{1}{2},0)\)</span>, <span class="math inline">\((\frac{1}{2},0)\)</span> y <span class="math inline">\((0,1)\)</span>. En <span class="math inline">\(\xx=(0,0)\)</span> se tiene <span class="math inline">\(\nabla f(0,0)=(0,1)\)</span>. La condición del Teorema 2 para este punto se expresa como <span class="math display">\[
+\langle (0,1),\yy-(0,0)\rangle_2=y_2\geq 0\qquad\forall \yy\in\Omega.
 \]</span></p>
-<p>Esto es cierto, pues no existe punto factible <span class="math inline">\(\yy\in\Omega\)</span> con coordenada <span class="math inline">\(y_1&gt;1\)</span>. Sin embargo, <span class="math inline">\((1,0)\)</span> no es óptimo óptimo, pues claramente los puntos óptimos son todos aquellos en el segmento entre <span class="math inline">\((0,0)\)</span> y <span class="math inline">\((0,1)\)</span>; es decir <span class="math display">\[
-\xx^\star=(0,t),\qquad 0\leq t\leq 1.
-\]</span></p>
+<p>Esto es cierto, de acuerdo a la definición de <span class="math inline">\(\Omega\)</span>. De hecho, en la figura se puede ver que, efectivamente, <span class="math inline">\(-\nabla f(0,0)\in N_{\Omega}(0,0)\)</span>. Sin embargo, <span class="math inline">\((0,0)\)</span> no es óptimo, pues el valor óptimo es <span class="math inline">\(-\frac{1}{4}\)</span> y ocurre en los vértices <span class="math inline">\((\pm\frac{1}{2},0)\)</span>.</p>
 <figure style="text-align: center;" class="figure">
-<img src="figuras/ej_grad_cono_fail.png" alt="…" width="350px" class="figure-img">
+<img src="figuras/ej_grad_cono_fail.png" alt="…" width="300px" class="figure-img">
 <figcaption>
-<span class="math inline">\(-\nabla f(1,0)\in N_{\Omega}(1,0)\)</span>, pero <span class="math inline">\((1,0)\)</span> no es un punto óptimo del problema.
+<span class="math inline">\(-\nabla f(0,0)\in N_{\Omega}(0,0)\)</span>, pero <span class="math inline">\((0,0)\)</span> no es un punto óptimo del problema.
 </figcaption>
 </figure>
 </div>
@@ -537,7 +536,7 @@ f(\yy)\geq f(\xx)+\underbrace{\langle\nabla f(\xx),\yy-\xx\rangle}_{\geq 0}\geq 
 
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 2</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Aplicación de condiciones KKT en un problema de optimización convexa </span></p>
+<p><span class="badge bg-primary">Ejemplo 2</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Aplicación de condición suficiente y necesaria de optimalidad en un problema de optimización convexa </span></p>
 <p><span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; \frac{1}{2}\|A\xx-\bb\|_2^2\\
@@ -558,11 +557,11 @@ A=\begin{pmatrix}1&amp;0\\0&amp;2\end{pmatrix}\quad\mbox{y}\quad\bb=\begin{pmatr
 <p>Claramente <span class="math inline">\(\nabla^2 f(\xx)\succeq 0\)</span>, lo cual significa que <span class="math inline">\(f\)</span> es convexa. Así, por Teorema 3, la condición (5) es suficiente y necesaria para que <span class="math inline">\(\xx\)</span> sea un punto óptimo. Esto nos permite hacer el siguiente análisis:</p>
 <ul>
 <li><p><span class="math inline">\(\nabla f(\xx)\neq \bfzero\)</span> para todo punto interior de <span class="math inline">\(\Omega\)</span>, lo cual implica que no hay puntos óptimos en el interior.</p></li>
-<li><p>En el lado <span class="math inline">\(\{(0,t) \mid 0&lt;t&lt;1.5\}\)</span>, <span class="math inline">\(\nabla f(\xx)=(-1,4t-2)\)</span>. Al no anularse en ningún punto la segunda componente, podemos afirmar que no se cumple la condición (5), ya que el cono normal está determinado por la dirección normal <span class="math inline">\((-1,0)\)</span>. Por lo tanto, no hay puntos óptimos en esta porción de frontera.</p></li>
-<li><p>Tampoco hay puntos óptimos en el lado <span class="math inline">\(\{(t,0)\mid 0&lt;t&lt;1.5\}\)</span>, ya que <span class="math inline">\(\nabla f(\xx)=(t-1,-2)\)</span> y la dirección normal es <span class="math inline">\((0,-1)\)</span>.</p></li>
-<li><p>En el lado <span class="math inline">\(\{(t,1.5-t)\mid 0&lt;t&lt;1.5\}\)</span>, tenemos que <span class="math inline">\(\nabla f(\xx)=(t-1,4-4t)\)</span> y la dirección normal es <span class="math inline">\((1,1)\)</span>. Esto significa que la condición (5) es cierta si ambas componentes del gradiente son iguales: <span class="math display">\[
+<li><p>En el lado <span class="math inline">\(\{(0,t) \mid 0&lt;t&lt;1.5\}\)</span>, <span class="math inline">\(-\nabla f(\xx)=(1,2-4t)\)</span>. Pero el cono normal está determinado por la dirección normal <span class="math inline">\((-1,0)\)</span>, lo cual significa que <span class="math inline">\(-\nabla f(\xx)\in N_{\Omega}(\xx)\)</span> si y solo si es de la forma <span class="math inline">\((-a,0)\)</span> con <span class="math inline">\(a&gt;0\)</span>, lo cual no puede ocurrir. Por lo tanto, no hay puntos óptimos en esta porción de frontera.</p></li>
+<li><p>De manera similar al caso anterior, tampoco hay puntos óptimos en el lado <span class="math inline">\(\{(t,0)\mid 0&lt;t&lt;1.5\}\)</span>, ya que <span class="math inline">\(-\nabla f(\xx)=(1-t,2)\)</span> y la dirección normal es <span class="math inline">\((0,-1)\)</span>.</p></li>
+<li><p>En el lado <span class="math inline">\(\{(t,1.5-t)\mid 0&lt;t&lt;1.5\}\)</span>, tenemos que <span class="math inline">\(-\nabla f(\xx)=(1-t,4t-4)\)</span> y la dirección normal es <span class="math inline">\((1,1)\)</span>. Esto significa que la condición (5) es cierta si ambas componentes de <span class="math inline">\(-\nabla f(\xx)\)</span> son iguales: <span class="math display">\[
 \begin{align*}
-t-1&amp;=4-4t\\
+1-t&amp;=4t-4\\
 t &amp;= 1
 \end{align*}
 \]</span></p>
@@ -1405,9 +1404,6 @@ Método de <em>water-filling</em>. La región se inunda hasta un nivel <span cla
 <div class="highlight">
 <p>⚠️ Recordemos que la condición de Slater es la más común y utilizada para garantizar dualidad fuerte y la validez de las condiciones KKT en problemas convexos. Sin embargo, no es la única condición de cualificación de restricciones existente. Para profundizar en otras condiciones de cualificación, especialmente en el contexto de problemas no convexos, se recomienda consultar textos especializados en optimización no convexa, pero estos temas escapan al alcance de este curso.</p>
 </div>
-<div style="margin-top:2em;">
-
-</div>
 <p><br><br></p>
 </section>
 </section>
@@ -1416,22 +1412,247 @@ Método de <em>water-filling</em>. La región se inunda hasta un nivel <span cla
 ✏️ <strong>Conceptuales</strong><br>
 
 <hr class="linea-corta">
-<ol type="1">
-<li><p>Mostrar que el multiplicador de Lagrange asociado a una restricción de igualdad puede ser cualquier número real. [<em>Ayuda: descomponga la restricción de igualdad en dos restricciones de desigualdad</em>.]</p></li>
-<li><p>Considere el problema <span class="math display">\[
-\min x^2\quad\text{sujeto a}\quad 2-x\leq 0.
-\]</span> Obtenga la función dual de Lagrange y verifique graficamente su convexidad. ¿Cuál es el valor de <span class="math inline">\(d^\star\)</span>?</p></li>
-<li><p>Mostrar que, si <span class="math inline">\(\xx\)</span> es factible primal y <span class="math inline">\((\bflambda,\bfnu)\)</span> es factible dual, entonces <span class="math inline">\((\bflambda,\bfnu)\)</span> es <span class="math inline">\(\epsilon\)</span>-subóptimo para el problema dual.</p></li>
-</ol>
-<div style="margin-top:2em;">
+<details>
+<summary>
+Mostrar
+</summary>
+<div style="margin-top:1em;">
 
 </div>
-💻 <strong>Prácticas</strong><br>
-
-<hr class="linea-corta">
 <ol type="1">
-<li>…</li>
+<li><p>Sea <span class="math inline">\(\Omega \subset \mathbb{R}^n\)</span> convexo y <span class="math inline">\(x_0 \in cl(\Omega)\)</span>, definimos el conjunto de direcciones factibles como:</p>
+<p><span class="math display">\[
+D(x_0) = \{ \mathbf{d} \in \mathbb{R}^n, \mathbf{d} \neq 0 : \exists \delta &gt;0 \, \text{de manera tal que}\, x_0+\lambda \mathbf{d} \in \Omega, \forall \lambda \in (0,\delta) \}.
+\]</span></p>
+<p>Sea además <span class="math inline">\(f: \mathbb{R}^n \rightarrow \mathbb{R}\)</span> diferenciable, definimos el conjunto de direcciones de mejora como:</p>
+<p><span class="math display">\[
+F(x_0) = \{ \mathbf{d} \in \mathbb{R}^n, \mathbf{d} \neq 0 : \exists \delta &gt;0 \, \text{de manera tal que}\, f(x_0+\lambda \mathbf{d}) &lt; f(x_0) \, \forall \lambda \in (0,\delta) \}.
+\]</span></p>
+<p>Pruebe que <span class="math inline">\(-\nabla f(x_0)\in \mathcal{N}_\Omega(x_0)\)</span> si y sólo si no existe dirección factible de mejora en <span class="math inline">\(x_0\)</span>, es decir, <span class="math inline">\(F(x_0) \cap D(x_0)=\emptyset\)</span>.</p></li>
 </ol>
+<hr>
+<ol start="2" type="1">
+<li><p>Considere el siguiente problema de optimización:</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; \min_{\mathbf{x} \in \mathbb{R}^2} \quad f(\mathbf{x}) = \frac{1}{2} \|A\mathbf{x} - \mathbf{b}\|_2^2 \\
+&amp; \text{sujeto a:} \quad x_1 + x_2 \leq 3,\quad x_1 \geq 0,\quad x_2 \geq 0,
+\end{aligned}
+\]</span></p>
+<p>con</p>
+<p><span class="math display">\[
+A = \begin{pmatrix}
+1 &amp; 1 \\
+0 &amp; 2
+\end{pmatrix}, \quad
+\mathbf{b} = \begin{pmatrix}
+2 \\
+2
+\end{pmatrix}.
+\]</span></p>
+<ol type="a">
+<li>Analice la convexidad del problema.</li>
+<li>¿Existe solución óptima? Utilice Teorema 3.</li>
+</ol></li>
+</ol>
+<hr>
+<ol start="3" type="1">
+<li><p>Dada la siguiente función:</p>
+<p><span class="math display">\[
+f(\mathbf{x}) = \frac{1}{2} \|A\mathbf{x} - \mathbf{b}\|_2^2
+\]</span> con <span class="math display">\[
+A = \begin{pmatrix}
+    1 &amp; 1 \\
+    0 &amp; 2
+    \end{pmatrix}, \quad
+    \mathbf{b} = \begin{pmatrix}
+    2 \\
+    2
+    \end{pmatrix}
+\]</span></p>
+<ol type="a">
+<li><p>Considere el problema de optimización dado por</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; \text{Minimizar} \quad f(\mathbf{x}) \\
+&amp; \text{sujeto a:} \quad x_1+x_2 \leq 3, \quad x_1\geq 0, \quad x_2\geq 0
+\end{aligned}
+\]</span></p>
+<p>¿Se trata de un problema de optimización convexo? ¿Existe una única solución óptima? En caso afirmativo, encuéntrela utilizando el Teorema 3.</p></li>
+<li><p>Considere el problema de optimización dado por</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; \text{Minimizar}\quad f(\mathbf{x}) \\
+&amp; \text{sujeto a:} \quad x_1+x_2 \leq 1/2, \quad x_1\geq 0, \quad x_2\geq 0
+\end{aligned}
+\]</span></p>
+<p>¿Se trata de un problema de optimización convexo? ¿Existe una única solución óptima? En caso afirmativo, encuéntrela utilizando el Teorema 3.</p></li>
+</ol></li>
+</ol>
+<hr>
+<ol start="4" type="1">
+<li><p>Considere el siguiente problema de optimización:</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; \text{Minimizar} \quad f(\mathbf{x}) = (x_1-1)^2 + (x_2-2)^2 \\
+&amp; \text{sujeto a:} \quad x_1 \leq x_2, \quad x_1+2x_2 \leq 2
+\end{aligned}
+\]</span></p>
+<ol type="a">
+<li>Analice la convexidad del problema.<br>
+</li>
+<li>¿Existe una única solución óptima? En caso afirmativo, utilice el Teorema 3 para encontrarla.</li>
+</ol></li>
+</ol>
+<hr>
+<ol start="5" type="1">
+<li>Plantee las condiciones KKT en el ejemplo 2 de la sección 1.4 de la teoría.<br>
+¿Son necesarias y suficientes para hallar una solución óptima? En caso afirmativo, encuéntrela.</li>
+</ol>
+<hr>
+<ol start="6" type="1">
+<li>Plantee las condiciones KKT para los problemas (3) b) y (4), encuentre una posible solución e indique si las condiciones resultan necesarias y suficientes para que se trate de la solución óptima.</li>
+</ol>
+<hr>
+<ol start="7" type="1">
+<li><p>Considere el siguiente problema:</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\text{Minimizar} &amp;&amp; x_1^4 + x_2^4 + 12x_1^2 + 6x_2^2 - x_1x_2 - x_1 - x_2 \\
+&amp;\text{sujeto a} &amp;&amp; x_1 + x_2 \geq 6, \\
+&amp; &amp;&amp; 2x_1 - x_2 \geq 3, \\
+&amp; &amp;&amp; x_1 \geq 0,\quad x_2 \geq 0.
+\end{aligned}
+\]</span></p>
+<p>Escriba las condiciones KKT y demuestre que <span class="math inline">\((x_1, x_2) = (3,3)\)</span> es la única solución óptima.</p></li>
+</ol>
+<hr>
+<ol start="8" type="1">
+<li><p>Considere el siguiente problema:</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\text{Minimizar} &amp;&amp; \left(x_1 - \tfrac{9}{4}\right)^2 + (x_2 - 2)^2 \\
+&amp;\text{sujeto a} &amp;&amp; x_2 - x_1^2 \geq 0, \\
+&amp; &amp;&amp; x_1 + x_2 \leq 6, \\
+&amp; &amp;&amp; x_1 \geq 0,\quad x_2 \geq 0.
+\end{aligned}
+\]</span></p>
+<ol type="a">
+<li>Escriba las condiciones de optimalidad KKT y verifique que éstas se cumplen en el punto <span class="math inline">\(\bar{x} = (3/2,\, 9/4)^\top\)</span>.<br>
+</li>
+<li>Demuestre que <span class="math inline">\(\bar{x}\)</span> es en efecto la única solución óptima global.</li>
+</ol></li>
+</ol>
+<hr>
+<ol start="9" type="1">
+<li><p>Diga en cuáles de los siguientes problemas de optimización las condiciones de KKT son necesarias/suficientes.</p>
+<ol type="a">
+<li><p><span class="math display">\[
+\begin{aligned}
+&amp; \text{Minimizar} \quad 12x_1 - 5x_2 + 3x_3\\
+&amp;\text{sujeto a } \quad x_1 - 2x_2 + x_3 = 5 \\
+&amp;\phantom{\text{sujeto a }} \quad x_1 - x_2 \geq -2\\
+&amp;\phantom{\text{sujeto a }} \quad 2x_1 - 4x_2 \leq 12
+\end{aligned}
+\]</span></p></li>
+<li><p><span class="math display">\[
+\begin{aligned}
+&amp;\text{Minimizar} \quad 4x_1^2 - x_1 x_2 + x_2^2 - 12x_1 \\
+&amp;\text{sujeto a } \quad x_1 - 2x_2 + x_3 = 5 \\
+&amp;\phantom{\text{sujeto a }} \quad x_1^2 + 3x_2^2 \leq 10 \\
+&amp;\phantom{\text{sujeto a }} \quad x_1, x_2, x_3 \geq 0
+\end{aligned}
+\]</span></p></li>
+<li><p><span class="math display">\[
+\begin{aligned}
+&amp;\text{Minimizar} &amp;&amp; -2(x_1 - 2)^2  - x_2^2  \\
+&amp;\text{sujeto a} &amp;&amp; x_1^2 + x_2^2\leq 25, \\
+&amp; &amp;&amp; x_1 \geq 0
+\end{aligned}
+\]</span></p></li>
+<li><p><span class="math display">\[
+\begin{aligned}
+&amp;\text{Minimizar} \quad -x_1 \\
+&amp;\text{sujeto a } \quad x_2 - (x_1 - 1)^3 \leq 0 \\
+&amp;\phantom{\text{sujeto a }} \quad x_1, x_2 \geq 0
+\end{aligned}
+\]</span></p></li>
+</ol></li>
+</ol>
+<hr>
+<ol start="10" type="1">
+<li>Plantee las KKT para el problema del item c) del ejercicio (9) y encuentre los puntos que las satisfacen, ¿se puede afirmar que alguno de ellos es un óptimo?</li>
+</ol>
+<hr>
+<ol start="11" type="1">
+<li><span class="math display">\[
+   \begin{aligned}
+   &amp;\text{Minimizar} &amp;&amp; x_{1}^{2} + x_{2}^{2} \\
+   &amp;\text{s.a.} &amp;&amp; (x_{1} - 1)^{2} + (x_{2} - 1)^{2} \leq 1, \\
+   &amp; &amp;&amp; (x_{1} - 1)^{2} + (x_{2} + 1)^{2} \leq 1
+   \end{aligned}
+   \]</span> con variable <span class="math inline">\(x \in \mathbb{R}^{2}\)</span>.</li>
+</ol>
+<ol type="a">
+<li>Dibuje el conjunto factible y las curvas de nivel de la función objetivo. Encuentre el punto óptimo <span class="math inline">\(x^{\star}\)</span> y el valor óptimo <span class="math inline">\(p^{\star}\)</span>.<br>
+</li>
+<li>Plantee las condiciones KKT. ¿Existen multiplicadores de Lagrange <span class="math inline">\(\lambda_{1}^{\star}\)</span> y <span class="math inline">\(\lambda_{2}^{\star}\)</span> que prueben que <span class="math inline">\(x^{\star}\)</span> es óptimo? ¿Se satisface la condición de Slater?</li>
+</ol>
+<hr>
+<ol start="12" type="1">
+<li>Mostrar que el multiplicador de Lagrange asociado a una restricción de igualdad puede ser cualquier número real. <em>[Ayuda: descomponga la restricción de igualdad en dos restricciones de desigualdad.]</em></li>
+</ol>
+<hr>
+<ol start="13" type="1">
+<li><p>Considere el problema:</p>
+<p><span class="math display">\[
+  \begin{aligned}
+  &amp;\text{Minimizar} \quad x^{2} \\
+  &amp;\text{sujeto a } \quad 2 - x \leq 0
+  \end{aligned}
+  \]</span></p>
+<ol type="a">
+<li>Obtenga la función dual de Lagrange y verifique gráficamente su convexidad.<br>
+¿Cuál es el valor de <span class="math inline">\(d^{*}\)</span>?<br>
+</li>
+<li>¿Se puede afirmar que <span class="math inline">\(d^{*} = p^{*}\)</span>?</li>
+</ol></li>
+</ol>
+<hr>
+<ol start="14" type="1">
+<li>Considere el problema de optimización:</li>
+</ol>
+<p><span class="math display">\[
+   \begin{aligned}
+   &amp;\text{Minimizar} &amp;&amp; x^{2} + 1 \\
+   &amp;\text{s.a.} &amp;&amp; (x - 2)(x - 4) \leq 0,
+   \end{aligned}
+   \]</span> con variable <span class="math inline">\(x \in \mathbb{R}\)</span>.</p>
+<ol type="a">
+<li>Dé el conjunto factible, el valor óptimo y la solución óptima.<br>
+</li>
+<li>Grafique la función objetivo <span class="math inline">\(x^{2} + 1\)</span> versus <span class="math inline">\(x\)</span>. En el mismo gráfico, grafique el Lagrangiano <span class="math inline">\(\mathcal{L}(x, \lambda)\)</span> versus <span class="math inline">\(x\)</span> para algunos valores positivos de <span class="math inline">\(\lambda\)</span>. Verifique la propiedad de cota inferior <span class="math inline">\(\big(p^{\star} \geq \inf_{x} \mathcal{L}(x,\lambda)\)</span> para <span class="math inline">\(\lambda \geq 0\big)\)</span>.<br>
+</li>
+<li>Derive y dibuje la función dual de Lagrange <span class="math inline">\(\mathcal{G}\)</span>, verifique que es cóncava. Enuncie el problema dual y encuentre el valor óptimo dual y la solución dual óptima <span class="math inline">\(\lambda^{\star}\)</span>. ¿Se cumple la dualidad fuerte? En caso afirmativo, justifique por qué.</li>
+</ol>
+<hr>
+<ol start="15" type="1">
+<li>Considere el problema de optimización:</li>
+</ol>
+<p><span class="math display">\[
+   \begin{aligned}
+   &amp;\text{Minimizar} &amp;&amp; e^{-x} \\
+   &amp;\text{s.a.} &amp;&amp; \frac{x^{2}}{y} \leq 0,
+   \end{aligned}
+   \]</span> con variables <span class="math inline">\(x\)</span> y <span class="math inline">\(y\)</span>, y dominio <span class="math inline">\(\mathcal{D} = \{(x,y) \mid y &gt; 0\}\)</span>.</p>
+<ol type="a">
+<li>Verifique que este es un problema de optimización convexo. Encuentre el valor óptimo.<br>
+</li>
+<li>Plantee el problema dual de Lagrange y encuentre el valor óptimo <span class="math inline">\(d^{\star}\)</span> del problema dual. ¿Cuál es la brecha de dualidad óptima?<br>
+</li>
+<li>¿Se cumple la condición de Slater para este problema?</li>
+</ol>
+</details>
 <div style="margin-top: 5em;">
 
 </div>
