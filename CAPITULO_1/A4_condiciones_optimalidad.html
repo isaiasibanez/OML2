@@ -164,7 +164,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../CAPITULO_1/A3_resolucion_computacional.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">1.3 Resolución computacional con CVXPY y SciPy</span></a>
+ <span class="menu-text">1.3 Resolución computacional y problemas clásicos de optimización convexa</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -315,9 +315,9 @@ window.Quarto = {
 <p>En un problema de optimización general con restricciones funcionales, de la forma <span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; f(\xx)\\
-\text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\begin{array}{cl}
-g_i(\xx)\leq 0,&amp; i=1,\cdots,r.\\
-h_j(\xx)=0, &amp; j=1,\cdots,m.
+\text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\;\begin{array}{ll}
+g_i(\xx)\leq 0,&amp; i=1,\cdots,r\\
+h_j(\xx)=0, &amp; j=1,\cdots,m
 \end{array}\right.\right\},
 \end{array}
 \]</span></p>
@@ -379,7 +379,7 @@ f(\xx^\star + t \cdot \dd) \geq f(\xx) \qquad\forall t\in\RR.
 <div style="margin-top:2em;">
 
 </div>
-<p>Para el caso de optimización sin restricciones, podemos responder a la segunda pregunta con un resultado muy importante dentro de la optimización convexa.</p>
+<p>Para el caso de optimización sin restricciones, podemos responder a la segunda pregunta con un resultado muy importante dentro de la optimización convexa, relacionado con el Teorema 3 del <a href="A2_optimizacion_convexa.html#problemas-de-optimización-convexa">C1-S2</a>.</p>
 <div class="teorema">
 <p><strong>Teorema 1.</strong> (Condición suficiente y necesaria de optimalidad de primer orden sin restricciones para funciones convexas) Sea <span class="math inline">\(f:\RR^p\to\RR\)</span> una función diferenciable y convexa. Entonces <span class="math inline">\(\xx^\star\in \text{dom}\,f\)</span> es un minimizador de <span class="math inline">\(f\)</span> si y solo si <span class="math display">\[
 \nabla f(\xx^\star)=\bfzero.
@@ -395,7 +395,7 @@ f(\xx^\star + t \cdot \dd) \geq f(\xx) \qquad\forall t\in\RR.
 \langle\nabla f(\xx),\dd\rangle\geq 0.
 \tag{2}
 \]</span></p>
-<p>Debemos ajustar (2) de manera tal de asegurarnos que las posibles direcciones de movimiento nos permita aproximarnos a puntos factibles <span class="math inline">\(\xx\)</span> sin salirnos del conjunto factible <span class="math inline">\(\Omega\)</span>. Esto conduce a la siguiente reformulación:</p>
+<p>Debemos ajustar (2) de manera tal de asegurarnos que las posibles direcciones de movimiento nos permitan aproximarnos a puntos factibles <span class="math inline">\(\xx\)</span> sin salirnos del conjunto factible <span class="math inline">\(\Omega\)</span>. Esto conduce a la siguiente reformulación:</p>
 <p><span class="math display">\[
 \langle\nabla f(\xx),\dd\rangle\geq 0\qquad \forall\dd\in\RR^p: \xx+t\dd\in\Omega,
 \tag{3}
@@ -423,6 +423,7 @@ f(\xx^\star + t \cdot \dd) \geq f(\xx) \qquad\forall t\in\RR.
 <div class="teorema">
 <p><strong>Teorema 2.</strong> (Condición necesaria de optimalidad de primer orden para un conjunto factible convexo) Sea <span class="math inline">\(\Omega\subset\RR^p\)</span> convexo y sea <span class="math inline">\(f:\RR^p\to\RR\)</span> una función diferenciable. Si <span class="math inline">\(\xx^\star\in \Omega\)</span> es un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, entonces <span class="math display">\[
 \langle \nabla f(\xx^\star), \yy - \xx^\star\rangle \geq 0 \qquad \forall\yy\in\Omega.
+\tag{4}
 \]</span></p>
 </div>
 <div style="margin-top:2em;">
@@ -430,19 +431,22 @@ f(\xx^\star + t \cdot \dd) \geq f(\xx) \qquad\forall t\in\RR.
 </div>
 <figure style="text-align: center;" class="figure">
 <img src="figuras/angulo_entre_gradiente_xy.png" alt="…" width="300px" class="figure-img">
+<figcaption>
+<strong>Figura 1</strong>. Interpretación geométrica de la condición necesaria (4) del Teorema 2.
+</figcaption>
 </figure>
 <div style="margin-top:2em;">
 
 </div>
-<p>Como se puede apreciar en la figura, para un punto óptimo <span class="math inline">\(\xx^\star\)</span>, el vector gradiente forma un ángulo agudo (o recto) con todas las direcciones de la forma <span class="math inline">\(\yy-\xx^\star\)</span>. Esto se deduce del hecho que <span class="math display">\[
+<p>Como se puede apreciar en la Figura 1, para un punto óptimo <span class="math inline">\(\xx^\star\)</span>, el vector gradiente forma un ángulo agudo (o recto) con todas las direcciones de la forma <span class="math inline">\(\yy-\xx^\star\)</span>. Esto se deduce del hecho que <span class="math display">\[
 \langle \nabla f(\xx^\star), \yy - \xx^\star\rangle=\underbrace{\|\nabla f(\xx^\star)\|_2}_{\geq 0}\underbrace{\|\yy-\xx^\star\|_2}_{\geq 0}\cos \alpha\geq 0
 \]</span></p>
 <p>si y solo si <span class="math inline">\(\cos\alpha\geq 0\)</span> (o equivalentemente, <span class="math inline">\(0\leq\alpha\leq\pi/2\)</span>).</p>
-<p>Ahora bien, nosotros estamos interesados en hallar <span class="math inline">\(\xx^\star\)</span>. Por lo tanto, el Teorema 2 nos da una condición necesaria que nos permite obtener aquellos puntos <span class="math inline">\(\xx\in\Omega\)</span> candidatos a ser óptimos (<mark><em>puntos críticos</em></mark>). Si pensamos en el opuesto del gradiente, <span class="math inline">\(-\nabla f(\xx)\)</span>, la condición se reescribe como <span class="math display">\[
+<p>Ahora bien, nosotros estamos interesados en hallar <span class="math inline">\(\xx^\star\)</span>. En este sentido, la condición (4) nos sirve para identificar aquellos puntos <span class="math inline">\(\xx\in\Omega\)</span> candidatos a ser óptimos (siguiendo la terminología habitual, los llamaremos <mark><em>puntos críticos</em></mark>). Si pensamos en el vector opuesto al gradiente, la expresión (4) se reescribe como <span class="math display">\[
 \langle -\nabla f(\xx),\yy-\xx\rangle\leq 0\qquad \forall\yy\in\Omega.
-\tag{4}
+\tag{5}
 \]</span></p>
-<p>Esto vincula nuestro análisis con la definición de cono normal (Definición 7 de <a href="A2_optimizacion_convexa.html#conos-normales">C1-S2</a>): la ecuación (4) es equivalente a escribir <span class="math inline">\(-\nabla f(\xx)\in N_{\Omega}(\xx)\)</span>. Así, el Teorema 2 puede ser interpretado en términos de conos normales:</p>
+<p>Esto vincula nuestro análisis con la definición de cono normal (Definición 7 de <a href="A2_optimizacion_convexa.html#conos-normales">C1-S2</a>): la ecuación (5) es equivalente a escribir <span class="math inline">\(-\nabla f(\xx)\in N_{\Omega}(\xx)\)</span>. Así, el Teorema 2 puede ser interpretado en términos de conos normales como sigue:</p>
 <div class="myhighlight">
 <p>Bajo las condiciones del Teorema 2, si <span class="math inline">\(\xx^\star\)</span> es un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, entonces <span class="math display">\[
 -\nabla f(\xx^\star)\in N_{\Omega}(\xx^\star).
@@ -454,13 +458,13 @@ f(\xx^\star + t \cdot \dd) \geq f(\xx) \qquad\forall t\in\RR.
 <figure style="text-align: center;" class="figure">
 <img src="figuras/condicion_optimalidad_gradiente_vs_cono_normal.png" alt="…" width="400px" class="figure-img">
 <figcaption>
-Idea geométrica de la condición del gradiente para tres puntos críticos <span class="math inline">\(\xx_1,\xx_2,\xx_3\in\Omega\)</span> y un punto no crítico <span class="math inline">\(\xx_4\in\Omega\)</span>. En el caso de <span class="math inline">\(\xx_3\)</span>, se tiene <span class="math inline">\(\nabla f(\xx_3)=\bfzero\)</span>.
+<strong>Figura 2</strong>. Idea geométrica de la condición del gradiente para tres puntos críticos <span class="math inline">\(\xx_1,\xx_2,\xx_3\in\Omega\)</span> y un punto no crítico <span class="math inline">\(\xx_4\in\Omega\)</span>. En el caso de <span class="math inline">\(\xx_3\)</span>, se tiene <span class="math inline">\(\nabla f(\xx_3)=\bfzero\)</span>.
 </figcaption>
 </figure>
 <div style="margin-top:2em;">
 
 </div>
-<p>En la figura anterior se presenta la geometría derivada de la condición necesaria establecida, para el caso en que <span class="math inline">\(\Omega\)</span> es un poliedro. Las posiciones de los puntos críticos corresponden a los Ejemplos 7-10 de conos normales, vistos en el <a href="A2_optimizacion_convexa.html#conos-normales">C1-S2</a>. En particular, para puntos interiores de <span class="math inline">\(\Omega\)</span>, la condición se reduce a la ecuación <span class="math inline">\(\nabla f(\xx)=\bfzero\)</span>, típica de los problemas sin restricciones.</p>
+<p>En la Figura 2 se presenta la geometría derivada de la condición necesaria establecida, para el caso en que <span class="math inline">\(\Omega\)</span> es un poliedro. Las posiciones de los puntos críticos corresponden a los Ejemplos 9-12 de conos normales, vistos en el <a href="A2_optimizacion_convexa.html#conos-normales">C1-S2</a>. En particular, para puntos interiores de <span class="math inline">\(\Omega\)</span>, la condición se reduce a la ecuación <span class="math inline">\(\nabla f(\xx)=\bfzero\)</span>, típica de los problemas sin restricciones.</p>
 <p>Todos los casos están caracterizados por el siguiente hecho:</p>
 <div class="myhighlight">
 <p>Los puntos críticos son aquellos en los cuales el opuesto del gradiente forma ángulos no agudos con todas las direcciones factibles.</p>
@@ -483,13 +487,11 @@ Idea geométrica de la condición del gradiente para tres puntos críticos <span
 <p>El conjunto factible <span class="math inline">\(\Omega\)</span> es el triángulo de vértices <span class="math inline">\((-\frac{1}{2},0)\)</span>, <span class="math inline">\((\frac{1}{2},0)\)</span> y <span class="math inline">\((0,1)\)</span>. En <span class="math inline">\(\xx=(0,0)\)</span> se tiene <span class="math inline">\(\nabla f(0,0)=(0,1)\)</span>. La condición del Teorema 2 para este punto se expresa como <span class="math display">\[
 \langle (0,1),\yy-(0,0)\rangle_2=y_2\geq 0\qquad\forall \yy\in\Omega.
 \]</span></p>
-<p>Esto es cierto, de acuerdo a la definición de <span class="math inline">\(\Omega\)</span>. De hecho, en la figura se puede ver que, efectivamente, <span class="math inline">\(-\nabla f(0,0)\in N_{\Omega}(0,0)\)</span>. Sin embargo, <span class="math inline">\((0,0)\)</span> no es óptimo, pues el valor óptimo es <span class="math inline">\(-\frac{1}{4}\)</span> y ocurre en los vértices <span class="math inline">\((\pm\frac{1}{2},0)\)</span>.</p>
+<p>Esto es cierto, de acuerdo a la definición de <span class="math inline">\(\Omega\)</span>. De hecho, en la siguiente figura se puede ver que, efectivamente, <span class="math inline">\(-\nabla f(0,0)\in N_{\Omega}(0,0)\)</span>.</p>
 <figure style="text-align: center;" class="figure">
 <img src="figuras/ej_grad_cono_fail.png" alt="…" width="300px" class="figure-img">
-<figcaption>
-<span class="math inline">\(-\nabla f(0,0)\in N_{\Omega}(0,0)\)</span>, pero <span class="math inline">\((0,0)\)</span> no es un punto óptimo del problema.
-</figcaption>
 </figure>
+<p>Pese a verificar la condición necesaria (4), el punto <span class="math inline">\((0,0)\)</span> no es óptimo. De hecho, <span class="math inline">\(f(0,0)=0\)</span>, mientras que el valor óptimo es <span class="math inline">\(-\frac{1}{4}\)</span> y ocurre en los vértices <span class="math inline">\((\pm\frac{1}{2},0)\)</span>.</p>
 </div>
 <div style="margin-top:2em;">
 
@@ -508,7 +510,7 @@ Idea geométrica de la condición del gradiente para tres puntos críticos <span
 <div class="teorema">
 <p><strong>Teorema 3.</strong> (Condición suficiente y necesaria de optimalidad de primer orden para un conjunto factible convexo y una función objetivo convexa) Sea <span class="math inline">\(\Omega \subseteq\RR^p\)</span> convexo y sea <span class="math inline">\(f:\RR^p\to\RR\)</span> una función diferenciable convexa. Entonces <span class="math inline">\(\xx^\star\)</span> es un minimizador de <span class="math inline">\(f\)</span> en <span class="math inline">\(\Omega\)</span> si y solo si se verifica <span class="math display">\[
 -\nabla f(\xx^\star)\in N_{\Omega}(\xx^\star).
-\tag{5}
+\tag{6}
 \]</span></p>
 </div>
 <details>
@@ -554,12 +556,12 @@ A=\begin{pmatrix}1&amp;0\\0&amp;2\end{pmatrix}\quad\mbox{y}\quad\bb=\begin{pmatr
 <p><span class="math display">\[
 \nabla f^2(\xx)=A^\top A = \begin{pmatrix}1&amp;0\\0&amp;2\end{pmatrix}\begin{pmatrix}1&amp;0\\0&amp;2\end{pmatrix}=\begin{pmatrix}1&amp;0\\0&amp;4\end{pmatrix}
 \]</span></p>
-<p>Claramente <span class="math inline">\(\nabla^2 f(\xx)\succeq 0\)</span>, lo cual significa que <span class="math inline">\(f\)</span> es convexa. Así, por Teorema 3, la condición (5) es suficiente y necesaria para que <span class="math inline">\(\xx\)</span> sea un punto óptimo. Esto nos permite hacer el siguiente análisis:</p>
+<p>Claramente <span class="math inline">\(\nabla^2 f(\xx)\succeq 0\)</span>, lo cual significa que <span class="math inline">\(f\)</span> es convexa. Así, por Teorema 3, la condición (6) es suficiente y necesaria para que <span class="math inline">\(\xx\)</span> sea un punto óptimo. Esto nos permite hacer el siguiente análisis:</p>
 <ul>
 <li><p><span class="math inline">\(\nabla f(\xx)\neq \bfzero\)</span> para todo punto interior de <span class="math inline">\(\Omega\)</span>, lo cual implica que no hay puntos óptimos en el interior.</p></li>
 <li><p>En el lado <span class="math inline">\(\{(0,t) \mid 0&lt;t&lt;1.5\}\)</span>, <span class="math inline">\(-\nabla f(\xx)=(1,2-4t)\)</span>. Pero el cono normal está determinado por la dirección normal <span class="math inline">\((-1,0)\)</span>, lo cual significa que <span class="math inline">\(-\nabla f(\xx)\in N_{\Omega}(\xx)\)</span> si y solo si es de la forma <span class="math inline">\((-a,0)\)</span> con <span class="math inline">\(a&gt;0\)</span>, lo cual no puede ocurrir. Por lo tanto, no hay puntos óptimos en esta porción de frontera.</p></li>
 <li><p>De manera similar al caso anterior, tampoco hay puntos óptimos en el lado <span class="math inline">\(\{(t,0)\mid 0&lt;t&lt;1.5\}\)</span>, ya que <span class="math inline">\(-\nabla f(\xx)=(1-t,2)\)</span> y la dirección normal es <span class="math inline">\((0,-1)\)</span>.</p></li>
-<li><p>En el lado <span class="math inline">\(\{(t,1.5-t)\mid 0&lt;t&lt;1.5\}\)</span>, tenemos que <span class="math inline">\(-\nabla f(\xx)=(1-t,4t-4)\)</span> y la dirección normal es <span class="math inline">\((1,1)\)</span>. Esto significa que la condición (5) es cierta si ambas componentes de <span class="math inline">\(-\nabla f(\xx)\)</span> son iguales: <span class="math display">\[
+<li><p>En el lado <span class="math inline">\(\{(t,1.5-t)\mid 0&lt;t&lt;1.5\}\)</span>, tenemos que <span class="math inline">\(-\nabla f(\xx)=(1-t,4t-4)\)</span> y la dirección normal es <span class="math inline">\((1,1)\)</span>. Esto significa que (6) es cierto si ambas componentes de <span class="math inline">\(-\nabla f(\xx)\)</span> son iguales: <span class="math display">\[
 \begin{align*}
 1-t&amp;=4t-4\\
 t &amp;= 1
@@ -570,15 +572,12 @@ t &amp;= 1
 </ul>
 <figure style="text-align: center;" class="figure">
 <img src="figuras/ej_vertices_no_optimos.png" alt="…" width="350px" class="figure-img">
-<figcaption>
-En los vértices de <span class="math inline">\(\Omega\)</span> no se cumple la condición (5), lo cual implica que ninguno de ellos es un punto óptimo.
-</figcaption>
 </figure>
-<p>En conclusión, el único punto óptimo del problema es <span class="math display">\[
-\xx^\star=(1,0.5).
+<p>Dado que no cumplen la condición suficiente y necesaria (6), ningun vértice es un punto óptimo. En conclusión, el problema tiene solución única <span class="math display">\[
+\xx^\star=(1,0.5)\qquad\text{y}\qquad p^\star=f(1,0.5)=0.
 \]</span></p>
 </div>
-<div style="margin-top:2em;">
+<div style="margin-top:2.5em;">
 
 </div>
 </section>
@@ -600,9 +599,9 @@ En los vértices de <span class="math inline">\(\Omega\)</span> no se cumple la 
 <div style="margin-top:0.5em;">
 
 </div>
-<p>Vamos a considerar el caso en que <span class="math inline">\(\Omega\)</span> es un poliedro definido a partir de la intersección de un número finito de semiespacios. Es decir, es de la forma <span class="math display">\[
-\Omega:=\{\xx\in\RR^p \mid A\xx\preceq \bb,\; C\xx=\dd\},
-\tag{6}
+<p>Vamos a considerar el caso en que <span class="math inline">\(\Omega\)</span> es un poliedro definido a partir de la intersección de un número finito de semiespacios e hiperplanos. Es decir, es de la forma <span class="math display">\[
+\Omega=\{\xx\in\RR^p \mid A\xx\preceq \bb,\; C\xx=\dd\},
+\tag{7}
 \]</span></p>
 <p>donde <span class="math inline">\(A\in\RR^{r\times p}\)</span>, <span class="math inline">\(C\in\RR^{m\times p}\)</span>, <span class="math inline">\(\bb\in\RR^r\)</span> y <span class="math inline">\(\dd\in\RR^m\)</span>.</p>
 <div class="definicion">
@@ -614,7 +613,7 @@ g(\xx_0)= 0.
 <div style="margin-top:2em;">
 
 </div>
-<p>En los ejemplos de <a href="A2_optimizacion_convexa.html#conos-normales">conos normales</a>, analizamos el comportamiento del cono normal según la posición del punto de interés: si <span class="math inline">\(\xx\)</span> es interior a <span class="math inline">\(\Omega\)</span>, resulta simplemente <span class="math inline">\(N_{\Omega}(\xx)=\{\bfzero\}\)</span>, mientras que si <span class="math inline">\(\xx\)</span> pertenece a la frontera de <span class="math inline">\(\Omega\)</span>, el cono normal queda determinado por las direcciones que definen los hiperplanos y semiplanos. Para este último caso, podemos resumirlo de la siguiente manera:</p>
+<p>En los Ejemplos 9-12 de conos normales en <a href="A2_optimizacion_convexa.html#conos-normales">C1-S2</a>, analizamos su definición según la posición del punto de interés: si <span class="math inline">\(\xx\)</span> es interior a <span class="math inline">\(\Omega\)</span>, resulta simplemente <span class="math inline">\(N_{\Omega}(\xx)=\{\bfzero\}\)</span>, mientras que si <span class="math inline">\(\xx\)</span> pertenece a la frontera de <span class="math inline">\(\Omega\)</span>, el cono normal queda determinado por las direcciones que definen los semiespacios e hiperplanos. Para este último caso, podemos resumirlo de la siguiente manera:</p>
 <div class="myhighlight">
 <p>El cono normal en un punto en la frontera es la envolvente cónica de las direcciones ortogonales a las restricciones activas.</p>
 </div>
@@ -623,7 +622,7 @@ g(\xx_0)= 0.
 </div>
 <p>No obstante, en dichos ejemplos hemos considerado casos particulares de <span class="math inline">\(\Omega\)</span>: un hiperplano, un semiespacio y la intersección de dos semiespacios. Necesitamos extender ese análisis a cualquier poliedro <span class="math inline">\(\Omega\)</span> y caracterizar el cono normal en cualquier punto de <span class="math inline">\(\Omega\)</span>. El siguiente resultado nos proporciona dicha caracterización.</p>
 <div class="teorema">
-<p><strong>Teorema 4.</strong> (Cono normal a un punto de un poliedro) Sea <span class="math inline">\(\Omega\)</span> el poliedro definido por (6). Para <span class="math inline">\(x\in\Omega\)</span>, sea <span class="math inline">\(I(\xx)\)</span> el conjunto de índices de las restricciones activas; esto es <span class="math display">\[
+<p><strong>Teorema 4.</strong> (Cono normal a un punto de un poliedro) Sea <span class="math inline">\(\Omega\)</span> el poliedro definido por (7). Para <span class="math inline">\(\xx\in\Omega\)</span>, sea <span class="math inline">\(I(\xx)\)</span> el conjunto de índices de las restricciones activas; esto es <span class="math display">\[
 I(\xx):=\left\{i\in\{1,\cdots,r\} \mid \aa_i^\top\xx=b_i\right\}.
 \]</span> Entonces, el cono normal en <span class="math inline">\(\xx\)</span> está dado por</p>
 <p><span class="math display">\[
@@ -641,9 +640,9 @@ Mostrar detalles
 <p>La suma en la expresión del cono normal puede ser reescrita sin restringir <span class="math inline">\(i\in I(\xx)\)</span>, simplemente imponiendo <span class="math inline">\(\lambda_i=0\)</span> para todo <span class="math inline">\(i\notin I(\xx)\)</span>. Esta imposición queda ímplicita de forma inmediata si se escribe</p>
 <p><span class="math display">\[
 \sum_{i=1}^r\lambda_i\left(\aa_i^\top\xx-b_i\right)=0\qquad\lambda_i\in\RR_0^+.
-\tag{7}
+\tag{8}
 \]</span></p>
-<p>En forma vectorial, (7) puede escribirse como <span class="math inline">\(\bflambda^\top\left(A\xx-\bb\right)=0\)</span>, donde <span class="math inline">\(\bflambda=(\lambda_1,\cdots,\lambda_m)^\top\)</span>. Con esta notación, podemos escribir el cono normal del Teorema 4 así: <span class="math display">\[
+<p>En forma vectorial, (8) puede escribirse como <span class="math inline">\(\bflambda^\top\left(A\xx-\bb\right)=0\)</span>, donde <span class="math inline">\(\bflambda=(\lambda_1,\cdots,\lambda_m)^\top\)</span>. Con esta notación, podemos escribir el cono normal del Teorema 4 así: <span class="math display">\[
 N_{\Omega}(\xx)=\left\{A^\top\bflambda+C^\top\bfnu \mid \bflambda^\top(A\xx-\bb)=0,\;\bflambda\in(\RR_0^+)^r,\;\bfnu\in\RR^m\right\}.
 \]</span></p>
 </div>
@@ -671,23 +670,23 @@ N_{\Omega}(\xx)=\left\{A^\top\bflambda+C^\top\bfnu \mid \bflambda^\top(A\xx-\bb)
 <div style="margin-top:2em;">
 
 </div>
-<p>Los Teoremas 1 y 2 pueden ser aplicados en este contexto, dado que <span class="math inline">\(\Omega\)</span> es un poliedro y, en consecuencia, es un conjunto convexo. Obtenemos así el siguiente resultado.</p>
+<p>Ahora bien, dado que <span class="math inline">\(\Omega\)</span> es un poliedro (y, por lo tanto, un conjunto convexo), los Teoremas 1 y 2 pueden ser aplicados en este contexto. Obtenemos así el siguiente resultado.</p>
 <div class="teorema">
-<p><strong>Corolario 5.</strong> (Condición necesaria de optimalidad de primer orden para un conjunto factible poliedral) Sea <span class="math inline">\(\Omega\)</span> el poliedro definido por (6), y sea <span class="math inline">\(f:\RR^p\to\RR\)</span> una función diferenciable. Si <span class="math inline">\(\xx^\star\in \Omega\)</span> es un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, entonces existen <span class="math inline">\(\bflambda\in(\RR_0^+)^r\)</span> y <span class="math inline">\(\bfnu\in\RR^m\)</span> tales que <span class="math inline">\(\lambda_i(\aa_i^\top\xx-b_i)=0\)</span> para todo <span class="math inline">\(i=1,\ldots,r\)</span> y <span class="math display">\[
+<p><strong>Corolario 1.</strong> (Condición necesaria de optimalidad de primer orden para un conjunto factible poliedral) Sea <span class="math inline">\(\Omega\)</span> el poliedro definido por (7), y sea <span class="math inline">\(f:\RR^p\to\RR\)</span> una función diferenciable. Si <span class="math inline">\(\xx^\star\in \Omega\)</span> es un minimizador de <span class="math inline">\(f\)</span> sobre <span class="math inline">\(\Omega\)</span>, entonces existen <span class="math inline">\(\bflambda\in(\RR_0^+)^r\)</span> y <span class="math inline">\(\bfnu\in\RR^m\)</span> tales que <span class="math inline">\(\lambda_i(\aa_i^\top\xx-b_i)=0\)</span> para todo <span class="math inline">\(i=1,\ldots,r\)</span> y <span class="math display">\[
 -\nabla f(\xx^\star)=\sum_{i=1}^r\lambda_i\aa_i+\sum_{j=1}^m \nu_j\cc_j.
 \]</span></p>
 <p>Además, si <span class="math inline">\(f\)</span> es convexa, esta condición es también suficiente.</p>
 </div>
 <div class="alert alert-light text-dark" role="important">
 <p><span class="badge bg-warning text-dark">Importante</span></p>
-<p>Las condiciones del Corolario 5 son conocidas como <em>condiciones de Karush-Kuhn-Tucker</em> (KKT), permiten definir un criterio para obtener puntos críticos. Se formulan a partir de diferentes componentes:</p>
+<p>Las condiciones del Corolario 1, conocidas como <em>condiciones de Karush-Kuhn-Tucker</em> (KKT), permiten definir un criterio para obtener puntos críticos. Se formulan a partir de diferentes componentes:</p>
 <ul>
 <li><p><strong>Factibilidad primal</strong>: El punto <span class="math inline">\(\xx\)</span> debe ser un punto factible.</p></li>
 <li><p><strong>Factibilidad dual</strong>: Los multiplicadores de Lagrange asociados a las restricciones de desigualdad deben ser no negativos. <span class="math display">\[
 \lambda_i\geq 0 \quad \forall i=1,\cdots,r.
 \]</span></p></li>
 <li><p><strong>Holgura complementaria</strong>: Los multiplicadores de Lagrange asociados a las restricciones de desigualdad solo pueden ser positivos si la restricción está activa. <span class="math display">\[
-\lambda_i\left(\aa_i^\top\xx-b_i\right)=0 \quad \forall i=1,\cdots,r.
+\lambda_i\left(\aa_i^\top\xx-b_i\right)=0 \qquad \forall i=1,\cdots,r.
 \]</span></p></li>
 <li><p><strong>Estacionariedad</strong>: El opuesto del vector gradiente debe ser una combinación lineal de los gradientes de las restricciones. <span class="math display">\[
 -\nabla f(\xx)=\sum_{i=1}^{r}\lambda_i\aa_i+\sum_{j=1}^m\nu_j\cc_j.
@@ -700,7 +699,7 @@ N_{\Omega}(\xx)=\left\{A^\top\bflambda+C^\top\bfnu \mid \bflambda^\top(A\xx-\bb)
 \nabla f(\xx)=\bfzero.
 \]</span></p>
 </div>
-<p>El resultado anterior permite obtener candidatos a ser puntos óptimos para este caso especial de <span class="math inline">\(\Omega\)</span>. Puede resumirse así:</p>
+<p>Por supuesto, el resultado presentado en el Corolario 1 representa un criterio para obtener puntos críticos si <span class="math inline">\(\Omega\)</span> es un poliedro. En resumen:</p>
 <div class="myhighlight">
 <p>Si <span class="math inline">\(\Omega\)</span> es un conjunto convexo de la forma <span class="math display">\[
 \Omega:=\{\xx\in\RR^p \mid A\xx\preceq \bb,\;C\xx=\dd\},
@@ -753,19 +752,19 @@ P\xx+\qq+A^\top\bfnu &amp;=\bfzero.
 <p>Volvamos al caso general de nuestro interés: <span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; f(\xx)\\
-\text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\begin{array}{cl}
-g_i(\xx)\leq 0,&amp; i=1,\cdots,r.\\
-h_j(\xx)=0, &amp; j=1,\cdots,m.
+\text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\;\begin{array}{ll}
+g_i(\xx)\leq 0,&amp; i=1,\cdots,r\\
+h_j(\xx)=0, &amp; j=1,\cdots,m
 \end{array}\right.\right\},
 \end{array}
-\tag{8}
+\tag{9}
 \]</span></p>
 <p>donde <span class="math inline">\(\Omega\)</span> está definido como una intersección de restricciones funcionales diferenciables.</p>
 <p>Supongamos que <span class="math inline">\(\xx^\star\)</span> es un punto óptimo en la frontera del conjunto factible <span class="math inline">\(\Omega\)</span> correspondiente a tres condiciones de desigualdad <span class="math inline">\(g_i(x) \le 0\)</span> para <span class="math inline">\(i=1,2,3\)</span>. En la siguiente figura se grafica la idea principal que subyace a la definición de cono normal para el caso de restricciones no lineales.</p>
 <figure style="text-align: center;" class="figure">
 <img src="figuras/conic_hull_generalization.png" alt="Conic Hull" width="400px" class="figure-img">
 <figcaption>
-Envolvente cónica de la intersección de restricciones <span class="math inline">\(g_i(\xx)\leq 0\)</span>, para <span class="math inline">\(i=1,2,3\)</span>.
+<strong>Figura 3</strong>. Envolvente cónica de la intersección de restricciones <span class="math inline">\(g_i(\xx)\leq 0\)</span>, para <span class="math inline">\(i=1,2,3\)</span>.
 </figcaption>
 </figure>
 <div style="margin-top:2em;">
@@ -777,34 +776,24 @@ Envolvente cónica de la intersección de restricciones <span class="math inline
 <div style="margin-top:2em;">
 
 </div>
-<p>Esta idea es más bien intuitiva, por lo cual no estamos en condiciones de extender el Teorema 4 ni el Corolario 5 de manera rigurosa. Sin embargo, lo que sí haremos es extender el concepto de las condiciones KKT, dejando para más adelante el análisis de su aplicabilidad. Para ello, utilizaremos los resultados de la sección anterior en <span class="math inline">\(\tilde{\Omega}\)</span>, la <em>linearización</em> de <span class="math inline">\(\Omega\)</span> en un punto dado. En particular, para un punto óptimo <span class="math inline">\(\xx^\star\)</span>, la linearización de las restricciones queda determinada por:</p>
+<p>Esta idea es más bien intuitiva, por lo cual no estamos en condiciones de extender el Teorema 4 ni el Corolario 1 de manera rigurosa. Sin embargo, lo que sí haremos es extender el concepto de las condiciones KKT, dejando para más adelante el análisis de su aplicabilidad. Para ello, utilizaremos los resultados de la sección anterior en <span class="math inline">\(\tilde{\Omega}\)</span>, la <em>linearización</em> de <span class="math inline">\(\Omega\)</span> en un punto dado. En particular, para un punto óptimo <span class="math inline">\(\xx^\star\)</span>, la linearización de las restricciones queda determinada por:</p>
 <p><span class="math display">\[
-\tilde{g}_i(\xx):=g_i(\xx^\star)+\nabla g_i(\xx^\star)\cdot (\xx-\xx^\star).
+\tilde{g}_i(\xx):=g_i(\xx^\star)+\nabla g_i(\xx^\star)\cdot (\xx-\xx^\star),
 \]</span> <span class="math display">\[
-\tilde{h}_i(\xx):=h_i(\xx^\star)+\nabla h_i(\xx^\star)\cdot (\xx-\xx^\star),
+\tilde{h}_i(\xx):=h_i(\xx^\star)+\nabla h_i(\xx^\star)\cdot (\xx-\xx^\star).
 \]</span></p>
 <p>Es decir, resulta <span class="math display">\[
-\tilde{\Omega}:=\left\{\xx\in\RR^p\left|\begin{array}{rl}
-\tilde{g}_i(\xx)\leq 0,&amp; i=1,\cdots,r.\\
-\tilde{h}_j(\xx)=0, &amp; j=1,\cdots,m.
+\tilde{\Omega}:=\left\{\xx\in\RR^p\left|\;\begin{array}{ll}
+\tilde{g}_i(\xx)\leq 0,&amp; i=1,\cdots,r\\
+\tilde{h}_j(\xx)=0, &amp; j=1,\cdots,m
 \end{array}\right.\right\}.
 \]</span></p>
 <p>Es importante notar que <span class="math inline">\(\nabla \tilde{g}_i(\xx)=\nabla g_i(\xx^\star)\)</span> y <span class="math inline">\(\nabla \tilde{h}_i(\xx)=\nabla h_i(\xx^\star)\)</span>. En consecuencia, la aplicación del Teorema 4 a <span class="math inline">\(\tilde{\Omega}\)</span> resulta en el siguiente cono normal:</p>
 <p><span class="math display">\[
-\left.N_{\tilde{\Omega}}(\xx^\star)=\left\{\sum_{i\in I(\xx^\star)}\lambda_i\nabla g_i(\xx^\star)+\sum_{j=1}^m\nu_j\nabla h_j(\xx^\star)+ \,\right| \lambda_i\in\RR_0^+, \nu_j\in\RR\right\},
-\tag{9}
+\left.N_{\tilde{\Omega}}(\xx^\star)=\left\{\sum_{i\in I(\xx^\star)}\lambda_i\nabla g_i(\xx^\star)+\sum_{j=1}^m\nu_j\nabla h_j(\xx^\star)\;\right|\; \lambda_i\in\RR_0^+, \nu_j\in\RR\right\},
+\tag{10}
 \]</span></p>
-<p>donde <span class="math inline">\(I(\xx^\star):=\left\{i\in\{1,\cdots,r\} \mid g_i(\xx^\star)=0\right\}\)</span>. Por supuesto, el uso del conjunto índice <span class="math inline">\(I\)</span> puede evitarse utilizando holgura complementaria, tal como antes.</p>
-<div class="question callout callout-style-simple callout-none no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p><span style="font-size: 1.3em;">📝</span><br> ¿Porqué, en la expresión (9), los multiplicadores <span class="math inline">\(\lambda_i\)</span> asociados a las restricciones de igualdad no deben ser no negativos?</p>
-</div>
-</div>
-</div>
+<p>donde el conjunto de restricciones activas está determinado por <span class="math inline">\(I(\xx^\star):=\left\{i\in\{1,\cdots,r\} \mid g_i(\xx^\star)=0\right\}\)</span>. Por supuesto, el uso del conjunto índice <span class="math inline">\(I\)</span> puede evitarse utilizando holgura complementaria, tal como antes.</p>
 <div style="margin-top:2em;">
 
 </div>
@@ -817,9 +806,9 @@ Envolvente cónica de la intersección de restricciones <span class="math inline
 <p><strong>Definición 2.</strong> (Condiciones de Karush-Kuhn-Tucker (KKT)) Sea un problema de optimización con función objetivo diferenciable y restricciones funcionales, de la forma <span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; f(\xx)\\
-\text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\begin{array}{cl}
-g_i(\xx)\leq 0,&amp; i=1,\cdots,r.\\
-h_j(\xx)=0, &amp; j=1,\cdots,m.
+\text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\;\begin{array}{ll}
+g_i(\xx)\leq 0,&amp; i=1,\cdots,r\\
+h_j(\xx)=0, &amp; j=1,\cdots,m
 \end{array}\right.\right\},
 \end{array}
 \]</span></p>
@@ -895,6 +884,9 @@ h_j(\xx)=0\qquad\forall j=1,\ldots,m.
 \]</span></p>
 <p>En consecuencia, las condiciones KKT fallan en este caso.</p>
 </div>
+<div style="margin-top:1em;">
+
+</div>
 </section>
 <section id="cualificación-de-restricciones" class="level3">
 <h3 class="anchored" data-anchor-id="cualificación-de-restricciones">Cualificación de restricciones</h3>
@@ -914,10 +906,7 @@ h_j(\xx)=0\qquad\forall j=1,\ldots,m.
 <div style="margin-top:2em;">
 
 </div>
-<p>La condición de Slater es la cualificación de restricciones más común para garantizar que las condiciones KKT son necesarias para que un punto sea óptimo. Es importante remarcar que:</p>
-<ul>
-<li>La condición de <em>factibilidad estricta</em> es fundamental y no puede relajarse.</li>
-</ul>
+<p>La condición de Slater es la cualificación de restricciones más común para garantizar que las condiciones KKT son necesarias para que un punto sea óptimo. Es importante remarcar que la condición de <em>factibilidad estricta</em> es fundamental y no puede relajarse.</p>
 <div class="question callout callout-style-simple callout-none no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -934,24 +923,22 @@ h_j(\xx)=0\qquad\forall j=1,\ldots,m.
 </div>
 </div>
 </div>
-<ul>
-<li>La condición de convexidad tampoco puede relajarse, como se ve en el Ejemplo 4, donde la función de restricción <span class="math inline">\(g_1(x,y)=y-(1-x)^3\)</span> no es convexa. En efecto, <span class="math display">\[
+<p>Además, la condición de convexidad tampoco puede relajarse, como se ve en el Ejemplo 4, donde la función de restricción <span class="math inline">\(g_1(x,y)=y-(1-x)^3\)</span> no es convexa. En efecto, <span class="math display">\[
 \nabla^2 g_1(x,y)=\begin{pmatrix}
 -6(1-x)&amp;0\\
 0&amp;0
 \end{pmatrix},
-\]</span> lo cual implica que no es semidefinida positiva en un entorno del punto óptimo <span class="math inline">\((1,0)\)</span>.</li>
-</ul>
+\]</span> lo cual implica que no es semidefinida positiva en un entorno del punto óptimo <span class="math inline">\((1,0)\)</span>.</p>
 <div style="margin-top:2em;">
 
 </div>
 <p>Ahora bien, si a la condición de Slater le añadimos la hipótesis de que la función objetivo <span class="math inline">\(f\)</span> es convexa, entonces las condiciones KKT no solo son necesarias, sino que también resultan suficientes para garantizar la optimalidad. Este escenario corresponde a los problemas de optimización convexa con funciones diferenciables, en los cuales el punto óptimo queda completamente caracterizado por las condiciones KKT.</p>
 <div class="teorema">
-<p><strong>Teorema 6.</strong> Sea un problema de optimización convexa de la forma <span class="math display">\[
+<p><strong>Teorema 5.</strong> Sea un problema de optimización convexa de la forma <span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; f(\xx)\\
-\text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\begin{array}{cl}
-g_i(\xx)\leq 0,&amp; i=1,\cdots,r.\\
+\text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\;\begin{array}{ll}
+g_i(\xx)\leq 0,&amp; i=1,\cdots,r\\
 A\xx=\bb
 \end{array}\right.\right\},
 \end{array}
@@ -967,12 +954,12 @@ Mostrar detalles
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
 <p>Probaremos únicamente la suficiencia. Sea <span class="math inline">\(\xx_0\)</span> un punto factible que verifica las condiciones KKT. Entonces, la condición de estacionariedad nos permite afirmar que existen <span class="math inline">\(\bflambda\in\RR^r\)</span>, con <span class="math inline">\(\bflambda\succeq\bfzero\)</span>, y <span class="math inline">\(\bfnu\in\RR^m\)</span> tales que <span class="math display">\[
 \nabla f(\xx_0)+\sum_{i=1}^r\lambda_i\nabla g_i(\xx_0)+A^\top\bfnu=\bfzero.
-\tag{10}
+\tag{11}
 \]</span></p>
 <p>Dado que <span class="math inline">\(f\)</span> y <span class="math inline">\(g_i\)</span> son funciones convexas, también es convexa la función <span class="math inline">\(L:\RR^p\to\RR\)</span> definida por <span class="math display">\[
 L(\xx):=f(\xx)+\sum_{i=1}^r\lambda_i g_i(\xx)+\bfnu^\top(A\xx-\bb).
 \]</span></p>
-<p>Por condición de optimalidad de primer orden sin restricciones para funciones convexas (Teorema 1), la expresión (10) implica que <span class="math inline">\(\xx_0\)</span> es el minimizador de <span class="math inline">\(L(\xx_0)\)</span>. Además, es fácil ver que <span class="math inline">\(L(\xx)\leq f(\xx)\)</span> para todo <span class="math inline">\(\xx\)</span> factible. En consecuencia, se deduce <span class="math display">\[
+<p>Por condición de optimalidad de primer orden sin restricciones para funciones convexas (Teorema 1), la expresión (11) implica que <span class="math inline">\(\xx_0\)</span> es el minimizador de <span class="math inline">\(L(\xx_0)\)</span>. Además, es fácil ver que <span class="math inline">\(L(\xx)\leq f(\xx)\)</span> para todo <span class="math inline">\(\xx\)</span> factible. En consecuencia, se deduce <span class="math display">\[
 f(\xx_0)=L(\xx_0)\leq L(\xx)\leq f(\xx)\qquad\forall\xx\text{ factible},
 \]</span> donde la primera igualdad es cierta gracias a la condición de holgura complementaria <span class="math inline">\(\lambda_i g_i(\xx_0)=0\)</span> para todo <span class="math inline">\(i=1,\ldots,r\)</span>. Luego, <span class="math inline">\(\xx_0\)</span> es punto óptimo del problema, tal como queríamos probar.<span class="math inline">\(\qquad\blacksquare\)</span></p>
 <div class="question callout callout-style-simple callout-none no-icon">
@@ -989,7 +976,7 @@ f(\xx_0)=L(\xx_0)\leq L(\xx)\leq f(\xx)\qquad\forall\xx\text{ factible},
 </div>
 </div>
 </details>
-<div style="margin-top:2em;">
+<div style="margin-top:1em;">
 
 </div>
 <div class="callout-example">
@@ -1016,6 +1003,9 @@ x_1^\star+x_2^\star-1\leq 0,\; x_1^\star\geq 0,\; x_2^\star\geq 0\qquad&amp;\tex
 <li>La primera condición de estacionariedad implica <span class="math inline">\(\lambda_1^\star&lt;0\)</span>. Esto contradice la factiibilidad dual <span class="math inline">\(\lambda_1^\star\geq 0\)</span>.</li>
 </ol>
 </div>
+<div style="margin-top:2.5em;">
+
+</div>
 </section>
 </section>
 <section id="dualidad" class="level2">
@@ -1027,9 +1017,9 @@ x_1^\star+x_2^\star-1\leq 0,\; x_1^\star\geq 0,\; x_2^\star\geq 0\qquad&amp;\tex
 <p><strong>Definición 3.</strong> (Lagrangiano) Sea un problema de optimización de la forma <span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; f(\xx)\\
-\text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\begin{array}{cl}
-g_i(\xx)\leq 0,&amp; i=1,\cdots,r.\\
-h_j(\xx)=0, &amp; j=1,\cdots,m.
+\text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\;\begin{array}{ll}
+g_i(\xx)\leq 0,&amp; i=1,\cdots,r\\
+h_j(\xx)=0, &amp; j=1,\cdots,m
 \end{array}\right.\right\}.
 \end{array}
 \]</span></p>
@@ -1087,7 +1077,7 @@ Mostrar detalles
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><span style="font-size: 1.3em;">📝</span><br> Verificar la propiedad.</p>
+<p><span style="font-size: 1.3em;">📝</span><br> Verifique la propiedad anterior.</p>
 </div>
 </div>
 </div>
@@ -1095,7 +1085,7 @@ Mostrar detalles
 </div>
 </div>
 </details>
-<div style="margin-top:2em;">
+<div style="margin-top:1em;">
 
 </div>
 <div class="callout-example">
@@ -1179,19 +1169,19 @@ d^\star\leq p^\star.
 <h4 class="anchored" data-anchor-id="dualidad-débil">Dualidad débil</h4>
 <p>El valor óptimo del problema dual, <span class="math inline">\(d^\star\)</span>, es, por definición, la mejor cota inferior de <span class="math inline">\(p^\star\)</span> que podemos obtener mediante la función dual de Lagrange. La desigualdad <span class="math display">\[
 d^\star\leq p^\star
-\tag{11}
+\tag{12}
 \]</span> se conoce como <mark><em>dualidad débil</em></mark>, y es cierta incluso si el problema primal no es convexo. La dualidad débil es cierta incluso para valores infinitos:</p>
 <ul>
 <li>Si el problema primal no tiene cota inferior (<span class="math inline">\(p^\star=-\infty\)</span>), entonces el problema dual es es infactible (<span class="math inline">\(d^\star=-\infty\)</span>).</li>
 <li>Si el problema dual no tiene cota superior (<span class="math inline">\(d^\star=\infty\)</span>), entonces el problema primal es infactible (<span class="math inline">\(p^\star=\infty\)</span>).</li>
 </ul>
-<p>Nos referiremos a la diferencia <span class="math inline">\(p^\star-d^\star\)</span> como <mark><em>brecha de dualidad óptima</em></mark> del problema primal. Es importante remarcar que la ventaja de trabajar con la dualidad débil (11) radica en que aún cuando el problema primal es difícil de resolver, el problema dual, al ser siempre convexo, la mayoría de las veces puede ser resuelto eficientemente.</p>
+<p>Nos referiremos a la diferencia <span class="math inline">\(p^\star-d^\star\)</span> como <mark><em>brecha de dualidad óptima</em></mark> del problema primal. Es importante remarcar que la ventaja de trabajar con la dualidad débil (12) radica en que aún cuando el problema primal es difícil de resolver, el problema dual, al ser siempre convexo, la mayoría de las veces puede ser resuelto eficientemente.</p>
 </section>
 <section id="dualidad-fuerte" class="level4">
 <h4 class="anchored" data-anchor-id="dualidad-fuerte">Dualidad fuerte</h4>
 <p>La <mark><em>dualidad fuerte</em></mark> se cumple si ocurre <span class="math display">\[
 d^\star=p^\star.
-\tag{12}
+\tag{13}
 \]</span></p>
 <p>Hay dos hechos importantes a tener en cuenta:</p>
 <ul>
@@ -1200,25 +1190,22 @@ d^\star=p^\star.
 </ul>
 <p>La cualificación de restricciones más común para asegurar la dualidad fuerte es la <em>condición de Slater</em>, que presentaremos en el siguiente teorema. Observar que difiere sutilmente de la condición vista para KKT.</p>
 <div class="teorema">
-<p><strong>Teorema 7.</strong> (Teorema de Slater) Sea un problema de optimización convexa de la forma <span class="math display">\[
+<p><strong>Teorema 6.</strong> (Teorema de Slater) Sea un problema de optimización convexa de la forma <span class="math display">\[
 \begin{array}{ll}
 \text{minimizar } &amp; f(\xx)\\
-\text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\begin{array}{cl}
-g_i(\xx)\leq 0,&amp; i=1,\cdots,r.\\
+\text{sujeto a } &amp; \xx\in\left\{\xx\in\RR^p\left|\;\begin{array}{ll}
+g_i(\xx)\leq 0,&amp; i=1,\cdots,r\\
 A\xx=\bb
 \end{array}\right.\right\},
 \end{array}
 \]</span> con <span class="math inline">\(A\in\RR^{m\times p}\)</span> y <span class="math inline">\(\bb\in\RR^m\)</span>. Si se satisface la <em>condición de Slater</em> de que existe un punto <em>estrictamente factible</em>; esto es <span class="math display">\[
-\exists\xx_0\in\text{relint}\,\mathcal{D}:g_i(\xx_0)&lt;0\qquad\forall i=1,\ldots,r,\qquad A\xx_0=\bb,
+\exists\xx_0\in\text{relint}\,\mathcal{D}:g_i(\xx_0)&lt;0\;\forall i=1,\ldots,r\;\land\; A\xx_0=\bb,
 \]</span> entonces se cumple la dualidad fuerte.</p>
 </div>
 <p>Recordemos, del <a href="A2_optimizacion_convexa.html">C1-S2</a>, que <span class="math inline">\(\text{relint}\,\mathcal{D}\)</span> es el interior relativo de <span class="math inline">\(\mathcal{D}\)</span> definido por <span class="math display">\[
 \text{relint}\,\mathcal{D}:=\left\{\xx\in \mathcal{D}\,\left|\exists r&gt;0: B(\xx,r)\cap \text{aff}\,\mathcal{D}\subset \mathcal{D}\right.\right\},
 \]</span></p>
-<p>La aparición de <span class="math inline">\(\text{relint}\,\mathcal{D}\)</span> es fundamental, pues permite aplicar el teorema anterior a problemas donde no hay restricciones de desigualdad. Además, en tales casos, la condición de Slater puede simplificarse bastante. Por ejemplo, si <span class="math inline">\(\text{dom}\,f=\RR^p\)</span> y solo hay restricciones de igualdad, <span class="math inline">\(A\xx=\bb\)</span>, entonces <span class="math display">\[
-\mathcal{D}=\Omega=\{\xx\in\RR^p \mid A\xx=\bb\},
-\]</span></p>
-<p>lo cual significa que <span class="math inline">\(\mathcal{D}\)</span> es un conjunto afín y, en consecuencia, ocurre que <span class="math inline">\(\text{aff}\,\mathcal{D}=\mathcal{D}\)</span> tal que <span class="math inline">\(\text{relint}\,\mathcal{D}=\mathcal{D}\)</span>. En tal caso, la condición de Slater se reduce a mostrar que <span class="math inline">\(\Omega\)</span> es no vacío.</p>
+<p>La aparición de <span class="math inline">\(\text{relint}\,\mathcal{D}\)</span> sirve para sortear posibles casos degenerados, en los que <span class="math inline">\(\mathcal{D}\)</span> esté contenido en un subespacio afín de <span class="math inline">\(\RR^p\)</span> y, por lo tanto, tenga interior vacío. Sin embargo, lo común es que <span class="math inline">\(\text{relint}\,\mathcal{D}=\text{int}\,\mathcal{D}\)</span>, tal como sucede para problemas donde <span class="math inline">\(\text{dom}\,f=\RR^p\)</span> y <span class="math inline">\(\text{dom}\,g_i=\RR^p\)</span> . Además, si solo hay restricciones de igualdad, la condición de Slater se reduce simplemente a verificar que <span class="math inline">\(\Omega\)</span> sea no vacío.</p>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 7</span></p>
 <p>Consideremos el problema del Ejemplo 6, con <span class="math inline">\(m=1\)</span>: <span class="math display">\[
@@ -1272,9 +1259,9 @@ p^\star=-\frac{3b^2}{\|\aa\|_2^2}.
 <p>Para ello, vamos a suponer que los puntos óptimos existen, tanto para el problema primal (<span class="math inline">\(\xx^\star\)</span>) como para el problema dual (<span class="math inline">\(\bflambda^\star\)</span> y <span class="math inline">\(\bfnu^\star\)</span>). Además, es importante recordar que en el problema dual se impone la restricción <span class="math inline">\(\bflambda\succeq\bfzero\)</span>.</p>
 <p>La dualidad fuerte significa que <span class="math display">\[
 \underbrace{f(\xx^\star)}_{p^\star}=\underbrace{\calG(\bflambda^\star,\bfnu^\star)}_{d^\star}=\inf_{\xx}L(\xx,\bflambda^\star,\bfnu^\star).
-\tag{13}
+\tag{14}
 \]</span></p>
-<p>Hay que tener cuidado al interpretar la expresión (13): si bien garantiza que <span class="math inline">\(f(\xx^\star)\)</span> es el valor ínfimo del Lagrangiano, no nos dice nada acerca de cuál es el valor de <span class="math inline">\(\xx\)</span> donde dicho ínfimo se alcanza. No obstante, la naturaleza de los multiplicadores de Lagrange y las restricciones funcionales nos permiten deducir, a partir de (13), lo siguiente: <span class="math display">\[
+<p>Hay que tener cuidado al interpretar la expresión (14): si bien garantiza que <span class="math inline">\(f(\xx^\star)\)</span> es el valor ínfimo del Lagrangiano, no nos dice nada acerca de cuál es el valor de <span class="math inline">\(\xx\)</span> donde dicho ínfimo se alcanza. No obstante, la naturaleza de los multiplicadores de Lagrange y las restricciones funcionales nos permiten deducir, a partir de (14), lo siguiente: <span class="math display">\[
 \begin{align*}
 f(\xx^\star)&amp;\leq L(\xx^\star,\bflambda^\star,\bfnu^\star)\\
 &amp;=f(\xx^\star)+\underbrace{\sum_{i=1}^r\lambda_ig_i(\xx^\star)}_{\leq\, 0}+\underbrace{\sum_{j=1}^m\nu_j h_j(\xx^\star)}_{=\,0}\\
@@ -1283,14 +1270,18 @@ f(\xx^\star)&amp;\leq L(\xx^\star,\bflambda^\star,\bfnu^\star)\\
 \]</span></p>
 <p>Luego, por antisimetría, debe ser <span class="math display">\[
 f(\xx^\star)=\underbrace{f(\xx^\star)+\sum_{i=1}^r\lambda_ig_i(\xx^\star)}_{L(\xx^\star,\bflambda^\star,\bfnu^\star)}.
-\tag{14}
+\tag{15}
 \]</span></p>
-<p>A partir de (13) y (14) podemos concluir que, bajo dualidad fuerte, la terna <span class="math inline">\((\xx^\star,\bflambda^\star,\bfnu^\star)\)</span> verifica dos condiciones KKT de la Definición 2: holgura complementaria y estacionariedad.</p>
+<p>A partir de (14) y (15) podemos concluir que, bajo dualidad fuerte, la terna <span class="math inline">\((\xx^\star,\bflambda^\star,\bfnu^\star)\)</span> verifica dos condiciones KKT de la Definición 2: holgura complementaria y estacionariedad.</p>
+<div style="margin-top:2em;">
+
+</div>
+<hr>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">Holgura complementaria</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">Estacionariedad</a></li></ul>
 <div class="tab-content">
 <div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
-<p>Para que la igualdad en (14) sea cierta, debe ser <span class="math display">\[
+<p>Para que la igualdad en (15) sea cierta, debe ser <span class="math display">\[
 \sum_{i=1}^r\lambda_ig_i(\xx^\star)=0.
 \]</span></p>
 <p>Pero los términos son no positivos, por lo cual esto es equivalente a pedir <span class="math display">\[
@@ -1315,17 +1306,16 @@ L(\xx^\star,\bflambda^\star,\bfnu^\star)=\inf_{\xx}L(\xx,\bflambda^\star,\bfnu^\
 \nabla L(\xx^\star,\bflambda^\star,\bfnu^\star)=\nabla f(\xx^\star)+\sum_{i=1}^r\lambda_i^\star\nabla g_i(\xx^\star)+\sum_{j=1}^m\nu_j^\star\nabla h_j(\xx^\star),
 \]</span> obtenemos <span class="math display">\[
 -\nabla f(\xx^\star)=\sum_{i=1}^r\lambda_i^\star\nabla g_i(\xx^\star)+\sum_{j=1}^m\nu_j^\star\nabla h_j(\xx^\star).
-\tag{14}
 \]</span></p>
 </div>
 </div>
 </div>
-<div style="margin-top:2em;">
+<div style="margin-top:1em;">
 
 </div>
 <p>Por supuesto, la factibilidad primal y la factibilidad dual son inmediatas del hecho de asumir que <span class="math inline">\(\xx^\star\)</span> es óptimo para el problema primal y <span class="math inline">\((\bflambda^\star,\bfnu^\star)\)</span> son óptimos para el problema dual, respectivamente. Así, estamos en condiciones de afirmar que las condiciones KKT son necesarias para la dualidad fuerte, tal y como lo establece el siguiente teorema.</p>
 <div class="teorema">
-<p><strong>Teorema 8.</strong> (Dualidad y KKT) Sea <span class="math inline">\(\xx^\star\)</span> un punto óptimo primal y <span class="math inline">\((\bflambda^\star,\bfnu^\star)\)</span> un punto óptimo dual. Si <span class="math inline">\(d^\star=p^\star\)</span>, entonces <span class="math inline">\((\xx^\star,\bflambda^\star,\bfnu^\star)\)</span> satisface las condiciones de Karush-Kuhn-Tucker.</p>
+<p><strong>Teorema 7.</strong> (Dualidad y KKT) Sea <span class="math inline">\(\xx^\star\)</span> un punto óptimo primal y <span class="math inline">\((\bflambda^\star,\bfnu^\star)\)</span> un punto óptimo dual. Si <span class="math inline">\(d^\star=p^\star\)</span>, entonces <span class="math inline">\((\xx^\star,\bflambda^\star,\bfnu^\star)\)</span> satisface las condiciones de Karush-Kuhn-Tucker.</p>
 </div>
 <div style="margin-top:2em;">
 
@@ -1370,9 +1360,9 @@ x_i^\star=\left\{\begin{array}{cl}
 \end{array}\right.,
 \]</span> o, equivalentemente, <span class="math inline">\(x_i^\star=\max\{0,1/\nu^\star-\alpha_i\}\)</span>. Finalmente, el uso de la condición <span class="math inline">\(\mathbf{1}^\top\xx^\star=1\)</span> resulta en <span class="math display">\[
 \sum_{i=1}^p\max\{0,1/\nu^\star-\alpha_i\}=1.
-\tag{15}
+\tag{16}
 \]</span></p>
-<p>El lado izquierdo de (15) corresponde a una función de <span class="math inline">\(1/\nu^\star\)</span> que es continua, creciente por tramos y con puntos de quiebre en los valores <span class="math inline">\(\alpha_i\)</span>, tal y como lo ejemplifica la siguiente figura:</p>
+<p>El lado izquierdo de (16) corresponde a una función de <span class="math inline">\(1/\nu^\star\)</span> que es continua, creciente por tramos y con puntos de quiebre en los valores <span class="math inline">\(\alpha_i\)</span>, tal y como lo ejemplifica la siguiente figura:</p>
 <figure style="text-align: center;" class="figure">
 <img src="figuras/ej_water_filling_1.png" alt="Texto" width="500px" class="figure-img">
 <figcaption>
@@ -1420,24 +1410,21 @@ Mostrar
 
 </div>
 <ol type="1">
-<li><p>Sea <span class="math inline">\(\Omega \subset \mathbb{R}^n\)</span> convexo y <span class="math inline">\(x_0 \in cl(\Omega)\)</span>, definimos el conjunto de direcciones factibles como:</p>
+<li><p>Sea <span class="math inline">\(\Omega \subset \mathbb{R}^p\)</span> convexo y <span class="math inline">\(\xx_0 \in \Omega\)</span>. Definimos el conjunto de direcciones factibles como: <span class="math display">\[
+   D(\xx_0) = \{ \mathbf{d} \in \mathbb{R}^p, \mathbf{d} \neq 0 \mid \exists \delta &gt;0: x_0+\lambda \mathbf{d} \in \Omega,\; \forall \lambda \in (0,\delta) \}.
+   \]</span></p>
+<p>Además, si <span class="math inline">\(f: \mathbb{R}^n \rightarrow \mathbb{R}\)</span> es diferenciable, definimos el conjunto de direcciones de mejora como:</p>
 <p><span class="math display">\[
-D(x_0) = \{ \mathbf{d} \in \mathbb{R}^n, \mathbf{d} \neq 0 : \exists \delta &gt;0 \, \text{de manera tal que}\, x_0+\lambda \mathbf{d} \in \Omega, \forall \lambda \in (0,\delta) \}.
-\]</span></p>
-<p>Sea además <span class="math inline">\(f: \mathbb{R}^n \rightarrow \mathbb{R}\)</span> diferenciable, definimos el conjunto de direcciones de mejora como:</p>
-<p><span class="math display">\[
-F(x_0) = \{ \mathbf{d} \in \mathbb{R}^n, \mathbf{d} \neq 0 : \exists \delta &gt;0 \, \text{de manera tal que}\, f(x_0+\lambda \mathbf{d}) &lt; f(x_0) \, \forall \lambda \in (0,\delta) \}.
-\]</span></p>
-<p>Pruebe que <span class="math inline">\(-\nabla f(x_0)\in \mathcal{N}_\Omega(x_0)\)</span> si y sólo si no existe dirección factible de mejora en <span class="math inline">\(x_0\)</span>, es decir, <span class="math inline">\(F(x_0) \cap D(x_0)=\emptyset\)</span>.</p></li>
-</ol>
-<hr>
-<ol start="2" type="1">
+   F(x_0) = \{ \mathbf{d} \in \mathbb{R}^n, \mathbf{d} \neq 0 \mid \exists \delta &gt;0: f(\xx_0+\lambda \mathbf{d}) &lt; f(\xx_0) ,\; \forall \lambda \in (0,\delta) \}.
+   \]</span></p>
+<p>Pruebe que <span class="math inline">\(-\nabla f(x_0)\in \mathcal{N}_\Omega(x_0)\)</span> si y sólo si no existe dirección factible de mejora en <span class="math inline">\(x_0\)</span>; es decir, <span class="math inline">\(F(x_0) \cap D(x_0)=\emptyset\)</span>.</p></li>
 <li><p>Considere el siguiente problema de optimización:</p>
 <p><span class="math display">\[
-\begin{aligned}
-&amp; \min_{\mathbf{x} \in \mathbb{R}^2} \quad f(\mathbf{x}) = \frac{1}{2} \|A\mathbf{x} - \mathbf{b}\|_2^2 \\
-&amp; \text{sujeto a:} \quad x_1 + x_2 \leq 3,\quad x_1 \geq 0,\quad x_2 \geq 0,
-\end{aligned}
+\begin{array}{ll}
+\text{minimizar } &amp; \frac{1}{2} \|A\mathbf{x} - \mathbf{b}\|_2^2\\
+\text{sujeto a }  &amp; x_1 + x_2 \leq 3\\
+                  &amp; x_1\geq 0, x_2\geq 0
+\end{array}
 \]</span></p>
 <p>con</p>
 <p><span class="math display">\[
@@ -1454,9 +1441,6 @@ A = \begin{pmatrix}
 <li>Analice la convexidad del problema.</li>
 <li>¿Existe solución óptima? Utilice Teorema 3.</li>
 </ol></li>
-</ol>
-<hr>
-<ol start="3" type="1">
 <li><p>Dada la siguiente función:</p>
 <p><span class="math display">\[
 f(\mathbf{x}) = \frac{1}{2} \|A\mathbf{x} - \mathbf{b}\|_2^2
@@ -1488,9 +1472,6 @@ A = \begin{pmatrix}
 \]</span></p>
 <p>¿Se trata de un problema de optimización convexo? ¿Existe una única solución óptima? En caso afirmativo, encuéntrela utilizando el Teorema 3.</p></li>
 </ol></li>
-</ol>
-<hr>
-<ol start="4" type="1">
 <li><p>Considere el siguiente problema de optimización:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -1503,18 +1484,9 @@ A = \begin{pmatrix}
 </li>
 <li>¿Existe una única solución óptima? En caso afirmativo, utilice el Teorema 3 para encontrarla.</li>
 </ol></li>
-</ol>
-<hr>
-<ol start="5" type="1">
-<li>Plantee las condiciones KKT en el ejemplo 2 de la sección 1.4 de la teoría.<br>
-¿Son necesarias y suficientes para hallar una solución óptima? En caso afirmativo, encuéntrela.</li>
-</ol>
-<hr>
-<ol start="6" type="1">
-<li>Plantee las condiciones KKT para los problemas (3) b) y (4), encuentre una posible solución e indique si las condiciones resultan necesarias y suficientes para que se trate de la solución óptima.</li>
-</ol>
-<hr>
-<ol start="7" type="1">
+<li><p>Plantee las condiciones KKT en el ejemplo 2 de la sección 1.4 de la teoría.<br>
+¿Son necesarias y suficientes para hallar una solución óptima? En caso afirmativo, encuéntrela.</p></li>
+<li><p>Plantee las condiciones KKT para los problemas (3) b) y (4), encuentre una posible solución e indique si las condiciones resultan necesarias y suficientes para que se trate de la solución óptima.</p></li>
 <li><p>Considere el siguiente problema:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -1525,9 +1497,6 @@ A = \begin{pmatrix}
 \end{aligned}
 \]</span></p>
 <p>Escriba las condiciones KKT y demuestre que <span class="math inline">\((x_1, x_2) = (3,3)\)</span> es la única solución óptima.</p></li>
-</ol>
-<hr>
-<ol start="8" type="1">
 <li><p>Considere el siguiente problema:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -1542,9 +1511,6 @@ A = \begin{pmatrix}
 </li>
 <li>Demuestre que <span class="math inline">\(\bar{x}\)</span> es en efecto la única solución óptima global.</li>
 </ol></li>
-</ol>
-<hr>
-<ol start="9" type="1">
 <li><p>Diga en cuáles de los siguientes problemas de optimización las condiciones de KKT son necesarias/suficientes.</p>
 <ol type="a">
 <li><p><span class="math display">\[
@@ -1578,32 +1544,22 @@ A = \begin{pmatrix}
 \end{aligned}
 \]</span></p></li>
 </ol></li>
-</ol>
-<hr>
-<ol start="10" type="1">
-<li>Plantee las KKT para el problema del item c) del ejercicio (9) y encuentre los puntos que las satisfacen, ¿se puede afirmar que alguno de ellos es un óptimo?</li>
-</ol>
-<hr>
-<ol start="11" type="1">
-<li><span class="math display">\[
+<li><p>Plantee las KKT para el problema del item c) del ejercicio (9) y encuentre los puntos que las satisfacen, ¿se puede afirmar que alguno de ellos es un óptimo?</p></li>
+<li><p><span class="math display">\[
    \begin{aligned}
    &amp;\text{Minimizar} &amp;&amp; x_{1}^{2} + x_{2}^{2} \\
    &amp;\text{s.a.} &amp;&amp; (x_{1} - 1)^{2} + (x_{2} - 1)^{2} \leq 1, \\
    &amp; &amp;&amp; (x_{1} - 1)^{2} + (x_{2} + 1)^{2} \leq 1
    \end{aligned}
-   \]</span> con variable <span class="math inline">\(x \in \mathbb{R}^{2}\)</span>.</li>
+   \]</span> con variable <span class="math inline">\(x \in \mathbb{R}^{2}\)</span>.</p></li>
 </ol>
 <ol type="a">
 <li>Dibuje el conjunto factible y las curvas de nivel de la función objetivo. Encuentre el punto óptimo <span class="math inline">\(x^{\star}\)</span> y el valor óptimo <span class="math inline">\(p^{\star}\)</span>.<br>
 </li>
 <li>Plantee las condiciones KKT. ¿Existen multiplicadores de Lagrange <span class="math inline">\(\lambda_{1}^{\star}\)</span> y <span class="math inline">\(\lambda_{2}^{\star}\)</span> que prueben que <span class="math inline">\(x^{\star}\)</span> es óptimo? ¿Se satisface la condición de Slater?</li>
 </ol>
-<hr>
 <ol start="12" type="1">
-<li>Mostrar que el multiplicador de Lagrange asociado a una restricción de igualdad puede ser cualquier número real. <em>[Ayuda: descomponga la restricción de igualdad en dos restricciones de desigualdad.]</em></li>
-</ol>
-<hr>
-<ol start="13" type="1">
+<li><p>Mostrar que el multiplicador de Lagrange asociado a una restricción de igualdad puede ser cualquier número real. <em>[Ayuda: descomponga la restricción de igualdad en dos restricciones de desigualdad.]</em></p></li>
 <li><p>Considere el problema:</p>
 <p><span class="math display">\[
   \begin{aligned}
@@ -1617,10 +1573,7 @@ A = \begin{pmatrix}
 </li>
 <li>¿Se puede afirmar que <span class="math inline">\(d^{*} = p^{*}\)</span>?</li>
 </ol></li>
-</ol>
-<hr>
-<ol start="14" type="1">
-<li>Considere el problema de optimización:</li>
+<li><p>Considere el problema de optimización:</p></li>
 </ol>
 <p><span class="math display">\[
    \begin{aligned}
@@ -1635,7 +1588,6 @@ A = \begin{pmatrix}
 </li>
 <li>Derive y dibuje la función dual de Lagrange <span class="math inline">\(\mathcal{G}\)</span>, verifique que es cóncava. Enuncie el problema dual y encuentre el valor óptimo dual y la solución dual óptima <span class="math inline">\(\lambda^{\star}\)</span>. ¿Se cumple la dualidad fuerte? En caso afirmativo, justifique por qué.</li>
 </ol>
-<hr>
 <ol start="15" type="1">
 <li>Considere el problema de optimización:</li>
 </ol>
@@ -2110,8 +2062,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../CAPITULO_1/A3_resolucion_computacional.html" class="pagination-link" aria-label="1.3 Resolución computacional con CVXPY y SciPy">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">1.3 Resolución computacional con CVXPY y SciPy</span>
+      <a href="../CAPITULO_1/A3_resolucion_computacional.html" class="pagination-link" aria-label="1.3 Resolución computacional y problemas clásicos de optimización convexa">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">1.3 Resolución computacional y problemas clásicos de optimización convexa</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
