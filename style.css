@@ -18,13 +18,19 @@ background-color: #fcfefc; /* Verde muy muy suave */
 }
 
 .highlight {
-  background-color: #fffdf5; /* Fondo muy suave */
-  border: 0px solid #ffa726; /* Borde naranja */
+  background-color: #ffffff; /* Fondo muy suave */
+  border: 2px solid #08055D; /* Borde naranja */
   padding: 10px;            /* Espaciado interno */
   border-radius: 5px;       /* Bordes suavemente redondeados */
   margin: 10px 0;           /* Margen arriba y abajo */
   font-family: Arial, sans-serif; /* Fuente opcional */
 }
+
+.bg-custom {
+  background-color: #08055D !important;
+  color: #fff !important;
+}
+
 
 .myhighlight {
   max-width: 60%;
