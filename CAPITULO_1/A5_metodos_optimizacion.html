@@ -269,6 +269,7 @@ window.Quarto = {
   <li><a href="#métodos-de-segundo-orden" id="toc-métodos-de-segundo-orden" class="nav-link" data-scroll-target="#métodos-de-segundo-orden">Métodos de segundo orden</a>
   <ul class="collapse">
   <li><a href="#método-de-newton" id="toc-método-de-newton" class="nav-link" data-scroll-target="#método-de-newton">Método de Newton</a></li>
+  <li><a href="#métodos-quasi-newton" id="toc-métodos-quasi-newton" class="nav-link" data-scroll-target="#métodos-quasi-newton">Métodos Quasi-Newton</a></li>
   </ul></li>
   <li><a href="#breve-reseña-de-otros-métodos" id="toc-breve-reseña-de-otros-métodos" class="nav-link" data-scroll-target="#breve-reseña-de-otros-métodos">Breve reseña de otros métodos</a></li>
   <li><a href="#actividades" id="toc-actividades" class="nav-link" data-scroll-target="#actividades">Actividades</a></li>
@@ -379,7 +380,18 @@ f(\xx) \approx f(\xx_{t}) + \nabla f(\xx_{t})^\top(\xx - \xx_{t}).
 </div>
 <hr>
 </div>
-<br>
+<div style="margin-top:2em;">
+
+</div>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/gradiente_descendente.png" alt="…" width="450px" class="figure-img">
+<figcaption>
+<strong>Figura 1</strong>. Interpretación geométrica del método de descenso por gradiente: la dirección de búsqueda es <span class="math inline">\(-\nabla f(\xx_t)\)</span>.
+</figcaption>
+</figure>
+<div style="margin-top:2em;">
+
+</div>
 <div class="alert alert-light text-dark" role="important">
 <p><span class="badge bg-warning text-dark">Importante</span></p>
 <p>Como criterio de parada, se puede fijar una cantidad máxima de iteraciones, aunque en general también se utilizan condiciones de convergencia, como que la norma del gradiente sea menor que un umbral prefijado, o que el cambio entre iteraciones sucesivas sea suficientemente pequeño. En fórmulas: <span class="math display">\[
@@ -400,7 +412,7 @@ f(\xx) \approx f(\xx_{t}) + \nabla f(\xx_{t})^\top(\xx - \xx_{t}).
 <li><code>tol_x</code>: tolerancia para norma de diferencia entre iteraciones (opcional).</li>
 </ul>
 <p>La salida es una lista con los puntos obtenidos en las iteraciones (<code>x_iter</code>), y los valores de la función (<code>f_iter</code>).</p>
-<div id="b51cd0f3" class="cell" data-execution_count="1">
+<div id="e6df2d2d" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gradient_descent(f, grad_f, x_inicial, lr<span class="op">=</span><span class="fl">0.1</span>, max_iter<span class="op">=</span><span class="dv">100</span>,</span>
@@ -452,7 +464,7 @@ f(x,y)=2(x-2)^2+5(y-3)^2,
 <p>el cual sabemos que ocurre en <span class="math inline">\((2,3)\)</span> (vértice del paraboloide elíptico). Necesitamos proporcionar el gradiente de <span class="math inline">\(f\)</span>, el cual es <span class="math display">\[
 \nabla f(x,y)=\left(4(x-2), 10(y-3)\right).
 \]</span></p>
-<div id="03965cd1" class="cell" data-execution_count="2">
+<div id="4ecedf52" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -484,7 +496,7 @@ Valor de f: 2.9931553533161224e-05</code></pre>
 </div>
 </div>
 <p>La secuencia de valores obtenidas es:</p>
-<div id="f59149cb" class="cell" data-execution_count="3">
+<div id="05a050b3" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x_arr <span class="op">=</span> np.array(x_iter)</span>
@@ -527,7 +539,7 @@ Valor de f: 2.9931553533161224e-05</code></pre>
 </div>
 </div>
 <p>Por último, vamos a realizar la gráfica en el dominio <span class="math inline">\(\RR^2\)</span> de la función.</p>
-<div id="9843bd05" class="cell" data-execution_count="4">
+<div id="f25c1a32" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grilla para graficar:</span></span>
@@ -566,6 +578,9 @@ Valor de f: 2.9931553533161224e-05</code></pre>
 </div>
 </div>
 </div>
+</div>
+<div style="margin-top:2em;">
+
 </div>
 <section id="condición-de-lipschitz-para-el-gradiente" class="level4">
 <h4 class="anchored" data-anchor-id="condición-de-lipschitz-para-el-gradiente">Condición de Lipschitz para el gradiente</h4>
@@ -749,8 +764,9 @@ f(\xx_{t}) \leq f(\xx) + \frac{1}{2\eta} \left( \|\xx - \xx_{t}\|_{2}^{2} - \|\x
 \]</span></p>
 <p>Pero la <span class="math inline">\(L\)</span>-suavidad de <span class="math inline">\(f\)</span> nos permite usar el Teorema 2: para <span class="math inline">\(0\leq\eta\leq\frac{1}{L}\)</span> se cumple <span class="math inline">\(\frac{\eta}{2}\|\nabla f(\xx_t)\|_2^2\leq f(\xx_t)-f(\xx_{t+1})\)</span>. Reemplazando en la expresión anterior, resulta <span class="math display">\[
 f(\xx_{t+1})\leq f(\xx)+ \frac{1}{2\eta} \left( \|\xx - \xx_{t}\|_{2}^{2} - \|\xx - \xx_{t+1}\|_{2}^{2}\right)\qquad\forall\xx\in\RR^p.
+\tag{3}
 \]</span></p>
-<p>Sumando sobre <span class="math inline">\(t=0,1,\ldots,T-1\)</span>, con <span class="math inline">\(T\in\NN\)</span> arbitrario, y teniendo en cuenta que el lado derecho es telescópico, obtenemos <span class="math display">\[
+<p>Sumando en ambos términos de (3) sobre <span class="math inline">\(t=0,1,\ldots,T-1\)</span>, con <span class="math inline">\(T\in\NN\)</span> arbitrario, y teniendo en cuenta que el lado derecho es telescópico, obtenemos <span class="math display">\[
 \sum_{t=0}^{T-1}f(\xx_{t+1})\leq Tf(\xx)+\frac{1}{2\eta}\left(\|\xx-\xx_0\|_2^2-\|\xx-\xx_T\|_2^2\right)\qquad\forall\xx\in\RR^p.
 \]</span></p>
 <p>Descartando el término <span class="math inline">\(\|\xx-\xx_T\|_2^2\)</span>, por estar restando, y aplicando esta desigualdad a <span class="math inline">\(\xx=\xx^\star\)</span>, se deduce que <span class="math display">\[
@@ -783,13 +799,20 @@ f(\xx_T)-f(\xx^{\star})&amp;\leq \frac{1}{2T\eta}\|\xx^{\star}-\xx_0\|_2^2.
 \end{array}
 \]</span></p>
 <p>En este caso, supondremos que <span class="math inline">\(f\)</span> es diferenciable y que el conjunto factible <span class="math inline">\(\Omega\)</span> es cerrado y convexo. La forma natural de extender el método de descenso por gradiente consiste en proyectar los puntos obtenidos sobre <span class="math inline">\(\Omega\)</span>, de manera tal de asegurarnos que la sucesión <span class="math inline">\(\{\xx_t\mid t\in\mathbb{N}_0\}\subset\Omega\)</span>.</p>
+<div style="margin-top:2em;">
+
+</div>
 <div class="alert alert-light text-dark" role="important">
 <p><span class="badge bg-warning text-dark">Importante</span></p>
 <p>La <em>proyección ortogonal</em> de un punto <span class="math inline">\(\yy\in \RR^p\)</span> sobre un conjunto <span class="math inline">\(\Omega\)</span> se define como</p>
 <p><span class="math display">\[
 \Pi_{\Omega}(\yy) := \arg\min_{\yy \in \Omega} \|\xx - \yy\|_2.
 \]</span></p>
-<p>Cuando <span class="math inline">\(\Omega\)</span> es cerrado y convexo, la proyección ortogonal existe y es única.</p>
+<p>Cuando <span class="math inline">\(\Omega\)</span> es cerrado y convexo, la proyección ortogonal existe y es única. Además, para todo <span class="math inline">\(\xx,\yy\in\Omega\)</span>, se verifican las siguientes propiedades:</p>
+<ol type="i">
+<li><p><span class="math inline">\((\xx-\Pi_\Omega(\yy))^\top(\yy-\Pi_\Omega(\yy))\leq 0.\)</span></p></li>
+<li><p><span class="math inline">\(\|\xx-\Pi_\Omega(\yy)\|_2^2+\|\yy-\Pi_\Omega(\yy)\|_2^2\leq\|\xx-\yy\|_2^2.\)</span></p></li>
+</ol>
 </div>
 <div style="margin-top:2em;">
 
@@ -802,7 +825,7 @@ f(\xx_T)-f(\xx^{\star})&amp;\leq \frac{1}{2T\eta}\|\xx^{\star}-\xx_0\|_2^2.
 <p><strong>repetir</strong> para <span class="math inline">\(t = 0,1,2,\dots\)</span>:</p>
 <blockquote class="blockquote">
 <p><strong>1°</strong> Calcular dirección <span class="math inline">\(-\nabla f(\xx_t)\)</span>.</p>
-<p><strong>2°</strong> Calcular paso de gradiente: <span class="math inline">\(\yy_{t+1} := \xx_t - \eta \nabla f(\xx_t)\)</span>.</p>
+<p><strong>2°</strong> Calcular paso de gradiente <span class="math inline">\(\yy_{t+1} := \xx_t - \eta \nabla f(\xx_t)\)</span>.</p>
 <p><strong>3°</strong> Proyectar sobre <span class="math inline">\(\Omega\)</span>: <span class="math inline">\(\xx_{t+1} := \Pi_{\Omega}(\yy_{t+1})\)</span>.</p>
 </blockquote>
 <p><strong>hasta</strong> que se satisfaga el criterio de parada.</p>
@@ -812,12 +835,21 @@ f(\xx_T)-f(\xx^{\star})&amp;\leq \frac{1}{2T\eta}\|\xx^{\star}-\xx_0\|_2^2.
 <div style="margin-top:2em;">
 
 </div>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/gradiente_descendente_proy.png" alt="…" width="450px" class="figure-img">
+<figcaption>
+<strong>Figura 2</strong>. Interpretación geométrica del método de descenso por gradiente proyectado.
+</figcaption>
+</figure>
+<div style="margin-top:2em;">
+
+</div>
 <p>Vamos a implementar en Python este método. Cabe destacar que el paso de proyección es por sí mismo un problema de optimización, cuyo objetivo es hallar el punto más cercano dentro del conjunto factible <span class="math inline">\(\Omega\)</span>. En algunos casos, como por ejemplo <span class="math inline">\(\Omega=[0,1]^n\)</span>, el conjunto factible tiene una forma especial que permite resolver la proyección de forma explícita y eficiente.</p>
 <p>Por lo tanto, en relación al método de descenso por gradiente, se agrega un nuevo argumento:</p>
 <ul>
 <li><code>proy</code>: función de proyección sobre el conjunto factible.</li>
 </ul>
-<div id="123668a1" class="cell" data-execution_count="5">
+<div id="d983bacf" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> projected_gradient_descent(f, grad_f, x_inicial, proy,</span>
@@ -877,7 +909,7 @@ f(\xx_T)-f(\xx^{\star})&amp;\leq \frac{1}{2T\eta}\|\xx^{\star}-\xx_0\|_2^2.
 \end{pmatrix}.
 \]</span></p>
 <p>Esto se calcula rápidamente con la función <code>np.clip</code> de NumPy.</p>
-<div id="2db25fe0" class="cell" data-execution_count="6">
+<div id="0667bc7c" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -913,7 +945,7 @@ Valor de f: 22.0</code></pre>
 </div>
 </div>
 <p>La secuencia de valores obtenidas es:</p>
-<div id="630576c1" class="cell" data-execution_count="7">
+<div id="78c3a33c" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>x_arr <span class="op">=</span> np.array(x_iter)</span>
@@ -946,7 +978,7 @@ Valor de f: 22.0</code></pre>
 </div>
 </div>
 <p>Por último, vamos a realizar la gráfica en el dominio <span class="math inline">\(\RR^2\)</span> de la función.</p>
-<div id="da86cba6" class="cell" data-execution_count="8">
+<div id="b3804a3c" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grilla para graficar:</span></span>
@@ -982,7 +1014,7 @@ Valor de f: 22.0</code></pre>
 <div class="cell-output cell-output-stderr">
 <pre><code>&lt;&gt;:21: SyntaxWarning: invalid escape sequence '\O'
 &lt;&gt;:21: SyntaxWarning: invalid escape sequence '\O'
-C:\Users\isaias\AppData\Local\Temp\ipykernel_27312\4178567754.py:21: SyntaxWarning: invalid escape sequence '\O'
+C:\Users\isaias\AppData\Local\Temp\ipykernel_26684\4178567754.py:21: SyntaxWarning: invalid escape sequence '\O'
   plt.plot(caja_x, caja_y, color='blue', linewidth=2, linestyle='-', label='$\Omega = [0,1]^2$')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -1011,7 +1043,7 @@ f(\xx_{t+1}) \leq f(\xx_{t}) - \frac{\eta}{2} \|\nabla f(\xx_{t})\|_{2}^{2}+\fra
 Mostrar detalles
 </summary>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">Demostración</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true"><span style="border: 1px solid #ddd; padding: 2px 6px; border-radius: 4px;"><em>Demostración</em></span></a></li></ul>
 <div class="tab-content">
 <div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
 <p>Como en la demostración del Teorema 2, partimos de la cota superior cuadrática del Teorema 1 para <span class="math inline">\(\xx=\xx_t\)</span> y <span class="math inline">\(\yy=\xx_{t+1}\)</span>: <span class="math display">\[
@@ -1039,12 +1071,26 @@ f(\xx_{t+1})&amp;\leq f(\xx_t)-\frac{1}{2\eta}\left(\|\yy_{t+1}-\xx_t\|_2^2+\|\x
 </div>
 </div>
 </details>
-<p>A pesar de que en este Teorema, en relación con el lema del descenso por gradiente (Teorema 2), aparece el término adicional <span class="math inline">\(\frac{1}{2\eta}\|\yy_{t+1}-\xx_{t+1}\|_2^2\)</span>, este puede ser cancelado al hacer la suma sobre <span class="math inline">\(t\)</span>, derivando en el mismo resultado de convergencia del Teorema 3 para este método:</p>
+<p>A pesar de que en este Teorema, en relación con el lema del descenso por gradiente (Teorema 2), aparece el término adicional <span class="math inline">\(\frac{1}{2\eta}\|\yy_{t+1}-\xx_{t+1}\|_2^2\)</span>, este puede ser cancelado utilizando las propiedades de proyección ortogonal en <span class="math inline">\(\Omega\)</span> cerrado y convexo. En consecuencia, se obtiene para el método de descenso por gradiente proyectado el mismo resultado de convergencia del Teorema 3 para el método de descenso por gradiente.</p>
 <div class="teorema">
 <p><strong>Teorema 5.</strong> Sea <span class="math inline">\(f:\RR^p\to\RR\)</span> una función convexa y <span class="math inline">\(L\)</span>-suave, con minimizador <span class="math inline">\(\xx^\star\in\Omega\)</span>, donde <span class="math inline">\(\Omega\subset\RR^p\)</span> es un conjunto cerrado y convexo, y sea <span class="math inline">\(0&lt;\eta\leq\frac{1}{L}\)</span>. El método de descenso por gradiente proyectado verifica</p>
 <p><span class="math display">\[
 f(\xx_t) - f(\xx^\star) \leq \frac{\|\xx_0 - \xx^\star\|_2^2}{2\eta t}, \qquad \forall t\in\NN.
 \]</span></p>
+</div>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br></p>
+<p>Escriba la demostración del Teorema 5, siguiendo el razonamiento usado para el Teorema 3.</p>
+</div>
+</div>
+</div>
+<div style="margin-top:2em;">
+
 </div>
 </section>
 </section>
@@ -1107,29 +1153,51 @@ f(\xx) = \frac{1}{N} \sum_{i=1}^{N} f_i(\xx).
 <p>donde <span class="math inline">\(\nabla^2 f(\xx_t)\)</span> es la matriz Hessiana de <span class="math inline">\(f\)</span> en <span class="math inline">\(\xx_t\)</span>. Teniendo en cuenta que la aproximación <span class="math inline">\(q_t\)</span> es una función de <span class="math inline">\(\xx\)</span>, al analizar <span class="math inline">\(\nabla q_t(\xx)=\mathbf{0}\)</span> se obtiene inmediatamente la ecuación <span class="math display">\[
 \nabla f(\xx_t)+\nabla^2 f(\xx_t)(\xx-\xx_t)=\mathbf{0},
 \]</span></p>
-<p>tal que</p>
+<p>lo cual deriva en la siguiente fórmula iterativa:</p>
 <p><span class="math display">\[
-\xx=\xx_t-\left[\nabla^2f(\xx_t)\right]^{-1}\nabla f(\xx_t).
+\xx_{t+1}:=\xx_t-\left[\nabla^2f(\xx_t)\right]^{-1}\nabla f(\xx_t).
 \]</span></p>
-<p>Comparando esta fórmula con la actualización del método de descenso por gradiente, vemos que ahora la dirección de descenso cambia a <span class="math inline">\(-\left[\nabla^2f(\xx_t)\right]^{-1}\nabla f(\xx_t)\)</span>, lo cual requiere la suposición de que la matriz Hessiana <span class="math inline">\(\nabla^2 f(\xx_t)\)</span> sea invertible.</p>
+<p>Comparando esta fórmula con la actualización del método de descenso por gradiente, vemos que ahora la dirección de descenso cambia a <span class="math inline">\(-\left[\nabla^2f(\xx_t)\right]^{-1}\nabla f(\xx_t)\)</span>, lo cual requiere la suposición de que la matriz Hessiana <span class="math inline">\(\nabla^2 f(\xx_t)\)</span> sea invertible. En caso de no serlo, la forma alternativa es resolver el sistema de ecuaciones <span class="math display">\[
+\nabla^2 f(\xx_t)(\xx_{t+1}-\xx_t)=-\nabla f(\xx_t).
+\]</span></p>
+<div style="margin-top:2em;">
+
+</div>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/metodo_newton.png" alt="…" width="400px" class="figure-img">
+<figcaption>
+<strong>Figura 3</strong>. Interpretación geométrica del método de Newton-Raphson para aproximar una solución de <span class="math inline">\(f'(x)=0\)</span>.
+</figcaption>
+</figure>
+<div class="myhighlight2">
+<span style="font-size:0.8em;"><em>Método de Newton-Raphson para una variable</em></span>
+<div style="margin-top:-0.3em;">
+
+</div>
+<p><span class="math display">\[
+x_{t+1}:=x_t-\frac{f'(x_t)}{f''(x_t)}.
+\]</span></p>
+</div>
+<div style="margin-top:1em;">
+
+</div>
 <p>El cambio de <span class="math inline">\(-\nabla f(\xx_t)\)</span> (dirección del método de descenso por gradiente) por <span class="math inline">\(-\left[\nabla^2f(\xx_t)\right]^{-1}\nabla f(\xx_t)\)</span> se conoce como <em>precondicionamiento</em> del gradiente por la matriz Hessiana. Esto permite definir la generalización natural del método de descenso por gradiente al contexto de segundo orden.</p>
 <div style="margin-top:2em;">
 
 </div>
 <div class="highlight">
-<p><span class="badge bg-custom">Método de Newton (de paso reducido)</span></p>
+<p><span class="badge bg-custom">Método de Newton</span></p>
 <hr>
-<p>Dado un punto inicial <span class="math inline">\(\xx_0 \in \mathrm{dom}\, f\)</span> y una tasa de aprendizaje <span class="math inline">\(\eta &gt;0\)</span>:</p>
+<p>Dado un punto inicial <span class="math inline">\(\xx_0 \in \mathrm{dom}\, f\)</span>:</p>
 <div style="margin-left: 1em">
 <p><strong>repetir</strong> para <span class="math inline">\(t=0,1,2,\dots\)</span>:</p>
 <blockquote class="blockquote">
 <p><strong>1°</strong> Calcular la matriz Hessiana <span class="math inline">\(\nabla^2 f(\xx_t)\)</span> y el gradiente <span class="math inline">\(\nabla f(\xx_t)\)</span>.</p>
-<p><strong>2°</strong> Actualizar <span class="math inline">\(\xx_{t+1} := \xx_t-\eta\left[\nabla^2 f(\xx_t)\right]^{-1}\nabla f(\xx_t)\)</span>.</p>
+<p><strong>2°</strong> Actualizar <span class="math inline">\(\xx_{t+1} := \xx_t-\left[\nabla^2 f(\xx_t)\right]^{-1}\nabla f(\xx_t)\)</span>, o bien resolver el sistema de ecuaciones <span class="math inline">\(\nabla^2f(\xx_t)(\xx_{t+1}-\xx_t)=-\nabla f(\xx_t)\)</span>.</p>
 </blockquote>
 <p><strong>hasta</strong> que se cumpla un criterio de parada.</p>
 </div>
 <hr>
-<p>Si <span class="math inline">\(\eta=1\)</span>, se denomina simplemente <em>método de Newton</em>.</p>
 </div>
 <div style="margin-top:2em;">
 
@@ -1138,7 +1206,7 @@ f(\xx) = \frac{1}{N} \sum_{i=1}^{N} f_i(\xx).
 <ul>
 <li><code>hess_f</code>: función Hessiana de <span class="math inline">\(f\)</span>.</li>
 </ul>
-<div id="77641a90" class="cell" data-execution_count="9">
+<div id="615c98bc" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> newton_method(f, grad_f, hess_f, x_inicial, lr<span class="op">=</span><span class="fl">0.1</span>,         </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                  max_iter<span class="op">=</span><span class="dv">100</span>, tol_grad<span class="op">=</span><span class="va">None</span>, tol_x<span class="op">=</span><span class="va">None</span>, verbose<span class="op">=</span><span class="va">True</span>):</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -1195,7 +1263,7 @@ f(x,y)=2(x-2)^2+5(y-3)^2,
 <p><span class="math display">\[
 \nabla^2 f(x,y) = \begin{pmatrix} 4&amp;0\\0&amp;10 \end{pmatrix}.
 \]</span></p>
-<div id="0a7984d7" class="cell" data-execution_count="10">
+<div id="7c66fc9c" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1229,7 +1297,7 @@ Valor de f: 0.0018577913111879544</code></pre>
 </div>
 </div>
 <p>La secuencia de valores obtenidas es:</p>
-<div id="e0c96dff" class="cell" data-execution_count="11">
+<div id="ae9bd8d4" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x_arr <span class="op">=</span> np.array(x_iter)</span>
@@ -1256,7 +1324,7 @@ Valor de f: 0.0018577913111879544</code></pre>
 </div>
 </div>
 <p>Por último, vamos a realizar la gráfica en el dominio <span class="math inline">\(\RR^2\)</span> de la función.</p>
-<div id="ac007821" class="cell" data-execution_count="12">
+<div id="935c0003" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grilla para graficar:</span></span>
@@ -1296,7 +1364,7 @@ Valor de f: 0.0018577913111879544</code></pre>
 </div>
 </div>
 <p>Observar que los puntos iterados son colineales. Esto ocurre en problemas cuadráticos, debido a que la matriz Hessiana es constante. Veamos qué pasa si aplicamos el método de Newton clásico (<span class="math inline">\(\eta=1\)</span>).</p>
-<div id="d2e7651d" class="cell" data-execution_count="13">
+<div id="2c6747e6" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1330,7 +1398,7 @@ Iteración final: 1
 Valor de f: 0.0</code></pre>
 </div>
 </div>
-<div id="3950a445" class="cell" data-execution_count="14">
+<div id="d53ac881" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>x_arr <span class="op">=</span> np.array(x_iter)</span>
@@ -1360,14 +1428,12 @@ f(\xx_t)-f(\xx^\star)\leq \varepsilon(t).
 <div class="teorema">
 <p><strong>Teorema 6.</strong> Sea <span class="math inline">\(f:\RR^p\to\RR\)</span> una función dos veces diferenciable y sea <span class="math inline">\(\xx_\star\)</span> un punto crítico. Supongamos que existe una bola <span class="math inline">\(B(\xx_\star,\varepsilon)\subset \text{dom}\,f\)</span> tal que:</p>
 <ol type="i">
-<li>Existe <span class="math inline">\(\alpha&gt;0\)</span> tal que <span class="math display">\[
+<li><p>Existe <span class="math inline">\(\alpha&gt;0\)</span> tal que <span class="math display">\[
 \|\nabla^2f(\xx)^{-1}\|_2\leq\frac{1}{\alpha}\qquad\forall\xx\in B(\xx_{\star},\varepsilon).
-\]</span></li>
-</ol>
-<ol start="2" type="1">
-<li>Existe <span class="math inline">\(M\geq 0\)</span> tal que <span class="math display">\[
+\]</span></p></li>
+<li><p>Existe <span class="math inline">\(M\geq 0\)</span> tal que <span class="math display">\[
 \|\nabla^2f(\xx)-\nabla^2f(\yy)\|_2\leq M\|\xx-\yy\|_2\qquad\forall\xx,\yy\in B(\xx_\star,\varepsilon)
-\]</span></li>
+\]</span></p></li>
 </ol>
 <p>Entonces, para <span class="math inline">\(\xx_t\in B(\xx_\star,\varepsilon)\)</span> y <span class="math inline">\(\xx_{t+1}\)</span> resultante del método de Newton, se verifica <span class="math display">\[
 \|\xx_{t+1}-\xx_\star\|_2\leq \frac{M}{2\alpha}\|\xx_t-\xx_{\star}\|_2^2.
@@ -1411,17 +1477,76 @@ Mostrar detalles
 </div>
 </div>
 </div>
+</details></section>
+</section>
+<section id="métodos-quasi-newton" class="level3">
+<h3 class="anchored" data-anchor-id="métodos-quasi-newton">Métodos Quasi-Newton</h3>
+<p>Si bien el método de Newton es muy atractivo por su rápida convergencia, presenta un alto costo computacional: en cada iteración es necesario o bien calcular e invertir la matriz Hessiana, o bien resolver el sistema de ecuaciones <span class="math display">\[
+\nabla^2f(\xx_t)(\xx_{t+1}-\xx_t)=-\nabla f(\xx_t).
+\]</span></p>
+<p>Una alternativa natural surge a partir del <em>método de la secante</em> de una variable: en lugar de calcular la derivada exacta, se la aproxima a partir de la diferencia finita entre dos puntos.</p>
+<div style="margin-top:2em;">
+
+</div>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/metodo_secante.png" alt="…" width="400px" class="figure-img">
+<figcaption>
+<strong>Figura 4</strong>. Interpretación geométrica del método de la secante de una variable para aproximar una solución de <span class="math inline">\(f'(x)=0\)</span>.
+</figcaption>
+</figure>
+<div class="myhighlight2">
+<span style="font-size:0.8em;"><em>Método de la secante de una variable</em></span>
+<div style="margin-top:-0.3em;">
+
+</div>
+<p><span class="math display">\[
+x_{t+1}:=x_t-\frac{x_t-x_{t-1}}{f'(x_t)-f'(x_{t-1})}f'(x_t)
+\]</span></p>
+</div>
+<div style="margin-top:1em;">
+
+</div>
+<p>En el contexto multidimensional, la idea del método de la secante conduce a los <em>métodos de Quasi-Newton</em>: en lugar de usar la Hessiana exacta, se construye en cada paso una aproximación utilizando la información contenida en los gradientes.</p>
+<div class="myhighlight">
+<p>Si <span class="math inline">\(H_t\in\SS^p\)</span> satisface la <em>condición de la secante</em> <span class="math display">\[
+\nabla f(\xx_t)-\nabla f(\xx_{t-1})=H_t(\xx_t-\xx_{t-1}),
+\tag{4}
+\]</span></p>
+<p>entonces el <em>método de la secante</em> consiste en actualizar <span class="math display">\[
+\xx_{t+1}:=\xx_t-H_t^{-1}\nabla f(\xx_t).
+\]</span></p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<div class="alert alert-light text-dark" role="important">
+<p><span class="badge bg-warning text-dark">Importante</span></p>
+<p>Si <span class="math inline">\(f:\RR^p\to\RR\)</span> es dos veces diferenciable, la aproximación de Taylor de primer orden de <span class="math inline">\(\nabla f\)</span> en <span class="math inline">\(\xx_t\)</span> permite escribir <span class="math display">\[
+\nabla f(\xx_t)\approx\nabla f(\xx_{t-1})+\nabla^2f(\xx_{t-1})(\xx_t-\xx_{t-1}).
+\]</span></p>
+<p>Por lo tanto, <span class="math display">\[
+\nabla f(\xx_t)-\nabla f(\xx_{t-1})=H_t(\xx_t-\xx_{t-1})\approx\nabla^2f(\xx_t)(\xx_t-\xx_{t-1}).
+\]</span></p>
+<p>Podemos entonces esperar que <span class="math inline">\(H_t\approx\nabla^2f(\xx_t)\)</span>, lo cual significa que el método de la secante aproxima al método de Newton.</p>
+</div>
+<p>A diferencia de <span class="math inline">\(p=1\)</span>, donde <span class="math inline">\(H_t\)</span> es único, para <span class="math inline">\(p&gt;1\)</span> la condición de la secante (4) tiene infinitas soluciones simétricas, puesto que determina un sistema de <span class="math inline">\(p\)</span> ecuaciones con <span class="math inline">\(p(p+1)/2&gt;p\)</span> incógnitas (esto último, por ser <span class="math inline">\(H_t\)</span> simétrica). En consecuencia:</p>
+<div class="myhighlight">
+<p>Cualquier procedimiento que, en cada paso del método de la secante, elija una matriz simétrica <span class="math inline">\(H_t\)</span> que cumpla la condición de la secante (4), da lugar a un algoritmo denominado <em>método de Quasi-Newton</em>.</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>Entre los métodos Quasi-Newton más utilizados se encuentran BFGS y su versión limitada en memoria L-BFGS, así como DFP y SR1. Todos ellos consisten en reglas específicas para actualizar la matriz <span class="math inline">\(H_t\)</span>, ofreciendo aproximaciones eficientes a la Hessiana sin necesidad de calcularla explícitamente.</p>
+<p>Los métodos de Quasi-Newton logran un compromiso: mantienen la buena tasa de convergencia de Newton, pero evitando el costo de calcular y almacenar la Hessiana, lo que los hace especialmente útiles en problemas de gran escala.</p>
 <div style="margin-top:2.5em;">
 
 </div>
-</details></section>
 </section>
 </section>
 <section id="breve-reseña-de-otros-métodos" class="level2">
 <h2 class="anchored" data-anchor-id="breve-reseña-de-otros-métodos">Breve reseña de otros métodos</h2>
 <p>Más allá de los métodos analizados en esta sección, existen varias familias de algoritmos importantes que conviene mencionar:</p>
 <ul>
-<li><p><strong>Métodos Quasi-Newton</strong>: construyen aproximaciones a la Hessiana (o su inversa) a partir de gradientes previos, evitando el cálculo exacto de la Hessiana. Ejemplos clásicos incluyen BFGS y L-BFGS. Son especialmente útiles en problemas de gran dimensión, combinando eficiencia computacional y velocidad de convergencia.</p></li>
 <li><p><strong>Métodos de segundo orden para problemas con restricciones</strong>: extensiones de Newton que incorporan restricciones sobre el dominio, como el Newton proyectado o los métodos de barrera. Permiten manejar problemas restringidos de manera directa, aunque requieren un análisis más sofisticado.</p></li>
 <li><p><strong>Métodos de región de confianza</strong>: en lugar de aplicar un paso fijo, construyen un modelo cuadrático local de la función y limitan la actualización a una vecindad donde el modelo es fiable. Esto los hace más robustos que Newton clásico, incluso cuando la Hessiana no es definida positiva.</p></li>
 <li><p><strong>Métodos de punto interior</strong>: se usan sobre todo para problemas con restricciones de desigualdad. Transforman el problema en una sucesión de problemas suavizados mediante funciones de barrera, permitiendo aproximarse al óptimo de forma estable.</p></li>
