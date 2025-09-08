@@ -238,7 +238,7 @@ window.Quarto = {
   <li><a href="#distribución-condicional-1" id="toc-distribución-condicional-1" class="nav-link" data-scroll-target="#distribución-condicional-1">Distribución condicional</a></li>
   <li><a href="#función-de-verosimilitud-1" id="toc-función-de-verosimilitud-1" class="nav-link" data-scroll-target="#función-de-verosimilitud-1">Función de verosimilitud</a></li>
   <li><a href="#optimalidad-1" id="toc-optimalidad-1" class="nav-link" data-scroll-target="#optimalidad-1">Optimalidad</a></li>
-  <li><a href="#regla-de-ascenso-por-gradiente" id="toc-regla-de-ascenso-por-gradiente" class="nav-link" data-scroll-target="#regla-de-ascenso-por-gradiente">Regla de ascenso por gradiente</a></li>
+  <li><a href="#aplicación-de-descenso-por-gradiente" id="toc-aplicación-de-descenso-por-gradiente" class="nav-link" data-scroll-target="#aplicación-de-descenso-por-gradiente">Aplicación de descenso por gradiente</a></li>
   </ul></li>
   <li><a href="#actividades" id="toc-actividades" class="nav-link" data-scroll-target="#actividades">Actividades</a></li>
   </ul>
@@ -314,7 +314,8 @@ window.Quarto = {
 <p>En esta sección estudiaremos dos modelos fundamentales de aprendizaje supervisado: la regresión lineal, utilizada para variables de respuesta cuantitativas, y la regresión logística, empleada cuando la respuesta es categórica. Ambos modelos pueden ser formulados como problemas de optimización, lo que permite aplicar los conceptos vistos en el capítulo anterior. Para ambos modelos, analizaremos su formulación probabilística, las características del problema y los métodos de resolución más utilizados.</p>
 <hr>
 <p>Durante este capítulo, consideraremos <span class="math inline">\(\XX=(X_1,\ldots,X_p)\in\RR^p\)</span> un conjunto de variables predictoras y <span class="math inline">\(Y\in\RR\)</span> una variable respuesta. Además, vamos a suponer que la distribución condicional de <span class="math inline">\(Y|\XX\)</span> depende de un vector de parámetros <span class="math inline">\(\bftheta\in\RR^q\)</span>.</p>
-<p>Para un conjunto de datos <span class="math inline">\(\{(\xx_i,y_i)\}_{i=1}^n\)</span>, denotamos <span class="math inline">\(X\in\RR^{n\times p}\)</span> la matriz de predictoras y <span class="math inline">\(\yy\in\RR^n\)</span> el vector de respuestas. Además, en general, es más comodo trabajar con la matriz ampliada <span class="math display">\[
+<p>Para un conjunto de datos <span class="math inline">\(\{(\xx_i,y_i)\}_{i=1}^n\)</span>, denotamos <span class="math inline">\(X\in\RR^{n\times p}\)</span> la matriz de predictoras y <span class="math inline">\(\yy\in\RR^n\)</span> el vector de respuestas.</p>
+<p>En lo que sigue, vamos a trabajar sin intercepto; es decir, consideraremos la relación lineal <span class="math inline">\(\bftheta^\top\XX\)</span>. Luego, si se necesitara un intercepto <span class="math inline">\(\theta_0\)</span>, los resultados se adaptan de forma directa reemplazando la matriz de datos <span class="math inline">\(X\)</span> por la matriz ampliada <span class="math display">\[
 \widetilde{X}=\begin{pmatrix}\mathbf{1} &amp; X\end{pmatrix}\in\RR^{n\times (p+1)}.
 \]</span></p>
 <hr>
@@ -351,7 +352,7 @@ L(\bftheta):=\prod_{i=1}^np(y_i|\xx_i; \bftheta).
 </div>
 <p><span class="math display">\[
 \begin{array}{c}
-Y=\theta_0+\theta_1X_1+\cdots+\theta_p X_p+\varepsilon\\[2pt]
+Y=\theta_1X_1+\cdots+\theta_p X_p+\varepsilon\\[2pt]
 \varepsilon\sim \calN(0,\sigma^2)
 \end{array}
 \]</span></p>
@@ -359,11 +360,18 @@ Y=\theta_0+\theta_1X_1+\cdots+\theta_p X_p+\varepsilon\\[2pt]
 <div style="margin-top:1em;">
 
 </div>
-<p>El conjunto de parámetros del modelo de regresión lineal es <span class="math display">\[
-\bftheta=(\theta_0,\theta_1,\ldots,\theta_p)\in\RR^{p+1},
-\]</span> mientras que <span class="math inline">\(\varepsilon\in\RR\)</span> es un término de error que captura efectos no modelados (como características omitidas o ruido aleatorio). Bajo la convención <span class="math inline">\(X_0=0\)</span>, podemos escribir el modelo de forma abreviada como <span class="math display">\[
+<p>El conjunto de parámetros del modelo de regresión lineal es <span class="math inline">\(\bftheta\in\RR^p\)</span>, mientras que <span class="math inline">\(\varepsilon\in\RR\)</span> es un término de error que captura efectos no modelados (como características omitidas o ruido aleatorio). Podemos escribir el modelo de forma abreviada como <span class="math display">\[
 Y = \bftheta^\top \XX + \varepsilon.
 \]</span></p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/linear_regression_hastie.png" alt="…" width="350px" class="figure-img">
+<figcaption>
+<strong>Figura 1</strong>. Interpretación geométrica del modelo de regresión lineal en <span class="math inline">\(\RR^2\)</span>. Los puntos ajustados están determinados por las proyecciones sobre el plano <span class="math inline">\(\hat{y}=\theta_1 x_1+\theta_2 x_2\)</span> (más intercepto).
+</figcaption>
+</figure>
+<div style="margin-top:2em;">
+
+</div>
 <p>El supuesto <span class="math inline">\(\varepsilon\sim \calN(0,\sigma^2)\)</span> significa que la función de densidad de la variable aleatoria <span class="math inline">\(\varepsilon\)</span> es <span class="math display">\[
 p(\varepsilon) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{\varepsilon^2}{2 \sigma^2}\right).
 \]</span></p>
@@ -413,7 +421,7 @@ L(\bftheta) = \prod_{i=1}^{n} \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{(
 <p><span class="badge bg-warning text-dark">Importante</span></p>
 <p>Observar, en esta última expresión, que maximizar <span class="math inline">\(\ell(\theta)\)</span> es equivalente a minimizar</p>
 <p><span class="math display">\[
-J(\bftheta)=\frac{1}{2} \sum_{i=1}^{n} (y_i - \bftheta^\top \xx_i)^2=\frac{1}{2}\|\widetilde{X}\bftheta-\yy\|_2^2,
+J(\bftheta)=\frac{1}{2} \sum_{i=1}^{n} (y_i - \bftheta^\top \xx_i)^2=\frac{1}{2}\|X\bftheta-\yy\|_2^2,
 \]</span></p>
 <p>lo cual es la función de costo asociada a mínimos cuadrados.</p>
 </div>
@@ -423,15 +431,15 @@ J(\bftheta)=\frac{1}{2} \sum_{i=1}^{n} (y_i - \bftheta^\top \xx_i)^2=\frac{1}{2}
 <p>Si bien en la Definición 2 de <a href="A1_intro_optimizacion.html#mínimos-cuadrados-y-programación-lineal">C1-S1</a> ya hemos analizado el problema de mínimos cuadrados, vamos a volver a derivar la solución del problema</p>
 <p><span class="math display">\[
 \begin{array}{ll}
-\text{minimizar } &amp; \frac{1}{2}\|\widetilde{X}\bftheta-\yy\|_2^2.
+\text{minimizar } &amp; \displaystyle\frac{1}{2}\|X\bftheta-\yy\|_2^2.
 \end{array}
 \]</span></p>
 <p>Dado que es un problema de optimización sin restricciones con función objetivo convexa, la condición de optimalidad <span class="math inline">\(\nabla J(\bftheta)=\bfzero\)</span> es suficiente y necesaria. Por lo tanto, tenemos que <span class="math display">\[
 \begin{align*}
 \nabla J(\hat{\bftheta})&amp;=\bfzero\\
-\widetilde{X}^\top \widetilde{X}\hat{\bftheta}-\widetilde{X}^\top\yy&amp;=\bfzero\\
-\widetilde{X}^\top \widetilde{X}\hat{\bftheta} &amp;=\widetilde{X}^\top\yy\\
-\hat{\bftheta}&amp;=\widetilde{X}^{+}\yy.
+X^\top X\hat{\bftheta}-X^\top\yy&amp;=\bfzero\\
+X^\top X\hat{\bftheta} &amp;=X^\top\yy\\
+\hat{\bftheta}&amp;=X^{+}\yy.
 \end{align*}
 \]</span></p>
 <div style="margin-top:2em;">
@@ -439,34 +447,34 @@ J(\bftheta)=\frac{1}{2} \sum_{i=1}^{n} (y_i - \bftheta^\top \xx_i)^2=\frac{1}{2}
 </div>
 <div class="myhighlight">
 <p>Si <span class="math inline">\(X\)</span> es de rango completo, entonces <span class="math display">\[
-\hat{\bftheta}=(\widetilde{X}^\top \widetilde{X})^{-1}\widetilde{X}^\top\yy
+\hat{\bftheta}=(X^\top X)^{-1}X^\top\yy
 \]</span></p>
 </div>
 <div style="margin-top:2em;">
 
 </div>
-<p>El vector de valores ajustados es <span class="math display">\[
-\hat{\yy}:=\widetilde{X}\hat{\bftheta}.
+<p>El vector de valores ajustados <span class="math inline">\(\hat{\yy}\in\RR^n\)</span> está dado por <span class="math display">\[
+\hat{\yy}:=X\hat{\bftheta}.
 \]</span></p>
-<p>Observar que, si <span class="math inline">\(X\)</span> es de rango completo, entonces <span class="math inline">\(\hat{\yy}=\widetilde{X}(\widetilde{X}^\top \widetilde{X})^{-1}\widetilde{X}^\top\yy\)</span>. Esto significa que <span class="math inline">\(\hat{\yy}\)</span> es la proyección de <span class="math inline">\(\yy\)</span> sobre el espacio columna de <span class="math inline">\(\widetilde{X}\)</span>.</p>
+<p>Observar que, si <span class="math inline">\(X\)</span> es de rango completo, entonces <span class="math inline">\(\hat{\yy}=X(X^\top X)^{-1}X^\top\yy\)</span>. Esto significa que <span class="math inline">\(\hat{\yy}\)</span> es la proyección de <span class="math inline">\(\yy\)</span> sobre el espacio columna de <span class="math inline">\(X\)</span>.</p>
 </section>
 <section id="algoritmo-lms" class="level3">
 <h3 class="anchored" data-anchor-id="algoritmo-lms">Algoritmo LMS</h3>
 <p>La aplicación del método de descenso por gradiente al problema de optimización en regresión lineal da lugar a lo que se denomina <em>algoritmo LMS (least mean squares)</em>. La regla de actualización es <span class="math display">\[
 \bftheta_{t+1}:=\bftheta_t-\eta \nabla J(\bftheta_t),\qquad\eta&gt;0.
 \]</span></p>
-<p>Luego, debemos sustituir el gradiente por su expresión <span class="math inline">\(\nabla J(\bftheta_t) = \widetilde{X}^\top\widetilde{X}\bftheta_t-\widetilde{X}^\top\yy\)</span>. Esta regla de actualización tambien se conoce como <em>regla de aprendizaje Widrow-Hoff</em>.</p>
+<p>Luego, debemos sustituir el gradiente por su expresión <span class="math inline">\(\nabla J(\bftheta_t) = X^\top X\bftheta_t-X^\top\yy\)</span>. Esta regla de actualización tambien se conoce como <em>regla de aprendizaje Widrow-Hoff</em>.</p>
 <div style="margin-top:2em;">
 
 </div>
 <div class="highlight">
 <p><span class="badge bg-custom">Algoritmo LMS</span></p>
 <hr>
-<p>Dado un <em>parámetro inicial</em> <span class="math inline">\(\hat{\bftheta}_0\in\RR^{p+1}\)</span> y una <em>tasa de aprendizaje</em> <span class="math inline">\(\eta&gt;0\)</span>:</p>
+<p>Dado un <em>parámetro inicial</em> <span class="math inline">\(\hat{\bftheta}_0\in\RR^{p}\)</span> y una <em>tasa de aprendizaje</em> <span class="math inline">\(\eta&gt;0\)</span>:</p>
 <div style="margin-left: 1em">
-<p><strong>repetir</strong> para <span class="math inline">\(t = 0,1,2,\dots\)</span>:</p>
+<p><strong>repetir</strong> para <span class="math inline">\(t = 0,1,2,\ldots\)</span>:</p>
 <blockquote class="blockquote">
-<p>Actualizar <span class="math inline">\(\bftheta_{t+1}:=\bftheta_t-\eta \nabla J(\bftheta_t)\)</span>.</p>
+<p>Actualizar <span class="math inline">\(\bftheta_{t+1}:=\bftheta_t-\eta \left(X^\top X\bftheta_t-X^\top\yy\right)\)</span>.</p>
 </blockquote>
 <p><strong>hasta</strong> que el criterio de parada se satisfaga.</p>
 </div>
@@ -487,7 +495,7 @@ J(\bftheta)=\frac{1}{2}(y_i-\bftheta^\top\xx_i)^2,
 <div class="highlight">
 <p><span class="badge bg-custom">Algoritmo LMS estocástico</span></p>
 <hr>
-<p>Dado un <em>parámetro inicial</em> <span class="math inline">\(\hat{\bftheta}_0\in\RR^{p+1}\)</span> y una <em>tasa de aprendizaje</em> <span class="math inline">\(\eta&gt;0\)</span>:</p>
+<p>Dado un <em>parámetro inicial</em> <span class="math inline">\(\hat{\bftheta}_0\in\RR^{p}\)</span> y una <em>tasa de aprendizaje</em> <span class="math inline">\(\eta&gt;0\)</span>:</p>
 <div style="margin-left: 1em">
 <p><strong>repetir</strong> para <span class="math inline">\(t = 0,1,2,\dots\)</span>:</p>
 <blockquote class="blockquote">
@@ -517,9 +525,7 @@ El conjunto de datos `California Housing` incluye información detallada sobre d
 
 
 
-
-
-```rnurlqcfq
+```honifxkod
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
@@ -557,15 +563,11 @@ print(f"Coeficientes del modelo: {theta}")
 
 
 
-
-
-La clase `LinearRegression` usa la ecuación normal $\hat{\bftheta}=(X^\topX)^{-1}X^\top\vec{y}$. Para usar descenso de gradiente, la alternativa es la clase `SGDRegressor`: esta efectúa **descenso de gradiente estocástico**, que consiste en calcular el gradiente utilizando un dato a la vez.
-
+La clase `LinearRegression` usa la ecuación normal $\hat{\bftheta}=(X^\top X)^{-1}X^\top\vec{y}$. Para usar descenso de gradiente, la alternativa es la clase `SGDRegressor`: esta efectúa **descenso de gradiente estocástico**, que consiste en calcular el gradiente utilizando un dato a la vez.
 
 
 
-
-```rnurlqcfq
+```honifxkod
 import pandas as pd
 from sklearn.linear_model import SGDRegressor
 from sklearn.model_selection import train_test_split
@@ -602,8 +604,6 @@ print(f"Coeficientes del modelo: {theta}")
 ```
 
 
-
-
 -->
 <div style="margin-top:2.5em;">
 
@@ -612,7 +612,7 @@ print(f"Coeficientes del modelo: {theta}")
 </section>
 <section id="regresión-logística" class="level2">
 <h2 class="anchored" data-anchor-id="regresión-logística">Regresión logística</h2>
-<p>Consideremos un problema de clasificación, con variable respuesta <span class="math inline">\(Y\in\{0,1,\cdots,r\}\)</span>. En particular, nos enfocaremos en el problema de <em>clasificación binaria</em> en el que <span class="math inline">\(Y\in\{0,1\}\)</span>.</p>
+<p>Consideremos ahora un problema de clasificación binaria, con variable respuesta <span class="math inline">\(Y\in\{0,1\}\)</span>.</p>
 <p>Por ejemplo, si estamos tratando de construir un clasificador de spam para correos electrónicos, entonces una observación <span class="math inline">\(\xx\)</span> contendrá características de un correo electrónico, mientras que su etiqueta <span class="math inline">\(y\)</span> será 1 si es spam o 0 en caso contrario.</p>
 <p>Podríamos abordar el problema de clasificación ignorando el hecho de que <span class="math inline">\(y\)</span> toma valores discretos y usar el método de regresión lineal. Sin embargo, no tendría sentido que la predicción para un valor de <span class="math inline">\(\xx\)</span> sea un valor fuera del rango de 0 y 1. Para resolver este problema, podemos utilizar la <em>función logística</em>.</p>
 <div style="margin-top:2em;">
@@ -621,9 +621,9 @@ print(f"Coeficientes del modelo: {theta}")
 <div class="alert alert-light text-dark" role="important">
 <p><span class="badge bg-success text-light">Función logística</span></p>
 <p>Para <span class="math inline">\(z\in\RR\)</span>, se define la <em>función logística</em> o <em>función sigmoide</em> <span class="math inline">\(g:\RR\to\RR\)</span> mediante <span class="math display">\[
-g(z) = \frac{1}{1 + e^{-z}}.
+g(z) := \frac{1}{1 + e^{-z}} = \frac{e^z}{1+e^z}.
 \]</span></p>
-<div id="fd83b487" class="cell" data-execution_count="1">
+<div id="fa665b26" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -648,7 +648,8 @@ g(z) = \frac{1}{1 + e^{-z}}.
 <p>Dado <span class="math inline">\(\bftheta\in\RR^p\)</span>, definimos la función <span class="math inline">\(h_{\bftheta}:\RR^p\to\RR\)</span> como <span class="math display">\[
 h_\bftheta(\xx) := g(\bftheta^\top \xx) = \frac{1}{1 + e^{-\bftheta^\top \xx}}.
 \]</span></p>
-<p>Además, vamos a denotar con <span class="math inline">\(\mathbb{P}(A)\)</span> la probabilidad de que ocurra un suceso <span class="math inline">\(A\)</span>. Ya estamos en condiciones de configurar el modelo de regresión logística:</p>
+<p>En este caso, vamos a realizar el desarrollo sin intercepto. Por supuesto, puede añadirse <span class="math inline">\(\theta_0\)</span> y trabajar con <span class="math inline">\(X\)</span>, tal como lo hicimos en regresión lineal. Por otra parte, vamos a denotar con <span class="math inline">\(\mathbb{P}(A)\)</span> la probabilidad de que ocurra un suceso <span class="math inline">\(A\)</span>.</p>
+<p>Ya estamos en condiciones de configurar el modelo de regresión logística:</p>
 <div style="margin-top:1em;">
 
 </div>
@@ -675,8 +676,8 @@ Y|\XX=\xx\sim\text{Binom}(1,h_{\bftheta}(\xx)),
 <p>de manera tal que <span class="math display">\[
 \begin{align*}
 p(y \mid \xx; \bftheta)&amp;=(h_{\bftheta}(\xx))^y(1-h_{\bftheta}(\xx))^{1-y} \\[2pt]
-&amp;=\left( \frac{1}{1 + e^{-\bftheta^\top \xx}} \right)^y\,\left( 1-\frac{1}{1 + e^{-\bftheta^\top \xx}} \right)^{1-y} \\[3pt]
-&amp;=\frac{(e^{\bftheta^\top\xx})^{y-1}}{1+e^{-\bftheta^\top\xx}} \\[3pt]
+&amp;=\left( \frac{e^{\bftheta^\top\xx}}{1 + e^{\bftheta^\top \xx}} \right)^y\,\left( 1-\frac{e^{\bftheta^\top\xx}}{1 + e^{\bftheta^\top \xx}} \right)^{1-y} \\[3pt]
+&amp;=\left( \frac{e^{\bftheta^\top\xx}}{1 + e^{\bftheta^\top \xx}} \right)^y\,\left( \frac{1}{1 + e^{\bftheta^\top \xx}} \right)^{1-y} \\
 &amp;=\frac{e^{\bftheta^\top\xx\, y}}{1+e^{\bftheta^\top\xx}}.
 \end{align*}
 \]</span></p>
@@ -707,7 +708,7 @@ L(\bftheta) = \prod_{i=1}^{n} \frac{e^{\bftheta^\top\xx_i\, y_i}}{1+e^{\bftheta^
 <div class="alert alert-light text-dark" role="important">
 <p><span class="badge bg-warning text-dark">Importante</span></p>
 <p>En regresión logística, maximizar <span class="math inline">\(\ell(\theta)\)</span> es equivalente a minimizar <span class="math display">\[
-J(\bftheta)=-\frac{1}{n} \sum_{i=1}^{n}\left[y_i\log(\hat{y}_i)+(1-y_i)\log(1-\hat{y}_i)\right],
+J(\bftheta)=-\sum_{i=1}^{n}\left[y_i\log(\hat{y}_i)+(1-y_i)\log(1-\hat{y}_i)\right],
 \tag{3}
 \]</span></p>
 <p>con <span class="math display">\[
@@ -722,7 +723,7 @@ J(\bftheta)=-\frac{1}{n} \sum_{i=1}^{n}\left[y_i\log(\hat{y}_i)+(1-y_i)\log(1-\h
 <div class="callout-body-container">
 <p><span style="font-size: 1.3em;">📝</span><br></p>
 <p>Verifique que <span class="math display">\[
-J(\bftheta)=-\displaystyle\frac{1}{n}\ell(\bftheta).
+J(\bftheta)=-\ell(\bftheta).
 \]</span></p>
 </div>
 </div>
@@ -731,37 +732,84 @@ J(\bftheta)=-\displaystyle\frac{1}{n}\ell(\bftheta).
 </section>
 <section id="optimalidad-1" class="level3">
 <h3 class="anchored" data-anchor-id="optimalidad-1">Optimalidad</h3>
+<p>Vamos a analizar el problema <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar} &amp; \sum_{i=1}^n\left[\log(1+e^{\bftheta^\top\xx_i})-\bftheta^\top\xx_i y_i\right].
+\end{array}
+\tag{4}
+\]</span></p>
+<p>La función objetivo es convexa. Por lo tanto, la condición de optimalidad <span class="math inline">\(\nabla J(\bftheta)=\bfzero\)</span> es una condición necesaria y suficiente para el punto óptimo <span class="math inline">\(\hat{\bftheta}\)</span>.</p>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br></p>
+<p>Justifique la convexidad de la función objetivo en (4).</p>
+</div>
+</div>
+</div>
+<p>La forma matricial de la función objetivo es <span class="math display">\[
+J(\bftheta)=\mathbf{1}^\top\log\left(1+e^{X\bftheta}\right)-\yy^\top X \bftheta,
+\]</span></p>
+<p>donde las operaciones <span class="math inline">\(\log\)</span> y <span class="math inline">\(e\)</span> se aplican elemento a elemento; es decir, <span class="math inline">\(\zz=\log\left(1+e^{X\bftheta}\right)\in\RR^n\)</span> verifica <span class="math inline">\(\zz_i=\log(1+e^{\bftheta^\top\xx_i})\)</span>. Se tiene que</p>
+<p><span class="math display">\[
+\nabla J(\hat{\bftheta})= X^\top \hat{\yy}-X^\top\yy = X^\top(\hat{\yy}-\yy),
+\tag{5}
+\]</span></p>
+<p>donde <span class="math inline">\(\hat{\yy}\in\RR^n\)</span> es el vector de valores ajustados dado por <span class="math display">\[
+\hat{\yy} := (h(\bftheta^\top\xx_1),\ldots,h(\bftheta^\top\xx_n))^\top.
+\]</span></p>
+<p>La expresión (5) nos da una expresión de <span class="math inline">\(\nabla J(\bftheta)\)</span> que depende de <span class="math inline">\(\hat{\yy}=h_{\bftheta}(X)=g(X\bftheta)\)</span>, con <span class="math inline">\(g\)</span> la función sigmoide. Debido a la dependencia no lineal de <span class="math inline">\(\hat{\yy}\)</span> respecto de <span class="math inline">\(\bftheta\)</span>, no es posible obtener una solución explícita de <span class="math inline">\(\nabla J(\hat{\bftheta})=\bfzero\)</span>.</p>
+<div style="margin-top:1em;">
+
+</div>
 </section>
-<section id="regla-de-ascenso-por-gradiente" class="level3">
-<h3 class="anchored" data-anchor-id="regla-de-ascenso-por-gradiente">Regla de ascenso por gradiente</h3>
-<p>¿Cómo maximizamos la verosimilitud? Similar a nuestra derivación en el caso de la regresión lineal, podemos usar <strong>ascenso por gradiente</strong>. Las actualizaciones estarán dadas por</p>
-<p><span class="math display">\[
-\bftheta := \bftheta + \alpha \nabla_\bftheta \ell(\bftheta).
+<section id="aplicación-de-descenso-por-gradiente" class="level3">
+<h3 class="anchored" data-anchor-id="aplicación-de-descenso-por-gradiente">Aplicación de descenso por gradiente</h3>
+<div style="margin-top:2em;">
+
+</div>
+<div class="highlight">
+<p><span class="badge bg-custom">Algoritmo de descenso por gradiente para regresión logística</span></p>
+<hr>
+<p>Dado un <em>parámetro inicial</em> <span class="math inline">\(\hat{\bftheta}_0\in\RR^{p}\)</span> y una <em>tasa de aprendizaje</em> <span class="math inline">\(\eta&gt;0\)</span>:</p>
+<div style="margin-left: 1em">
+<p><strong>repetir</strong> para <span class="math inline">\(t = 0,1,2,\ldots\)</span>:</p>
+<blockquote class="blockquote">
+<p>Actualizar <span class="math inline">\(\bftheta_{t+1}:=\bftheta_t-\eta\, X^\top(\hat{\yy}-\yy)\)</span>.</p>
+</blockquote>
+<p><strong>hasta</strong> que el criterio de parada se satisfaga.</p>
+</div>
+<hr>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>Por último, obtengamos el algoritmo de descenso por gradiente estocástico. Para una observación <span class="math inline">\((\xx_i,y_i)\)</span> se tiene <span class="math display">\[
+J(\bftheta)=\log(1+e^{\bftheta^\top\xx_i})-\bftheta^\top\xx_iy_i,
 \]</span></p>
-<p>Como antes, comencemos trabajando con un único ejemplo de entrenamiento <span class="math inline">\((\xx,y)\)</span>. Resulta: <span class="math display">\[
-\begin{align*}
-\frac{\partial}{\partial \theta_j} \ell(\bftheta) &amp; = \frac{\partial}{\partial\theta_j}\left[y\log h_{\bftheta}(\xx)+(1-y)\log\left(1-h_{\bftheta}(\xx)\right)\right]\\
-&amp;=
-\left[ y \frac{1}{g(\bftheta^\top \xx)} - (1 - y) \frac{1}{1 - g(\bftheta^\top \xx)} \right]
-\frac{\partial}{\partial \theta_j} g(\bftheta^\top \xx)
-\\
-&amp;=
-\left[ y \frac{1}{g(\bftheta^\top \xx)} - (1 - y) \frac{1}{1 - g(\bftheta^\top \xx)} \right]
-g'(\bftheta^\top\xx)x_j
-\\
-&amp;= \left[ y \frac{1}{g(\bftheta^\top \xx)} - (1 - y) \frac{1}{1 - g(\bftheta^\top \xx)} \right]
-g(\bftheta^\top \xx) (1 - g(\bftheta^\top \xx)) x_j
-\\
-&amp;= \left[ y (1 - g(\bftheta^\top \xx)) - (1 - y) g(\bftheta^\top \xx) \right] x_j
-\\
-&amp;= (y - h_\bftheta(\xx)) x_j.
-\end{align*}
+<p>tal que <span class="math display">\[
+\nabla J(\bftheta)=\frac{e^{\bftheta^\top\xx_i}}{1+e^{\bftheta^\top\xx_i}}\xx_i-\xx_i y_i=\xx_i (h_{\bftheta}(\xx_i)-y_i)=-\xx_i(y_i-h_{\bftheta}(\xx_i)).
 \]</span></p>
-<p>En los cálculos anteriores hemos usado el hecho de que <span class="math inline">\(g'(z) = g(z)(1 - g(z))\)</span>. Esto nos da la regla de <strong>ascenso de gradiente estocástico</strong>:</p>
-<p><span class="math display">\[
-\theta_j := \theta_j + \alpha \left( y_i - h_\bftheta(\xx_i) \right) x_{ij},
-\]</span></p>
-<p>donde <span class="math inline">\(x_{ij}\)</span> es el <span class="math inline">\(j\)</span>-ésimo elemento de la observación <span class="math inline">\(\xx_i\)</span>. Si comparamos esto con la regla de actualización de LMS, podemos notar una cierta similaridad entre los factores <span class="math inline">\((y_i-\bftheta^\top\xx_i)\)</span> y <span class="math inline">\((y_i-h_\bftheta(\xx))\)</span>. ¿Es esto coincidencia? Veremos este hecho cuando veamos los modelos lineales generalizados.</p>
+<div style="margin-top:2em;">
+
+</div>
+<div class="highlight">
+<p><span class="badge bg-custom">Algoritmo de descenso por gradiente estocástico para regresión logística</span></p>
+<hr>
+<p>Dado un <em>parámetro inicial</em> <span class="math inline">\(\hat{\bftheta}_0\in\RR^{p}\)</span> y una <em>tasa de aprendizaje</em> <span class="math inline">\(\eta&gt;0\)</span>:</p>
+<div style="margin-left: 1em">
+<p><strong>repetir</strong> para <span class="math inline">\(t = 0,1,2,\ldots\)</span>:</p>
+<blockquote class="blockquote">
+<p><strong>1°</strong> Elegir un índice <span class="math inline">\(i\)</span> al azar de <span class="math inline">\(\{1,\dots,n\}\)</span>.</p>
+<p><strong>2°</strong> Actualizar <span class="math inline">\(\bftheta_{t+1}:=\bftheta_t+\eta\,(y_i-h_{\bftheta}(\xx_i))\,\xx_i\)</span>.</p>
+</blockquote>
+<p><strong>hasta</strong> que el criterio de parada se satisfaga.</p>
+</div>
+<hr>
+</div>
 <div style="margin-top:2em;">
 
 </div>
@@ -769,6 +817,19 @@ g(\bftheta^\top \xx) (1 - g(\bftheta^\top \xx)) x_j
 <p><span class="badge bg-primary">Ejemplo 2</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Título de ejemplo </span></p>
 <p><span style="color:darkred;"> Acá va un ejemplo con los datos <code>Breast Cancer</code> y librerías de Python. </span></p>
 </div>
+<br>
+<hr>
+<p>Para finalizar esta sección, comparemos los factores en la actualización del método de descenso por gradiente estocástico para los modelos vistos:</p>
+<p><span class="math display">\[
+\begin{array}{ll}
+\bftheta_{t+1}:=\bftheta_t+\eta(y_i-\bftheta^\top\xx_i)\,\xx_i &amp; \qquad\text{(Regresión lineal)} \\
+\bftheta_{t+1}:=\bftheta_t+\eta(y_i-h_{\bftheta}(\xx_i))\,\xx_i &amp; \qquad\text{(Regresión logística)} \\
+\end{array}
+\]</span></p>
+<p>En ambos casos, la actualización depende del error entre el valor observado y la predicción del modelo: <span class="math display">\[
+y_i-\hat{y}_i,
+\]</span> donde <span class="math inline">\(\hat{y}_i=\bftheta^\top\xx_i\)</span> para regresión lineal y <span class="math inline">\(\hat{y}_i=\displaystyle\frac{e^{\bftheta^\top\xx_i}}{1+e^{\bftheta^\top \xx_i}}\)</span> para regresión logística.</p>
+<p>Esta estructura común refleja la idea de ajustar los parámetros en función de la discrepancia entre observaciones y predicciones, lo cual generalizaremos en la próxima sección cuando tratemos los modelos lineales generalizados.</p>
 <!-- Nota para mí 
 ## Ejemplo 
 
@@ -776,9 +837,7 @@ El conjunto de datos `Breast Cancer` contiene información sobre 569 muestras de
 
 
 
-
-
-```rnurlqcfq
+```honifxkod
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
@@ -819,8 +878,6 @@ print(f"Precision del modelo: {accuracy}")
 ```
 
 
-
-
 -->
 <p><br><br></p>
 </section>
@@ -832,28 +889,26 @@ print(f"Precision del modelo: {accuracy}")
 <hr class="linea-corta">
 <ol type="1">
 <li><p>Probar que la derivada de la función logística <span class="math inline">\(g(z)=1/(1+e^{-z})\)</span> verifica <span class="math display">\[g'(z)(1-g(z)).\]</span></p></li>
-<li><p>Mostrar que en los GLMs la derivada de la log-likelihood es <span class="math display">\[
-\nabla_\theta \ell(\theta) = \sum_{i=1}^n (T(y^{(i)}) - \mathbb{E}[T(y) | \xx^{(i)}; \theta]) \xx^{(i)}.
-\]</span></p></li>
 <li><p>Sea un conjunto de datos <span class="math inline">\(\{(\mathbf{x}_i, y_i)\}_{i=1}^n\)</span>. Defina las variables centradas por columna como <span class="math display">\[
-\widetilde{x}_{ij} = x_{ij} - \bar{x}_j, \quad \widetilde{y}_i = y_i - \bar{y},
-\]</span> donde <span class="math inline">\(\bar{x}_j\)</span> y <span class="math inline">\(\bar{y}\)</span> son las medias muestrales de la variable predictora <span class="math inline">\(j\)</span>-ésima y de la variable respuesta, respectivamente. Muestre que, al ajustar un modelo lineal <em>sin intercepto</em> sobre los datos centrados y obtener coeficientes <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span>, el intercepto del modelo ajustado sobre los datos originales puede recuperarse con la fórmula</p></li>
+{\tilde{x}}_{ij} = x_{ij} - \bar{x}_j, \quad {\tilde{y}}_i = y_i - \bar{y},
+\]</span> donde <span class="math inline">\(\bar{x}_j\)</span> y <span class="math inline">\(\bar{y}\)</span> son las medias muestrales de la variable predictora <span class="math inline">\(j\)</span>-ésima y de la variable respuesta, respectivamente. Muestre que, al ajustar un modelo lineal <em>sin intercepto</em> sobre los datos centrados y obtener coeficientes <span class="math inline">\(\hat{\bfbeta}\)</span>, el intercepto del modelo ajustado sobre los datos originales puede recuperarse con la fórmula</p></li>
 </ol>
 <p><span class="math display">\[
 \hat{\beta}_0 = \bar{y} - \sum_{j=1}^p \hat{\beta}_j \bar{x}_j.
 \]</span></p>
-<p><br></p>
-<strong>Prácticas</strong><br>
-
-<hr class="linea-corta">
-<ol type="1">
-<li>…</li>
-</ol>
+<!--
+1. Mostrar que en los GLMs la derivada de la log-likelihood es
+$$
+\nabla_\theta \ell(\theta) = \sum_{i=1}^n (T(y^{(i)}) - \mathbb{E}[T(y) | \xx^{(i)}; \theta]) \xx^{(i)}.
+$$
+-->
 <div style="margin-top: 5em;">
 
 </div>
 <div class="refs">
 <p><span style="color: #444;"><strong>Referencias</strong></span></p>
+<p>Hastie, T., Tibshirani, R., &amp; Friedman, J. (2009). The Elements of Statistical Learning: Data Mining, Inference, and Prediction (2nd ed.). Springer.</p>
+<p>Ng, A. Apuntes del curso Stanford CS229: Machine Learning. Disponible <a href="https://see.stanford.edu/materials/aimlcs229/cs229-notes1.pdf">aquí</a>.</p>
 </div>
 
 
