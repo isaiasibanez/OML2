@@ -395,7 +395,7 @@ Si <span class="math inline">\(Z\sim\calN(\mu,\sigma^2)\)</span> y <span class="
 p(y |\xx; \bftheta) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{(y-\bftheta^\top \xx)^2}{2 \sigma^2}\right).
 \]</span></p>
 </div>
-<div style="margin-top:2em;">
+<div style="margin-top:1em;">
 
 </div>
 </section>
@@ -525,7 +525,9 @@ El conjunto de datos `California Housing` incluye información detallada sobre d
 
 
 
-```honifxkod
+
+
+```gjirfcxwd
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
@@ -563,11 +565,15 @@ print(f"Coeficientes del modelo: {theta}")
 
 
 
+
+
 La clase `LinearRegression` usa la ecuación normal $\hat{\bftheta}=(X^\top X)^{-1}X^\top\vec{y}$. Para usar descenso de gradiente, la alternativa es la clase `SGDRegressor`: esta efectúa **descenso de gradiente estocástico**, que consiste en calcular el gradiente utilizando un dato a la vez.
 
 
 
-```honifxkod
+
+
+```gjirfcxwd
 import pandas as pd
 from sklearn.linear_model import SGDRegressor
 from sklearn.model_selection import train_test_split
@@ -604,6 +610,8 @@ print(f"Coeficientes del modelo: {theta}")
 ```
 
 
+
+
 -->
 <div style="margin-top:2.5em;">
 
@@ -623,7 +631,7 @@ print(f"Coeficientes del modelo: {theta}")
 <p>Para <span class="math inline">\(z\in\RR\)</span>, se define la <em>función logística</em> o <em>función sigmoide</em> <span class="math inline">\(g:\RR\to\RR\)</span> mediante <span class="math display">\[
 g(z) := \frac{1}{1 + e^{-z}} = \frac{e^z}{1+e^z}.
 \]</span></p>
-<div id="fa665b26" class="cell" data-execution_count="1">
+<div id="4a69aa27" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -762,7 +770,7 @@ J(\bftheta)=\mathbf{1}^\top\log\left(1+e^{X\bftheta}\right)-\yy^\top X \bftheta,
 \hat{\yy} := (h(\bftheta^\top\xx_1),\ldots,h(\bftheta^\top\xx_n))^\top.
 \]</span></p>
 <p>La expresión (5) nos da una expresión de <span class="math inline">\(\nabla J(\bftheta)\)</span> que depende de <span class="math inline">\(\hat{\yy}=h_{\bftheta}(X)=g(X\bftheta)\)</span>, con <span class="math inline">\(g\)</span> la función sigmoide. Debido a la dependencia no lineal de <span class="math inline">\(\hat{\yy}\)</span> respecto de <span class="math inline">\(\bftheta\)</span>, no es posible obtener una solución explícita de <span class="math inline">\(\nabla J(\hat{\bftheta})=\bfzero\)</span>.</p>
-<div style="margin-top:1em;">
+<div style="margin-top:2em;">
 
 </div>
 </section>
@@ -837,7 +845,9 @@ El conjunto de datos `Breast Cancer` contiene información sobre 569 muestras de
 
 
 
-```honifxkod
+
+
+```gjirfcxwd
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
@@ -876,6 +886,8 @@ print(f"Coeficientes del modelo: {coeficientes}")
 print(f"Precision del modelo: {accuracy}")
 
 ```
+
+
 
 
 -->
