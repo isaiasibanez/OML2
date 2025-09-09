@@ -1375,7 +1375,7 @@ L(\xx^\star,\bflambda^\star,\bfnu^\star)=\inf_{\xx}L(\xx,\bflambda^\star,\bfnu^\
 <div style="margin-top:2em;">
 
 </div>
-<p>La suposición de que la función objetivo y las funciones de restricción son diferenciables implica que el Lagrangiano también lo es. Como la diferenciabilidad requiere que las funciones estén definidas en conjuntos abiertos, podemos asegurar que <span class="math inline">\(\text{dom}\,L:=\mathcal{D}\times\RR^r\times\RR^m\)</span> es un conjunto abierto de <span class="math inline">\(\RR^{p+r+m}\)</span>. Así, <span class="math inline">\(\xx^\star\)</span> es un punto interior de <span class="math inline">\(\text{dom}\,L\)</span> y, por lo tanto, la condición de optimalidad asegura que <span class="math display">\[
+<p>La suposición de que la función objetivo y las funciones de restricción son diferenciables garantiza que el Lagrangiano también lo es. Además, si las funciones involucradas están definidas en conjuntos abiertos, podemos asegurar que <span class="math inline">\(\text{dom}\,L:=\mathcal{D}\times\RR^r\times\RR^m\)</span> es un conjunto abierto de <span class="math inline">\(\RR^{p+r+m}\)</span>. Así, <span class="math inline">\(\xx^\star\)</span> es un punto interior de <span class="math inline">\(\text{dom}\,L\)</span> y, por lo tanto, la condición de optimalidad de primer orden asegura que <span class="math display">\[
 \nabla L(\xx^\star,\bflambda^\star,\bfnu^\star)=\bfzero.
 \]</span></p>
 <p>Reemplazando <span class="math display">\[
@@ -1422,12 +1422,12 @@ L(\xx^\star,\bflambda^\star,\bfnu^\star)=\inf_{\xx}L(\xx,\bflambda^\star,\bfnu^\
 \]</span></p>
 <p>La última condición puede reescribirse como <span class="math display">\[
 \lambda_i^\star=\nu^\star-\displaystyle\frac{1}{x_i^\star+\alpha_i},
-\]</span> lo que permite combinarla con las demás condiciones que involucran <span class="math inline">\(\bflambda\)</span>, facilitando así la eliminación de esta variable de holgura. Resulta: <span class="math display">\[
+\]</span> lo que permite combinarla con las demás condiciones que involucran <span class="math inline">\(\bflambda\)</span>, facilitando así la eliminación de este multiplicador. Nos quedan así las siguientes expresiones: <span class="math display">\[
 \xx^\star\succeq\bfzero,\;\mathbf{1}^\top\xx^\star=1,
 \]</span> <span class="math display">\[
-\left(\nu^\star-\displaystyle\frac{1}{x_i^\star+\alpha_i}\right)x_i^\star=0\qquad\forall i = 1,\ldots,p,
-\]</span> <span class="math display">\[
 \nu^\star-\frac{1}{x_i^\star+\alpha_i}\geq 0\qquad\forall i=1,\ldots,p.
+\]</span> <span class="math display">\[
+\left(\nu^\star-\displaystyle\frac{1}{x_i^\star+\alpha_i}\right)x_i^\star=0\qquad\forall i = 1,\ldots,p,
 \]</span></p>
 <p>El análisis de las últimas dos expresiones permite deducir que <span class="math display">\[
 x_i^\star=\left\{\begin{array}{cl}
