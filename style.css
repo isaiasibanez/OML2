@@ -265,3 +265,8 @@ figure {
 
   border-radius: 0 !important;  /* Quitar esquinas redondeadas */
 }
+
+
+nav.quarto-toc ul ul {
+    display: none !important;
+}
