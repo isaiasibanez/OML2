@@ -499,7 +499,7 @@ f(\bftheta)=\frac{1}{2n}\|\yy-X\bftheta\|_2^2+\lambda\|\bftheta\|_2=\frac{1}{2n}
 <aside>
 Una dirección <span class="math inline">\(\dd\in\RR^p\)</span> se denomina <em>dirección de recesión</em> de <span class="math inline">\(f:\RR^p\to\RR\)</span> si <span class="math inline">\(f(\xx+t\dd)\leq f(\xx)\)</span> para todo <span class="math inline">\(\xx\in\text{dom}\,f\)</span> y <span class="math inline">\(t\geq 0\)</span>.
 </aside>
-<p>Para caracterizar la solución del problema ridge, plantearemos las condiciones KKT, las cuales son suficientes y necesarias en virtud del Teorema 5 de <a href="../CAPITULO_1/A4_condiciones_optimalidad.html#condiciones-de-karush-kuhn-tucker-kkt">C1-S4</a>, aplicado a problemas de optimización convexa sin restricciones con función objetivo diferenciable.</p>
+<p>Para caracterizar la solución del problema ridge, plantearemos las condiciones KKT, las cuales son suficientes y necesarias en virtud del Teorema 5 de <a href="../CAPITULO_1/A4_condiciones_optimalidad.html#condiciones-de-karush-kuhn-tucker-kkt">C1-S4</a> , aplicado a problemas de optimización convexa sin restricciones con función objetivo diferenciable.</p>
 <p>Además, recordemos que, al no haber restricciones, las condiciones KKT se reducen a la condición de optimalidad <span class="math inline">\(\nabla f =\bfzero\)</span>. Por supuesto, el abordaje mediante la formulación (3) como problema de optimización con restricciones conduce a los mismos resultados, lo cual dejamos como ejercicio.</p>
 </section>
 <section id="solución-del-problema-ridge" class="level3">
@@ -524,7 +524,7 @@ Una dirección <span class="math inline">\(\dd\in\RR^p\)</span> se denomina <em>
 <p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Regresión ridge en datos de diabetes </span></p>
 <p>Utilizaremos el conjunto de datos de diabetes de <code>sklearn.datasets</code> (<a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_diabetes.html">disponible aquí</a>) para ilustrar el efecto del parámetro de regularización <span class="math inline">\(\lambda\)</span> en Ridge. Este conjunto consiste en 442 observaciones y 10 variables predictoras.</p>
 <p>Veremos el efecto que causa el valor del parámetro <span class="math inline">\(\lambda\)</span> en el valor de los coeficientes estimados para el modelo. Además, elegiremos <span class="math inline">\(\lambda\)</span> por validación cruzada y presentaremos los coeficientes resultantes del modelo ajustado.</p>
-<div id="6b91cc74" class="cell" data-execution_count="1">
+<div id="e0384f04" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_diabetes</span>
@@ -1048,11 +1048,11 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </script>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="894" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 893;"><span id="cb3-894"><a href="#cb3-894" aria-hidden="true" tabindex="-1"></a>viewof tau <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.1</span><span class="op">,</span> <span class="fl">2.5</span>]<span class="op">,</span> {</span>
-<span id="cb3-895"><a href="#cb3-895" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
-<span id="cb3-896"><a href="#cb3-896" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"𝜏:"</span><span class="op">,</span></span>
-<span id="cb3-897"><a href="#cb3-897" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span></span>
-<span id="cb3-898"><a href="#cb3-898" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="893" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 892;"><span id="cb3-893"><a href="#cb3-893" aria-hidden="true" tabindex="-1"></a>viewof tau <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.1</span><span class="op">,</span> <span class="fl">2.5</span>]<span class="op">,</span> {</span>
+<span id="cb3-894"><a href="#cb3-894" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
+<span id="cb3-895"><a href="#cb3-895" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"𝜏:"</span><span class="op">,</span></span>
+<span id="cb3-896"><a href="#cb3-896" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span></span>
+<span id="cb3-897"><a href="#cb3-897" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-1" data-nodetype="declaration">
 
@@ -1098,7 +1098,7 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 3</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Regresión lasso en datos de diabetes </span></p>
 <p>Al igual que para el caso de Ridge, implementaremos lasso sobre el conjunto de datos de diabetes. De acuerdo a los coeficientes obtenidos en el Ejemplo 1 (ridge), podemos esperar que ahora algunos coeficientes se anulen, lo que reflejará la selección de variables realizada por el modelo.</p>
-<div id="c1973997" class="cell" data-execution_count="2">
+<div id="7152e349" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_diabetes</span>
@@ -1272,29 +1272,29 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </script>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb6" data-startfrom="1204" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1203;"><span id="cb6-1204"><a href="#cb6-1204" aria-hidden="true" tabindex="-1"></a>viewof n1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">50</span><span class="op">,</span> <span class="dv">500</span>]<span class="op">,</span> {</span>
-<span id="cb6-1205"><a href="#cb6-1205" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
-<span id="cb6-1206"><a href="#cb6-1206" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° obs. (n):"</span><span class="op">,</span></span>
-<span id="cb6-1207"><a href="#cb6-1207" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">200</span></span>
-<span id="cb6-1208"><a href="#cb6-1208" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb6-1209"><a href="#cb6-1209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-1210"><a href="#cb6-1210" aria-hidden="true" tabindex="-1"></a>viewof p1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">10</span><span class="op">,</span> <span class="dv">100</span>]<span class="op">,</span> {</span>
-<span id="cb6-1211"><a href="#cb6-1211" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
-<span id="cb6-1212"><a href="#cb6-1212" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° pred. (p):"</span><span class="op">,</span></span>
-<span id="cb6-1213"><a href="#cb6-1213" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">50</span></span>
-<span id="cb6-1214"><a href="#cb6-1214" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb6-1215"><a href="#cb6-1215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-1216"><a href="#cb6-1216" aria-hidden="true" tabindex="-1"></a>viewof rho1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {</span>
-<span id="cb6-1217"><a href="#cb6-1217" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
-<span id="cb6-1218"><a href="#cb6-1218" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Correlación (ρ):"</span><span class="op">,</span></span>
-<span id="cb6-1219"><a href="#cb6-1219" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.9</span></span>
-<span id="cb6-1220"><a href="#cb6-1220" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb6-1221"><a href="#cb6-1221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-1222"><a href="#cb6-1222" aria-hidden="true" tabindex="-1"></a>viewof c1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {</span>
-<span id="cb6-1223"><a href="#cb6-1223" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
-<span id="cb6-1224"><a href="#cb6-1224" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Escala (c):"</span><span class="op">,</span></span>
-<span id="cb6-1225"><a href="#cb6-1225" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">3.0</span></span>
-<span id="cb6-1226"><a href="#cb6-1226" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb6" data-startfrom="1203" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1202;"><span id="cb6-1203"><a href="#cb6-1203" aria-hidden="true" tabindex="-1"></a>viewof n1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">50</span><span class="op">,</span> <span class="dv">500</span>]<span class="op">,</span> {</span>
+<span id="cb6-1204"><a href="#cb6-1204" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb6-1205"><a href="#cb6-1205" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° obs. (n):"</span><span class="op">,</span></span>
+<span id="cb6-1206"><a href="#cb6-1206" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">200</span></span>
+<span id="cb6-1207"><a href="#cb6-1207" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb6-1208"><a href="#cb6-1208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-1209"><a href="#cb6-1209" aria-hidden="true" tabindex="-1"></a>viewof p1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">10</span><span class="op">,</span> <span class="dv">100</span>]<span class="op">,</span> {</span>
+<span id="cb6-1210"><a href="#cb6-1210" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb6-1211"><a href="#cb6-1211" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° pred. (p):"</span><span class="op">,</span></span>
+<span id="cb6-1212"><a href="#cb6-1212" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">50</span></span>
+<span id="cb6-1213"><a href="#cb6-1213" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb6-1214"><a href="#cb6-1214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-1215"><a href="#cb6-1215" aria-hidden="true" tabindex="-1"></a>viewof rho1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {</span>
+<span id="cb6-1216"><a href="#cb6-1216" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
+<span id="cb6-1217"><a href="#cb6-1217" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Correlación (ρ):"</span><span class="op">,</span></span>
+<span id="cb6-1218"><a href="#cb6-1218" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.9</span></span>
+<span id="cb6-1219"><a href="#cb6-1219" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb6-1220"><a href="#cb6-1220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-1221"><a href="#cb6-1221" aria-hidden="true" tabindex="-1"></a>viewof c1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {</span>
+<span id="cb6-1222"><a href="#cb6-1222" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb6-1223"><a href="#cb6-1223" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Escala (c):"</span><span class="op">,</span></span>
+<span id="cb6-1224"><a href="#cb6-1224" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">3.0</span></span>
+<span id="cb6-1225"><a href="#cb6-1225" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-2-1" data-nodetype="declaration">
@@ -1340,29 +1340,29 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </script>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb7" data-startfrom="1312" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1311;"><span id="cb7-1312"><a href="#cb7-1312" aria-hidden="true" tabindex="-1"></a>viewof n2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">50</span><span class="op">,</span> <span class="dv">500</span>]<span class="op">,</span> {</span>
-<span id="cb7-1313"><a href="#cb7-1313" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
-<span id="cb7-1314"><a href="#cb7-1314" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° obs. (n):"</span><span class="op">,</span></span>
-<span id="cb7-1315"><a href="#cb7-1315" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">200</span></span>
-<span id="cb7-1316"><a href="#cb7-1316" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb7-1317"><a href="#cb7-1317" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-1318"><a href="#cb7-1318" aria-hidden="true" tabindex="-1"></a>viewof p2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">10</span><span class="op">,</span> <span class="dv">100</span>]<span class="op">,</span> {</span>
-<span id="cb7-1319"><a href="#cb7-1319" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
-<span id="cb7-1320"><a href="#cb7-1320" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° pred. (p):"</span><span class="op">,</span></span>
-<span id="cb7-1321"><a href="#cb7-1321" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">50</span></span>
-<span id="cb7-1322"><a href="#cb7-1322" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb7-1323"><a href="#cb7-1323" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-1324"><a href="#cb7-1324" aria-hidden="true" tabindex="-1"></a>viewof s <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">50</span>]<span class="op">,</span> {</span>
-<span id="cb7-1325"><a href="#cb7-1325" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
-<span id="cb7-1326"><a href="#cb7-1326" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Correlación (ρ):"</span><span class="op">,</span></span>
-<span id="cb7-1327"><a href="#cb7-1327" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">5</span></span>
-<span id="cb7-1328"><a href="#cb7-1328" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb7-1329"><a href="#cb7-1329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-1330"><a href="#cb7-1330" aria-hidden="true" tabindex="-1"></a>viewof c2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {</span>
-<span id="cb7-1331"><a href="#cb7-1331" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
-<span id="cb7-1332"><a href="#cb7-1332" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Escala (c):"</span><span class="op">,</span></span>
-<span id="cb7-1333"><a href="#cb7-1333" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">1.0</span></span>
-<span id="cb7-1334"><a href="#cb7-1334" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb7" data-startfrom="1311" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1310;"><span id="cb7-1311"><a href="#cb7-1311" aria-hidden="true" tabindex="-1"></a>viewof n2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">50</span><span class="op">,</span> <span class="dv">500</span>]<span class="op">,</span> {</span>
+<span id="cb7-1312"><a href="#cb7-1312" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb7-1313"><a href="#cb7-1313" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° obs. (n):"</span><span class="op">,</span></span>
+<span id="cb7-1314"><a href="#cb7-1314" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">200</span></span>
+<span id="cb7-1315"><a href="#cb7-1315" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-1316"><a href="#cb7-1316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-1317"><a href="#cb7-1317" aria-hidden="true" tabindex="-1"></a>viewof p2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">10</span><span class="op">,</span> <span class="dv">100</span>]<span class="op">,</span> {</span>
+<span id="cb7-1318"><a href="#cb7-1318" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb7-1319"><a href="#cb7-1319" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° pred. (p):"</span><span class="op">,</span></span>
+<span id="cb7-1320"><a href="#cb7-1320" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">50</span></span>
+<span id="cb7-1321"><a href="#cb7-1321" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-1322"><a href="#cb7-1322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-1323"><a href="#cb7-1323" aria-hidden="true" tabindex="-1"></a>viewof s <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">50</span>]<span class="op">,</span> {</span>
+<span id="cb7-1324"><a href="#cb7-1324" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb7-1325"><a href="#cb7-1325" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Correlación (ρ):"</span><span class="op">,</span></span>
+<span id="cb7-1326"><a href="#cb7-1326" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">5</span></span>
+<span id="cb7-1327"><a href="#cb7-1327" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-1328"><a href="#cb7-1328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-1329"><a href="#cb7-1329" aria-hidden="true" tabindex="-1"></a>viewof c2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {</span>
+<span id="cb7-1330"><a href="#cb7-1330" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb7-1331"><a href="#cb7-1331" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Escala (c):"</span><span class="op">,</span></span>
+<span id="cb7-1332"><a href="#cb7-1332" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">1.0</span></span>
+<span id="cb7-1333"><a href="#cb7-1333" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-3-1" data-nodetype="declaration">
@@ -1406,41 +1406,41 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </script>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb8" data-startfrom="1426" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1425;"><span id="cb8-1426"><a href="#cb8-1426" aria-hidden="true" tabindex="-1"></a>viewof n3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">50</span><span class="op">,</span> <span class="dv">500</span>]<span class="op">,</span> {</span>
-<span id="cb8-1427"><a href="#cb8-1427" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
-<span id="cb8-1428"><a href="#cb8-1428" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° obs. (n):"</span><span class="op">,</span></span>
-<span id="cb8-1429"><a href="#cb8-1429" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">300</span></span>
-<span id="cb8-1430"><a href="#cb8-1430" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb8-1431"><a href="#cb8-1431" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-1432"><a href="#cb8-1432" aria-hidden="true" tabindex="-1"></a>viewof p3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">10</span><span class="op">,</span> <span class="dv">200</span>]<span class="op">,</span> {</span>
-<span id="cb8-1433"><a href="#cb8-1433" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
-<span id="cb8-1434"><a href="#cb8-1434" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° pred. (p):"</span><span class="op">,</span></span>
-<span id="cb8-1435"><a href="#cb8-1435" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">100</span></span>
-<span id="cb8-1436"><a href="#cb8-1436" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb8-1437"><a href="#cb8-1437" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-1438"><a href="#cb8-1438" aria-hidden="true" tabindex="-1"></a>viewof n_g <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">20</span>]<span class="op">,</span> {</span>
-<span id="cb8-1439"><a href="#cb8-1439" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb8-1440"><a href="#cb8-1440" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° grupos:"</span><span class="op">,</span></span>
-<span id="cb8-1441"><a href="#cb8-1441" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">8</span></span>
-<span id="cb8-1442"><a href="#cb8-1442" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb8-1443"><a href="#cb8-1443" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-1444"><a href="#cb8-1444" aria-hidden="true" tabindex="-1"></a>viewof a_g <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {</span>
-<span id="cb8-1445"><a href="#cb8-1445" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb8-1446"><a href="#cb8-1446" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° grupos activos:"</span><span class="op">,</span></span>
-<span id="cb8-1447"><a href="#cb8-1447" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">3</span></span>
-<span id="cb8-1448"><a href="#cb8-1448" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb8-1449"><a href="#cb8-1449" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-1450"><a href="#cb8-1450" aria-hidden="true" tabindex="-1"></a>viewof rho3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {</span>
-<span id="cb8-1451"><a href="#cb8-1451" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
-<span id="cb8-1452"><a href="#cb8-1452" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Correlación (ρ):"</span><span class="op">,</span></span>
-<span id="cb8-1453"><a href="#cb8-1453" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.90</span></span>
-<span id="cb8-1454"><a href="#cb8-1454" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb8-1455"><a href="#cb8-1455" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-1456"><a href="#cb8-1456" aria-hidden="true" tabindex="-1"></a>viewof c3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {</span>
-<span id="cb8-1457"><a href="#cb8-1457" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
-<span id="cb8-1458"><a href="#cb8-1458" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Escala (c):"</span><span class="op">,</span></span>
-<span id="cb8-1459"><a href="#cb8-1459" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">3.0</span></span>
-<span id="cb8-1460"><a href="#cb8-1460" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb8" data-startfrom="1425" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1424;"><span id="cb8-1425"><a href="#cb8-1425" aria-hidden="true" tabindex="-1"></a>viewof n3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">50</span><span class="op">,</span> <span class="dv">500</span>]<span class="op">,</span> {</span>
+<span id="cb8-1426"><a href="#cb8-1426" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb8-1427"><a href="#cb8-1427" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° obs. (n):"</span><span class="op">,</span></span>
+<span id="cb8-1428"><a href="#cb8-1428" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">300</span></span>
+<span id="cb8-1429"><a href="#cb8-1429" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb8-1430"><a href="#cb8-1430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-1431"><a href="#cb8-1431" aria-hidden="true" tabindex="-1"></a>viewof p3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">10</span><span class="op">,</span> <span class="dv">200</span>]<span class="op">,</span> {</span>
+<span id="cb8-1432"><a href="#cb8-1432" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb8-1433"><a href="#cb8-1433" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° pred. (p):"</span><span class="op">,</span></span>
+<span id="cb8-1434"><a href="#cb8-1434" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">100</span></span>
+<span id="cb8-1435"><a href="#cb8-1435" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb8-1436"><a href="#cb8-1436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-1437"><a href="#cb8-1437" aria-hidden="true" tabindex="-1"></a>viewof n_g <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">20</span>]<span class="op">,</span> {</span>
+<span id="cb8-1438"><a href="#cb8-1438" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb8-1439"><a href="#cb8-1439" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° grupos:"</span><span class="op">,</span></span>
+<span id="cb8-1440"><a href="#cb8-1440" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">8</span></span>
+<span id="cb8-1441"><a href="#cb8-1441" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb8-1442"><a href="#cb8-1442" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-1443"><a href="#cb8-1443" aria-hidden="true" tabindex="-1"></a>viewof a_g <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {</span>
+<span id="cb8-1444"><a href="#cb8-1444" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb8-1445"><a href="#cb8-1445" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° grupos activos:"</span><span class="op">,</span></span>
+<span id="cb8-1446"><a href="#cb8-1446" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">3</span></span>
+<span id="cb8-1447"><a href="#cb8-1447" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb8-1448"><a href="#cb8-1448" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-1449"><a href="#cb8-1449" aria-hidden="true" tabindex="-1"></a>viewof rho3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {</span>
+<span id="cb8-1450"><a href="#cb8-1450" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
+<span id="cb8-1451"><a href="#cb8-1451" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Correlación (ρ):"</span><span class="op">,</span></span>
+<span id="cb8-1452"><a href="#cb8-1452" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.90</span></span>
+<span id="cb8-1453"><a href="#cb8-1453" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb8-1454"><a href="#cb8-1454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-1455"><a href="#cb8-1455" aria-hidden="true" tabindex="-1"></a>viewof c3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {</span>
+<span id="cb8-1456"><a href="#cb8-1456" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb8-1457"><a href="#cb8-1457" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Escala (c):"</span><span class="op">,</span></span>
+<span id="cb8-1458"><a href="#cb8-1458" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">3.0</span></span>
+<span id="cb8-1459"><a href="#cb8-1459" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-4-1" data-nodetype="declaration">

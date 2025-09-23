@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -232,6 +266,7 @@ window.Quarto = {
   <li><a href="#función-de-verosimilitud" id="toc-función-de-verosimilitud" class="nav-link" data-scroll-target="#función-de-verosimilitud">Función de verosimilitud</a></li>
   <li><a href="#optimalidad" id="toc-optimalidad" class="nav-link" data-scroll-target="#optimalidad">Optimalidad</a></li>
   <li><a href="#algoritmo-lms" id="toc-algoritmo-lms" class="nav-link" data-scroll-target="#algoritmo-lms">Algoritmo LMS</a></li>
+  <li><a href="#propiedades-del-estimador" id="toc-propiedades-del-estimador" class="nav-link" data-scroll-target="#propiedades-del-estimador">Propiedades del estimador</a></li>
   </ul></li>
   <li><a href="#regresión-logística" id="toc-regresión-logística" class="nav-link" data-scroll-target="#regresión-logística">Regresión logística</a>
   <ul class="collapse">
@@ -239,6 +274,7 @@ window.Quarto = {
   <li><a href="#función-de-verosimilitud-1" id="toc-función-de-verosimilitud-1" class="nav-link" data-scroll-target="#función-de-verosimilitud-1">Función de verosimilitud</a></li>
   <li><a href="#optimalidad-1" id="toc-optimalidad-1" class="nav-link" data-scroll-target="#optimalidad-1">Optimalidad</a></li>
   <li><a href="#aplicación-de-descenso-por-gradiente" id="toc-aplicación-de-descenso-por-gradiente" class="nav-link" data-scroll-target="#aplicación-de-descenso-por-gradiente">Aplicación de descenso por gradiente</a></li>
+  <li><a href="#propiedades-del-estimador-1" id="toc-propiedades-del-estimador-1" class="nav-link" data-scroll-target="#propiedades-del-estimador-1">Propiedades del estimador</a></li>
   </ul></li>
   <li><a href="#actividades" id="toc-actividades" class="nav-link" data-scroll-target="#actividades">Actividades</a></li>
   </ul>
@@ -322,6 +358,7 @@ window.Quarto = {
 <p>En lo que sigue, vamos a trabajar sin intercepto; es decir, consideraremos la relación lineal <span class="math inline">\(\bftheta^\top\XX\)</span>. Luego, si se necesitara un intercepto <span class="math inline">\(\theta_0\)</span>, los resultados se adaptan de forma directa reemplazando la matriz de datos <span class="math inline">\(X\)</span> por la matriz ampliada <span class="math display">\[
 \widetilde{X}=\begin{pmatrix}\mathbf{1} &amp; X\end{pmatrix}\in\RR^{n\times (p+1)}.
 \]</span></p>
+<p>Además, denotamos <span class="math inline">\(\mathbb{P}(A)\)</span> la probabilidad de que ocurra un suceso <span class="math inline">\(A\)</span>, mientras que <span class="math inline">\(\media\left[Z\right]\)</span> representa el <em>valor esperado</em> de la variable aleatoria <span class="math inline">\(Z\)</span>.</p>
 <hr>
 <div style="margin-top:1em;">
 
@@ -330,8 +367,16 @@ window.Quarto = {
 \begin{array}{ll}
 \text{minimizar } &amp; J(\bftheta),
 \end{array}
+\tag{1}
 \]</span></p>
-<p>en principio sin restricciones. Aquí, la función objetivo <span class="math inline">\(J:\RR^q\to\RR\)</span>, conocida como <em>función de pérdida</em>, mide que tan bien los parámetros <span class="math inline">\(\bftheta\)</span> se ajustan a los datos observados. El punto óptimo del problema es el estimador buscado, por lo tal escribiremos <span class="math inline">\(\hat{\bftheta}\)</span> o <span class="math inline">\(\bftheta^\star\)</span>, indistintamente.</p>
+<p>en principio sin restricciones. Aquí, la función objetivo <span class="math inline">\(J:\RR^q\to\RR\)</span>, conocida como <em>función de pérdida</em>, mide que tan bien los parámetros <span class="math inline">\(\bftheta\)</span> se ajustan a los datos observados. El punto óptimo del problema es el estimador buscado, por lo cual de ahora en adelante haremos la siguiente distinción:</p>
+<div class="alert alert-light text-dark" role="important">
+<p><span class="badge bg-warning text-dark">Importante</span></p>
+<p>Denotaremos por <span class="math inline">\(\bftheta^\star\)</span> el valor verdadero del parámetro, mientras que <span class="math inline">\(\hat{\bftheta}\)</span> será el estimador obtenido; es decir, <span class="math inline">\(\hat{\bftheta}\)</span> es el punto óptimo del problema de optimización (1).</p>
+</div>
+<div style="margin-top:1em;">
+
+</div>
 <p>Bajo la suposición de que los datos son i.i.d. (independientes e idénticamente distribuidos), con distribución de densidad condicional <span class="math inline">\(p(y|\xx; \bftheta)\)</span>, una estrategia para formular <span class="math inline">\(J(\bftheta)\)</span> es el <mark>principio de máxima verosimilitud</mark>, que consiste en elegir <span class="math inline">\(\hat{\bftheta}\)</span> de manera tal que se maximice la <em>función de verosimilitud</em></p>
 <p><span class="math display">\[
 L(\bftheta):=\prod_{i=1}^np(y_i|\xx_i; \bftheta).
@@ -341,6 +386,9 @@ L(\bftheta):=\prod_{i=1}^np(y_i|\xx_i; \bftheta).
 \ell(\bftheta):=\log L(\bftheta)=\sum_{i=1}^n\log p(y_i|\xx_i; \bftheta).
 \tag{2}
 \]</span></p>
+<p>Luego, la definición de <span class="math inline">\(J(\bftheta)\)</span> dependerá del problema específico. En general, tiene la forma <span class="math display">\[
+J(\bftheta)=\sum_{i=1}^n\text{loss}\,(y_i,f(\xx_i;\bftheta)),
+\]</span> donde <span class="math inline">\(\text{loss}:\RR\times\RR\to\RR_0^+\)</span> mide el error entre el valor observado de la variable respuesta y el valor estimado por el modelo <span class="math inline">\(\hat{y}_i=f(\xx_i;\bftheta)\)</span>.</p>
 <div style="margin-top:2.5em;">
 
 </div>
@@ -474,7 +522,7 @@ X^\top X\hat{\bftheta} &amp;=X^\top\yy\\
 <div class="highlight">
 <p><span class="badge bg-custom">Algoritmo LMS</span></p>
 <hr>
-<p>Dado un <em>parámetro inicial</em> <span class="math inline">\(\hat{\bftheta}_0\in\RR^{p}\)</span> y una <em>tasa de aprendizaje</em> <span class="math inline">\(\eta&gt;0\)</span>:</p>
+<p>Dado un <em>parámetro inicial</em> <span class="math inline">\(\bftheta_0\in\RR^{p}\)</span> y una <em>tasa de aprendizaje</em> <span class="math inline">\(\eta&gt;0\)</span>:</p>
 <div style="margin-left: 1em">
 <p><strong>repetir</strong> para <span class="math inline">\(t = 0,1,2,\ldots\)</span>:</p>
 <blockquote class="blockquote">
@@ -488,10 +536,10 @@ X^\top X\hat{\bftheta} &amp;=X^\top\yy\\
 
 </div>
 <p>En el algoritmo anterior se está trabajando con todas las observaciones a la vez en cada paso de actualización, por lo que se trata de un <em>descenso de gradiente por lotes</em>. Esta estrategia asegura una actualización estable del parámetro <span class="math inline">\(\bftheta\)</span>, aunque puede ser costosa si el número de observaciones es muy grande.</p>
-<p>Por supuesto, como vimos en <a href="A5_metodos_optimizacion.html#método-de-descenso-por-gradiente-estocástico">C1-S5</a>, como alternativa podemos usar descenso de gradiente estocástico o mini-batch. Para ello, notar que para una observación <span class="math inline">\((\xx_i,y_i)\)</span>, la función de pérdida es <span class="math display">\[
-J(\bftheta)=\frac{1}{2}(y_i-\bftheta^\top\xx_i)^2,
+<p>Por supuesto, como vimos en <a href="A5_metodos_optimizacion.html#método-de-descenso-por-gradiente-estocástico">C1-S5</a>, como alternativa podemos usar descenso de gradiente estocástico o mini-batch. Para ello, notar que para una observación <span class="math inline">\((\xx_i,y_i)\)</span>, la función de pérdida resulta <span class="math display">\[
+\text{loss}\,(y_i,f(\xx_i;\bftheta))=\frac{1}{2}(y_i-\bftheta^\top\xx_i)^2,
 \]</span> tal que <span class="math display">\[
-\nabla J(\bftheta) = -(y_i-\bftheta^\top\xx_i)\,\xx_i.
+\nabla_{\bftheta} \text{loss}\,(y_i,f(\xx_i;\bftheta)) = -(y_i-\bftheta^\top\xx_i)\,\xx_i.
 \]</span></p>
 <div style="margin-top:2em;">
 
@@ -499,12 +547,12 @@ J(\bftheta)=\frac{1}{2}(y_i-\bftheta^\top\xx_i)^2,
 <div class="highlight">
 <p><span class="badge bg-custom">Algoritmo LMS estocástico</span></p>
 <hr>
-<p>Dado un <em>parámetro inicial</em> <span class="math inline">\(\hat{\bftheta}_0\in\RR^{p}\)</span> y una <em>tasa de aprendizaje</em> <span class="math inline">\(\eta&gt;0\)</span>:</p>
+<p>Dado un <em>parámetro inicial</em> <span class="math inline">\(\bftheta_0\in\RR^{p}\)</span> y una <em>tasa de aprendizaje</em> <span class="math inline">\(\eta&gt;0\)</span>:</p>
 <div style="margin-left: 1em">
 <p><strong>repetir</strong> para <span class="math inline">\(t = 0,1,2,\dots\)</span>:</p>
 <blockquote class="blockquote">
 <p><strong>1°</strong> Elegir un índice <span class="math inline">\(i\)</span> al azar de <span class="math inline">\(\{1,\dots,n\}\)</span>.</p>
-<p><strong>2°</strong> Actualizar <span class="math inline">\(\bftheta_{t+1}:=\bftheta_t+\eta\,(y_i-\bftheta^\top\xx_i)\,\xx_i\)</span>.</p>
+<p><strong>2°</strong> Actualizar <span class="math inline">\(\bftheta_{t+1}:=\bftheta_t+\eta\,(y_i-\bftheta_t^\top\xx_i)\,\xx_i\)</span>.</p>
 </blockquote>
 <p><strong>hasta</strong> que el criterio de parada se satisfaga.</p>
 </div>
@@ -513,102 +561,100 @@ J(\bftheta)=\frac{1}{2}(y_i-\bftheta^\top\xx_i)^2,
 <div style="margin-top:2em;">
 
 </div>
-<p>Observar que la magnitud de la actualización del algoritmo LMS estocástico es proporcional al término de error <span class="math inline">\((y_i - \bftheta^\top\xx_i)\)</span>. Si elegimos un ejemplo para el cual <span class="math inline">\(\bftheta_t^\top\xx_i\approx y_i\)</span>, entonces el cambio en el parámetro será mínimo. Esto puede activar prematuramente el criterio de parada basado en la magnitud del gradiente, por lo cual para para evitar detener el algoritmo demasiado pronto, suele ser recomendable basar el criterio de parada en el promedio del error sobre un conjunto de observaciones. También se puede imponer un número mínimo de iteraciones para asegurar que el algoritmo recorra suficientes ejemplos y aprenda de manera estable.</p>
+<p>Observar que la magnitud de la actualización del algoritmo LMS estocástico es proporcional al término de error <span class="math inline">\((y_i - \bftheta_t^\top\xx_i)\)</span>. Si elegimos un ejemplo para el cual <span class="math inline">\(\bftheta_t^\top\xx_i\approx y_i\)</span>, entonces el cambio en el parámetro será mínimo. Esto puede activar prematuramente el criterio de parada basado en la magnitud del gradiente, por lo cual para para evitar detener el algoritmo demasiado pronto, suele ser recomendable basar el criterio de parada en el promedio del error sobre un conjunto de observaciones. También se puede imponer un número mínimo de iteraciones para asegurar que el algoritmo recorra suficientes ejemplos y aprenda de manera estable.</p>
 <div style="margin-top:2em;">
 
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Título de ejemplo </span></p>
-<p><span style="color:darkred;"> Acá va un ejemplo con los datos <code>California Housing</code> y librerías de Python. </span></p>
+<p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Regresión lineal en datos <em>California Housing</em> </span></p>
+<p>Utilizaremos el conjunto de datos de <em>California Housing</em> (<a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_california_housing.html">disponible aquí</a>), el cual consiste en 20640 observaciones con 8 variables predictoras que miden características de las viviendas y su entorno. La variable respuesta es el valor mediano de la vivienda en cada bloque censal, por lo que este problema es de regresión.</p>
+<p>Ajustaremos un modelo de regresión lineal a los datos, evaluaremos el MSE en test y presentaremos los coeficientes estimados del modelo.</p>
+<div id="cde12b64" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> fetch_california_housing</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos:</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> fetch_california_housing(return_X_y<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> scaler.fit_transform(X)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo:</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> LinearRegression()</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>lr.fit(X_train, y_train)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicción y MSE:</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> lr.predict(X_test)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>mse_test <span class="op">=</span> mean_squared_error(y_test, y_pred)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 📋:</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MSE en test: </span><span class="sc">{</span>mse_test<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Coeficientes estimados (θ̂):"</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, coef <span class="kw">in</span> <span class="bu">enumerate</span>(lr.coef_):</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"θ_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss"> = </span><span class="sc">{</span>coef<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>MSE en test: 0.556
+Coeficientes estimados (θ̂):
+θ_1 = 0.852
+θ_2 = 0.122
+θ_3 = -0.305
+θ_4 = 0.371
+θ_5 = -0.002
+θ_6 = -0.037
+θ_7 = -0.897
+θ_8 = -0.869</code></pre>
 </div>
-<!-- Nota para mí
+</div>
+</div>
+<div style="margin-top:2em;">
 
-## Ejemplo
+</div>
+</section>
+<section id="propiedades-del-estimador" class="level3">
+<h3 class="anchored" data-anchor-id="propiedades-del-estimador">Propiedades del estimador</h3>
+<p>Hemos visto que el algoritmo LMS permite aproximar el estimador de mínimos cuadrados <span class="math inline">\(\hat{\bftheta}\)</span> para el modelo de regresión lineal. Por supuesto, los resultados de convergencia vistos en <a href="../CAPITULO_1/A5_metodos_optimizacion.html#método-de-descenso-por-gradiente">C1-S5</a> para el método de descenso por gradiente son válidos.</p>
+<p>No obstante, <span class="math inline">\(\hat{\bftheta}\)</span> es un estimador del valor verdadero <span class="math inline">\(\bftheta^\star\)</span>, por lo que resulta relevante estudiar sus propiedades estadísticas, tales como consistencia, sesgo y varianza, para entender qué tan buena es la estimación <span class="math inline">\(\hat{\bftheta}\)</span>, incluso después de la convergencia del algoritmo LMS.</p>
+<div class="alert alert-light text-dark" role="important">
+<p><span class="badge bg-warning text-dark">Importante</span></p>
+<p>En base a lo descrito, es fundamental distinguir dos niveles de convergencia:</p>
+<ul>
+<li><p><strong>Convergencia estadística del estimador</strong>: se refiere al hecho de que el estimador <span class="math inline">\(\hat{\bftheta}_n\)</span> converge en probabilidad al valor verdadero <span class="math inline">\(\bftheta^\star\)</span>. Simbólicamente: <span class="math display">\[
+\text{plim}_{n\to\infty}\hat{\bftheta}_n=\bftheta^\star\qquad (\hat{\bftheta}_n\xrightarrow{p}\bftheta^\star).
+\]</span></p>
+<p>Observar que escribimos <span class="math inline">\(\hat{\bftheta}_n\)</span> para explicitar la dependencia del estimador respecto al tamaño muestral <span class="math inline">\(n\)</span>.</p></li>
+<li><p><strong>Convergencia computacional del algoritmo</strong>: se refiere a que la sucesión producida por un algoritmo iterativo (por ejemplo, descenso por gradiente) converge a <span class="math inline">\(\hat{\bftheta}\)</span> (aquí no escribimos el subíndice porque <span class="math inline">\(n\)</span> es fijo). Esto es: <span class="math display">\[
+\lim_{t\to\infty}\bftheta_t=\hat{\bftheta}\qquad(\bftheta_t\to\hat{\bftheta}).
+\]</span></p></li>
+</ul>
+</div>
+<div style="margin-top:2em;">
 
-El conjunto de datos `California Housing` incluye información detallada sobre diversas características socioeconómicas y geográficas de diferentes áreas residenciales en California. El objetivo es predecir el valor medio de las viviendas en cada zona, a partir de factores como la densidad poblacional y los ingresos medios de los hogares, entre otros.
+</div>
+<p>Ahora sí estamos en condiciones de revisar algunos resultados conocidos para el modelo de regresión lineal.</p>
+<ul>
+<li><em>Convergencia estadística</em>: para <span class="math inline">\(n&gt;p\)</span> y bajo los supuestos clásicos de <span class="math display">\[
+\begin{array}{cl}
+\{(\xx_i,y_i)\}_{i=1}^n\text{ i.i.d.},\; \media\left[\varepsilon_i\mid\xx_i\right]=0 &amp; \text{(Exogeneidad)} \\[2pt]
+\media\left[\varepsilon_i^2\mid \xx_i\right]=\sigma^2&lt;\infty,\;\media\left[\varepsilon_i^4\right] &amp; \text{(Momentos)} \\
+\frac{1}{n}X^\top X\xrightarrow{p}\Sigma_{X}\succ 0 &amp; \text{(Diseño bien condicionado)}
+\end{array}
+\]</span> se verifica <span class="math display">\[
+\hat{\bftheta}_n\xrightarrow{p}\bftheta^\star\qquad\text{y}\qquad\sqrt{n}\, (\hat{\bftheta}_n-\bftheta^\star)\xrightarrow{d}\mathcal{N}(0,\sigma^2\Sigma_X^{-1}).
+\]</span></li>
+</ul>
+<div style="margin-top:2em;">
 
-
-
-```ssnajxewb
-import pandas as pd
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import mean_squared_error
-from sklearn.datasets import fetch_california_housing
-
-housing = fetch_california_housing()
-X = pd.DataFrame(housing.data, columns=housing.feature_names)
-y = pd.Series(housing.target, name='MedHouseVal')
-
-
-# Train-test split y escalado:
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
-
-
-# Regresion lineal:
-modelo = LinearRegression()
-
-modelo.fit(X_train_scaled, y_train)  # Entrenamiento
-y_test_fit = modelo.predict(X_test_scaled)  # Prediccion
-MSE = mean_squared_error(y_test, y_test_fit)  # Evaluacion
-
-theta0 = modelo.intercept_
-theta = modelo.coef_
-
-print(f"Cantidad de predictores: {X.shape[1]}")
-print(f"Intercepto: {theta0}")
-print(f"Coeficientes del modelo: {theta}")
-```
-
-
-
-La clase `LinearRegression` usa la ecuación normal $\hat{\bftheta}=(X^\top X)^{-1}X^\top\vec{y}$. Para usar descenso de gradiente, la alternativa es la clase `SGDRegressor`: esta efectúa **descenso de gradiente estocástico**, que consiste en calcular el gradiente utilizando un dato a la vez.
-
-
-
-```ssnajxewb
-import pandas as pd
-from sklearn.linear_model import SGDRegressor
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import mean_squared_error
-from sklearn.datasets import fetch_california_housing
-
-housing = fetch_california_housing()
-X = pd.DataFrame(housing.data, columns=housing.feature_names)
-y = pd.Series(housing.target, name='MedHouseVal')
-
-
-# Train-test split y escalado:
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
-
-
-# Regresion lineal con SGDRegressor:
-modelo = SGDRegressor(max_iter=1000, tol=1e-3, eta0=0.01, random_state=42)
-
-modelo.fit(X_train_scaled, y_train)  # Entrenamiento
-y_test_fit = modelo.predict(X_test_scaled)  # Prediccion
-MSE = mean_squared_error(y_test, y_test_fit)  # Evaluacion
-
-theta0 = modelo.intercept_
-theta = modelo.coef_
-
-print(f"Cantidad de predictores: {X.shape[1]}")
-print(f"Intercepto: {theta0}")
-print(f"Coeficientes del modelo: {theta}")
-```
-
-
--->
+</div>
+<ul>
+<li><em>Convergencia computacional</em>: sean <span class="math inline">\(\lambda_{\text{min}},\lambda_{\text{max}}&gt;0\)</span> autovalores de <span class="math inline">\(X^\top X\)</span>. Si <span class="math inline">\(0&lt;\eta&lt;2/\lambda_{\text{max}}\)</span>, entonces <span class="math display">\[
+\bftheta_t\to\hat{\bftheta}\qquad\text{y}\qquad\|\bftheta_t-\hat{\bftheta}\|_2\leq\rho^t\|\bftheta_0-\hat{\bftheta}\|_2,
+\]</span> con <span class="math inline">\(\rho=\max\left\{|1-\eta\lambda_{\text{min}}|,|1-\eta\lambda_{\text{max}}|\right\}\)</span>.</li>
+</ul>
 <div style="margin-top:2.5em;">
 
 </div>
@@ -624,14 +670,14 @@ print(f"Coeficientes del modelo: {theta}")
 </div>
 <div class="alert alert-light text-dark" role="important">
 <p><span class="badge bg-success text-light">Función logística</span></p>
-<p>Para <span class="math inline">\(z\in\RR\)</span>, se define la <em>función logística</em> o <em>función sigmoide</em> <span class="math inline">\(g:\RR\to\RR\)</span> mediante <span class="math display">\[
-g(z) := \frac{1}{1 + e^{-z}} = \frac{e^z}{1+e^z}.
+<p>Para <span class="math inline">\(z\in\RR\)</span>, se define la <em>función logística</em> o <em>función sigmoide</em> <span class="math inline">\(\sigma:\RR\to\RR\)</span> mediante <span class="math display">\[
+\sigma(z) := \frac{1}{1 + e^{-z}} = \frac{e^z}{1+e^z}.
 \]</span></p>
-<div id="a8c3d5d4" class="cell" data-execution_count="1">
+<div id="9f33f0f7" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="B1_regresion_lineal_logistica_files/figure-html/cell-2-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="519" height="358"></p>
+<p><img src="B1_regresion_lineal_logistica_files/figure-html/cell-3-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="517" height="358"></p>
 </figure>
 </div>
 </div>
@@ -641,16 +687,17 @@ g(z) := \frac{1}{1 + e^{-z}} = \frac{e^z}{1+e^z}.
 </div>
 <p>Algunas características son:</p>
 <ul>
-<li><p>El conjunto imagen es <span class="math inline">\(g(\RR)=(0,1)\)</span></p></li>
-<li><p><span class="math inline">\(g(0) = 0.5\)</span></p></li>
-<li><p><span class="math inline">\(\displaystyle\lim_{z\to -\infty}g(z)=0\)</span> y <span class="math inline">\(\displaystyle\lim_{z\to\infty} g(z)=1\)</span>.</p></li>
+<li><p>El conjunto imagen es <span class="math inline">\(\sigma(\RR)=(0,1)\)</span>.</p></li>
+<li><p><span class="math inline">\(\sigma(0) = 0.5\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle\lim_{z\to -\infty}\sigma(z)=0\)</span> y <span class="math inline">\(\displaystyle\lim_{z\to\infty} \sigma(z)=1\)</span>.</p></li>
+<li><p><span class="math inline">\(\sigma'(z)=\sigma(z)(1-\sigma(z))\)</span>.</p></li>
 </ul>
 </div>
 <div style="margin-top:2em;">
 
 </div>
 <p>Dado <span class="math inline">\(\bftheta\in\RR^p\)</span>, definimos la función <span class="math inline">\(h_{\bftheta}:\RR^p\to\RR\)</span> como <span class="math display">\[
-h_\bftheta(\xx) := g(\bftheta^\top \xx) = \frac{1}{1 + e^{-\bftheta^\top \xx}}.
+h_\bftheta(\xx) := \sigma(\bftheta^\top \xx) = \frac{1}{1 + e^{-\bftheta^\top \xx}}.
 \]</span></p>
 <p>En este caso, vamos a realizar el desarrollo sin intercepto. Por supuesto, puede añadirse <span class="math inline">\(\theta_0\)</span> y trabajar con <span class="math inline">\(X\)</span>, tal como lo hicimos en regresión lineal. Por otra parte, vamos a denotar con <span class="math inline">\(\mathbb{P}(A)\)</span> la probabilidad de que ocurra un suceso <span class="math inline">\(A\)</span>.</p>
 <p>Ya estamos en condiciones de configurar el modelo de regresión logística:</p>
@@ -726,9 +773,7 @@ J(\bftheta)=-\sum_{i=1}^{n}\left[y_i\log(\hat{y}_i)+(1-y_i)\log(1-\hat{y}_i)\rig
 </div>
 <div class="callout-body-container">
 <p><span style="font-size: 1.3em;">📝</span><br></p>
-<p>Verifique que <span class="math display">\[
-J(\bftheta)=-\ell(\bftheta).
-\]</span></p>
+<p>Verifique que se cumple <span class="math inline">\(J(\bftheta)=-\ell(\bftheta)\)</span>.</p>
 </div>
 </div>
 </div>
@@ -765,8 +810,8 @@ J(\bftheta)=\mathbf{1}^\top\log\left(1+e^{X\bftheta}\right)-\yy^\top X \bftheta,
 <p>donde <span class="math inline">\(\hat{\yy}\in\RR^n\)</span> es el vector de valores ajustados dado por <span class="math display">\[
 \hat{\yy} := (h(\bftheta^\top\xx_1),\ldots,h(\bftheta^\top\xx_n))^\top.
 \]</span></p>
-<p>La expresión (5) nos da una expresión de <span class="math inline">\(\nabla J(\bftheta)\)</span> que depende de <span class="math inline">\(\hat{\yy}=h_{\bftheta}(X)=g(X\bftheta)\)</span>, con <span class="math inline">\(g\)</span> la función sigmoide. Debido a la dependencia no lineal de <span class="math inline">\(\hat{\yy}\)</span> respecto de <span class="math inline">\(\bftheta\)</span>, no es posible obtener una solución explícita de <span class="math inline">\(\nabla J(\hat{\bftheta})=\bfzero\)</span>.</p>
-<div style="margin-top:2em;">
+<p>La expresión (5) nos da una expresión de <span class="math inline">\(\nabla J(\bftheta)\)</span> que depende de <span class="math inline">\(\hat{\yy}=h_{\bftheta}(X)=\sigma(X\bftheta)\)</span>. Debido a la dependencia no lineal de <span class="math inline">\(\hat{\yy}\)</span> respecto de <span class="math inline">\(\bftheta\)</span>, no es posible obtener una solución explícita de <span class="math inline">\(\nabla J(\hat{\bftheta})=\bfzero\)</span>.</p>
+<div style="margin-top:1em;">
 
 </div>
 </section>
@@ -778,11 +823,11 @@ J(\bftheta)=\mathbf{1}^\top\log\left(1+e^{X\bftheta}\right)-\yy^\top X \bftheta,
 <div class="highlight">
 <p><span class="badge bg-custom">Algoritmo de descenso por gradiente para regresión logística</span></p>
 <hr>
-<p>Dado un <em>parámetro inicial</em> <span class="math inline">\(\hat{\bftheta}_0\in\RR^{p}\)</span> y una <em>tasa de aprendizaje</em> <span class="math inline">\(\eta&gt;0\)</span>:</p>
+<p>Dado un <em>parámetro inicial</em> <span class="math inline">\(\bftheta_0\in\RR^{p}\)</span> y una <em>tasa de aprendizaje</em> <span class="math inline">\(\eta&gt;0\)</span>:</p>
 <div style="margin-left: 1em">
 <p><strong>repetir</strong> para <span class="math inline">\(t = 0,1,2,\ldots\)</span>:</p>
 <blockquote class="blockquote">
-<p>Actualizar <span class="math inline">\(\bftheta_{t+1}:=\bftheta_t-\eta\, X^\top(\hat{\yy}-\yy)\)</span>.</p>
+<p>Actualizar <span class="math inline">\(\bftheta_{t+1}:=\bftheta_t-\eta\, X^\top(\hat{\yy}_t-\yy)\)</span>.</p>
 </blockquote>
 <p><strong>hasta</strong> que el criterio de parada se satisfaga.</p>
 </div>
@@ -803,12 +848,12 @@ J(\bftheta)=\log(1+e^{\bftheta^\top\xx_i})-\bftheta^\top\xx_iy_i,
 <div class="highlight">
 <p><span class="badge bg-custom">Algoritmo de descenso por gradiente estocástico para regresión logística</span></p>
 <hr>
-<p>Dado un <em>parámetro inicial</em> <span class="math inline">\(\hat{\bftheta}_0\in\RR^{p}\)</span> y una <em>tasa de aprendizaje</em> <span class="math inline">\(\eta&gt;0\)</span>:</p>
+<p>Dado un <em>parámetro inicial</em> <span class="math inline">\(\bftheta_0\in\RR^{p}\)</span> y una <em>tasa de aprendizaje</em> <span class="math inline">\(\eta&gt;0\)</span>:</p>
 <div style="margin-left: 1em">
 <p><strong>repetir</strong> para <span class="math inline">\(t = 0,1,2,\ldots\)</span>:</p>
 <blockquote class="blockquote">
 <p><strong>1°</strong> Elegir un índice <span class="math inline">\(i\)</span> al azar de <span class="math inline">\(\{1,\dots,n\}\)</span>.</p>
-<p><strong>2°</strong> Actualizar <span class="math inline">\(\bftheta_{t+1}:=\bftheta_t+\eta\,(y_i-h_{\bftheta}(\xx_i))\,\xx_i\)</span>.</p>
+<p><strong>2°</strong> Actualizar <span class="math inline">\(\bftheta_{t+1}:=\bftheta_t+\eta\,(y_i-h_{\bftheta_t}(\xx_i))\,\xx_i\)</span>.</p>
 </blockquote>
 <p><strong>hasta</strong> que el criterio de parada se satisfaga.</p>
 </div>
@@ -818,9 +863,103 @@ J(\bftheta)=\log(1+e^{\bftheta^\top\xx_i})-\bftheta^\top\xx_iy_i,
 
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 2</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Título de ejemplo </span></p>
-<p><span style="color:darkred;"> Acá va un ejemplo con los datos <code>Breast Cancer</code> y librerías de Python. </span></p>
+<p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Regresión logística en datos de cáncer </span></p>
+<p>El conjunto de datos de Breast Cancer (<a href="https://sklearner.com/scikit-learn-load_breast_cancer/">disponible aquí</a>) contiene información de tumores de mama. Consta de 569 observaciones y 30 variables predictoras. La variable respuesta indica el tipo de tumor (0 para benigno y 1 para maligno), lo que convierte este problema en una tarea de clasificación binaria.</p>
+<p>Ajustaremos un modelo de regresión lineal a los datos, evaluaremos el <em>accuracy</em> en test y presentaremos los coeficientes estimados del modelo.</p>
+<div id="7e867e6f" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_breast_cancer</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos:</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> load_breast_cancer(return_X_y<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> scaler.fit_transform(X)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo:</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>logreg <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>logreg.fit(X_train, y_train)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicción y accuracy:</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> logreg.predict(X_test)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>acc_test <span class="op">=</span> accuracy_score(y_test, y_pred)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 📋:</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Accuracy en test: </span><span class="sc">{</span>acc_test<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Coeficientes estimados (θ̂):"</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, coef <span class="kw">in</span> <span class="bu">enumerate</span>(logreg.coef_[<span class="dv">0</span>]):</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"θ_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss"> = </span><span class="sc">{</span>coef<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Accuracy en test: 0.974
+Coeficientes estimados (θ̂):
+θ_1 = -0.435
+θ_2 = -0.397
+θ_3 = -0.396
+θ_4 = -0.470
+θ_5 = -0.067
+θ_6 = 0.527
+θ_7 = -0.808
+θ_8 = -1.108
+θ_9 = 0.242
+θ_10 = 0.078
+θ_11 = -1.251
+θ_12 = 0.189
+θ_13 = -0.590
+θ_14 = -0.920
+θ_15 = -0.317
+θ_16 = 0.669
+θ_17 = 0.171
+θ_18 = -0.314
+θ_19 = 0.505
+θ_20 = 0.612
+θ_21 = -0.874
+θ_22 = -1.358
+θ_23 = -0.586
+θ_24 = -0.838
+θ_25 = -0.547
+θ_26 = 0.006
+θ_27 = -0.952
+θ_28 = -0.780
+θ_29 = -1.196
+θ_30 = -0.163</code></pre>
 </div>
+</div>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+</section>
+<section id="propiedades-del-estimador-1" class="level3">
+<h3 class="anchored" data-anchor-id="propiedades-del-estimador-1">Propiedades del estimador</h3>
+<p>Para el caso de regresión logística, algunos resultados importantes son:</p>
+<ul>
+<li><p><em>Convergencia estadística</em>: bajo supuestos clásicos, tales como <span class="math display">\[
+\begin{array}{cl}
+\{(\xx_i,y_i)\}_{i=1}^n \text{ i.i.d.} &amp; (\text{Independencia e idéntica distribución}) \\[1ex]
+0&lt;\mathbb{P}(Y_i=1\mid \xx_i)&lt;1 &amp; \text{(No separabilidad)}\\[1ex]
+\mathbb{E}[\|\xx_i\|^2]&lt;\infty &amp; \text{(Momentos finitos)}\\[1ex]
+I(\bftheta^\star) = \media\left[h_{\bftheta}(\XX)(1-h_{\bftheta}(\XX))\,\XX\XX^\top\right] \succ 0 &amp; \text{(Información de Fisher definida positiva)}
+\end{array}
+\]</span></p>
+<p>se verifica <span class="math display">\[
+\hat{\bftheta}_n\xrightarrow{p}\bftheta^\star\qquad\text{y}\qquad\sqrt{n}\, (\hat{\bftheta}_n-\bftheta^\star)\xrightarrow{d}\mathcal{N}(0,\mathcal{I}(\bftheta^\star)^{-1}).
+\]</span></p></li>
+</ul>
+<div style="margin-top:2em;">
+
+</div>
+<ul>
+<li><em>Convergencia computacional</em>: como <span class="math inline">\(J\)</span> es convexa y <span class="math inline">\(L\)</span>-suave con <span class="math display">\[
+L\leq\frac{\lambda_{\text{max}(X^\top X)}}{4},
+\]</span> el método de descenso por gradiente verifica <span class="math display">\[
+J(\bftheta_t)\to\ J(\hat{\bftheta}).
+\]</span></li>
+</ul>
 <br>
 <hr>
 <p>Para finalizar esta sección, comparemos los factores en la actualización del método de descenso por gradiente estocástico para los modelos vistos:</p>
@@ -834,55 +973,6 @@ J(\bftheta)=\log(1+e^{\bftheta^\top\xx_i})-\bftheta^\top\xx_iy_i,
 y_i-\hat{y}_i,
 \]</span> donde <span class="math inline">\(\hat{y}_i=\bftheta^\top\xx_i\)</span> para regresión lineal y <span class="math inline">\(\hat{y}_i=\displaystyle\frac{e^{\bftheta^\top\xx_i}}{1+e^{\bftheta^\top \xx_i}}\)</span> para regresión logística.</p>
 <p>Esta estructura común refleja la idea de ajustar los parámetros en función de la discrepancia entre observaciones y predicciones, lo cual generalizaremos en la próxima sección cuando tratemos los modelos lineales generalizados.</p>
-<!-- Nota para mí 
-## Ejemplo 
-
-El conjunto de datos `Breast Cancer` contiene información sobre 569 muestras de tejido mamario, con 30 características que describen propiedades de las células nucleares de los tumores. El objetivo principal es clasificar los tumores como benignos o malignos.
-
-
-
-```ssnajxewb
-import pandas as pd
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score
-from sklearn.datasets import load_breast_cancer
-
-# Cargar los datos
-cancer = load_breast_cancer()
-X = pd.DataFrame(cancer.data, columns=cancer.feature_names)
-y = pd.Series(cancer.target, name='Malignant')
-
-# Train-test split y escalado:
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
-
-# Regresión logística:
-modelo = LogisticRegression(max_iter=10000)
-
-modelo.fit(X_train_scaled, y_train)  # Entrenamiento
-y_test_fit = modelo.predict(X_test_scaled)  # Predicción
-
-# Evaluación:
-accuracy = accuracy_score(y_test, y_test_fit)
-
-# Resultados:
-coeficientes = modelo.coef_
-intercepto = modelo.intercept_
-
-print(f"Cantidad de predictores: {X.shape[1]}")
-print(f"Intercepto: {intercepto}")
-print(f"Coeficientes del modelo: {coeficientes}")
-print(f"Precision del modelo: {accuracy}")
-
-```
-
-
--->
 <p><br><br></p>
 </section>
 </section>
@@ -891,8 +981,17 @@ print(f"Precision del modelo: {accuracy}")
 ✏️ <strong>Conceptuales</strong><br>
 
 <hr class="linea-corta">
+<details>
+<summary>
+Mostrar
+</summary>
+<div style="margin-top:1em;">
+
+</div>
 <ol type="1">
-<li><p>Probar que la derivada de la función logística <span class="math inline">\(g(z)=1/(1+e^{-z})\)</span> verifica <span class="math display">\[g'(z)(1-g(z)).\]</span></p></li>
+<li><p>Probar que la derivada de la función logística <span class="math inline">\(\sigma(z)=1/(1+e^{-z})\)</span> verifica <span class="math display">\[
+\sigma'(z)=\sigma(z)(1-\sigma(z)).
+\]</span></p></li>
 <li><p>Sea un conjunto de datos <span class="math inline">\(\{(\mathbf{x}_i, y_i)\}_{i=1}^n\)</span>. Defina las variables centradas por columna como <span class="math display">\[
 {\tilde{x}}_{ij} = x_{ij} - \bar{x}_j, \quad {\tilde{y}}_i = y_i - \bar{y},
 \]</span> donde <span class="math inline">\(\bar{x}_j\)</span> y <span class="math inline">\(\bar{y}\)</span> son las medias muestrales de la variable predictora <span class="math inline">\(j\)</span>-ésima y de la variable respuesta, respectivamente. Muestre que, al ajustar un modelo lineal <em>sin intercepto</em> sobre los datos centrados y obtener coeficientes <span class="math inline">\(\hat{\bfbeta}\)</span>, el intercepto del modelo ajustado sobre los datos originales puede recuperarse con la fórmula</p></li>
@@ -900,6 +999,7 @@ print(f"Precision del modelo: {accuracy}")
 <p><span class="math display">\[
 \hat{\beta}_0 = \bar{y} - \sum_{j=1}^p \hat{\beta}_j \bar{x}_j.
 \]</span></p>
+</details>
 <!--
 1. Mostrar que en los GLMs la derivada de la log-likelihood es
 $$
