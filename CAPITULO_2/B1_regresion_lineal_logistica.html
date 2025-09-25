@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-327735d1480bff6f7510335fe22ad292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -569,7 +569,7 @@ X^\top X\hat{\bftheta} &amp;=X^\top\yy\\
 <p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Regresión lineal en datos <em>California Housing</em> </span></p>
 <p>Utilizaremos el conjunto de datos de <em>California Housing</em> (<a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_california_housing.html">disponible aquí</a>), el cual consiste en 20640 observaciones con 8 variables predictoras que miden características de las viviendas y su entorno. La variable respuesta es el valor mediano de la vivienda en cada bloque censal, por lo que este problema es de regresión.</p>
 <p>Ajustaremos un modelo de regresión lineal a los datos, evaluaremos el MSE en test y presentaremos los coeficientes estimados del modelo.</p>
-<div id="9039c0a6" class="cell" data-execution_count="1">
+<div id="ec4eef29" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> fetch_california_housing</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
@@ -673,11 +673,11 @@ Coeficientes estimados (θ̂):
 <p>Para <span class="math inline">\(z\in\RR\)</span>, se define la <em>función logística</em> o <em>función sigmoide</em> <span class="math inline">\(\sigma:\RR\to\RR\)</span> mediante <span class="math display">\[
 \sigma(z) := \frac{1}{1 + e^{-z}} = \frac{e^z}{1+e^z}.
 \]</span></p>
-<div id="20ac93e7" class="cell" data-execution_count="2">
+<div id="66fe8141" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="B1_regresion_lineal_logistica_files/figure-html/cell-3-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="517" height="358"></p>
+<p><img src="B1_regresion_lineal_logistica_files/figure-html/cell-3-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -808,7 +808,7 @@ J(\bftheta)=\mathbf{1}^\top\log\left(1+e^{X\bftheta}\right)-\yy^\top X \bftheta,
 <p>donde <span class="math inline">\(\hat{\yy}\in\RR^n\)</span> es el vector de valores ajustados dado por <span class="math display">\[
 \hat{\yy} := (h(\bftheta^\top\xx_1),\ldots,h(\bftheta^\top\xx_n))^\top=\sigma(X\bftheta).
 \]</span></p>
-<p>La expresión (5) muestra que <span class="math inline">\(\nabla J(\bftheta)\)</span> depende de <span class="math inline">\(\bftheta\)</span> de forma no lineal. Por lo tanto, no es posible obtener una solución explícita de <span class="math inline">\(\nabla J(\hat{\bftheta})=\bfzero\)</span> y la única opción es recurrir a métodos iterativos para aproximar <span class="math inline">\(\hat{\bfbeta}\)</span>.</p>
+<p>La expresión (5) muestra que <span class="math inline">\(\nabla J(\bftheta)\)</span> depende de <span class="math inline">\(\bftheta\)</span> de forma no lineal. Por lo tanto, no es posible obtener una solución explícita de <span class="math inline">\(\nabla J(\hat{\bftheta})=\bfzero\)</span> y la única opción es recurrir a métodos iterativos para aproximar <span class="math inline">\(\hat{\bftheta}\)</span>.</p>
 <div style="margin-top:2em;">
 
 </div>
@@ -864,7 +864,7 @@ J(\bftheta)=\log(1+e^{\bftheta^\top\xx_i})-\bftheta^\top\xx_iy_i,
 <p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Regresión logística en datos de cáncer </span></p>
 <p>El conjunto de datos de Breast Cancer (<a href="https://sklearner.com/scikit-learn-load_breast_cancer/">disponible aquí</a>) contiene información de tumores de mama. Consta de 569 observaciones y 30 variables predictoras. La variable respuesta indica el tipo de tumor (0 para benigno y 1 para maligno), lo que convierte este problema en una tarea de clasificación binaria.</p>
 <p>Ajustaremos un modelo de regresión lineal a los datos, evaluaremos el <em>accuracy</em> en test y presentaremos los coeficientes estimados del modelo.</p>
-<div id="18937404" class="cell" data-execution_count="3">
+<div id="5d6a2fdf" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_breast_cancer</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
@@ -979,31 +979,32 @@ y_i-\hat{y}_i,
 ✏️ <strong>Conceptuales</strong><br>
 
 <hr class="linea-corta">
-<details>
-<summary>
-Mostrar
-</summary>
-<div style="margin-top:1em;">
-
-</div>
-<ol type="1">
-<li><p>Probar que la derivada de la función logística <span class="math inline">\(\sigma(z)=1/(1+e^{-z})\)</span> verifica <span class="math display">\[
-\sigma'(z)=\sigma(z)(1-\sigma(z)).
-\]</span></p></li>
-<li><p>Sea un conjunto de datos <span class="math inline">\(\{(\mathbf{x}_i, y_i)\}_{i=1}^n\)</span>. Defina las variables centradas por columna como <span class="math display">\[
-{\tilde{x}}_{ij} = x_{ij} - \bar{x}_j, \quad {\tilde{y}}_i = y_i - \bar{y},
-\]</span> donde <span class="math inline">\(\bar{x}_j\)</span> y <span class="math inline">\(\bar{y}\)</span> son las medias muestrales de la variable predictora <span class="math inline">\(j\)</span>-ésima y de la variable respuesta, respectivamente. Muestre que, al ajustar un modelo lineal <em>sin intercepto</em> sobre los datos centrados y obtener coeficientes <span class="math inline">\(\hat{\bfbeta}\)</span>, el intercepto del modelo ajustado sobre los datos originales puede recuperarse con la fórmula</p></li>
-</ol>
-<p><span class="math display">\[
-\hat{\beta}_0 = \bar{y} - \sum_{j=1}^p \hat{\beta}_j \bar{x}_j.
-\]</span></p>
-</details>
 <!--
-1. Mostrar que en los GLMs la derivada de la log-likelihood es
+<details>
+<summary>Mostrar</summary>
+<div style="margin-top:1em;"></div>
+
+1. Probar que la derivada de la función logística $\sigma(z)=1/(1+e^{-z})$ verifica
 $$
-\nabla_\theta \ell(\theta) = \sum_{i=1}^n (T(y^{(i)}) - \mathbb{E}[T(y) | \xx^{(i)}; \theta]) \xx^{(i)}.
+\sigma'(z)=\sigma(z)(1-\sigma(z)).
 $$
+
+
+1. Sea un conjunto de datos $\{(\mathbf{x}_i, y_i)\}_{i=1}^n$. Defina las variables centradas por columna como
+$$
+{\tilde{x}}_{ij} = x_{ij} - \bar{x}_j, \quad {\tilde{y}}_i = y_i - \bar{y},
+$$
+donde $\bar{x}_j$ y $\bar{y}$ son las medias muestrales de la variable predictora $j$-ésima y de la variable respuesta, respectivamente. Muestre que, al ajustar un modelo lineal *sin intercepto* sobre los datos centrados y obtener coeficientes $\hat{\bfbeta}$, el intercepto del modelo ajustado sobre los datos originales puede recuperarse con la fórmula
+
+$$
+\hat{\beta}_0 = \bar{y} - \sum_{j=1}^p \hat{\beta}_j \bar{x}_j.
+$$
+
+</details>
 -->
+<div style="text-align:left;">
+<p><a href="https://colab.research.google.com/drive/1KVwWSbXqqTb9J1gKDYTcqhoWhaIrHh4N?usp=sharing" target="_blank"> <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab" style="height:1.4em;"> </a></p>
+</div>
 <div style="margin-top: 5em;">
 
 </div>
