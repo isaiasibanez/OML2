@@ -281,7 +281,7 @@ window.Quarto = {
 </nav>
     </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../CAPITULO_2/B1_regresion_lineal_logistica.html">2. MODELOS DISCRIMINATIVOS</a></li><li class="breadcrumb-item"><a href="../CAPITULO_2/B3_ridge_lasso.html">2.3 Métodos de regularización</a></li></ol></nav>
 <div class="quarto-title">
@@ -362,13 +362,13 @@ J(\bftheta)=\sum_{i=1}^n\text{loss}\,(y_i,f(\xx_i;\bftheta)),
 J(\bftheta) + \lambda \cdot \text{Penalizacion}(\bftheta),
 \tag{1}
 \]</span></p>
-<p>donde <span class="math inline">\(\lambda&gt; 0\)</span> es un <em>hiperparámetro de complejidad</em> que controla la intensidad de la regularización (a mayor <span class="math inline">\(\lambda\)</span>, mayor intensidad), y <span class="math inline">\(\text{Penalizacion}(\bftheta)\)</span> es una función que restringe la complejidad del modelo. La expresión (1) es equivalente al siguiente problema de optimización con restricciones: <span class="math display">\[
+<p>donde <span class="math inline">\(\lambda&gt; 0\)</span> es un <em>hiperparámetro de complejidad</em> que controla la intensidad de la regularización (a mayor <span class="math inline">\(\lambda\)</span>, mayor intensidad), y <span class="math inline">\(\text{Penalizacion}(\bftheta)\)</span> es una función que restringe la complejidad del modelo. La expresión (1) puede escribirse como un problema de optimización con restricciones: <span class="math display">\[
 \begin{array}{ll}
 \text{minimizar} &amp; J(\bftheta) \\
 \text{sujeto a} &amp; \text{Penalizacion}(\bftheta) \leq t,
 \end{array}
 \]</span></p>
-<p>donde <span class="math inline">\(t&gt;0\)</span> es un <em>hiperparámetro de umbral</em> que limita la complejidad del modelo. Por supuesto, <span class="math inline">\(\lambda\)</span> y <span class="math inline">\(t\)</span> están ligados entre sí, aunque no siempre es posible expresar de forma cerrada la correspondencia entre ambas.</p>
+<p>donde <span class="math inline">\(t&gt;0\)</span> es un <em>hiperparámetro de umbral</em> ligado al valor de <span class="math inline">\(\lambda\)</span>.</p>
 <p>Dependiendo de la forma del término de penalización, se obtienen diferentes métodos de regularización. En este apunte nos centraremos en las dos variantes principales: <em>ridge regression</em> y <em>LASSO</em>. La diferencia entre ambas es que, mientras ridge reduce la magnitud de los coeficientes, LASSO puede incluso forzar algunos a ser exactamente cero, generando así una forma de selección automática de variables. En ambos casos, se presentará la formulación matemática del problema, se estudiarán sus características y se discutirán las principales estrategias numéricas para resolverlos.</p>
 <p>La sección finalizará con un breve abordaje de <em>Elastic Net</em>, una combinación de ridge y lasso que busca combinar lo mejor de ambos métodos.</p>
 <div style="margin-top:2em;">
@@ -381,12 +381,11 @@ Y=\bftheta^\top\XX+\varepsilon,\qquad\varepsilon\sim\calN(0,\sigma^2).
 <p>Para un conjunto de datos de entrenamiento <span class="math inline">\(\left\{(\xx_i,y_i)\right\}_{i=1}^n\)</span>, usaremos la <em>función de pérdida</em> <span class="math display">\[
 J(\bftheta):=\frac{1}{2}\text{MSE}=\frac{1}{2n}\|\yy-X\bftheta\|_2^2=\frac{1}{2n}\sum_{i=1}^n(y_i-\bftheta^\top\xx_i)^2,
 \tag{2}
-\]</span> donde MSE son las siglas de <em>mean squared error</em> (error cuadrático medio).</p>
-<hr>
-<div style="margin-top:1em;">
-
-</div>
-<p>En términos de problemas de optimización, de acuerdo a lo mencionado previamente, los métodos pueden formularse de manera equivalente como problemas con o sin restricciones. A lo largo del texto, utilizaremos una u otra formulación según sea conveniente.</p>
+\]</span> donde MSE son las siglas de <em>mean squared error</em> (error cuadrático medio). El <mark>problema de mínimos cuadrados ordinarios (OLS)</mark> es <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar} &amp; \frac{1}{2}\|\yy-X\bftheta\|_2^2,
+\end{array}
+\]</span> cuyo punto óptimo denotaremos como <span class="math inline">\(\hat{\bftheta}^{\text{OLS}}\)</span>. De acuerdo a lo mencionado previamente, los métodos de regularización asociados a OLS se pueden expresar en dos formas equivalentes:</p>
 <div class="myhighlight2">
 <span style="font-size:0.8em;"><em>Formulación sin restricciones</em></span>
 <div style="margin-top:-0.7em;">
@@ -411,76 +410,82 @@ J(\bftheta):=\frac{1}{2}\text{MSE}=\frac{1}{2n}\|\yy-X\bftheta\|_2^2=\frac{1}{2n
 <div style="margin-top:2.5em;">
 
 </div>
-<section id="regresión-ridge" class="level2 page-columns page-full">
+<section id="regresión-ridge" class="level2">
 <h2 class="anchored" data-anchor-id="regresión-ridge">Regresión Ridge</h2>
 <div class="definicion">
 <p><strong>Definición 1.</strong> (Problema ridge) El <em>problema de regresión ridge</em> es <span class="math display">\[
 \begin{array}{ll}
-\text{minimizar} &amp; \frac{1}{2n}\|\yy-X\bftheta\|_2^2 \\
-\text{sujeto a} &amp; \|\bftheta\|_2^2\leq t,
+\text{minimizar} &amp; \frac{1}{2n}\|\yy-X\bftheta\|_2^2+\lambda\|\bftheta\|_2^2,
 \tag{3}
-\end{array}\qquad
-\]</span></p>
-<p>con <span class="math inline">\(\bftheta\in\RR^p\)</span> las variables de optimización y <span class="math inline">\(t&gt;0\)</span> el hiperparámetro. El punto óptimo, denotado por <span class="math inline">\(\hat{\bftheta}^{\text{ridge}}\)</span>, es el <em>estimador ridge</em> de los coeficientes de la regresión.</p>
-<p>Alternativamente, su versión como problema de optimización sin restricciones, con hiperparámetro <span class="math inline">\(\lambda&gt;0\)</span>, es: <span class="math display">\[
-\begin{array}{ll}
-\text{minimizar} &amp; \frac{1}{2n}\|\yy-X\bftheta\|_2^2+\lambda\|\bftheta\|_2^2.
-\tag{4}
 \end{array}
-\]</span></p>
+\]</span> con <span class="math inline">\(\bftheta\in\RR^p\)</span> las variables de optimización y <span class="math inline">\(\lambda&gt;0\)</span> el hiperparámetro. El punto óptimo, denotado por <span class="math inline">\(\hat{\bftheta}^{\text{ridge}}\)</span>, es el <em>estimador ridge</em> de los coeficientes de la regresión.</p>
 </div>
-<div style="margin-top:1em;">
-
-</div>
-<figure style="text-align: center;" class="figure">
-<img src="figuras/ridge.svg" alt="…" width="450px" class="figure-img">
-<figcaption>
-<strong>Figura 1</strong>. Interpretación geométrica del problema ridge. El conjunto factible es <span class="math inline">\(\Omega:=\{\bftheta\in\RR^p \mid \|\bftheta\|_2^2\leq t\}\)</span>.
-</figcaption>
-</figure>
 <div style="margin-top:2em;">
 
 </div>
 <div class="alert alert-light text-dark" role="important">
 <p><span class="badge bg-warning text-dark">Importante</span></p>
-<div class="myhighlight">
-<p>Las formulaciones (3) y (4) del problema ridge son equivalentes.</p>
+<p>Vamos a ver que la expresión alternativa de (3) como problema de optimización con restricciones, a saber</p>
+<p><span class="math display">\[
+\begin{array}{ll}
+\text{minimizar} &amp; \frac{1}{2n}\|\yy-X\bftheta\|_2^2 \\
+\text{sujeto a} &amp; \|\bftheta\|_2^2\leq t,
+\tag{4}
+\end{array},
+\]</span></p>
+<p>impone un valor de <span class="math inline">\(t\)</span> adecuado para que <span class="math inline">\(\lambda&gt;0\)</span>. En primer lugar, la equivalencia entre (3) y (4) se deriva directamente del hecho que (4) es un problema de optimización convexa que verifica la condición de Slater. Por lo tanto, hay dualidad fuerte y las condiciones KKT son suficientes y necesarias para la optimalidad (ver <a href="../CAPITULO_1/A4_condiciones_optimalidad.html#relación-entre-dualidad-y-kkt">C1-S4</a>). En particular, el punto óptimo <span class="math inline">\(\hat{\bftheta}^{\text{ridge}}\)</span> de (4) debe ser un minimizador de <span class="math display">\[
+\calL(\bftheta,\lambda^\star)=\frac{1}{2n}\|\yy-X\bftheta\|_2^2+\lambda^\star(\|\bftheta\|_2^2-t).
+\]</span></p>
+<p>En la expresión anterior, <span class="math inline">\(\calL\)</span> es el Lagrangiano y <span class="math inline">\(\lambda^\star\)</span> es un punto óptimo del problema dual de Lagrange. Observar que la función objetivo de (3) es <span class="math display">\[
+\calL(\bftheta,\lambda)+\lambda t.
+\]</span></p>
+<p>Pero <span class="math inline">\(\lambda t\)</span> es constante, por lo cual queda claro que (3) y (4) son equivalentes. No obstante, si asumimos <span class="math inline">\(\lambda&gt;0\)</span>, el valor de <span class="math inline">\(t\)</span> debe ser adecuado, lo cual veremos a continuación.</p>
+<div style="margin-top:1em;">
+
 </div>
+<div class="myhighlight3">
+<p>¿Qué valor <span class="math inline">\(t\)</span> corresponde a un <span class="math inline">\(\lambda&gt;0\)</span>?</p>
+</div>
+<div style="margin-top:1em;">
+
+</div>
+<p>La respuesta a esta pregunta está en la condición KKT de holgura complementaria para la formulación con restricciones (4), la cual establece que <span class="math display">\[
+\lambda(\|\hat{\bftheta}^{\text{ridge}}\|_2^2-t)=0.
+\]</span></p>
+<p>La suposición <span class="math inline">\(\lambda&gt;0\)</span> implica que la restricción está activa, tal que <span class="math display">\[
+t=\|\hat{\bftheta}^{\text{ridge}}\|_2^2.
+\]</span></p>
 <div style="margin-top:2em;">
 
 </div>
-<p>La formulación (3) es un problema de optimización convexa que verifica la condición de Slater. En consecuencia, hay dualidad fuerte y el punto óptimo <span class="math inline">\(\hat{\bftheta}^{\text{ridge}}\)</span> es un minimizador de <span class="math display">\[
-\calL(\bftheta,\lambda^\star)=\frac{1}{2n}\|\yy-X\bftheta\|_2^2+\lambda^\star(\|\bftheta\|_2^2-t).
-\tag{5}
-\]</span></p>
-<p>En la expresión anterior, <span class="math inline">\(\calL\)</span> es el Lagrangiano y <span class="math inline">\(\lambda^\star\)</span> es un punto óptimo del problema dual <span class="math display">\[
-\begin{array}{ll}
-\text{maximizar } &amp; \calG(\lambda)\\
-\text{sujeto a }  &amp; \lambda\geq 0.
-\end{array}
-\]</span></p>
-<p>Observar que la función objetivo de (4) es <span class="math display">\[
-\cal L(\bftheta,\lambda)+\lambda t.
-\]</span></p>
-<p>Pero <span class="math inline">\(\lambda t\)</span> es constante, por lo cual queda claro que ambas formulaciones son equivalentes. Ahora bien:</p>
-<div class="myhighlight3">
-<p>¿Qué relación hay entre <span class="math inline">\(\lambda\)</span> y <span class="math inline">\(t\)</span>?</p>
+<div class="myhighlight">
+<p>Si <span class="math inline">\(\lambda&gt;0\)</span>, entonces <span class="math inline">\(t=\|\hat{\bftheta}^{\text{ridge}}\|_2^2\)</span>.</p>
 </div>
-</div>
-<section id="características-del-problema-ridge" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="características-del-problema-ridge">Características del problema ridge</h3>
-<p>Vamos a considerar la formulación sin restricciones (4) del problema ridge. La función objetivo es <span class="math display">\[
-f(\bftheta)=\frac{1}{2n}\|\yy-X\bftheta\|_2^2+\lambda\|\bftheta\|_2=\frac{1}{2n}\bftheta^\top X^\top X\bftheta+\lambda\bftheta^\top\bftheta-\frac{1}{n}\bftheta^\top X^\top\yy+\frac{1}{2n}\yy^\top\yy.
-\]</span></p>
-<p>Entonces <span class="math display">\[
-\nabla f(\bftheta)=\frac{1}{n}X^\top X\bftheta+2\lambda\bftheta-\frac{1}{n}X^\top \yy=\left(\frac{1}{n}X^\top X+2\lambda I\right)\bftheta-\frac{1}{n}X^\top\yy,
-\tag{5}
-\]</span> <span class="math display">\[
-\nabla^2f(\bftheta)=\frac{1}{n}X^\top X+2\lambda I\succ 0.
-\]</span></p>
-<div style="margin-top:-2em;">
+<div style="margin-top:1em;">
 
 </div>
+<p>Debe quedar claro que la solución del problema (4) para un valor arbitrario de <span class="math inline">\(t\)</span> no necesariamente activa la restricción. En caso de no hacerlo, la holgura complementaria impone <span class="math inline">\(\lambda=0\)</span> y no hay penalización.</p>
+</div>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/ridge.svg" alt="…" width="450px" class="figure-img">
+<figcaption>
+<strong>Figura 1</strong>. Interpretación geométrica del problema ridge, de acuerdo a su formulación con restricciones (4). Bajo la suposición <span class="math inline">\(\lambda&gt;0\)</span> de la Definición 1, el punto óptimo ocurre en la frontera del conjunto factible <span class="math inline">\(\Omega:=\{\bftheta\in\RR^p \mid \|\bftheta\|_2^2\leq t\}\)</span>.
+</figcaption>
+</figure>
+<div style="margin-top:2em;">
+
+</div>
+<section id="características-del-problema-ridge" class="level3">
+<h3 class="anchored" data-anchor-id="características-del-problema-ridge">Características del problema ridge</h3>
+<p>La función objetivo del problema ridge (3) es <span class="math display">\[
+J(\bftheta)=\frac{1}{2n}\|\yy-X\bftheta\|_2^2+\lambda\|\bftheta\|_2^2=\frac{1}{2n}\bftheta^\top X^\top X\bftheta+\lambda\bftheta^\top\bftheta-\frac{1}{n}\bftheta^\top X^\top\yy+\frac{1}{2n}\yy^\top\yy.
+\]</span></p>
+<p>Entonces <span class="math display">\[
+\nabla J(\bftheta)=\frac{1}{n}X^\top X\bftheta+2\lambda\bftheta-\frac{1}{n}X^\top \yy=\left(\frac{1}{n}X^\top X+2\lambda I\right)\bftheta-\frac{1}{n}X^\top\yy,
+\tag{5}
+\]</span> <span class="math display">\[
+\nabla^2J(\bftheta)=\frac{1}{n}X^\top X+2\lambda I\succ 0.
+\]</span></p>
 <div class="question callout callout-style-simple callout-none no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -495,26 +500,41 @@ f(\bftheta)=\frac{1}{2n}\|\yy-X\bftheta\|_2^2+\lambda\|\bftheta\|_2=\frac{1}{2n}
 <div style="margin-top:1em;">
 
 </div>
-<p>Vamos a justificar la siguiente afirmación:</p>
+<p>En consecuencia, <span class="math inline">\(J\)</span> es estrictamente convexa, lo cual significa que, de haber solución, es única. Y la existencia de la solución es cierta, en virtud del hecho de que el conjunto factible de la formulación con restricciones (4) es cerrado y acotado. Entonces podemos hacer la siguiente afirmación:</p>
 <div class="myhighlight">
 <p>El problema ridge tiene solución única.</p>
 </div>
-<div style="margin-top:2em;">
+<div style="margin-top:1em;">
 
 </div>
-<p>Dado que la función objetivo <span class="math inline">\(f\)</span> del problema ridge es estrictamente convexa, es suficiente comprobar la existencia de la solución. La formulación (3) tiene como conjunto factible</p>
-<p>Para ello, es clave notar que <span class="math inline">\(f\)</span> crece indefinidamente en cualquier dirección a partir de cualquier punto <span class="math inline">\(\bftheta\)</span>; esto es, <span class="math display">\[
+<details>
+<summary>
+Mostrar detalles
+</summary>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Observación</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>La verificación de existencia a partir de la formulación sin restricciones (3) se basa en que <span class="math inline">\(J\)</span> crece indefinidamente en cualquier dirección a partir de cualquier punto <span class="math inline">\(\bftheta\)</span>; esto es, <span class="math display">\[
 \lim_{t\to\infty}f(\bftheta+t\dd)=\infty\qquad\forall\bftheta\in\RR^p,\;\forall\dd\in\RR^p,\,\dd\neq\bfzero.
 \]</span></p>
 <p>En efecto, <span class="math display">\[
 \lim_{t\to\infty}f(\bftheta+t\dd)\geq\lim_{t\to\infty}\lambda\|\bftheta+t\dd\|_2^2=\lambda\lim_{t\to\infty}\left(t^2\|\dd\|_2^2+2t\,\bftheta^\top\dd+\|\bftheta\|_2^2\right)=\infty.
 \]</span></p>
-<p>Este comportamiento de <span class="math inline">\(f\)</span> permite afirmar que no tiene direcciones de decrecimiento, también llamadas <em>direcciones de recesión</em>. Resultados teóricos (ver, por ejemplo, Teorema 27.1 de [Rockafellar, 1970]) aseguran que, en tales condiciones, un problema de optimización <mark>tiene al menos una solución</mark>.</p>
+<p>Este comportamiento de <span class="math inline">\(f\)</span> permite afirmar que no tiene direcciones de decrecimiento, también llamadas <em>direcciones de recesión</em>. Resultados teóricos (ver, por ejemplo, Teorema 27.1 de [Rockafellar, 1970]) aseguran que, en tales condiciones, un problema de optimización tiene al menos una solución.</p>
+<!--
 <aside>
-Una dirección <span class="math inline">\(\dd\in\RR^p\)</span> se denomina <em>dirección de recesión</em> de <span class="math inline">\(f:\RR^p\to\RR\)</span> si <span class="math inline">\(f(\xx+t\dd)\leq f(\xx)\)</span> para todo <span class="math inline">\(\xx\in\text{dom}\,f\)</span> y <span class="math inline">\(t\geq 0\)</span>.
+Una dirección $\dd\in\RR^p$ se denomina *dirección de recesión* de $f:\RR^p\to\RR$ si $f(\xx+t\dd)\leq f(\xx)$ para todo $\xx\in\text{dom}\,f$ y $t\geq 0$.
 </aside>
-<p>Para caracterizar la solución del problema ridge, plantearemos las condiciones KKT, las cuales son suficientes y necesarias en virtud del Teorema 5 de <a href="../CAPITULO_1/A4_condiciones_optimalidad.html#condiciones-de-karush-kuhn-tucker-kkt">C1-S4</a> , aplicado a problemas de optimización convexa sin restricciones con función objetivo diferenciable.</p>
-<p>Además, recordemos que, al no haber restricciones, las condiciones KKT se reducen a la condición de optimalidad <span class="math inline">\(\nabla f =\bfzero\)</span>. Por supuesto, el abordaje mediante la formulación (3) como problema de optimización con restricciones conduce a los mismos resultados, lo cual dejamos como ejercicio.</p>
+-->
+</div>
+</div>
+</div>
+</details>
+<div style="margin-top:2em;">
+
+</div>
+<p>Para caracterizar la solución del problema ridge, utilizaremos la condición de optimalidad <span class="math inline">\(\nabla J =\bfzero\)</span>. Por supuesto, el abordaje mediante la formulación (3) como problema de optimización con restricciones conduce a los mismos resultados, lo cual dejamos como ejercicio.</p>
 </section>
 <section id="solución-del-problema-ridge" class="level3">
 <h3 class="anchored" data-anchor-id="solución-del-problema-ridge">Solución del problema ridge</h3>
@@ -538,7 +558,7 @@ Una dirección <span class="math inline">\(\dd\in\RR^p\)</span> se denomina <em>
 <p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Regresión ridge en datos de diabetes </span></p>
 <p>Utilizaremos el conjunto de datos de diabetes de <code>sklearn.datasets</code> (<a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_diabetes.html">disponible aquí</a>) para ilustrar el efecto del parámetro de regularización <span class="math inline">\(\lambda\)</span> en Ridge. Este conjunto consiste en 442 observaciones y 10 variables predictoras.</p>
 <p>Veremos el efecto que causa el valor del parámetro <span class="math inline">\(\lambda\)</span> en el valor de los coeficientes estimados para el modelo. Además, elegiremos <span class="math inline">\(\lambda\)</span> por validación cruzada y presentaremos los coeficientes resultantes del modelo ajustado.</p>
-<div id="ab0f4b6e" class="cell" data-execution_count="1">
+<div id="0c646f30" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_diabetes</span>
@@ -640,36 +660,31 @@ Una dirección <span class="math inline">\(\dd\in\RR^p\)</span> se denomina <em>
 <div class="definicion">
 <p><strong>Definición 2.</strong> (Problema lasso) El <em>problema de regresión lasso</em> es <span class="math display">\[
 \begin{array}{ll}
-\text{minimizar} &amp; \frac{1}{2n}\|\yy-X\bftheta\|_2^2 \\
-\text{sujeto a} &amp; \|\bftheta\|_1\leq t,
+\text{minimizar} &amp; \frac{1}{2n}\|\yy-X\bftheta\|_2^2+\lambda\|\bftheta\|_1,
 \end{array}
 \tag{6}
-\]</span></p>
-<p>con <span class="math inline">\(\bftheta\in\RR^p\)</span> las variables de optimización y <span class="math inline">\(t&gt;0\)</span> el hiperparámetro. El punto óptimo, denotado por <span class="math inline">\(\hat{\bftheta}^{\text{lasso}}\)</span>, es el <em>estimador lasso</em> de los coeficientes de la regresión.</p>
-<p>Alternativamente, su versión como problema de optimización sin restricciones, con hiperparámetro <span class="math inline">\(\lambda&gt;0\)</span>, es: <span class="math display">\[
+\]</span> con <span class="math inline">\(\bftheta\in\RR^p\)</span> las variables de optimización y <span class="math inline">\(\lambda&gt;0\)</span> el hiperparámetro. El punto óptimo, denotado por <span class="math inline">\(\hat{\bftheta}^{\text{lasso}}\)</span>, es el <em>estimador lasso</em> de los coeficientes de la regresión.</p>
+</div>
+<p>De manera similar al análisis para el problema ridge, el problema lasso admite la siguiente formulación con restricciones: <span class="math display">\[
 \begin{array}{ll}
-\text{minimizar} &amp; \frac{1}{2n}\|\yy-X\bftheta\|_2^2+\lambda\|\bftheta\|_1.
+\text{minimizar} &amp; \frac{1}{2n}\|\yy-X\bftheta\|_2^2 \\
+\text{sujeto a} &amp; \|\bftheta\|_1\leq t.
 \end{array}
 \tag{7}
 \]</span></p>
-</div>
-<div style="margin-top:1em;">
+<p>En este caso, la suposición <span class="math inline">\(\lambda&gt;0\)</span> implica que <span class="math display">\[
+t=\|\hat{\bflambda}^{\text{lasso}}\|_1.
+\]</span></p>
+<div style="margin-top:2em;">
 
 </div>
 <figure style="text-align: center;" class="figure">
 <img src="figuras/lasso.svg" alt="…" width="450px" class="figure-img">
 <figcaption>
-<strong>Figura 2</strong>. Interpretación geométrica del problema lasso. El conjunto factible es <span class="math inline">\(\Omega:=\{\bftheta\in\RR^p \mid \|\bftheta\|_1\leq t\}\)</span>.
+<strong>Figura 2</strong>. Interpretación geométrica del problema lasso, de acuerdo a su formulación con restricciones (7). Bajo la suposición <span class="math inline">\(\lambda&gt;0\)</span> de la Definición 2, el punto óptimo ocurre en la frontera del conjunto factible <span class="math inline">\(\Omega:=\{\bftheta\in\RR^p \mid \|\bftheta\|_1\leq t\}\)</span>.
 </figcaption>
 </figure>
 <div style="margin-top:2em;">
-
-</div>
-<p>Del mismo modo que en el problema ridge, podemos afirmar que:</p>
-<div class="myhighlight">
-<p>Las formulaciones (6) y (7) del problema lasso son equivalentes.</p>
-</div>
-<div style="margin-top:1em;">
 
 </div>
 <section id="características-del-problema-lasso" class="level3">
@@ -694,22 +709,11 @@ Una dirección <span class="math inline">\(\dd\in\RR^p\)</span> se denomina <em>
 <div style="margin-top:1em;">
 
 </div>
-<p>A continuación, las dos posibilidades mencionadas se derivan de la matriz Hessiana de la función objetivo <span class="math inline">\(f(\bftheta)=\frac{1}{2n}\|\yy-X\bftheta\|_2^2+\lambda\|\bftheta\|_1\)</span> de la formulación (7). Resulta:</p>
-<p><span class="math display">\[
-\nabla^2 f(\bftheta)=\frac{1}{n}X^\top X.
+<p>La existencia de solución se justifica de manera similar al problema ridge: el conjunto factible en (7) es cerrado y acotado. A continuación, las dos posibilidades mencionadas se derivan de la matriz Hessiana de la función objetivo de la formulación con restricciones (7): <span class="math display">\[
+\nabla^2 J(\bftheta)=\frac{1}{n}X^\top X.
 \]</span></p>
-<div class="question callout callout-style-simple callout-none no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p><span style="font-size: 1.3em;">📝</span><br> Verifique la expresión para la matriz Hessiana en el problema lasso.</p>
-</div>
-</div>
-</div>
 <ul>
-<li><p>Si <span class="math inline">\(\text{rango}\,X=p\)</span>, entonces <span class="math inline">\(\frac{1}{n}X^\top X\succ 0\)</span> (¿por qué?). Luego, <span class="math inline">\(f\)</span> resulta estrictamente convexa y concluimos que el problema tiene solución única.</p></li>
+<li><p>Si <span class="math inline">\(\text{rango}\,X=p\)</span>, entonces <span class="math inline">\(\frac{1}{n}X^\top X\succ 0\)</span> (¿por qué?). Luego, la función objetivo es estrictamente convexa y concluimos que el problema tiene solución única.</p></li>
 <li><p>Si <span class="math inline">\(\text{rango}\,X&lt;p\)</span>, la solución puede no ser única. En caso de no ser única, habrán infinitas soluciones. Para justificar esto último, supongamos <span class="math inline">\(\hat{\bftheta}^{\text{lasso},1}\)</span> y <span class="math inline">\(\hat{\bftheta}^{\text{lasso},2}\)</span> diferentes estimadores lasso; entonces <span class="math display">\[
 t\hat{\bftheta}^{\text{lasso},1}+(1-t)\hat{\bftheta}^{\text{lasso},2},\qquad t\in(0,1),
 \]</span> también es una solución, por <em>convexidad del conjunto solución de un problema de optimización convexa</em>.</p></li>
@@ -723,9 +727,9 @@ t\hat{\bftheta}^{\text{lasso},1}+(1-t)\hat{\bftheta}^{\text{lasso},2},\qquad t\i
 Mostrar detalles
 </summary>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page"><span style="border: 1px solid #ddd; padding: 2px 6px; border-radius: 4px;"><em>Demostración</em></span></a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true"><span style="border: 1px solid #ddd; padding: 2px 6px; border-radius: 4px;"><em>Demostración</em></span></a></li></ul>
 <div class="tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <p>(i) Sean <span class="math inline">\(\hat{\bftheta}^{\text{lasso},1}\)</span> y <span class="math inline">\(\hat{\bftheta}^{\text{lasso},2}\)</span> soluciones del problema lasso tales que <span class="math inline">\(X \hat{\bftheta}^{\text{lasso},1} \neq X \hat{\bftheta}^{\text{lasso},2}\)</span>. Para <span class="math inline">\(0&lt;t&lt;1\)</span>, denotemos <span class="math display">\[
 \hat{\bftheta}^{\text{lasso},t}:=\hat{\bftheta}^{\text{lasso},1}+(1-t)\hat{\bftheta}^{\text{lasso},2}.
 \]</span></p>
@@ -754,7 +758,7 @@ X \hat{\bftheta}^{\text{lasso},1} = X \hat{\bftheta}^{\text{lasso},2}.
 <div style="margin-top:2em;">
 
 </div>
-<p>Para estudiar la solución del problema lasso, trabajaremos con la formulación (7), de manera similar al caso del problema ridge, aprovechando el hecho que la condición de optimalidad <span class="math inline">\(\nabla f=\bfzero\)</span> es suficiente y necesaria.</p>
+<p>Para estudiar la solución del problema lasso, trabajaremos con la formulación (7), de manera similar al caso del problema ridge, aprovechando el hecho que la condición de optimalidad <span class="math inline">\(\nabla J=\bfzero\)</span> es suficiente y necesaria.</p>
 <div style="margin-top:2em;">
 
 </div>
@@ -1019,21 +1023,37 @@ s=\frac{v_k-\sum_{\substack{i=1 \\ i \neq k}}^pQ_{ik}\theta_i}{Q_{kk}},\qquad \t
 <p>Aquí, <span class="math inline">\(s\in\RR\)</span> y <span class="math inline">\(\tau&gt; 0\)</span>. La función objetivo <span class="math inline">\(f\)</span> es convexa pero no diferenciable. Su subdiferencial es <span class="math display">\[
 \partial f(\theta)=\left\{
   \begin{array}{cl}
-  \theta-s+\tau\,\text{sign}\,\theta &amp; \mbox{si }\theta\neq 0\\
+  \{\theta-s+\tau\,\text{sign}\,\theta\} &amp; \mbox{si }\theta\neq 0\\
   [-s-\tau,-s+\tau] &amp; \mbox{si }\theta = 0.
   \end{array}
   \right.
 \]</span></p>
 <p>Sabemos que <span class="math inline">\(\theta^\star\)</span> es punto óptimo si y solo si <span class="math inline">\(0\in\partial f(\theta^\star)\)</span>. Por lo tanto, analicemos cuando esta última condición es cierta:</p>
+<hr>
 <ul>
-<li><p><span class="math inline">\(0\in\partial f(0)\)</span> si y solo si <span class="math inline">\(0\in[-s-\tau,-s+\tau]\)</span> . Esto último es cierto si y solo si <span class="math inline">\(|s|\leq \tau\)</span>.</p></li>
-<li><p>Si <span class="math inline">\(\tau &lt; |s|\)</span>, tenemos dos casos:</p>
-<ul>
-<li><p><span class="math inline">\(s&gt;0\)</span>: resulta <span class="math inline">\(s-\tau&gt;0\)</span> tal que <span class="math inline">\(\partial f(s-\tau)=s-\tau-s+\tau=0\)</span>. Esto implica que <span class="math inline">\(0\in \partial f(s-\tau)\)</span>.</p></li>
-<li><p><span class="math inline">\(s&lt;0\)</span>: resulta <span class="math inline">\(s+\tau&lt;0\)</span> tal que <span class="math inline">\(\partial f(s+\tau)=s+\tau-s-\tau=0\)</span>. Es decir, <span class="math inline">\(0\in\partial f(s+t)\)</span>.</p></li>
-</ul></li>
+<li><p><em>Caso <span class="math inline">\(\theta^\star&gt;0\)</span></em>: se tiene <span class="math inline">\(\text{sign}\,\theta^\star=1\)</span>, entonces la condición resulta en <span class="math display">\[
+\begin{align}
+\theta^\star-s+\tau &amp;= 0 \\
+\theta^\star &amp;=s-\tau.
+\end{align}
+\]</span> Esto es válido siempre que <span class="math inline">\(s-\tau&gt;0\)</span>.</p></li>
+<li><p><em>Caso <span class="math inline">\(\theta^\star&lt;0\)</span></em>: aquí <span class="math inline">\(\text{sign}\,\theta^\star=-1\)</span>, tal que <span class="math display">\[
+\begin{align}
+\theta^\star-s-\tau &amp; = 0 \\
+\theta^\star &amp;= s+\tau.
+\end{align}
+\]</span></p>
+<p>Esto es válido siempre que <span class="math inline">\(s+\tau &lt;0\)</span>.</p></li>
+<li><p><em>Caso <span class="math inline">\(\theta^\star=0\)</span></em>: esto ocurre si y solo si <span class="math display">\[
+\begin{align}
+-s-\tau&lt;&amp;0&lt;-s+\tau \\
+-\tau &lt;&amp;s&lt;\tau \\
+&amp;|s|&lt;\tau.
+\end{align}
+\]</span></p></li>
 </ul>
-<p>Finalmente, la solución del problema es <span class="math display">\[
+<hr>
+<p>Los tres casos anteriores se resumen en: <span class="math display">\[
 \theta^\star=\left\{\begin{array}{cl}
 s-\tau &amp; \mbox{si }s&gt;\tau,\\
 0 &amp; \mbox{si }|s|\leq\tau,\\
@@ -1062,11 +1082,11 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </script>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="919" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 918;"><span id="cb3-919"><a href="#cb3-919" aria-hidden="true" tabindex="-1"></a>viewof tau <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.1</span><span class="op">,</span> <span class="fl">2.5</span>]<span class="op">,</span> {</span>
-<span id="cb3-920"><a href="#cb3-920" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
-<span id="cb3-921"><a href="#cb3-921" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"𝜏:"</span><span class="op">,</span></span>
-<span id="cb3-922"><a href="#cb3-922" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span></span>
-<span id="cb3-923"><a href="#cb3-923" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="943" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 942;"><span id="cb3-943"><a href="#cb3-943" aria-hidden="true" tabindex="-1"></a>viewof tau <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.1</span><span class="op">,</span> <span class="fl">2.5</span>]<span class="op">,</span> {</span>
+<span id="cb3-944"><a href="#cb3-944" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
+<span id="cb3-945"><a href="#cb3-945" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"𝜏:"</span><span class="op">,</span></span>
+<span id="cb3-946"><a href="#cb3-946" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span></span>
+<span id="cb3-947"><a href="#cb3-947" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-1" data-nodetype="declaration">
 
@@ -1112,7 +1132,7 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 3</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Regresión lasso en datos de diabetes </span></p>
 <p>Al igual que para el caso de Ridge, implementaremos lasso sobre el conjunto de datos de diabetes. De acuerdo a los coeficientes obtenidos en el Ejemplo 1 (ridge), podemos esperar que ahora algunos coeficientes se anulen, lo que reflejará la selección de variables realizada por el modelo.</p>
-<div id="adc955b5" class="cell" data-execution_count="2">
+<div id="c8aa8039" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_diabetes</span>
@@ -1286,29 +1306,29 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </script>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb6" data-startfrom="1229" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1228;"><span id="cb6-1229"><a href="#cb6-1229" aria-hidden="true" tabindex="-1"></a>viewof n1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">50</span><span class="op">,</span> <span class="dv">500</span>]<span class="op">,</span> {</span>
-<span id="cb6-1230"><a href="#cb6-1230" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
-<span id="cb6-1231"><a href="#cb6-1231" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° obs. (n):"</span><span class="op">,</span></span>
-<span id="cb6-1232"><a href="#cb6-1232" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">200</span></span>
-<span id="cb6-1233"><a href="#cb6-1233" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb6-1234"><a href="#cb6-1234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-1235"><a href="#cb6-1235" aria-hidden="true" tabindex="-1"></a>viewof p1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">10</span><span class="op">,</span> <span class="dv">100</span>]<span class="op">,</span> {</span>
-<span id="cb6-1236"><a href="#cb6-1236" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
-<span id="cb6-1237"><a href="#cb6-1237" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° pred. (p):"</span><span class="op">,</span></span>
-<span id="cb6-1238"><a href="#cb6-1238" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">50</span></span>
-<span id="cb6-1239"><a href="#cb6-1239" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb6-1240"><a href="#cb6-1240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-1241"><a href="#cb6-1241" aria-hidden="true" tabindex="-1"></a>viewof rho1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {</span>
-<span id="cb6-1242"><a href="#cb6-1242" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
-<span id="cb6-1243"><a href="#cb6-1243" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Correlación (ρ):"</span><span class="op">,</span></span>
-<span id="cb6-1244"><a href="#cb6-1244" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.9</span></span>
-<span id="cb6-1245"><a href="#cb6-1245" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb6-1246"><a href="#cb6-1246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-1247"><a href="#cb6-1247" aria-hidden="true" tabindex="-1"></a>viewof c1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {</span>
-<span id="cb6-1248"><a href="#cb6-1248" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
-<span id="cb6-1249"><a href="#cb6-1249" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Escala (c):"</span><span class="op">,</span></span>
-<span id="cb6-1250"><a href="#cb6-1250" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">3.0</span></span>
-<span id="cb6-1251"><a href="#cb6-1251" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb6" data-startfrom="1253" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1252;"><span id="cb6-1253"><a href="#cb6-1253" aria-hidden="true" tabindex="-1"></a>viewof n1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">50</span><span class="op">,</span> <span class="dv">500</span>]<span class="op">,</span> {</span>
+<span id="cb6-1254"><a href="#cb6-1254" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb6-1255"><a href="#cb6-1255" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° obs. (n):"</span><span class="op">,</span></span>
+<span id="cb6-1256"><a href="#cb6-1256" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">200</span></span>
+<span id="cb6-1257"><a href="#cb6-1257" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb6-1258"><a href="#cb6-1258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-1259"><a href="#cb6-1259" aria-hidden="true" tabindex="-1"></a>viewof p1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">10</span><span class="op">,</span> <span class="dv">100</span>]<span class="op">,</span> {</span>
+<span id="cb6-1260"><a href="#cb6-1260" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb6-1261"><a href="#cb6-1261" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° pred. (p):"</span><span class="op">,</span></span>
+<span id="cb6-1262"><a href="#cb6-1262" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">50</span></span>
+<span id="cb6-1263"><a href="#cb6-1263" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb6-1264"><a href="#cb6-1264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-1265"><a href="#cb6-1265" aria-hidden="true" tabindex="-1"></a>viewof rho1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {</span>
+<span id="cb6-1266"><a href="#cb6-1266" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
+<span id="cb6-1267"><a href="#cb6-1267" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Correlación (ρ):"</span><span class="op">,</span></span>
+<span id="cb6-1268"><a href="#cb6-1268" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.9</span></span>
+<span id="cb6-1269"><a href="#cb6-1269" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb6-1270"><a href="#cb6-1270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-1271"><a href="#cb6-1271" aria-hidden="true" tabindex="-1"></a>viewof c1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {</span>
+<span id="cb6-1272"><a href="#cb6-1272" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb6-1273"><a href="#cb6-1273" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Escala (c):"</span><span class="op">,</span></span>
+<span id="cb6-1274"><a href="#cb6-1274" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">3.0</span></span>
+<span id="cb6-1275"><a href="#cb6-1275" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-2-1" data-nodetype="declaration">
@@ -1354,29 +1374,29 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </script>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb7" data-startfrom="1337" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1336;"><span id="cb7-1337"><a href="#cb7-1337" aria-hidden="true" tabindex="-1"></a>viewof n2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">50</span><span class="op">,</span> <span class="dv">500</span>]<span class="op">,</span> {</span>
-<span id="cb7-1338"><a href="#cb7-1338" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
-<span id="cb7-1339"><a href="#cb7-1339" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° obs. (n):"</span><span class="op">,</span></span>
-<span id="cb7-1340"><a href="#cb7-1340" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">200</span></span>
-<span id="cb7-1341"><a href="#cb7-1341" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb7-1342"><a href="#cb7-1342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-1343"><a href="#cb7-1343" aria-hidden="true" tabindex="-1"></a>viewof p2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">10</span><span class="op">,</span> <span class="dv">100</span>]<span class="op">,</span> {</span>
-<span id="cb7-1344"><a href="#cb7-1344" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
-<span id="cb7-1345"><a href="#cb7-1345" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° pred. (p):"</span><span class="op">,</span></span>
-<span id="cb7-1346"><a href="#cb7-1346" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">50</span></span>
-<span id="cb7-1347"><a href="#cb7-1347" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb7-1348"><a href="#cb7-1348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-1349"><a href="#cb7-1349" aria-hidden="true" tabindex="-1"></a>viewof s <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">50</span>]<span class="op">,</span> {</span>
-<span id="cb7-1350"><a href="#cb7-1350" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
-<span id="cb7-1351"><a href="#cb7-1351" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Correlación (ρ):"</span><span class="op">,</span></span>
-<span id="cb7-1352"><a href="#cb7-1352" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">5</span></span>
-<span id="cb7-1353"><a href="#cb7-1353" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb7-1354"><a href="#cb7-1354" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-1355"><a href="#cb7-1355" aria-hidden="true" tabindex="-1"></a>viewof c2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {</span>
-<span id="cb7-1356"><a href="#cb7-1356" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
-<span id="cb7-1357"><a href="#cb7-1357" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Escala (c):"</span><span class="op">,</span></span>
-<span id="cb7-1358"><a href="#cb7-1358" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">1.0</span></span>
-<span id="cb7-1359"><a href="#cb7-1359" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb7" data-startfrom="1361" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1360;"><span id="cb7-1361"><a href="#cb7-1361" aria-hidden="true" tabindex="-1"></a>viewof n2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">50</span><span class="op">,</span> <span class="dv">500</span>]<span class="op">,</span> {</span>
+<span id="cb7-1362"><a href="#cb7-1362" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb7-1363"><a href="#cb7-1363" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° obs. (n):"</span><span class="op">,</span></span>
+<span id="cb7-1364"><a href="#cb7-1364" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">200</span></span>
+<span id="cb7-1365"><a href="#cb7-1365" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-1366"><a href="#cb7-1366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-1367"><a href="#cb7-1367" aria-hidden="true" tabindex="-1"></a>viewof p2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">10</span><span class="op">,</span> <span class="dv">100</span>]<span class="op">,</span> {</span>
+<span id="cb7-1368"><a href="#cb7-1368" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb7-1369"><a href="#cb7-1369" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° pred. (p):"</span><span class="op">,</span></span>
+<span id="cb7-1370"><a href="#cb7-1370" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">50</span></span>
+<span id="cb7-1371"><a href="#cb7-1371" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-1372"><a href="#cb7-1372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-1373"><a href="#cb7-1373" aria-hidden="true" tabindex="-1"></a>viewof s <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">50</span>]<span class="op">,</span> {</span>
+<span id="cb7-1374"><a href="#cb7-1374" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb7-1375"><a href="#cb7-1375" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Correlación (ρ):"</span><span class="op">,</span></span>
+<span id="cb7-1376"><a href="#cb7-1376" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">5</span></span>
+<span id="cb7-1377"><a href="#cb7-1377" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-1378"><a href="#cb7-1378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-1379"><a href="#cb7-1379" aria-hidden="true" tabindex="-1"></a>viewof c2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {</span>
+<span id="cb7-1380"><a href="#cb7-1380" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb7-1381"><a href="#cb7-1381" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Escala (c):"</span><span class="op">,</span></span>
+<span id="cb7-1382"><a href="#cb7-1382" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">1.0</span></span>
+<span id="cb7-1383"><a href="#cb7-1383" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-3-1" data-nodetype="declaration">
@@ -1420,41 +1440,41 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </script>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb8" data-startfrom="1451" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1450;"><span id="cb8-1451"><a href="#cb8-1451" aria-hidden="true" tabindex="-1"></a>viewof n3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">50</span><span class="op">,</span> <span class="dv">500</span>]<span class="op">,</span> {</span>
-<span id="cb8-1452"><a href="#cb8-1452" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
-<span id="cb8-1453"><a href="#cb8-1453" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° obs. (n):"</span><span class="op">,</span></span>
-<span id="cb8-1454"><a href="#cb8-1454" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">300</span></span>
-<span id="cb8-1455"><a href="#cb8-1455" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb8-1456"><a href="#cb8-1456" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-1457"><a href="#cb8-1457" aria-hidden="true" tabindex="-1"></a>viewof p3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">10</span><span class="op">,</span> <span class="dv">200</span>]<span class="op">,</span> {</span>
-<span id="cb8-1458"><a href="#cb8-1458" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
-<span id="cb8-1459"><a href="#cb8-1459" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° pred. (p):"</span><span class="op">,</span></span>
-<span id="cb8-1460"><a href="#cb8-1460" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">100</span></span>
-<span id="cb8-1461"><a href="#cb8-1461" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb8-1462"><a href="#cb8-1462" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-1463"><a href="#cb8-1463" aria-hidden="true" tabindex="-1"></a>viewof n_g <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">20</span>]<span class="op">,</span> {</span>
-<span id="cb8-1464"><a href="#cb8-1464" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb8-1465"><a href="#cb8-1465" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° grupos:"</span><span class="op">,</span></span>
-<span id="cb8-1466"><a href="#cb8-1466" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">8</span></span>
-<span id="cb8-1467"><a href="#cb8-1467" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb8-1468"><a href="#cb8-1468" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-1469"><a href="#cb8-1469" aria-hidden="true" tabindex="-1"></a>viewof a_g <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {</span>
-<span id="cb8-1470"><a href="#cb8-1470" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb8-1471"><a href="#cb8-1471" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° grupos activos:"</span><span class="op">,</span></span>
-<span id="cb8-1472"><a href="#cb8-1472" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">3</span></span>
-<span id="cb8-1473"><a href="#cb8-1473" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb8-1474"><a href="#cb8-1474" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-1475"><a href="#cb8-1475" aria-hidden="true" tabindex="-1"></a>viewof rho3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {</span>
-<span id="cb8-1476"><a href="#cb8-1476" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
-<span id="cb8-1477"><a href="#cb8-1477" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Correlación (ρ):"</span><span class="op">,</span></span>
-<span id="cb8-1478"><a href="#cb8-1478" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.90</span></span>
+<div class="sourceCode cell-code hidden" id="cb8" data-startfrom="1475" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1474;"><span id="cb8-1475"><a href="#cb8-1475" aria-hidden="true" tabindex="-1"></a>viewof n3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">50</span><span class="op">,</span> <span class="dv">500</span>]<span class="op">,</span> {</span>
+<span id="cb8-1476"><a href="#cb8-1476" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb8-1477"><a href="#cb8-1477" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° obs. (n):"</span><span class="op">,</span></span>
+<span id="cb8-1478"><a href="#cb8-1478" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">300</span></span>
 <span id="cb8-1479"><a href="#cb8-1479" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb8-1480"><a href="#cb8-1480" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-1481"><a href="#cb8-1481" aria-hidden="true" tabindex="-1"></a>viewof c3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {</span>
-<span id="cb8-1482"><a href="#cb8-1482" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
-<span id="cb8-1483"><a href="#cb8-1483" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Escala (c):"</span><span class="op">,</span></span>
-<span id="cb8-1484"><a href="#cb8-1484" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">3.0</span></span>
-<span id="cb8-1485"><a href="#cb8-1485" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-1481"><a href="#cb8-1481" aria-hidden="true" tabindex="-1"></a>viewof p3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">10</span><span class="op">,</span> <span class="dv">200</span>]<span class="op">,</span> {</span>
+<span id="cb8-1482"><a href="#cb8-1482" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb8-1483"><a href="#cb8-1483" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° pred. (p):"</span><span class="op">,</span></span>
+<span id="cb8-1484"><a href="#cb8-1484" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">100</span></span>
+<span id="cb8-1485"><a href="#cb8-1485" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb8-1486"><a href="#cb8-1486" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-1487"><a href="#cb8-1487" aria-hidden="true" tabindex="-1"></a>viewof n_g <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">20</span>]<span class="op">,</span> {</span>
+<span id="cb8-1488"><a href="#cb8-1488" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb8-1489"><a href="#cb8-1489" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° grupos:"</span><span class="op">,</span></span>
+<span id="cb8-1490"><a href="#cb8-1490" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">8</span></span>
+<span id="cb8-1491"><a href="#cb8-1491" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb8-1492"><a href="#cb8-1492" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-1493"><a href="#cb8-1493" aria-hidden="true" tabindex="-1"></a>viewof a_g <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {</span>
+<span id="cb8-1494"><a href="#cb8-1494" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb8-1495"><a href="#cb8-1495" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"N° grupos activos:"</span><span class="op">,</span></span>
+<span id="cb8-1496"><a href="#cb8-1496" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">3</span></span>
+<span id="cb8-1497"><a href="#cb8-1497" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb8-1498"><a href="#cb8-1498" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-1499"><a href="#cb8-1499" aria-hidden="true" tabindex="-1"></a>viewof rho3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {</span>
+<span id="cb8-1500"><a href="#cb8-1500" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
+<span id="cb8-1501"><a href="#cb8-1501" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Correlación (ρ):"</span><span class="op">,</span></span>
+<span id="cb8-1502"><a href="#cb8-1502" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.90</span></span>
+<span id="cb8-1503"><a href="#cb8-1503" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb8-1504"><a href="#cb8-1504" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-1505"><a href="#cb8-1505" aria-hidden="true" tabindex="-1"></a>viewof c3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {</span>
+<span id="cb8-1506"><a href="#cb8-1506" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb8-1507"><a href="#cb8-1507" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Escala (c):"</span><span class="op">,</span></span>
+<span id="cb8-1508"><a href="#cb8-1508" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">3.0</span></span>
+<span id="cb8-1509"><a href="#cb8-1509" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-4-1" data-nodetype="declaration">
