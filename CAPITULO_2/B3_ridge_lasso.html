@@ -276,6 +276,7 @@ window.Quarto = {
   <li><a href="#resultados-de-convergencia" id="toc-resultados-de-convergencia" class="nav-link" data-scroll-target="#resultados-de-convergencia">Resultados de convergencia</a></li>
   <li><a href="#ejemplos-comparativos" id="toc-ejemplos-comparativos" class="nav-link" data-scroll-target="#ejemplos-comparativos">Ejemplos comparativos</a></li>
   </ul></li>
+  <li><a href="#glm-penalizados" id="toc-glm-penalizados" class="nav-link" data-scroll-target="#glm-penalizados">GLM penalizados</a></li>
   <li><a href="#actividades" id="toc-actividades" class="nav-link" data-scroll-target="#actividades">Actividades</a></li>
   </ul>
 </nav>
@@ -558,7 +559,7 @@ Una dirección $\dd\in\RR^p$ se denomina *dirección de recesión* de $f:\RR^p\t
 <p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Regresión ridge en datos de diabetes </span></p>
 <p>Utilizaremos el conjunto de datos de diabetes de <code>sklearn.datasets</code> (<a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_diabetes.html">disponible aquí</a>) para ilustrar el efecto del parámetro de regularización <span class="math inline">\(\lambda\)</span> en Ridge. Este conjunto consiste en 442 observaciones y 10 variables predictoras.</p>
 <p>Veremos el efecto que causa el valor del parámetro <span class="math inline">\(\lambda\)</span> en el valor de los coeficientes estimados para el modelo. Además, elegiremos <span class="math inline">\(\lambda\)</span> por validación cruzada y presentaremos los coeficientes resultantes del modelo ajustado.</p>
-<div id="3d9eacf3" class="cell" data-execution_count="1">
+<div id="9fb4a81c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_diabetes</span>
@@ -1136,7 +1137,7 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 3</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Regresión lasso en datos de diabetes </span></p>
 <p>Al igual que para el caso de Ridge, implementaremos lasso sobre el conjunto de datos de diabetes. De acuerdo a los coeficientes obtenidos en el Ejemplo 1 (ridge), podemos esperar que ahora algunos coeficientes se anulen, lo que reflejará la selección de variables realizada por el modelo.</p>
-<div id="0b7e0389" class="cell" data-execution_count="2">
+<div id="03de85b6" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_diabetes</span>
@@ -1523,8 +1524,29 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </div>
 </div>
 </div>
-<p><br><br></p>
 </section>
+</section>
+<section id="glm-penalizados" class="level2">
+<h2 class="anchored" data-anchor-id="glm-penalizados">GLM penalizados</h2>
+<p>En la sección anterior (<a href="https://isaiasibanez.github.io/OML2/CAPITULO_2/B2_glm.html#optimalidad">C2-S1</a>) hemos estudiado la aplicación del principio de máxima verosimilitud para el ajuste de parámetros de un modelo lineal generalizado (GLM). El problema de optimización asociado puede ser definido como <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \frac{1}{n}\sum_{i=1}^n\left[A(\bftheta^\top\xx_i)-\bftheta^\top\xx_i\, T(y_i)\right].
+\end{array}
+\]</span></p>
+<p>La expresión anterior se deriva del uso de la familia exponencial con parámetro natural <span class="math inline">\(\eta_i=\bftheta^\top\xx_i\)</span> y estadístico suficiente <span class="math inline">\(T:\RR\to\RR\)</span> (en general, <span class="math inline">\(T(y)=y\)</span>). Asimismo, el vector gradiente de la función objetivo es <span class="math display">\[
+\nabla J(\bftheta)=\frac{1}{n}X^\top(\bfmu-T(\yy)),
+\]</span> donde <span class="math inline">\(\bfmu\in\RR^n\)</span> está determinado por <span class="math inline">\(\mu_i:=A'(\bftheta^\top\xx_i)=\media\left[T(Y)\mid \XX=\xx_i\right]\)</span>.</p>
+<p>Por supuesto, la inclusión de un término de regularización sobre el vector de parámetros <span class="math inline">\(\bftheta\)</span> da lugar a las versiones penalizadas de GLM: Ridge, Lasso y Elastic Net. Cada caso conserva una estructura convexa y, en consecuencia, las condiciones KKT son suficientes y necesarias. Dichas condiciones se reducen para las formulaciones sin restricciones en la condición de estacionariedad. Por ejemplo, para Elastic Net resulta <span class="math display">\[
+\frac{1}{n}X^\top(\bfmu-T(\yy))+\lambda_1\partial\|\bftheta\|_1+2\lambda_2\bftheta=\bfzero.
+\]</span></p>
+<p>Los estimadores penalizados Ridge, Lasso y Elastic Net se comportan de manera análoga a los casos lineales: Ridge reduce varianza en señales densas y correlacionadas, Lasso permite recuperación de soporte bajo ciertas condiciones de curvatura, y Elastic Net combina la selección de Lasso con mayor estabilidad frente a colinealidad. Las tasas no-asintóticas y garantías de consistencia se expresan de forma similar, adaptando al contexto de la familia exponencial.</p>
+<p>Respecto a los algoritmos iterativos que se utilizan para aproximar <span class="math inline">\(\hat{\bftheta}\)</span>, los más comunes son:</p>
+<ul>
+<li><p><em>Descenso por coordenadas cíclico</em>: para Lasso y Elastic Net, se actualiza cada componente secuencialmente aplicando <em>soft-thresholding</em>. La convergencia global está garantizada por la convexidad de la función objetivo y la actualización cíclica. Este es el enfoque utilizado en <a href="https://scikit-learn.org/stable/modules/linear_model.html"><code>sklearn.linear_model</code></a>.</p></li>
+<li><p><em>IRLS-Prox</em>: en cada iteración se resuelve un WLS penalizado, donde las ponderaciones dependen de <span class="math inline">\(A''(\eta_k)\)</span> y la pseudo-respuesta es <span class="math inline">\(z^{(k)}=\eta^{(k)}+{W^{(k)}}^{-1}(y-\mu^{(k)})\)</span>. Este enfoque adapta los algoritmos clásicos de IRLS a penalizaciones Lasso o Elastic Net.</p></li>
+</ul>
+<p>Ambos enfoques garantizan convergencia global gracias a la convexidad de la función objetivo y permiten aplicar Lasso o Elastic Net en GLM de manera eficiente.</p>
+<p><br><br></p>
 </section>
 <section id="actividades" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="actividades">Actividades</h2>
