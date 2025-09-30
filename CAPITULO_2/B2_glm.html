@@ -758,7 +758,7 @@ T(y_n) &amp; \cdots &amp; T(y_n)_{k-1}
 <p>Si bien este gradiente de la función objetivo se puede usar para diseñar el método de descenso por gradiente, es más común emplear IRLS, que aprovecha la información del Hessiano para generar pasos más precisos y acelerar la convergencia.</p>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 4</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Regresión softmax en datos simulados </span></p>
-<div id="9c2cbbf7" class="cell" data-execution_count="1">
+<div id="26131fb9" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -777,7 +777,7 @@ T(y_n) &amp; \cdots &amp; T(y_n)_{k-1}
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo:</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LogisticRegression(solver<span class="op">=</span><span class="st">"lbfgs"</span>, max_iter<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LogisticRegression(solver<span class="op">=</span><span class="st">"lbfgs"</span>, penalty<span class="op">=</span><span class="va">None</span>, max_iter<span class="op">=</span><span class="dv">200</span>)</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train)</span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicción:</span></span>
@@ -805,15 +805,22 @@ T(y_n) &amp; \cdots &amp; T(y_n)_{k-1}
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co"># 📋:</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Matriz de Confusión:"</span>)</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(confusion_matrix(y_test, y_pred))</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Coeficientes estimados (θ̂):"</span>)</span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, coef <span class="kw">in</span> <span class="bu">enumerate</span>(model.coef_):</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Clase </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">:"</span>)</span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j, c <span class="kw">in</span> <span class="bu">enumerate</span>(coef):</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"  θ_</span><span class="sc">{</span>j<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss"> = </span><span class="sc">{</span>c<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>thetas <span class="op">=</span> model.coef_           </span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>intercepts <span class="op">=</span> model.intercept_  </span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>theta_ref <span class="op">=</span> thetas[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>intercept_ref <span class="op">=</span> intercepts[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>thetas_reduced <span class="op">=</span> thetas[:<span class="op">-</span><span class="dv">1</span>] <span class="op">-</span> theta_ref</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>intercepts_reduced <span class="op">=</span> intercepts[:<span class="op">-</span><span class="dv">1</span>] <span class="op">-</span> intercept_ref</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Coeficientes reducidos (clase 3 como referencia):"</span>)</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (coef, b) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>(thetas_reduced, intercepts_reduced), start<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j, c <span class="kw">in</span> <span class="bu">enumerate</span>(coef):</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"  θ(</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">,</span><span class="sc">{</span>j<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">) = </span><span class="sc">{</span>c<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Matriz de Confusión:"</span>)</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(confusion_matrix(y_test, y_pred))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -823,20 +830,15 @@ T(y_n) &amp; \cdots &amp; T(y_n)_{k-1}
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Matriz de Confusión:
+<pre><code>Coeficientes reducidos (clase 3 como referencia):
+  θ(1,1) = -0.498
+  θ(1,2) = 5.406
+  θ(2,1) = 6.481
+  θ(2,2) = 4.744
+Matriz de Confusión:
 [[24  3  0]
  [ 4 34  0]
- [ 4  0 21]]
-Coeficientes estimados (θ̂):
-Clase 1:
-  θ_1 = -1.642
-  θ_2 = 1.492
-Clase 2:
-  θ_1 = 2.659
-  θ_2 = 0.736
-Clase 3:
-  θ_1 = -1.018
-  θ_2 = -2.228</code></pre>
+ [ 4  0 21]]</code></pre>
 </div>
 </div>
 </div>
