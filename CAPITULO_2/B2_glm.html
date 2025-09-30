@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -37,7 +71,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-327735d1480bff6f7510335fe22ad292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -232,8 +266,13 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#función-de-verosimilitud" id="toc-función-de-verosimilitud" class="nav-link" data-scroll-target="#función-de-verosimilitud">Función de verosimilitud</a></li>
   <li><a href="#optimalidad" id="toc-optimalidad" class="nav-link" data-scroll-target="#optimalidad">Optimalidad</a></li>
+  <li><a href="#irls-iterative-reweigthed-least-squares" id="toc-irls-iterative-reweigthed-least-squares" class="nav-link" data-scroll-target="#irls-iterative-reweigthed-least-squares">IRLS (<em>Iterative Reweigthed Least Squares</em>)</a></li>
   </ul></li>
-  <li><a href="#regresión-softmax" id="toc-regresión-softmax" class="nav-link" data-scroll-target="#regresión-softmax">Regresión Softmax</a></li>
+  <li><a href="#regresión-softmax" id="toc-regresión-softmax" class="nav-link" data-scroll-target="#regresión-softmax">Regresión Softmax</a>
+  <ul class="collapse">
+  <li><a href="#modelo" id="toc-modelo" class="nav-link" data-scroll-target="#modelo">Modelo</a></li>
+  <li><a href="#ajuste-de-parámetros-1" id="toc-ajuste-de-parámetros-1" class="nav-link" data-scroll-target="#ajuste-de-parámetros-1">Ajuste de Parámetros</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -291,6 +330,7 @@ window.Quarto = {
 \def\bfZ{{\bf Z}}
 \def\bfg{{\bf g}}
 \def\bftheta{\boldsymbol{\theta}}
+\def\bfphi{\boldsymbol{\phi}}
 \def\bfmu{\boldsymbol{\mu}}
 \def\bfxi{\boldsymbol{\xi}}
 \def\bflambda{\boldsymbol{\lambda}}
@@ -455,7 +495,7 @@ A(\bfeta):=\log\int h(y)\exp\left\{\bfeta^\top T(y)\right\}\,dy.
 
 </div>
 <p><span class="math display">\[
-\bfeta:=\bfTheta^\top\xx,\qquad\bfTheta\in\RR^{q\times p}.
+\bfeta:=\bfTheta^\top\xx,\qquad\bfTheta\in\RR^{p\times q}.
 \]</span></p>
 </div>
 <div style="margin-top:1em;">
@@ -529,7 +569,7 @@ A'(\tilde{\bfeta})=(A'(\eta_1),\ldots,A'(\eta_n))^\top.
 <p>Ahora bien, sabemos que <span class="math display">\[
 A'(\eta_i)=\media\left[T(Y)\mid\XX=\xx_i\right]\qquad\forall i=1,\ldots,n.
 \]</span></p>
-<p>Por lo tanto, a expresión (4) puede reescribirse como <span class="math display">\[
+<p>Por lo tanto, la expresión (4) puede reescribirse como <span class="math display">\[
 \sum_{i=1}^n(T(y_i)-\media\left[T(Y)\mid \XX=\xx_i\right])\,\xx_i=\bfzero.
 \]</span></p>
 <p>Observar que lo del paréntesis es el <em>residuo</em> entre el valor observado de <span class="math inline">\(T(y_i)\)</span> y el valor esperado según el modelo. La condición de optimalidad establece que la suma de estos residuos ponderados por los predictores debe ser cero. Por otra parte, no existe una solución explícita para el punto óptimo <span class="math inline">\(\hat{\bftheta}\)</span> en general; por supuesto se recurre a métodos iterativos para aproximarlo.</p>
@@ -537,279 +577,266 @@ A'(\eta_i)=\media\left[T(Y)\mid\XX=\xx_i\right]\qquad\forall i=1,\ldots,n.
 
 </div>
 </section>
+<section id="irls-iterative-reweigthed-least-squares" class="level3">
+<h3 class="anchored" data-anchor-id="irls-iterative-reweigthed-least-squares">IRLS (<em>Iterative Reweigthed Least Squares</em>)</h3>
+<p>La aplicación del método de Newton al problema de estimación de parámetros en un GLM puede reformularse como un <em>problema de mínimos cuadrados ponderados (WLS)</em>, en el que cada iteración resuelve un sistema lineal con pesos actualizados según la varianza del modelo.</p>
+<div class="alert alert-light text-dark" role="important">
+<p><span class="badge bg-warning text-dark">Importante</span></p>
+<p>El problema de mínimos cuadrados ponderados (WLS) es <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \frac{1}{2}\|W^{1/2}(\yy-X\bftheta)\|_2^2,
+\end{array}
+\]</span> donde <span class="math inline">\(W:=\text{diag}\,(w_1,\ldots,w_n)\)</span> contiene los pesos de cada observación. Si <span class="math inline">\(X\)</span> es de rango completo, la solución cerrada es <span class="math display">\[
+\hat{\bfbeta}^{\text{WLS}}:=(X^\top W X)^{-1}X^\top W \yy.
+\]</span></p>
+</div>
+<p>Recordemos que el método de Newton actualiza los parámetros mediante <span class="math display">\[
+\bftheta_{t+1}:=\bftheta_t-\left[\nabla^2 J(\bftheta_t)\right]^{-1}\nabla J(\bftheta_t).
+\tag{5}
+\]</span></p>
+<p>Hasta ahora hemos visto que <span class="math display">\[
+\nabla J(\bftheta)=\sum_{i=1}^n(T(y_i)-\media[T(Y)\mid\XX=\xx_i])\xx_i,
+\]</span></p>
+<p>donde <span class="math inline">\(\media[T(Y)\mid\XX=\xx_i]=A'(\eta_i)\)</span>. Además, por propiedad, <span class="math inline">\(A''(\eta_i)=\cov\left[T(Y_i)\mid \XX=\xx_i\right]\)</span>. Por lo tanto, resulta <span class="math display">\[
+\nabla^2 J(\bftheta)=-\sum_{i=1}^n\cov\left[T(Y)\mid\XX=\xx_i\right]\xx_i\xx_i^\top=-X^\top W X.
+\]</span></p>
+<p>donde <span class="math display">\[
+W:=\text{diag}\,(w_1,\ldots,w_n),\qquad w_i:=\cov\left[T(Y)\mid \XX=\xx_i\right]
+\]</span></p>
+<div style="margin-top:1em;">
+
+</div>
+<p>Por lo tanto, la iteración del método de Newton resulta <span class="math display">\[
+\bftheta_{t+1}:=\bftheta_t+(X^\top W X)^{-1}\left(\sum_{i=1}^n(T(y_i)-\media[T(Y)\mid\XX=\xx_i])\xx_i\right)
+\tag{6}
+\]</span></p>
+<p>Si logramos proponer <span class="math inline">\(\zz\in\RR^n\)</span> tal que <span class="math display">\[
+\sum_{i=1}^n(T(y_i)-\media[T(Y)\mid\XX=\xx_i])\xx_i=X^\top W\zz,
+\]</span> entonces la actualización en (6) del vector de parámetros <span class="math inline">\(\bftheta\)</span> puede interpretarse a partir de la solución de un WLS con pesos <span class="math inline">\(W\)</span> y <em>pseudo-respuesta</em> <span class="math inline">\(\zz\)</span>. Dado que <span class="math inline">\(X^\top W \zz=\sum_{i=1}^nw_iz_i\xx_i\)</span>, podemos elegir <span class="math display">\[
+z_i:=\frac{T(y_i)-\media[T(Y)\mid\XX=\xx_i]}{w_i}.
+\]</span></p>
+<p>Por lo tanto, (6) resulta en <span class="math display">\[
+\bftheta_{t+1}:=\bftheta_t+(X^\top W X)^{-1}X^\top W\zz.
+\]</span></p>
+<p>Esto se conoce como algoritmo IRLS (<em>Iterative Reweighted Least Squares</em>), ya que cada iteración consiste en resolver un problema de mínimos cuadrados ponderados con pesos <span class="math inline">\(W\)</span> y pseudo-respuesta <span class="math inline">\(\zz\)</span>, para recién actualizar el vector de parámetros <span class="math inline">\(\bftheta\)</span>. Repitiendo este procedimiento se aproxima el estimador de máxima verosimilitud del GLM, aprovechando la estructura del Hessiano para generar pasos más precisos que un simple descenso por gradiente.</p>
+<p>A continuación, formulamos IRLS con una modificación: para que el WLS quede en forma estándar se suele tomar <span class="math inline">\(z_i:=\eta_i+(T(y_i)-\media[T(Y)\mid\XX=\xx_i])/w_i\)</span>; esto permite absorber <span class="math inline">\(\bftheta_t\)</span> en la fórmula iterativa, ya que <span class="math inline">\(\tilde{\bfeta}=X\bftheta_t\)</span> implica <span class="math inline">\((X^\top W  X)^{-1}X^T W\tilde{\bfeta}=\bftheta_t\)</span>.</p>
+<div style="margin-top:2em;">
+
+</div>
+<div class="highlight">
+<p><span class="badge bg-custom">Algoritmo IRLS </span></p>
+<hr>
+<p>Dado un <em>parámetro inicial</em> <span class="math inline">\(\bftheta_0\in\RR^{p}\)</span>:</p>
+<div style="margin-left: 1em">
+<p><strong>repetir</strong> para <span class="math inline">\(t = 0,1,2,\ldots\)</span>:</p>
+<blockquote class="blockquote">
+<p><strong>1°</strong> Calcular <span class="math inline">\(\tilde{\bfeta} = X \bftheta_t\)</span> y <span class="math inline">\(\bfmu\in\RR^n\)</span> tal que <span class="math inline">\(\mu_i=\media\left[T(Y)|\XX=\xx_i\right]\)</span>.</p>
+<p><strong>2°</strong> Construir la matriz diagonal de pesos <span class="math inline">\(W\in\RR^{n\times n}\)</span> tal que <span class="math inline">\(w_{i} = \cov\left[T(Y)\mid X=\xx_i\right]\)</span>.</p>
+<p><strong>3°</strong> Definir la pseudo-respuesta: <span class="math inline">\(\zz = \tilde{\bfeta} + W^{-1}(T(\mathbf{y}) - \bfmu)\)</span>.</p>
+<p><strong>4°</strong> Actualizar <span class="math inline">\(\bftheta_{t+1}:=(X^\top W X)^{-1}X^\top W\zz\)</span>.</p>
+</blockquote>
+<p><strong>hasta</strong> que el criterio de parada se satisfaga.</p>
+</div>
+<hr>
+</div>
+<div style="margin-top:2.5em;">
+
+</div>
+</section>
 </section>
 <section id="regresión-softmax" class="level2">
 <h2 class="anchored" data-anchor-id="regresión-softmax">Regresión Softmax</h2>
-<p><span style="color:darkred;"> Próxima clase </span></p>
 <p>Consideremos un problema de clasificación en el que <span class="math inline">\(Y \in \{1, 2, \ldots, k\}\)</span>. Por ejemplo, en lugar de clasificar correos electrónicos en dos clases (spam o no spam), podríamos clasificarlos en tres clases: spam, correo personal y correo relacionado con el trabajo. Para modelar esta situación, usaremos la <em>distribución multinomial</em> con un único ensayo (también llamada <em>distribución categórica</em>) como una distribución de la familia exponencial.</p>
-<!--
-
-Consideremos un problema de clasificación en el que $Y \in \{1, 2, \ldots, k\}$. Por ejemplo, en lugar de clasificar correos electrónicos en dos clases (spam o no spam), podríamos clasificarlos en tres clases: spam, correo personal y correo relacionado con el trabajo. Para modelar esta situación, usaremos la **distribución multinomial** como una distribución de la familia exponencial.
-
-
-## La distribución multinomial como familia exponencial
-
-Supongamos que $Y\in\{1, 2, \cdots, k\}$ se distribuye mediante una distribución multinomial con $k-1$ parámetros $\phi_1, \dots, \phi_{k-1}$, y sea $\phi_k=1-\sum_{i=1}^{k-1}\phi_i$, tal que $\sum_{i=1}^k \phi_i = 1$. Para expresar la multinomial como una distribución de la familia exponencial, definimos
-
-$$
-T(1) = \begin{pmatrix} 1 \\ 0 \\ \vdots \\ 0 \end{pmatrix}, 
-\quad
-T(2) = \begin{pmatrix} 0 \\ 1 \\ \vdots \\ 0 \end{pmatrix}, 
-\quad \dots, \quad
-T(k-1) = \begin{pmatrix} 0 \\ 0 \\ \vdots \\ 1 \end{pmatrix},
-\quad 
-T(k) = \begin{pmatrix} 0 \\ 0 \\ \vdots \\ 0 \end{pmatrix}.
-$$
-
-En lo que sigue, $\bfone\{\cdot\}$ es la función indicatriz, que vale 1 si su argumento es cierto y 0 en caso contrario. Resulta
-
-$$
-\begin{align*}
-p(y; \mathbf{\phi})& =
-\phi_1^{\bfone\{y=1\}} \phi_2^{\bfone\{y=2\}} \cdots \phi_k^{\bfone\{y=k\}}\\
-&= \phi_1^{(T(y))_1} \phi_2^{(T(y))_2} \cdots \phi_{k-1}^{(T(y))_{k-1}} \left(1 - \sum_{i=1}^{k-1} \phi_i\right)^{1-\sum_{i=1}^{k-1}(T(y))_i}
-\\
-&= \exp\left((T(y))_1 \log(\phi_1) + (T(y))_2 \log(\phi_2) + \dots + \left(1 - \sum_{i=1}^{k-1}(T(y))_i\right)\log\left(1 - \sum_{i=1}^{k-1} \phi_i\right)\right).
-\end{align*}
-$$
-
-Así, $Y$ se distribuye en la familia exponencial
-
-$$
-p(y; \phi) = b(y) \exp\left(\eta^T T(y) - a(\eta)\right),
-$$
-
-donde:
-
-$$
-\begin{align*}
-\eta &= \begin{bmatrix}
-\log\left(\frac{\phi_1}{\phi_k}\right) \\
-\log\left(\frac{\phi_2}{\phi_k}\right) \\
-\vdots \\
-\log\left(\frac{\phi_{k-1}}{\phi_k}\right)
-\end{bmatrix},
-\\
-a(\eta) &= -\log(\phi_k),
-\\
-b(y)& = 1.
-\end{align*}
-$$
-
-Esto completa nuestra formulación de la multinomial como una distribución de la familia exponencial.
-
-
-La función que mapea \(\eta\) a \(\phi\) se llama la **función softmax**:
-
-## Función de Enlace y Función de Respuesta
-
-La función de enlace está dada (para $i = 1, \dots, k$) por:
-
-$$
-\eta_i = \log\left(\frac{\phi_i}{\phi_k}\right).
-$$
-
-Para conveniencia, también definimos $\eta_k = \log(\phi_k / \phi_k) = 0$. Para invertir la función de enlace y derivar la función de respuesta, tenemos que:
-
-$$
-e^{\eta_i} = \frac{\phi_i}{\phi_k},
-$$
-
-lo que implica:
-
-$$
-\phi_k \sum_{i=1}^k e^{\eta_i} = \sum_{i=1}^k \phi_i = 1.
-$$
-
-Por lo tanto:
-
-$$
-\phi_k = \frac{1}{\sum_{i=1}^k e^{\eta_i}},
-$$
-
-y al sustituir en la ecuación obtenemos la función de respuesta:
-
-$$
-\phi_i = \frac{e^{\eta_i}}{\sum_{j=1}^k e^{\eta_j}}.
-$$
-
-
-
-## Softmax Function y Modelo de Clasificación
-
-La función que mapea de $\eta$ a $\phi$ se llama la función \textit{softmax}. 
-
-Para completar nuestro modelo, usamos la Asunción 3, mencionada previamente, donde los $\eta_i$ están relacionados linealmente con los $x$'s. Así, tenemos $\eta_i = \theta_i^T x$ (para $i = 1, \dots, k - 1$), donde $\theta_1, \dots, \theta_{k-1} \in \mathbb{R}^{d+1}$ son los parámetros de nuestro modelo. Por notación, podemos definir $\theta_k = 0$, de modo que $\eta_k = \theta_k^T x = 0$, como se definió anteriormente. Por lo tanto, nuestro modelo asume que la distribución condicional de $y$ dado $x$ está dada por:
-
-$$
-\begin{align*}
-p(y = i | x; \theta) &= \phi_i\\
-&= \frac{e^{\eta_i}}{\sum_{j=1}^k e^{\eta_j}}\\
-&= \frac{e^{\theta_i^T x}}{\sum_{j=1}^k e^{\theta_j^T x}}, \quad (5)
-\end{align*}
-$$
-
-donde este modelo, que aplica a problemas de clasificación donde $y \in \{1, \dots, k\}$, se llama \textit{regresión softmax}. Es una generalización de la regresión logística.
-
-### Hipótesis del Modelo
-
-Nuestra hipótesis producirá:
-
-$$
-\begin{align*}
-h_\theta(x) &= \mathbb{E}[T(y) | x; \theta]
-\\
-&= \mathbb{E}
-\begin{bmatrix}
-1\{y = 1\} \\
-1\{y = 2\} \\
-\vdots \\
-1\{y = k - 1\}
-\end{bmatrix}
-\\&=
-\begin{bmatrix}
-\phi_1 \\
-\phi_2 \\
-\vdots \\
-\phi_{k-1}
-\end{bmatrix}
-\\&=
-\begin{bmatrix}
-\frac{\exp(\theta_1^T x)}{\sum_{j=1}^k \exp(\theta_j^T x)} \\
-\frac{\exp(\theta_2^T x)}{\sum_{j=1}^k \exp(\theta_j^T x)} \\
-\vdots \\
-\frac{\exp(\theta_{k-1}^T x)}{\sum_{j=1}^k \exp(\theta_j^T x)}
-\end{bmatrix}.
-\end{align*}
-$$
-
-En otras palabras, nuestra hipótesis producirá la probabilidad estimada de que $p(y = i | x; \theta)$ para cada valor $i = 1, \dots, k$. (Aunque $h_\theta(x)$, como se definió arriba, tiene solo $k - 1$ dimensiones, claramente $p(y = k | x; \theta)$ puede obtenerse como $1 - \sum_{i=1}^{k-1} \phi_i$).
-
-
-
-## Ajuste de Parámetros
-
-Por último, discutamos el ajuste de parámetros. Similar a nuestra derivación original de mínimos cuadrados ordinarios y regresión logística, si tenemos un conjunto de entrenamiento de $n$ ejemplos $\{(x^{(i)}, y^{(i)}); i = 1, \dots, n\}$ y deseamos aprender los parámetros $\theta_i$ de este modelo, comenzaríamos escribiendo la log-verosimilitud:
-
-$$
-\begin{align*}
-\ell(\theta) &= \sum_{i=1}^n \log p(y^{(i)} | x^{(i)}; \theta)
-\\
-&= \sum_{i=1}^n \log \prod_{l=1}^k \left( \frac{e^{\theta_l^T x^{(i)}}}{\sum_{j=1}^k e^{\theta_j^T x^{(i)}}} \right)^{1\{y^{(i)} = l\}}.
-\end{align*}
-$$
-
-Para obtener la segunda línea anterior, usamos la definición de $p(y | x; \theta)$ dada en la Ecuación (5). Ahora podemos obtener la estimación de máxima verosimilitud de los parámetros maximizando $\ell(\theta)$ en términos de $\theta$, utilizando un método como ascenso de gradiente o el método de Newton.
-
-
-
-ACA FALTA AJUSTE DE PARAMETROS PARA EL MODELO GLM EN GENERAL
-eso esta en el video de el viejo del 2008 , no esta en el nuevo. 
-seria importante poner algo
-
-
-### Ejemplo Práctico en Python
-
-Implementemos un ejemplo práctico para un problema de clasificación multiclase.
-
-::: {#b591cd04 .cell execution_count=1}
-``` {.python .cell-code}
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.datasets import make_classification
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report, confusion_matrix
-
-# Generar datos simulados para clasificación multiclase
-X, y = make_classification(
-    n_samples=300, n_features=2, n_informative=2, n_redundant=0,
-    n_classes=3, n_clusters_per_class=1, random_state=42
-)
-
-# Visualizar los datos
-plt.figure(figsize=(8, 6))
-scatter = plt.scatter(X[:, 0], X[:, 1], c=y, cmap="viridis")
-plt.title("Datos de Clasificación Multiclase")
-plt.xlabel("Característica 1")
-plt.ylabel("Característica 2")
-plt.colorbar(scatter, label="Clases")
-plt.grid(True)
-plt.show()
-
-# Dividir los datos en entrenamiento y prueba
-from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-
-# Ajustar el modelo de regresión softmax
-model = LogisticRegression(multi_class="multinomial", solver="lbfgs", max_iter=200)
-model.fit(X_train, y_train)
-
-# Predicciones
-y_pred = model.predict(X_test)
-
-# Frontera de decisión
-x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
-y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
-xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.01),
-                     np.arange(y_min, y_max, 0.01))
-Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
-Z = Z.reshape(xx.shape)
-
-plt.figure(figsize=(8, 6))
-plt.contourf(xx, yy, Z, alpha=0.8, cmap="viridis")
-scatter = plt.scatter(X[:, 0], X[:, 1], c=y, edgecolor="k", cmap="viridis")
-plt.title("Frontera de Decisión: Regresión Softmax")
-plt.xlabel("Característica 1")
-plt.ylabel("Característica 2")
-plt.colorbar(scatter, label="Clases")
-plt.grid(True)
-plt.show()
-
-# Evaluación del modelo
-print("Reporte de Clasificación:")
-print(classification_report(y_test, y_pred))
-print("Matriz de Confusión:")
-print(confusion_matrix(y_test, y_pred))
-```
-
-::: {.cell-output .cell-output-display}
-![](B2_glm_files/figure-html/cell-2-output-1.png){width=652 height=523}
-:::
-
-::: {.cell-output .cell-output-stderr}
-```
-C:\Users\isaia\AppData\Local\Programs\Python\Python313\Lib\site-packages\sklearn\linear_model\_logistic.py:1247: FutureWarning: 'multi_class' was deprecated in version 1.5 and will be removed in 1.7. From then on, it will always use 'multinomial'. Leave it to its default value to avoid this warning.
-  warnings.warn(
-```
-:::
-
-::: {.cell-output .cell-output-display}
-![](B2_glm_files/figure-html/cell-2-output-3.png){width=652 height=524}
-:::
-
-::: {.cell-output .cell-output-stdout}
-```
-Reporte de Clasificación:
-              precision    recall  f1-score   support
-
-           0       0.75      0.89      0.81        27
-           1       0.92      0.89      0.91        38
-           2       1.00      0.84      0.91        25
-
-    accuracy                           0.88        90
-   macro avg       0.89      0.87      0.88        90
-weighted avg       0.89      0.88      0.88        90
-
-Matriz de Confusión:
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 3</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Distribución categórica </span></p>
+<p>Sea <span class="math inline">\(Y\in\RR\)</span> tal que <span class="math inline">\(Y\sim\text{Multinomial}(1,\boldsymbol{\phi})\)</span>, con <span class="math inline">\(\bfphi\in\RR^k\)</span> tal que <span class="math inline">\(\sum_{i=1}^k\phi_i=1\)</span>. Entonces <span class="math display">\[
+p(y\mid\bfphi)=\phi_1^{\bfone\{y=1\}}\phi_1^{\bfone\{y=2\}}\ldots \phi_1^{\bfone\{y=k\}},
+\]</span></p>
+<p>donde <span class="math inline">\(\bfone\{\cdot\}\)</span> es la función indicatriz, que vale 1 si su argumento es cierto y 0 en caso contrario. Definimos el estadístico suficiente <span class="math inline">\(T(y)\in\RR^{k-1}\)</span> mediante <span class="math display">\[
+(T(y))_i=\left\{
+\begin{array}{cl}
+1 &amp; \mbox{si }y=i, \\
+0 &amp; \mbox{si }y\neq i.
+\end{array}
+\right.
+\]</span></p>
+<p>Podemos escribir <span class="math display">\[
+\begin{align}
+p(y\mid\bfphi) &amp;= \phi_1^{(T(y))_1}\phi_2^{(T(y))_2}\ldots\phi_{k-1}^{(T(y))_{k-1}}\phi_k^{1-\sum_{i=1}^{k-1}(T(y))_i} \\[2ex]
+&amp;=\exp\left\{\left(\log\left(\frac{\phi_1}{\phi_k}\right), \log\left(\frac{\phi_2}{\phi_k}\right),\ldots, \log\left(\frac{\phi_{k-1}}{\phi_k}\right)\right)^\top T(y)+\log \phi_k\right\}.
+\end{align}
+\]</span></p>
+<p>Por lo tanto, el parámetro natural es</p>
+<p><span class="math display">\[
+\bfeta=\left(\log\left(\frac{\phi_1}{\phi_k}\right), \log\left(\frac{\phi_2}{\phi_k}\right),\ldots, \log\left(\frac{\phi_{k-1}}{\phi_k}\right)\right)^\top\in\RR^{k-1}.
+\tag{7}
+\]</span></p>
+<div style="margin-top:1em;">
+
+</div>
+<p>El resto de los elementos son: <span class="math display">\[
+h(y)=1,\qquad A(\eta)=-\log\phi_k=-\log\left(1-\sum_{i=1}^{k-1}\phi_i\right).
+\]</span></p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<p>La expresión (7) es la función de enlace, conocida como <em>logit generalizado</em>. Su inversa, que permite el mapeo <span class="math inline">\(\bfeta\mapsto\bfphi\)</span>, es la <mark><em>función softmax</em></mark> determinada por <span class="math display">\[
+\phi_i=\frac{\exp\{\eta_i\}}{1+\sum_{j=1}^{k-1}\exp\{\eta_j\}},\qquad i=1,\ldots,k-1,
+\]</span></p>
+<p><span class="math display">\[
+\phi_k=\frac{1}{1+\sum_{j=1}^{k-1}\exp\{\eta_j\}}.
+\]</span></p>
+<div class="question callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><span style="font-size: 1.3em;">📝</span><br></p>
+<p>Verifique la expresión anterior.</p>
+</div>
+</div>
+</div>
+<div style="margin-top:1em;">
+
+</div>
+<section id="modelo" class="level3">
+<h3 class="anchored" data-anchor-id="modelo">Modelo</h3>
+<p>El GLM asociado parte de la suposición <span class="math display">\[
+\bfeta=\bfTheta^\top\xx,\qquad\bfTheta=\begin{pmatrix}\bftheta_1,\ldots,\bftheta_{k-1}\end{pmatrix}\in\RR^{p\times(k-1)}.
+\]</span></p>
+<p>Así, la distribución condicional de <span class="math inline">\(Y|\XX\)</span> es <span class="math display">\[
+p(Y=i\mid\xx;\bfTheta):=\phi_i=\frac{\exp\{\bftheta_i^\top\xx\}}{1+\sum_{j=1}^{k-1}\exp\{\bftheta_j^\top\xx\}},\qquad i=1,\ldots,k-1,
+\]</span> <span class="math display">\[
+p(Y=k\mid\xx;\bfTheta):=\phi_k=\frac{1}{1+\sum_{j=1}^{k-1}\exp\{\bftheta_j^\top\xx\}}.
+\]</span></p>
+<div style="margin-top:2em;">
+
+</div>
+<div class="myhighlight">
+<p>Nuestro modelo predecirá <span class="math display">\[
+h_{\bfTheta}(\xx)=\media\left[T(Y)\mid\xx;\bfTheta\right]=(\phi_1,\phi_2,\ldots,\phi_{k-1})^\top.
+\]</span></p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+</section>
+<section id="ajuste-de-parámetros-1" class="level3">
+<h3 class="anchored" data-anchor-id="ajuste-de-parámetros-1">Ajuste de Parámetros</h3>
+<p>En el problema de optimización asociado <span class="math display">\[
+\begin{array}{ll}
+\text{minimizar } &amp; \sum_{i=1}^n\left[A(\bfeta_i)-\bfeta_i^\top T(y_i)\right],
+\end{array}
+\]</span></p>
+<p>la función objetivo resulta <span class="math display">\[
+J(\bfTheta)=\sum_{i=1}^n\left[\log\left(1+\sum_{j=1}^{k-1}\exp\{\bftheta_j^\top\xx_i\}\right)-\xx_i^\top\bfTheta\, T(y_i)\right].
+\]</span></p>
+<p>Obtengamos el vector gradiente respecto a un <span class="math inline">\(\bftheta_l\)</span> (<span class="math inline">\(l=1,\ldots,k-1\)</span>): <span class="math display">\[
+\begin{align}
+\nabla_{\bftheta_l}J(\bfTheta)&amp;=\sum_{i=1}^n\left[\frac{\exp\{\bftheta_l^\top\xx_i\}}{1+\sum_{j=1}^{k-1}\exp\{\bftheta_j^\top\xx_i\}}-T(y_i)_l\right]\xx_i \\
+&amp;=\sum_{i=1}^n\left[\phi_l(\xx_i)-T(y_i)_l\right]\xx_i
+\end{align}
+\]</span></p>
+<p>Matricialmente: <span class="math display">\[
+\nabla J(\bftheta)=X^\top(P-T)\in\RR^{p\times (k-1)},
+\]</span> con <span class="math display">\[
+P=\begin{pmatrix}
+  \phi_1(\xx_1) &amp; \cdots &amp; \phi_{k-1}(\xx_1) \\
+  \phi_1(\xx_2) &amp; \cdots &amp; \phi_{k-1}(\xx_2) \\
+  \vdots &amp; \ddots &amp; \vdots \\
+  \phi_1(\xx_n) &amp; \cdots &amp; \phi_{k-1}(\xx_n)
+\end{pmatrix},\qquad
+T = \begin{pmatrix}
+T(y_1)_1 &amp; \cdots &amp; T(y_1)_{k-1} \\
+T(y_2)_2 &amp; \cdots &amp; T(y_2)_{k-1} \\
+\vdots &amp; \ddots &amp; \vdots \\
+T(y_n) &amp; \cdots &amp; T(y_n)_{k-1}
+\end{pmatrix}
+\]</span></p>
+<p>Si bien este gradiente de la función objetivo se puede usar para diseñar el método de descenso por gradiente, es más común emplear IRLS, que aprovecha la información del Hessiano para generar pasos más precisos y acelerar la convergencia.</p>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 4</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Regresión softmax en datos simulados </span></p>
+<div id="482cada6" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_classification</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> classification_report, confusion_matrix</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos:</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_classification(</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    n_samples<span class="op">=</span><span class="dv">300</span>, n_features<span class="op">=</span><span class="dv">2</span>, n_informative<span class="op">=</span><span class="dv">2</span>, n_redundant<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    n_classes<span class="op">=</span><span class="dv">3</span>, n_clusters_per_class<span class="op">=</span><span class="dv">1</span>, random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo:</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LogisticRegression(solver<span class="op">=</span><span class="st">"lbfgs"</span>, max_iter<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicción:</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> model.predict(X_test)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>prob_pred <span class="op">=</span> model.predict_proba(X_test)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 📈:</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Malla:</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>x_min, x_max <span class="op">=</span> X[:, <span class="dv">0</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="dv">1</span>, X[:, <span class="dv">0</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>y_min, y_max <span class="op">=</span> X[:, <span class="dv">1</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="dv">1</span>, X[:, <span class="dv">1</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    np.arange(x_min, x_max, <span class="fl">0.01</span>),</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    np.arange(y_min, y_max, <span class="fl">0.01</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> model.predict(np.c_[xx.ravel(), yy.ravel()])</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> Z.reshape(xx.shape)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot:</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">6</span>))</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>plt.contourf(xx, yy, Z, alpha<span class="op">=</span><span class="fl">0.3</span>, cmap<span class="op">=</span><span class="st">"viridis"</span>)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], s<span class="op">=</span><span class="dv">40</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, c<span class="op">=</span>y, edgecolor<span class="op">=</span><span class="st">"k"</span>, cmap<span class="op">=</span><span class="st">"viridis"</span>)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co"># 📋:</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Matriz de Confusión:"</span>)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(confusion_matrix(y_test, y_pred))</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Coeficientes estimados (θ̂):"</span>)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, coef <span class="kw">in</span> <span class="bu">enumerate</span>(model.coef_):</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Clase </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j, c <span class="kw">in</span> <span class="bu">enumerate</span>(coef):</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"  θ_</span><span class="sc">{</span>j<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss"> = </span><span class="sc">{</span>c<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="B2_glm_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Matriz de Confusión:
 [[24  3  0]
  [ 4 34  0]
  [ 4  0 21]]
-```
-:::
-:::
-
-
--->
+Coeficientes estimados (θ̂):
+Clase 1:
+  θ_1 = -1.642
+  θ_2 = 1.492
+Clase 2:
+  θ_1 = 2.659
+  θ_2 = 0.736
+Clase 3:
+  θ_1 = -1.018
+  θ_2 = -2.228</code></pre>
+</div>
+</div>
+</div>
 <div style="margin-top: 5em;">
 
 </div>
@@ -833,6 +860,7 @@ eyJjb250ZW50cyI6W119
 <script type="vfs-file">
 W10=
 </script>
+</section>
 </section>
 
 </main> <!-- /main -->
