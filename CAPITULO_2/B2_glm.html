@@ -758,7 +758,9 @@ T(y_n) &amp; \cdots &amp; T(y_n)_{k-1}
 <p>Si bien este gradiente de la función objetivo se puede usar para diseñar el método de descenso por gradiente, es más común emplear IRLS, que aprovecha la información del Hessiano para generar pasos más precisos y acelerar la convergencia.</p>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 4</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Regresión softmax en datos simulados </span></p>
-<div id="482cada6" class="cell" data-execution_count="1">
+<div id="9c2cbbf7" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_classification</span>
@@ -812,10 +814,11 @@ T(y_n) &amp; \cdots &amp; T(y_n)_{k-1}
 <span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Clase </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">:"</span>)</span>
 <span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j, c <span class="kw">in</span> <span class="bu">enumerate</span>(coef):</span>
 <span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"  θ_</span><span class="sc">{</span>j<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss"> = </span><span class="sc">{</span>c<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="B2_glm_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="B2_glm_files/figure-html/cell-2-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
