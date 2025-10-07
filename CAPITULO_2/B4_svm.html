@@ -535,7 +535,7 @@ y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-1\geq 0\qquad\forall i=1,\ldots,n\q
 \calL(\bfbeta,\beta_0,\bflambda)=\frac{1}{2}\|\bfbeta\|_2^2-\sum_{i=1}^n\lambda_i\left[y_i(\bfbeta^\top\xx_i+\beta_0)-1\right].
 \]</span></p>
 <p>Dado que el Lagrangiano es una función convexa en <span class="math inline">\((\bfbeta,\beta_0)\)</span>, la ecuación <span class="math inline">\(\nabla_{(\bfbeta,\beta_0)}\calL=\bfzero\)</span> caracteriza el ínfimo de <span class="math inline">\(\calL\)</span> para cada <span class="math inline">\(\bflambda\)</span>. Así, podemos obtener <span class="math display">\[
-\calG(\bflambda):=\inf_{\bfbeta,\beta_0}\calL(\bfbeta,\beta_0\bflambda)
+\calG(\bflambda):=\inf_{\bfbeta,\beta_0}\calL(\bfbeta,\beta_0,\bflambda)
 \]</span> a partir de las expresiones <span class="math display">\[
 \bfbeta=\sum_{i=1}^n\lambda_i y_i \xx_i,\qquad \sum_{i=1}^n\lambda_i y_i=0.
 \]</span></p>
@@ -573,13 +573,13 @@ y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-1\geq 0\qquad\forall i=1,\ldots,n\q
 <p><span class="badge bg-success">Hiperplano separador óptimo</span></p>
 <p>Para obtener el hiperplano separador óptimo de un conjunto de datos linealmente separable:</p>
 <ol type="1">
-<li><p>Se resuelve el problema dual (5) para obtener <span class="math inline">\(\bflambda^\star\)</span>.</p></li>
+<li><p>Se resuelve el problema dual (6) para obtener <span class="math inline">\(\bflambda^\star\)</span>.</p></li>
 <li><p>Se obtiene el punto óptimo <span class="math inline">\(\bfbeta^\star\)</span> mediante la condición de estacionariedad <span class="math display">\[
 \bfbeta^\star=\sum_{\substack{i=1\\\lambda_i^\star\neq 0}}^n\lambda_i^\star y_i\xx_i.
 \]</span></p></li>
-<li><p>Se calcula el intercepto <span class="math inline">\(\beta_0^\star\)</span>, promediando sobre los puntos soporteel valor <span class="math display">\[
-\beta_0^\star=y_i-\bfbeta^\top\xx_i,
-\]</span> que resulta de despejar <span class="math inline">\(\beta_0^\star\)</span> de la condición de holgura complementaria.</p></li>
+<li><p>Se calcula el intercepto <span class="math inline">\(\beta_0^\star\)</span> mediante el promedio <span class="math display">\[
+\beta_0^\star=\sum_{\substack{i=1\\\lambda_i^\star\neq 0}}^n\left(y_i-(\bfbeta^\star)^\top\xx_i\right),
+\]</span> cuyos términos se obtienen al despejar <span class="math inline">\(\beta_0^\star\)</span> de la condición de holgura complementaria para los puntos que verifican <span class="math inline">\(\lambda_i^\star\neq 0\)</span>.</p></li>
 </ol>
 </div>
 <p>Luego, una vez obtenidos los puntos óptimos <span class="math inline">\(\bfbeta^\star\)</span> y <span class="math inline">\(\beta_0^\star\)</span>, resultan:</p>
@@ -651,7 +651,7 @@ y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)=1,
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Datos linealmente separables </span></p>
 <p>Vamos a simular un conjunto de datos linealmente separables. Luego, obtendremos el hiperplano separador óptimo e identificaremos los vectores soporte.</p>
-<div id="e9dd05cb" class="cell" data-execution_count="1">
+<div id="b39335f0" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1003,7 +1003,7 @@ Posición respecto al margen
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 2</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Datos con solapamiento </span></p>
 <p>Modificaremos el ejemplo 1, generando datos de manera que las clases no sean linealmente separables, aunque la frontera de decisión lineal siga siendo una opción razonable. Luego, obtendremos el hiperplano óptimo e identificaremos los vectores soporte.</p>
-<div id="742d38b1" class="cell" data-execution_count="2">
+<div id="7d0b2837" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
