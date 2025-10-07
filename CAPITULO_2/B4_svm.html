@@ -531,13 +531,15 @@ y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-1\geq 0\qquad\forall i=1,\ldots,n\q
 <div style="margin-top:2em;">
 
 </div>
-<p>El Lagrangiano asociado al problema (5) es <span class="math inline">\(\calL:\RR^{p+1}\times\RR^n\)</span> definido por <span class="math display">\[
+<p>El Lagrangiano asociado al problema (5) es <span class="math inline">\(\calL:\RR^{p+1}\times\RR^n\to\RR\)</span> definido por <span class="math display">\[
 \calL(\bfbeta,\beta_0,\bflambda)=\frac{1}{2}\|\bfbeta\|_2^2-\sum_{i=1}^n\lambda_i\left[y_i(\bfbeta^\top\xx_i+\beta_0)-1\right].
 \]</span></p>
-<p>Como ya sabemos, la ecuación <span class="math inline">\(\nabla\calL=\bfzero\)</span> conduce a las condiciones de estacionariedad de las KKT. Además, la dualidad fuerte nos permite escribir <span class="math display">\[
-\calG(\bflambda):=\inf_{\bfbeta,\beta_0}\calL(\bfbeta,\beta_0,\bflambda)=\calL(\bfbeta^\star,\beta_0^\star,\bflambda).
+<p>Dado que el Lagrangiano es una función convexa en <span class="math inline">\((\bfbeta,\beta_0)\)</span>, la ecuación <span class="math inline">\(\nabla_{(\bfbeta,\beta_0)}\calL=\bfzero\)</span> caracteriza el ínfimo de <span class="math inline">\(\calL\)</span> para cada <span class="math inline">\(\bflambda\)</span>. Así, podemos obtener <span class="math display">\[
+\calG(\bflambda):=\inf_{\bfbeta,\beta_0}\calL(\bfbeta,\beta_0\bflambda)
+\]</span> a partir de las expresiones <span class="math display">\[
+\bfbeta=\sum_{i=1}^n\lambda_i y_i \xx_i,\qquad \sum_{i=1}^n\lambda_i y_i=0.
 \]</span></p>
-<p>Las condiciones de estacionariedad nos otorgan una expresión de <span class="math inline">\(\bfbeta^\star\)</span>, pero no de <span class="math inline">\(\beta_0^\star\)</span>. Sin embargo, sí nos da una restricción de consistencia sobre los multiplicadores; a saber, <span class="math inline">\(\sum_{i=1}^n\lambda_i^\star y_i=0\)</span>. Reemplazando, obtenemos <span class="math display">\[
+<p>Observar que estas define explícitamente a <span class="math inline">\(\bfbeta\)</span> en términos de <span class="math inline">\(\bflambda\)</span> y, aunque <span class="math inline">\(\beta_0\)</span> no queda determinado de forma directa, sí nos provee una restricción de consistencia sobre los multiplicadores. Reemplazando, obtenemos <span class="math display">\[
 \begin{align}
 \calG(\bflambda)&amp;=\frac{1}{2}\left\|\sum_{i=1}^n\lambda_iy_i\xx_i\right\|_2^2-\sum_{i=1}^n\lambda_iy_i\left(\sum_{j=1}^n\lambda_jy_j\xx_j\right)^\top\xx_i-\beta_0\underbrace{\sum_{i=1}^n\lambda_iy_i}_{=0}+\sum_{i=1}^n\lambda_i\\
 &amp;=\frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\lambda_i\lambda_j y_iy_j \xx_i^\top\xx_i-\sum_{i=1}^n\sum_{j=1}^n\lambda_i\lambda_j y_i y_j\xx_j^\top\xx_i+\sum_{i=1}^n\lambda_i\\
@@ -649,7 +651,7 @@ y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)=1,
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Datos linealmente separables </span></p>
 <p>Vamos a simular un conjunto de datos linealmente separables. Luego, obtendremos el hiperplano separador óptimo e identificaremos los vectores soporte.</p>
-<div id="f6dcbec8" class="cell" data-execution_count="1">
+<div id="e9dd05cb" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -765,10 +767,10 @@ y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-(1-\xi_i^\star)\geq 0\qquad\forall 
 <div style="margin-top:2em;">
 
 </div>
-<p>Como antes, es conveniente formular el problema dual de Lagrange. En este caso, el Lagrangiano es <span class="math inline">\(\calL:\RR^{p+1}\times\RR^n\times\RR^n\)</span> definido por <span class="math display">\[
+<p>Como antes, es conveniente formular el problema dual de Lagrange. En este caso, el Lagrangiano es <span class="math inline">\(\calL:\RR^{p+1}\times\RR^n\times\RR^n\to\RR\)</span> definido por <span class="math display">\[
 \calL(\bfbeta,\beta_0,\bflambda,\bfmu)=\frac{1}{2}\|\bfbeta\|_2^2+C\sum_{i=1}^n\xi_i-\sum_{i=1}^n\lambda_i\left[y_i(\bfbeta^\top\xx_i+\beta_0)-(1-\xi_i)\right]-\sum_{i=1}^n\mu_i\xi_i.
 \]</span></p>
-<p>Sustituimos las condiciones de estacionariedad para obtener la función dual: <span class="math display">\[
+<p>La función dual es <span class="math display">\[
 \begin{align}
 \calG(\bflambda)&amp;=\frac{1}{2}\left\|\sum_{i=1}^n\lambda_iy_i\xx_i\right\|_2^2+C\sum_{i=1}^n\xi_i-\sum_{i=1}^n\lambda_iy_i\left(\sum_{j=1}^n\lambda_jy_j\xx_j\right)^\top\xx_i-\beta_0\underbrace{\sum_{i=1}^n\lambda_iy_i}_{=0}+\sum_{i=1}^n\lambda_i-\sum_{i=1}^n\underbrace{(\lambda_i+\mu_i)}_{=C}\xi_i\\
 &amp;=\frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\lambda_i\lambda_j y_iy_j \xx_i^\top\xx_i-\sum_{i=1}^n\sum_{j=1}^n\lambda_i\lambda_j y_i y_j\xx_j^\top\xx_i+\sum_{i=1}^n\lambda_i\\
@@ -1001,7 +1003,7 @@ Posición respecto al margen
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 2</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Datos con solapamiento </span></p>
 <p>Modificaremos el ejemplo 1, generando datos de manera que las clases no sean linealmente separables, aunque la frontera de decisión lineal siga siendo una opción razonable. Luego, obtendremos el hiperplano óptimo e identificaremos los vectores soporte.</p>
-<div id="5b433ee2" class="cell" data-execution_count="2">
+<div id="742d38b1" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
