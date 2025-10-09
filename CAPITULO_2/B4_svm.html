@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -70,7 +70,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-327735d1480bff6f7510335fe22ad292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -651,7 +651,7 @@ y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)=1,
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Datos linealmente separables </span></p>
 <p>Vamos a simular un conjunto de datos linealmente separables. Luego, obtendremos el hiperplano separador óptimo e identificaremos los vectores soporte.</p>
-<div id="b39335f0" class="cell" data-execution_count="1">
+<div id="e8cc98ca" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -701,7 +701,7 @@ y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)=1,
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="B4_svm_files/figure-html/cell-2-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="566" height="415"></p>
+<p><img src="B4_svm_files/figure-html/cell-2-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1003,63 +1003,23 @@ Posición respecto al margen
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 2</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Datos con solapamiento </span></p>
 <p>Modificaremos el ejemplo 1, generando datos de manera que las clases no sean linealmente separables, aunque la frontera de decisión lineal siga siendo una opción razonable. Luego, obtendremos el hiperplano óptimo e identificaremos los vectores soporte.</p>
-<div id="7d0b2837" class="cell" data-execution_count="2">
-<details class="code-fold">
-<summary>Mostrar código</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.svm <span class="im">import</span> SVC</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos (no perfectamente separables):</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">100</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>X_pos <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>np.random.randn(<span class="dv">50</span>, <span class="dv">2</span>) <span class="op">+</span> [<span class="dv">3</span>, <span class="dv">5</span>]</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>X_neg <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>np.random.randn(<span class="dv">50</span>, <span class="dv">2</span>) <span class="op">+</span> [<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>] </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.vstack((X_pos, X_neg))</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="dv">1</span>]<span class="op">*</span><span class="dv">50</span> <span class="op">+</span> [<span class="op">-</span><span class="dv">1</span>]<span class="op">*</span><span class="dv">50</span>)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Hiperplano óptimo (con holgura):</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> SVC(kernel<span class="op">=</span><span class="st">'linear'</span>, C<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>clf.fit(X, y)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros óptimos:</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> clf.coef_[<span class="dv">0</span>]</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> clf.intercept_[<span class="dv">0</span>]</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 📈:</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">7</span>,<span class="dv">5</span>))</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>alpha_values <span class="op">=</span> np.full(<span class="bu">len</span>(X), <span class="fl">0.2</span>)</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>alpha_values[clf.support_] <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[y<span class="op">==</span><span class="dv">1</span>,<span class="dv">0</span>], X[y<span class="op">==</span><span class="dv">1</span>,<span class="dv">1</span>], c<span class="op">=</span><span class="st">'blue'</span>, s<span class="op">=</span><span class="dv">50</span>, alpha<span class="op">=</span>alpha_values[y<span class="op">==</span><span class="dv">1</span>], label<span class="op">=</span><span class="st">'Clase +1'</span>)</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[y<span class="op">==-</span><span class="dv">1</span>,<span class="dv">0</span>], X[y<span class="op">==-</span><span class="dv">1</span>,<span class="dv">1</span>], c<span class="op">=</span><span class="st">'darkred'</span>, s<span class="op">=</span><span class="dv">50</span>, alpha<span class="op">=</span>alpha_values[y<span class="op">==-</span><span class="dv">1</span>], label<span class="op">=</span><span class="st">'Clase -1'</span>)</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Hiperplano y márgenes:</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>xx <span class="op">=</span> np.linspace(X[:,<span class="dv">0</span>].<span class="bu">min</span>()<span class="op">-</span><span class="dv">1</span>, X[:,<span class="dv">0</span>].<span class="bu">max</span>()<span class="op">+</span><span class="dv">1</span>, <span class="dv">100</span>)</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>yy <span class="op">=</span> <span class="op">-</span>(w[<span class="dv">0</span>]<span class="op">*</span>xx <span class="op">+</span> b)<span class="op">/</span>w[<span class="dv">1</span>]</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>margin_up <span class="op">=</span> <span class="op">-</span>(w[<span class="dv">0</span>]<span class="op">*</span>xx <span class="op">+</span> b <span class="op">-</span> <span class="dv">1</span>)<span class="op">/</span>w[<span class="dv">1</span>]</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>margin_down <span class="op">=</span> <span class="op">-</span>(w[<span class="dv">0</span>]<span class="op">*</span>xx <span class="op">+</span> b <span class="op">+</span> <span class="dv">1</span>)<span class="op">/</span>w[<span class="dv">1</span>]</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>plt.plot(xx, yy, <span class="st">'k-'</span>)</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>plt.plot(xx, margin_up, color<span class="op">=</span><span class="st">'orange'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, lw<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>plt.plot(xx, margin_down, color<span class="op">=</span><span class="st">'orange'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, lw<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'$x_1$'</span>, size<span class="op">=</span><span class="dv">16</span>)</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'$x_2$'</span>, size<span class="op">=</span><span class="dv">16</span>)</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>plt.xticks([])</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>plt.yticks([])</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="co"># 📋:</span></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Hiperplano óptimo: </span><span class="sc">{</span>w[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">*x1 + </span><span class="sc">{</span>w[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">*x2 + </span><span class="sc">{</span>b<span class="sc">:.3f}</span><span class="ss"> = 0"</span>)</span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Número de vectores soporte: </span><span class="sc">{</span><span class="bu">len</span>(clf.support_)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div>
+<div id="pyodide-1" class="exercise-cell">
+
+</div>
+<script type="pyodide-1-contents">
+eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRydWUsImZpZy1hbGlnbiI6ImNlbnRlciIsImluY2x1ZGUiOnRydWUsImlucHV0IjpbIkMiXX0sImNvZGUiOiJcbmltcG9ydCBudW1weSBhcyBucFxuaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdFxuZnJvbSBza2xlYXJuLnN2bSBpbXBvcnQgU1ZDXG5cbiMgRGF0b3MgKG5vIHBlcmZlY3RhbWVudGUgc2VwYXJhYmxlcyk6XG5ucC5yYW5kb20uc2VlZCgxMDApXG5YX3BvcyA9IDMuMiAqIG5wLnJhbmRvbS5yYW5kbig1MCwgMikgKyBbMiwgNV1cblhfbmVnID0gMi44ICogbnAucmFuZG9tLnJhbmRuKDUwLCAyKSArIFstMywgLTJdXG5YID0gbnAudnN0YWNrKChYX3BvcywgWF9uZWcpKVxueSA9IG5wLmFycmF5KFsxXSo1MCArIFstMV0qNTApXG5cbiMgSGlwZXJwbGFubyDDs3B0aW1vIChjb24gaG9sZ3VyYSk6XG5jbGYgPSBTVkMoa2VybmVsPSdsaW5lYXInLCBDPUMpXG5jbGYuZml0KFgsIHkpXG5cbiMgUGFyw6FtZXRyb3Mgw7NwdGltb3M6XG53ID0gY2xmLmNvZWZfWzBdXG5iID0gY2xmLmludGVyY2VwdF9bMF1cblxuIyDwn5OIOlxucGx0LmZpZ3VyZShmaWdzaXplPSg3LDUpKVxuYWxwaGFfdmFsdWVzID0gbnAuZnVsbChsZW4oWCksIDAuMilcbmFscGhhX3ZhbHVlc1tjbGYuc3VwcG9ydF9dID0gMS4wXG5wbHQuc2NhdHRlcihYW3k9PTEsMF0sIFhbeT09MSwxXSwgYz0nYmx1ZScsIHM9NTAsIGFscGhhPWFscGhhX3ZhbHVlc1t5PT0xXSwgbGFiZWw9J0NsYXNlICsxJylcbnBsdC5zY2F0dGVyKFhbeT09LTEsMF0sIFhbeT09LTEsMV0sIGM9J2RhcmtyZWQnLCBzPTUwLCBhbHBoYT1hbHBoYV92YWx1ZXNbeT09LTFdLCBsYWJlbD0nQ2xhc2UgLTEnKVxuXG4jIEhpcGVycGxhbm8geSBtw6FyZ2VuZXM6XG54eCA9IG5wLmxpbnNwYWNlKFhbOiwwXS5taW4oKS0xLCBYWzosMF0ubWF4KCkrMSwgMTAwKVxueXkgPSAtKHdbMF0qeHggKyBiKS93WzFdXG5tYXJnaW5fdXAgPSAtKHdbMF0qeHggKyBiIC0gMSkvd1sxXVxubWFyZ2luX2Rvd24gPSAtKHdbMF0qeHggKyBiICsgMSkvd1sxXVxucGx0LnBsb3QoeHgsIHl5LCAnay0nKVxucGx0LnBsb3QoeHgsIG1hcmdpbl91cCwgY29sb3I9J29yYW5nZScsIGxpbmVzdHlsZT0nLS0nLCBsdz0wLjcpXG5wbHQucGxvdCh4eCwgbWFyZ2luX2Rvd24sIGNvbG9yPSdvcmFuZ2UnLCBsaW5lc3R5bGU9Jy0tJywgbHc9MC43KVxucGx0LnhsYWJlbCgnJHhfMSQnLCBzaXplPTE2KVxucGx0LnlsYWJlbCgnJHhfMiQnLCBzaXplPTE2KVxucGx0Lnh0aWNrcyhbXSlcbnBsdC55dGlja3MoW10pXG5wbHQuc2hvdygpXG5cbiMg8J+TizpcbnByaW50KGZcIkhpcGVycGxhbm8gw7NwdGltbzoge3dbMF06LjNmfSp4MSArIHt3WzFdOi4zZn0qeDIgKyB7YjouM2Z9ID0gMFwiKVxucHJpbnQoZlwiTsO6bWVybyBkZSB2ZWN0b3JlcyBzb3BvcnRlOiB7bGVuKGNsZi5zdXBwb3J0Xyl9XCIpIn0=
+</script>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="807" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 806;"><span id="cb3-807"><a href="#cb3-807" aria-hidden="true" tabindex="-1"></a>viewof C <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb3-808"><a href="#cb3-808" aria-hidden="true" tabindex="-1"></a>  [<span class="fl">0.001</span><span class="op">,</span> <span class="fl">0.01</span><span class="op">,</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">100</span>]<span class="op">,</span></span>
+<span id="cb3-809"><a href="#cb3-809" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">label</span><span class="op">:</span> <span class="st">"C:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span>}</span>
+<span id="cb3-810"><a href="#cb3-810" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="B4_svm_files/figure-html/cell-3-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="566" height="415"></p>
-</figure>
+<div id="ojs-cell-1" data-nodetype="declaration">
+
 </div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Hiperplano óptimo: 0.681*x1 + 0.569*x2 + -2.275 = 0
-Número de vectores soporte: 21</code></pre>
 </div>
 </div>
 </div>
@@ -1239,8 +1199,221 @@ Clasificador
 
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 4</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Título de ejemplo </span></p>
-<p>Ejemplo.</p>
+<p><span class="badge bg-primary">Ejemplo 4</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Datos con diferentes patrones </span></p>
+<p>Mostraremos diferentes estructuras de datos de clasificación binaria y veremos cómo se adaptan los diferentes núcleos. Además, veremos el efecto del valor de <span class="math inline">\(C\)</span>. Es importante remarcar que, en estos ejemplos, los distintos hiperparámetros de los modelos se utilizan con sus valores por defecto. Sin embargo, el rendimiento de un modelo puede mejorarse significativamente seleccionando cuidadosamente los hiperparámetros mediante algún proceso de validación.</p>
+<div>
+<div id="pyodide-2" class="exercise-cell">
+
+</div>
+<script type="pyodide-2-contents">
+eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRydWUsImZpZy1hbGlnbiI6ImNlbnRlciIsImluY2x1ZGUiOnRydWUsImlucHV0IjpbIkNfMSIsImtlcm5lbF8xIiwiZ2FtbWFfMSIsImRfMSIsInJfMSJdfSwiY29kZSI6IlxuaW1wb3J0IG51bXB5IGFzIG5wXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5mcm9tIHNrbGVhcm4uc3ZtIGltcG9ydCBTVkNcbmZyb20gc2tsZWFybi5tb2RlbF9zZWxlY3Rpb24gaW1wb3J0IHRyYWluX3Rlc3Rfc3BsaXRcbmZyb20gc2tsZWFybi5tZXRyaWNzIGltcG9ydCBhY2N1cmFjeV9zY29yZVxuXG4jID09PSBEYXRvcyA9PT1cbm5wLnJhbmRvbS5zZWVkKDQyKVxucl9wb3MgPSAyICsgMC4zICogbnAucmFuZG9tLnJhbmRuKDUwKVxudGhldGFfcG9zID0gMiAqIG5wLnBpICogbnAucmFuZG9tLnJhbmQoNTApXG5YX3BvcyA9IG5wLmNfW3JfcG9zICogbnAuY29zKHRoZXRhX3BvcyksIHJfcG9zICogbnAuc2luKHRoZXRhX3BvcyldXG5cbnJfbmVnID0gMC44ICsgMC4zICogbnAucmFuZG9tLnJhbmRuKDUwKVxudGhldGFfbmVnID0gMiAqIG5wLnBpICogbnAucmFuZG9tLnJhbmQoNTApXG5YX25lZyA9IG5wLmNfW3JfbmVnICogbnAuY29zKHRoZXRhX25lZyksIHJfbmVnICogbnAuc2luKHRoZXRhX25lZyldXG5cblggPSBucC52c3RhY2soKFhfcG9zLCBYX25lZykpXG55ID0gbnAuYXJyYXkoWzFdKjUwICsgWy0xXSo1MClcblxuIyBUcmFpbi10ZXN0IHNwbGl0OlxuWF90cmFpbiwgWF90ZXN0LCB5X3RyYWluLCB5X3Rlc3QgPSB0cmFpbl90ZXN0X3NwbGl0KFgsIHksIHRlc3Rfc2l6ZT0wLjMsIHJhbmRvbV9zdGF0ZT00Miwgc3RyYXRpZnk9eSlcblxuIyBFbnRyZW5hbWllbnRvOlxuY2xmID0gU1ZDKGtlcm5lbD1rZXJuZWxfMSwgQz1DXzEsIGdhbW1hPWdhbW1hXzEsIGRlZ3JlZT1kXzEsIGNvZWYwPXJfMSlcbmNsZi5maXQoWF90cmFpbiwgeV90cmFpbilcblxuIyBQcmVkaWNjacOzbjpcbnlfcHJlZF90cmFpbiA9IGNsZi5wcmVkaWN0KFhfdHJhaW4pXG55X3ByZWRfdGVzdCA9IGNsZi5wcmVkaWN0KFhfdGVzdClcbmFjY190cmFpbiA9IGFjY3VyYWN5X3Njb3JlKHlfdHJhaW4sIHlfcHJlZF90cmFpbilcbmFjY190ZXN0ID0gYWNjdXJhY3lfc2NvcmUoeV90ZXN0LCB5X3ByZWRfdGVzdClcblxuIyDwn5OIOlxueHgsIHl5ID0gbnAubWVzaGdyaWQobnAubGluc3BhY2UoLTMsIDMsIDMwMCksIG5wLmxpbnNwYWNlKC0zLCAzLCAzMDApKVxuWiA9IGNsZi5kZWNpc2lvbl9mdW5jdGlvbihucC5jX1t4eC5yYXZlbCgpLCB5eS5yYXZlbCgpXSkucmVzaGFwZSh4eC5zaGFwZSlcblxuZmlnLCBheGVzID0gcGx0LnN1YnBsb3RzKDIsIDIsIGZpZ3NpemU9KDExLCAxMCkpXG5wbHQuc3VicGxvdHNfYWRqdXN0KHdzcGFjZT0wLjIsIGhzcGFjZT0wLjI1KVxuXG4jIFRyYWluLVRlc3Q6XG5heGVzWzAsMF0uc2NhdHRlcihYX3RyYWluW3lfdHJhaW49PTEsMF0sIFhfdHJhaW5beV90cmFpbj09MSwxXSwgYz0nYmx1ZScsIHM9NTAsIGxhYmVsPSdDbGFzZSArMScpXG5heGVzWzAsMF0uc2NhdHRlcihYX3RyYWluW3lfdHJhaW49PS0xLDBdLCBYX3RyYWluW3lfdHJhaW49PS0xLDFdLCBjPSdkYXJrcmVkJywgcz01MCwgbGFiZWw9J0NsYXNlIC0xJylcbmF4ZXNbMCwwXS5zZXRfdGl0bGUoXCJUcmFpblwiLCBmb250c2l6ZT0xOClcbmF4ZXNbMCwwXS5zZXRfeHRpY2tzKFtdKTsgYXhlc1swLDBdLnNldF95dGlja3MoW10pXG5cbmF4ZXNbMCwxXS5zY2F0dGVyKFhfdGVzdFt5X3Rlc3Q9PTEsMF0sIFhfdGVzdFt5X3Rlc3Q9PTEsMV0sIGM9J2JsdWUnLCBzPTUwLCBsYWJlbD0nQ2xhc2UgKzEnKVxuYXhlc1swLDFdLnNjYXR0ZXIoWF90ZXN0W3lfdGVzdD09LTEsMF0sIFhfdGVzdFt5X3Rlc3Q9PS0xLDFdLCBjPSdkYXJrcmVkJywgcz01MCwgbGFiZWw9J0NsYXNlIC0xJylcbmF4ZXNbMCwxXS5zZXRfdGl0bGUoXCJUZXN0XCIsIGZvbnRzaXplPTE4KVxuYXhlc1swLDFdLnNldF94dGlja3MoW10pOyBheGVzWzAsMV0uc2V0X3l0aWNrcyhbXSlcblxuXG4jIFRyYWluLVRlc3QgU1ZNOlxuYXhlc1sxLDBdLmNvbnRvdXJmKHh4LCB5eSwgWiA+IDAsIGFscGhhPTAuMSwgY29sb3JzPVtcImRhcmtyZWRcIiwgXCJibHVlXCJdKVxuYXhlc1sxLDBdLmNvbnRvdXIoeHgsIHl5LCBaLCBsZXZlbHM9WzBdLCBjb2xvcnM9XCJrXCIsIGxpbmV3aWR0aHM9MSlcbmF4ZXNbMSwwXS5jb250b3VyKHh4LCB5eSwgWiwgbGV2ZWxzPVstMSwgMV0sIGNvbG9ycz1cIm9yYW5nZVwiLCBsaW5lc3R5bGVzPVwiLS1cIiwgbGluZXdpZHRocz0wLjgpXG5heGVzWzEsMF0uc2NhdHRlcihYX3RyYWluW3lfdHJhaW49PTEsMF0sIFhfdHJhaW5beV90cmFpbj09MSwxXSwgYz0nYmx1ZScsIHM9NTApXG5heGVzWzEsMF0uc2NhdHRlcihYX3RyYWluW3lfdHJhaW49PS0xLDBdLCBYX3RyYWluW3lfdHJhaW49PS0xLDFdLCBjPSdkYXJrcmVkJywgcz01MClcbmF4ZXNbMSwwXS5zZXRfdGl0bGUoZlwiQWNjdXJhY3kgPSB7YWNjX3RyYWluOi4yZn0gLSBTViA9IHtsZW4oY2xmLnN1cHBvcnRfKX1cIiwgZm9udHNpemU9MTgpXG5heGVzWzEsMF0uc2V0X3h0aWNrcyhbXSk7IGF4ZXNbMSwwXS5zZXRfeXRpY2tzKFtdKVxuXG4jIFRyYWluLVRlc3QgU1ZNOlxuYXhlc1sxLDFdLmNvbnRvdXJmKHh4LCB5eSwgWiA+IDAsIGFscGhhPTAuMSwgY29sb3JzPVtcImRhcmtyZWRcIiwgXCJibHVlXCJdKVxuYXhlc1sxLDFdLmNvbnRvdXIoeHgsIHl5LCBaLCBsZXZlbHM9WzBdLCBjb2xvcnM9XCJrXCIsIGxpbmV3aWR0aHM9MSlcbmF4ZXNbMSwxXS5jb250b3VyKHh4LCB5eSwgWiwgbGV2ZWxzPVstMSwgMV0sIGNvbG9ycz1cIm9yYW5nZVwiLCBsaW5lc3R5bGVzPVwiLS1cIiwgbGluZXdpZHRocz0wLjgpXG5heGVzWzEsMV0uc2NhdHRlcihYX3Rlc3RbeV90ZXN0PT0xLDBdLCBYX3Rlc3RbeV90ZXN0PT0xLDFdLCBjPSdibHVlJywgcz01MClcbmF4ZXNbMSwxXS5zY2F0dGVyKFhfdGVzdFt5X3Rlc3Q9PS0xLDBdLCBYX3Rlc3RbeV90ZXN0PT0tMSwxXSwgYz0nZGFya3JlZCcsIHM9NTApXG5heGVzWzEsMV0uc2V0X3RpdGxlKGZcIkFjY3VyYWN5ID0ge2FjY190ZXN0Oi4yZn1cIiwgZm9udHNpemU9MTgpXG5heGVzWzEsMV0uc2V0X3h0aWNrcyhbXSk7IGF4ZXNbMSwxXS5zZXRfeXRpY2tzKFtdKVxuXG5wbHQuc2hvdygpIn0=
+</script>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb4" data-startfrom="1138" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1137;"><span id="cb4-1138"><a href="#cb4-1138" aria-hidden="true" tabindex="-1"></a>viewof C_1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb4-1139"><a href="#cb4-1139" aria-hidden="true" tabindex="-1"></a>  [<span class="fl">0.01</span><span class="op">,</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">100</span>]<span class="op">,</span></span>
+<span id="cb4-1140"><a href="#cb4-1140" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">label</span><span class="op">:</span> <span class="st">"C:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span>}</span>
+<span id="cb4-1141"><a href="#cb4-1141" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-1142"><a href="#cb4-1142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-1143"><a href="#cb4-1143" aria-hidden="true" tabindex="-1"></a>viewof kernel_1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb4-1144"><a href="#cb4-1144" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"linear"</span><span class="op">,</span> <span class="st">"poly"</span><span class="op">,</span> <span class="st">"rbf"</span><span class="op">,</span> <span class="st">"sigmoid"</span>]<span class="op">,</span></span>
+<span id="cb4-1145"><a href="#cb4-1145" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">label</span><span class="op">:</span> <span class="st">"Kernel:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="st">"linear"</span>}</span>
+<span id="cb4-1146"><a href="#cb4-1146" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-1147"><a href="#cb4-1147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-1148"><a href="#cb4-1148" aria-hidden="true" tabindex="-1"></a>viewof gamma_1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb4-1149"><a href="#cb4-1149" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"scale"</span><span class="op">,</span> <span class="st">"auto"</span><span class="op">,</span> <span class="fl">0.001</span><span class="op">,</span> <span class="fl">0.01</span><span class="op">,</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span></span>
+<span id="cb4-1150"><a href="#cb4-1150" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">label</span><span class="op">:</span> <span class="st">"γ:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="st">"scale"</span>}</span>
+<span id="cb4-1151"><a href="#cb4-1151" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-1152"><a href="#cb4-1152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-1153"><a href="#cb4-1153" aria-hidden="true" tabindex="-1"></a>viewof d_1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb4-1154"><a href="#cb4-1154" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span></span>
+<span id="cb4-1155"><a href="#cb4-1155" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">label</span><span class="op">:</span> <span class="st">"d:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">3</span>}</span>
+<span id="cb4-1156"><a href="#cb4-1156" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-1157"><a href="#cb4-1157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-1158"><a href="#cb4-1158" aria-hidden="true" tabindex="-1"></a>viewof r_1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb4-1159"><a href="#cb4-1159" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span></span>
+<span id="cb4-1160"><a href="#cb4-1160" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">label</span><span class="op">:</span> <span class="st">"r:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">0</span>}</span>
+<span id="cb4-1161"><a href="#cb4-1161" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<div>
+<div id="pyodide-3" class="exercise-cell">
+
+</div>
+<script type="pyodide-3-contents">
+eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRydWUsImZpZy1hbGlnbiI6ImNlbnRlciIsImluY2x1ZGUiOnRydWUsImlucHV0IjpbIkNfMiIsImtlcm5lbF8yIiwiZ2FtbWFfMiIsImRfMiIsInJfMiJdfSwiY29kZSI6IlxuaW1wb3J0IG51bXB5IGFzIG5wXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5mcm9tIHNrbGVhcm4uZGF0YXNldHMgaW1wb3J0IG1ha2VfbW9vbnNcbmZyb20gc2tsZWFybi5zdm0gaW1wb3J0IFNWQ1xuZnJvbSBza2xlYXJuLm1vZGVsX3NlbGVjdGlvbiBpbXBvcnQgdHJhaW5fdGVzdF9zcGxpdFxuZnJvbSBza2xlYXJuLm1ldHJpY3MgaW1wb3J0IGFjY3VyYWN5X3Njb3JlXG5cbiMgPT09IERhdG9zIGVuIGZvcm1hIGRlIG1lZGlhcyBsdW5hcyA9PT1cblgsIHkgPSBtYWtlX21vb25zKG5fc2FtcGxlcz0yMDAsIG5vaXNlPTAuMTUsIHJhbmRvbV9zdGF0ZT00MilcbnkgPSBucC53aGVyZSh5PT0xLCAxLCAtMSkgICMgZXRpcXVldGFzIMKxMVxuXG4jID09PSBUcmFpbi9UZXN0ID09PVxuWF90cmFpbiwgWF90ZXN0LCB5X3RyYWluLCB5X3Rlc3QgPSB0cmFpbl90ZXN0X3NwbGl0KFgsIHksIHRlc3Rfc2l6ZT0wLjMsIHJhbmRvbV9zdGF0ZT00Miwgc3RyYXRpZnk9eSlcblxuIyA9PT0gRW50cmVuYW1pZW50byA9PT1cbmNsZiA9IFNWQyhrZXJuZWw9a2VybmVsXzIsIEM9Q18yLCBnYW1tYT1nYW1tYV8yLCBkZWdyZWU9ZF8yLCBjb2VmMD1yXzIpXG5jbGYuZml0KFhfdHJhaW4sIHlfdHJhaW4pXG5cbiMgPT09IFByZWRpY2Npb25lcyA9PT1cbnlfcHJlZF90cmFpbiA9IGNsZi5wcmVkaWN0KFhfdHJhaW4pXG55X3ByZWRfdGVzdCA9IGNsZi5wcmVkaWN0KFhfdGVzdClcbmFjY190cmFpbiA9IGFjY3VyYWN5X3Njb3JlKHlfdHJhaW4sIHlfcHJlZF90cmFpbilcbmFjY190ZXN0ID0gYWNjdXJhY3lfc2NvcmUoeV90ZXN0LCB5X3ByZWRfdGVzdClcblxuIyA9PT0gTWFsbGEgcGFyYSBmcm9udGVyYSA9PT1cbnh4LCB5eSA9IG5wLm1lc2hncmlkKG5wLmxpbnNwYWNlKC0yLCAzLCAzMDApLCBucC5saW5zcGFjZSgtMS41LCAyLCAzMDApKVxuWiA9IGNsZi5kZWNpc2lvbl9mdW5jdGlvbihucC5jX1t4eC5yYXZlbCgpLCB5eS5yYXZlbCgpXSkucmVzaGFwZSh4eC5zaGFwZSlcblxuIyA9PT0gRmlndXJhIDJ4MiA9PT1cbmZpZywgYXhlcyA9IHBsdC5zdWJwbG90cygyLCAyLCBmaWdzaXplPSgxMSwgMTApKVxucGx0LnN1YnBsb3RzX2FkanVzdCh3c3BhY2U9MC4yLCBoc3BhY2U9MC4yNSlcblxuIyAtLS0gKDEsMSkgVFJBSU4gU09MTyBEQVRPUyAtLS1cbmF4ZXNbMCwwXS5zY2F0dGVyKFhfdHJhaW5beV90cmFpbj09MSwwXSwgWF90cmFpblt5X3RyYWluPT0xLDFdLCBjPSdibHVlJywgcz01MCwgbGFiZWw9J0NsYXNlICsxJylcbmF4ZXNbMCwwXS5zY2F0dGVyKFhfdHJhaW5beV90cmFpbj09LTEsMF0sIFhfdHJhaW5beV90cmFpbj09LTEsMV0sIGM9J2RhcmtyZWQnLCBzPTUwLCBsYWJlbD0nQ2xhc2UgLTEnKVxuYXhlc1swLDBdLnNldF90aXRsZShcIlRyYWluXCIsIGZvbnRzaXplPTE4KVxuYXhlc1swLDBdLnNldF94dGlja3MoW10pOyBheGVzWzAsMF0uc2V0X3l0aWNrcyhbXSlcblxuXG4jIC0tLSAoMSwyKSBURVNUIFNPTE8gREFUT1MgLS0tXG5heGVzWzAsMV0uc2NhdHRlcihYX3Rlc3RbeV90ZXN0PT0xLDBdLCBYX3Rlc3RbeV90ZXN0PT0xLDFdLCBjPSdibHVlJywgcz01MCwgbGFiZWw9J0NsYXNlICsxJylcbmF4ZXNbMCwxXS5zY2F0dGVyKFhfdGVzdFt5X3Rlc3Q9PS0xLDBdLCBYX3Rlc3RbeV90ZXN0PT0tMSwxXSwgYz0nZGFya3JlZCcsIHM9NTAsIGxhYmVsPSdDbGFzZSAtMScpXG5heGVzWzAsMV0uc2V0X3RpdGxlKFwiVGVzdFwiLCBmb250c2l6ZT0xOClcbmF4ZXNbMCwxXS5zZXRfeHRpY2tzKFtdKTsgYXhlc1swLDFdLnNldF95dGlja3MoW10pXG5cblxuIyAtLS0gKDIsMSkgVFJBSU4gQ09OIFNWTSAtLS1cbmF4ZXNbMSwwXS5jb250b3VyZih4eCwgeXksIFogPiAwLCBhbHBoYT0wLjEsIGNvbG9ycz1bXCJkYXJrcmVkXCIsIFwiYmx1ZVwiXSlcbmF4ZXNbMSwwXS5jb250b3VyKHh4LCB5eSwgWiwgbGV2ZWxzPVswXSwgY29sb3JzPVwia1wiLCBsaW5ld2lkdGhzPTEpXG5heGVzWzEsMF0uY29udG91cih4eCwgeXksIFosIGxldmVscz1bLTEsIDFdLCBjb2xvcnM9XCJvcmFuZ2VcIiwgbGluZXN0eWxlcz1cIi0tXCIsIGxpbmV3aWR0aHM9MC44KVxuYXhlc1sxLDBdLnNjYXR0ZXIoWF90cmFpblt5X3RyYWluPT0xLDBdLCBYX3RyYWluW3lfdHJhaW49PTEsMV0sIGM9J2JsdWUnLCBzPTUwKVxuYXhlc1sxLDBdLnNjYXR0ZXIoWF90cmFpblt5X3RyYWluPT0tMSwwXSwgWF90cmFpblt5X3RyYWluPT0tMSwxXSwgYz0nZGFya3JlZCcsIHM9NTApXG5heGVzWzEsMF0uc2V0X3RpdGxlKGZcIkFjY3VyYWN5ID0ge2FjY190cmFpbjouMmZ9IC0gU1YgPSB7bGVuKGNsZi5zdXBwb3J0Xyl9XCIsIGZvbnRzaXplPTE4KVxuYXhlc1sxLDBdLnNldF94dGlja3MoW10pOyBheGVzWzEsMF0uc2V0X3l0aWNrcyhbXSlcblxuIyAtLS0gKDIsMikgVEVTVCBDT04gU1ZNIC0tLVxuYXhlc1sxLDFdLmNvbnRvdXJmKHh4LCB5eSwgWiA+IDAsIGFscGhhPTAuMSwgY29sb3JzPVtcImRhcmtyZWRcIiwgXCJibHVlXCJdKVxuYXhlc1sxLDFdLmNvbnRvdXIoeHgsIHl5LCBaLCBsZXZlbHM9WzBdLCBjb2xvcnM9XCJrXCIsIGxpbmV3aWR0aHM9MSlcbmF4ZXNbMSwxXS5jb250b3VyKHh4LCB5eSwgWiwgbGV2ZWxzPVstMSwgMV0sIGNvbG9ycz1cIm9yYW5nZVwiLCBsaW5lc3R5bGVzPVwiLS1cIiwgbGluZXdpZHRocz0wLjgpXG5heGVzWzEsMV0uc2NhdHRlcihYX3Rlc3RbeV90ZXN0PT0xLDBdLCBYX3Rlc3RbeV90ZXN0PT0xLDFdLCBjPSdibHVlJywgcz01MClcbmF4ZXNbMSwxXS5zY2F0dGVyKFhfdGVzdFt5X3Rlc3Q9PS0xLDBdLCBYX3Rlc3RbeV90ZXN0PT0tMSwxXSwgYz0nZGFya3JlZCcsIHM9NTApXG5heGVzWzEsMV0uc2V0X3RpdGxlKGZcIkFjY3VyYWN5ID0ge2FjY190ZXN0Oi4yZn1cIiwgZm9udHNpemU9MTgpXG5heGVzWzEsMV0uc2V0X3h0aWNrcyhbXSk7IGF4ZXNbMSwxXS5zZXRfeXRpY2tzKFtdKVxuXG5wbHQuc2hvdygpIn0=
+</script>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb5" data-startfrom="1243" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1242;"><span id="cb5-1243"><a href="#cb5-1243" aria-hidden="true" tabindex="-1"></a>viewof C_2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb5-1244"><a href="#cb5-1244" aria-hidden="true" tabindex="-1"></a>  [<span class="fl">0.01</span><span class="op">,</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">100</span>]<span class="op">,</span></span>
+<span id="cb5-1245"><a href="#cb5-1245" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">label</span><span class="op">:</span> <span class="st">"C:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span>}</span>
+<span id="cb5-1246"><a href="#cb5-1246" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-1247"><a href="#cb5-1247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-1248"><a href="#cb5-1248" aria-hidden="true" tabindex="-1"></a>viewof kernel_2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb5-1249"><a href="#cb5-1249" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"linear"</span><span class="op">,</span> <span class="st">"poly"</span><span class="op">,</span> <span class="st">"rbf"</span><span class="op">,</span> <span class="st">"sigmoid"</span>]<span class="op">,</span></span>
+<span id="cb5-1250"><a href="#cb5-1250" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">label</span><span class="op">:</span> <span class="st">"Kernel:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="st">"linear"</span>}</span>
+<span id="cb5-1251"><a href="#cb5-1251" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-1252"><a href="#cb5-1252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-1253"><a href="#cb5-1253" aria-hidden="true" tabindex="-1"></a>viewof gamma_2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb5-1254"><a href="#cb5-1254" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"scale"</span><span class="op">,</span> <span class="st">"auto"</span><span class="op">,</span> <span class="fl">0.001</span><span class="op">,</span> <span class="fl">0.01</span><span class="op">,</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span></span>
+<span id="cb5-1255"><a href="#cb5-1255" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">label</span><span class="op">:</span> <span class="st">"γ:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="st">"scale"</span>}</span>
+<span id="cb5-1256"><a href="#cb5-1256" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-1257"><a href="#cb5-1257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-1258"><a href="#cb5-1258" aria-hidden="true" tabindex="-1"></a>viewof d_2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb5-1259"><a href="#cb5-1259" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span></span>
+<span id="cb5-1260"><a href="#cb5-1260" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">label</span><span class="op">:</span> <span class="st">"d:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">3</span>}</span>
+<span id="cb5-1261"><a href="#cb5-1261" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-1262"><a href="#cb5-1262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-1263"><a href="#cb5-1263" aria-hidden="true" tabindex="-1"></a>viewof r_2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb5-1264"><a href="#cb5-1264" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span></span>
+<span id="cb5-1265"><a href="#cb5-1265" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">label</span><span class="op">:</span> <span class="st">"r:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">0</span>}</span>
+<span id="cb5-1266"><a href="#cb5-1266" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<div>
+<div id="pyodide-4" class="exercise-cell">
+
+</div>
+<script type="pyodide-4-contents">
+eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRydWUsImZpZy1hbGlnbiI6ImNlbnRlciIsImluY2x1ZGUiOnRydWUsImlucHV0IjpbIkNfMyIsImtlcm5lbF8zIiwiZ2FtbWFfMyIsImRfMyIsInJfMyJdfSwiY29kZSI6IlxuaW1wb3J0IG51bXB5IGFzIG5wXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5mcm9tIHNrbGVhcm4uc3ZtIGltcG9ydCBTVkNcbmZyb20gc2tsZWFybi5kYXRhc2V0cyBpbXBvcnQgbWFrZV9jbGFzc2lmaWNhdGlvblxuZnJvbSBza2xlYXJuLm1vZGVsX3NlbGVjdGlvbiBpbXBvcnQgdHJhaW5fdGVzdF9zcGxpdFxuZnJvbSBza2xlYXJuLm1ldHJpY3MgaW1wb3J0IGFjY3VyYWN5X3Njb3JlXG5cbiMgPT09IERhdG9zIHRpcG8g4oCcc2lnbW9pZOKAnSBtw6FzIGN1cnZhZG9zID09PVxubnAucmFuZG9tLnNlZWQoNDIpXG4jIERhdG9zIGJhc2VcblggPSBucC5yYW5kb20ucmFuZG4oMjAwLCAyKVxuXG4jIFByaW1lciBncnVwbyAoMTUwIHB1bnRvcykgZGVzcGxhemFkbyArMlxuWFs6MTAwLCA6XSArPSAyXG5cbiMgU2VndW5kbyBncnVwbyAoNTAgcHVudG9zKSBkZXNwbGF6YWRvIC0yXG5YWzEwMToxNTAsIDpdIC09IDJcblxuIyBFdGlxdWV0YXNcbnkgPSBucC5hcnJheShbMV0qMTUwICsgWy0xXSo1MClcblxuIyA9PT0gVHJhaW4vVGVzdCA9PT1cblhfdHJhaW4sIFhfdGVzdCwgeV90cmFpbiwgeV90ZXN0ID0gdHJhaW5fdGVzdF9zcGxpdChYLCB5LCB0ZXN0X3NpemU9MC4zLCByYW5kb21fc3RhdGU9NDIsIHN0cmF0aWZ5PXkpXG5cbiMgPT09IEVudHJlbmFtaWVudG8gU1ZNID09PVxuY2xmID0gU1ZDKGtlcm5lbD1rZXJuZWxfMywgQz1DXzMsIGdhbW1hPWdhbW1hXzMsIGRlZ3JlZT1kXzMsIGNvZWYwPXJfMylcbmNsZi5maXQoWF90cmFpbiwgeV90cmFpbilcblxuIyA9PT0gUHJlZGljY2lvbmVzID09PVxueV9wcmVkX3RyYWluID0gY2xmLnByZWRpY3QoWF90cmFpbilcbnlfcHJlZF90ZXN0ID0gY2xmLnByZWRpY3QoWF90ZXN0KVxuYWNjX3RyYWluID0gYWNjdXJhY3lfc2NvcmUoeV90cmFpbiwgeV9wcmVkX3RyYWluKVxuYWNjX3Rlc3QgPSBhY2N1cmFjeV9zY29yZSh5X3Rlc3QsIHlfcHJlZF90ZXN0KVxuXG4jID09PSBNYWxsYSBwYXJhIGZyb250ZXJhID09PVxueHgsIHl5ID0gbnAubWVzaGdyaWQobnAubGluc3BhY2UoLTMuNSwgMy41LCAzMDApLCBucC5saW5zcGFjZSgtMy41LCAzLjUsIDMwMCkpXG5aID0gY2xmLmRlY2lzaW9uX2Z1bmN0aW9uKG5wLmNfW3h4LnJhdmVsKCksIHl5LnJhdmVsKCldKS5yZXNoYXBlKHh4LnNoYXBlKVxuXG4jID09PSBGaWd1cmEgMngyID09PVxuZmlnLCBheGVzID0gcGx0LnN1YnBsb3RzKDIsIDIsIGZpZ3NpemU9KDExLCAxMCkpXG5wbHQuc3VicGxvdHNfYWRqdXN0KHdzcGFjZT0wLjIsIGhzcGFjZT0wLjI1KVxuXG4jIC0tLSAoMSwxKSBUUkFJTiBTT0xPIERBVE9TIC0tLVxuYXhlc1swLDBdLnNjYXR0ZXIoWF90cmFpblt5X3RyYWluPT0xLDBdLCBYX3RyYWluW3lfdHJhaW49PTEsMV0sIGM9J2JsdWUnLCBzPTUwLCBsYWJlbD0nQ2xhc2UgKzEnKVxuYXhlc1swLDBdLnNjYXR0ZXIoWF90cmFpblt5X3RyYWluPT0tMSwwXSwgWF90cmFpblt5X3RyYWluPT0tMSwxXSwgYz0nZGFya3JlZCcsIHM9NTAsIGxhYmVsPSdDbGFzZSAtMScpXG5heGVzWzAsMF0uc2V0X3RpdGxlKFwiVHJhaW5cIiwgZm9udHNpemU9MTgpXG5heGVzWzAsMF0uc2V0X3h0aWNrcyhbXSk7IGF4ZXNbMCwwXS5zZXRfeXRpY2tzKFtdKVxuXG5cbiMgLS0tICgxLDIpIFRFU1QgU09MTyBEQVRPUyAtLS1cbmF4ZXNbMCwxXS5zY2F0dGVyKFhfdGVzdFt5X3Rlc3Q9PTEsMF0sIFhfdGVzdFt5X3Rlc3Q9PTEsMV0sIGM9J2JsdWUnLCBzPTUwLCBsYWJlbD0nQ2xhc2UgKzEnKVxuYXhlc1swLDFdLnNjYXR0ZXIoWF90ZXN0W3lfdGVzdD09LTEsMF0sIFhfdGVzdFt5X3Rlc3Q9PS0xLDFdLCBjPSdkYXJrcmVkJywgcz01MCwgbGFiZWw9J0NsYXNlIC0xJylcbmF4ZXNbMCwxXS5zZXRfdGl0bGUoXCJUZXN0XCIsIGZvbnRzaXplPTE4KVxuYXhlc1swLDFdLnNldF94dGlja3MoW10pOyBheGVzWzAsMV0uc2V0X3l0aWNrcyhbXSlcblxuXG4jIC0tLSAoMiwxKSBUUkFJTiBDT04gU1ZNIC0tLVxuYXhlc1sxLDBdLmNvbnRvdXJmKHh4LCB5eSwgWiA+IDAsIGFscGhhPTAuMSwgY29sb3JzPVtcImRhcmtyZWRcIiwgXCJibHVlXCJdKVxuYXhlc1sxLDBdLmNvbnRvdXIoeHgsIHl5LCBaLCBsZXZlbHM9WzBdLCBjb2xvcnM9XCJrXCIsIGxpbmV3aWR0aHM9MSlcbmF4ZXNbMSwwXS5jb250b3VyKHh4LCB5eSwgWiwgbGV2ZWxzPVstMSwgMV0sIGNvbG9ycz1cIm9yYW5nZVwiLCBsaW5lc3R5bGVzPVwiLS1cIiwgbGluZXdpZHRocz0wLjgpXG5heGVzWzEsMF0uc2NhdHRlcihYX3RyYWluW3lfdHJhaW49PTEsMF0sIFhfdHJhaW5beV90cmFpbj09MSwxXSwgYz0nYmx1ZScsIHM9NTApXG5heGVzWzEsMF0uc2NhdHRlcihYX3RyYWluW3lfdHJhaW49PS0xLDBdLCBYX3RyYWluW3lfdHJhaW49PS0xLDFdLCBjPSdkYXJrcmVkJywgcz01MClcbmF4ZXNbMSwwXS5zZXRfdGl0bGUoZlwiQWNjdXJhY3kgPSB7YWNjX3RyYWluOi4yZn0gLSBTViA9IHtsZW4oY2xmLnN1cHBvcnRfKX1cIiwgZm9udHNpemU9MTgpXG5heGVzWzEsMF0uc2V0X3h0aWNrcyhbXSk7IGF4ZXNbMSwwXS5zZXRfeXRpY2tzKFtdKVxuXG4jIC0tLSAoMiwyKSBURVNUIENPTiBTVk0gLS0tXG5heGVzWzEsMV0uY29udG91cmYoeHgsIHl5LCBaID4gMCwgYWxwaGE9MC4xLCBjb2xvcnM9W1wiZGFya3JlZFwiLCBcImJsdWVcIl0pXG5heGVzWzEsMV0uY29udG91cih4eCwgeXksIFosIGxldmVscz1bMF0sIGNvbG9ycz1cImtcIiwgbGluZXdpZHRocz0xKVxuYXhlc1sxLDFdLmNvbnRvdXIoeHgsIHl5LCBaLCBsZXZlbHM9Wy0xLCAxXSwgY29sb3JzPVwib3JhbmdlXCIsIGxpbmVzdHlsZXM9XCItLVwiLCBsaW5ld2lkdGhzPTAuOClcbmF4ZXNbMSwxXS5zY2F0dGVyKFhfdGVzdFt5X3Rlc3Q9PTEsMF0sIFhfdGVzdFt5X3Rlc3Q9PTEsMV0sIGM9J2JsdWUnLCBzPTUwKVxuYXhlc1sxLDFdLnNjYXR0ZXIoWF90ZXN0W3lfdGVzdD09LTEsMF0sIFhfdGVzdFt5X3Rlc3Q9PS0xLDFdLCBjPSdkYXJrcmVkJywgcz01MClcbmF4ZXNbMSwxXS5zZXRfdGl0bGUoZlwiQWNjdXJhY3kgPSB7YWNjX3Rlc3Q6LjJmfVwiLCBmb250c2l6ZT0xOClcbmF4ZXNbMSwxXS5zZXRfeHRpY2tzKFtdKTsgYXhlc1sxLDFdLnNldF95dGlja3MoW10pXG5cbnBsdC5zaG93KCkifQ==
+</script>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb6" data-startfrom="1357" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1356;"><span id="cb6-1357"><a href="#cb6-1357" aria-hidden="true" tabindex="-1"></a>viewof C_3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb6-1358"><a href="#cb6-1358" aria-hidden="true" tabindex="-1"></a>  [<span class="fl">0.01</span><span class="op">,</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">100</span>]<span class="op">,</span></span>
+<span id="cb6-1359"><a href="#cb6-1359" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">label</span><span class="op">:</span> <span class="st">"C:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span>}</span>
+<span id="cb6-1360"><a href="#cb6-1360" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-1361"><a href="#cb6-1361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-1362"><a href="#cb6-1362" aria-hidden="true" tabindex="-1"></a>viewof kernel_3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb6-1363"><a href="#cb6-1363" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"linear"</span><span class="op">,</span> <span class="st">"poly"</span><span class="op">,</span> <span class="st">"rbf"</span><span class="op">,</span> <span class="st">"sigmoid"</span>]<span class="op">,</span></span>
+<span id="cb6-1364"><a href="#cb6-1364" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">label</span><span class="op">:</span> <span class="st">"Kernel:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="st">"linear"</span>}</span>
+<span id="cb6-1365"><a href="#cb6-1365" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-1366"><a href="#cb6-1366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-1367"><a href="#cb6-1367" aria-hidden="true" tabindex="-1"></a>viewof gamma_3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb6-1368"><a href="#cb6-1368" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"scale"</span><span class="op">,</span> <span class="st">"auto"</span><span class="op">,</span> <span class="fl">0.001</span><span class="op">,</span> <span class="fl">0.01</span><span class="op">,</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span></span>
+<span id="cb6-1369"><a href="#cb6-1369" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">label</span><span class="op">:</span> <span class="st">"γ:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="st">"scale"</span>}</span>
+<span id="cb6-1370"><a href="#cb6-1370" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-1371"><a href="#cb6-1371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-1372"><a href="#cb6-1372" aria-hidden="true" tabindex="-1"></a>viewof d_3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb6-1373"><a href="#cb6-1373" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span></span>
+<span id="cb6-1374"><a href="#cb6-1374" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">label</span><span class="op">:</span> <span class="st">"d:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">3</span>}</span>
+<span id="cb6-1375"><a href="#cb6-1375" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-1376"><a href="#cb6-1376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-1377"><a href="#cb6-1377" aria-hidden="true" tabindex="-1"></a>viewof r_3 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb6-1378"><a href="#cb6-1378" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span></span>
+<span id="cb6-1379"><a href="#cb6-1379" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">label</span><span class="op">:</span> <span class="st">"r:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">0</span>}</span>
+<span id="cb6-1380"><a href="#cb6-1380" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-4-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-4-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-4-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-4-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-4-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
 </div>
 <p><br><br></p>
 </section>
@@ -1258,7 +1431,50 @@ Mostrar
 
 </div>
 <ol type="1">
-<li>…</li>
+<li><p>Supongamos que usamos un clasificador SVM lineal para un problema de clasificación binaria con el conjunto de puntos que se muestra en la Figura. Los puntos positivos (muestras rojas) y negativos (muestras azules) están distribuidos según las coordenadas indicadas. La línea sólida representa el hiperplano separador y las líneas punteadas los márgenes del clasificador.</p>
+<figure style="text-align: center;" class="figure">
+<p><img src="figuras/ejercicio_A.png" alt="…" width="400px" class="figure-img"></p>
+</figure>
+<ol type="a">
+<li><p>Liste los vectores soporte.</p></li>
+<li><p>Seleccione dos observaciones y calcule sus distancias al hiperplano <span class="math inline">\(x_1 - x_2 = 0\)</span>.</p></li>
+<li><p>Si se elimina la observación <span class="math inline">\((0, 1)\)</span>, ¿cambiaría la frontera de decisión? ¿Qué sucede si en cambio se elimina la muestra <span class="math inline">\((-1, -2.5)\)</span>?</p></li>
+<li><p>Si se agrega una nueva observación <span class="math inline">\((2, 0.5)\)</span> con target positivo, ¿cambiaría la frontera de decisión? En caso afirmativo, ¿qué método usaría en este caso?</p></li>
+<li><p>En el método SVM de , <span class="math inline">\(C\)</span> es un hiperparámetro. ¿Qué ocurriría al usar un valor de <span class="math inline">\(C\)</span> muy grande? ¿Y qué pasaría si <span class="math inline">\(C\)</span> es muy pequeño?</p></li>
+</ol></li>
+</ol>
+<div style="margin-top:1em;">
+
+</div>
+<ol start="2" type="1">
+<li><p>A continuación se presentan los resultados de aplicar un SVM lineal con margen suave a un mismo conjunto de datos, variando el valor del hiperparámetro <span class="math inline">\(C\)</span>.</p>
+<figure style="text-align: center;" class="figure">
+<p><img src="figuras/ejercicio_B.png" alt="…" width="800px" class="figure-img"></p>
+</figure>
+<ol type="a">
+<li><p>Ordene las figuras según los valores de <span class="math inline">\(C\)</span> utilizados para obtener cada solución (de manera creciente), justificando brevemente su elección.</p></li>
+<li><p>Identifique en cada caso cuáles son los vectores soporte.</p></li>
+<li><p>Para los vectores soporte encontrados, analice los valores de <span class="math inline">\(\lambda_i\)</span>, <span class="math inline">\(\mu_i\)</span> y <span class="math inline">\(\xi_i\)</span>, indicando qué representan y qué relación existe entre ellos según las condiciones KKT.</p></li>
+</ol></li>
+</ol>
+<div style="margin-top:1em;">
+
+</div>
+<ol start="3" type="1">
+<li><p>Considere el siguiente conjunto de datos de la forma <span class="math inline">\((x_i,y_i)\)</span>: <span class="math display">\[
+D = \{(-1, 1), (0, -1), (1, -1)\}
+\]</span></p>
+<ol type="a">
+<li><p>Analice graficamente el problema.</p></li>
+<li><p>¿Son linealmente separables? En base a su respuesta plantee el SVM que considere apropiado y encuentre el hiperplano de separación óptimo.</p></li>
+</ol></li>
+<li><p>Considere el siguiente conjunto de datos de la forma <span class="math inline">\((x_i,y_i)\)</span>: <span class="math display">\[
+D = \{ (-1, 1),(0, -1),(1, 1) \}.
+\]</span></p>
+<ol type="a">
+<li><p>Analice graficamente el problema</p></li>
+<li><p>¿Son linealmente separables? En base a su respuesta plantee el SVM que considere apropiado y encuentre el hiperplano de separación óptimo.</p></li>
+</ol></li>
 </ol>
 </details>
 <div style="margin-top:2em;">
@@ -1280,8 +1496,11 @@ Mostrar
 </div>
 
 
+<script type="pyodide-data">
+eyJvcHRpb25zIjp7ImVudiI6eyJQTE9UTFlfUkVOREVSRVIiOiJwbG90bHlfbWltZXR5cGUifSwiaW5kZXhVUkwiOiJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvcHlvZGlkZS92MC4yNy4wL2Z1bGwvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsicHlvZGlkZV9odHRwIiwibWljcm9waXAiLCJpcHl0aG9uIl19fQ==
+</script>
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W119
+eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTQiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoiX3B5b2RpZGVfdmFsdWVfNCA9IHtcbiAgY29uc3QgeyBoaWdobGlnaHRQeXRob24sIGI2NERlY29kZX0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS00LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgLy8gRGVmYXVsdCBldmFsdWF0aW9uIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oe1xuICAgIGlkOiBcInB5b2RpZGUtNC1jb250ZW50c1wiLFxuICAgIGVjaG86IHRydWUsXG4gICAgb3V0cHV0OiB0cnVlXG4gIH0sIGJsb2NrLmF0dHIpO1xuXG4gIC8vIEV2YWx1YXRlIHRoZSBwcm92aWRlZCBQeXRob24gY29kZVxuICBjb25zdCByZXN1bHQgPSBweW9kaWRlT2pzLnByb2Nlc3Moe2NvZGU6IGJsb2NrLmNvZGUsIG9wdGlvbnN9LCB7Q18zLCBrZXJuZWxfMywgZ2FtbWFfMywgZF8zLCByXzN9KTtcblxuICAvLyBFYXJseSB5aWVsZCB3aGlsZSB3ZSB3YWl0IGZvciB0aGUgZmlyc3QgZXZhbHVhdGlvbiBhbmQgcmVuZGVyXG4gIGlmIChvcHRpb25zLm91dHB1dCAmJiAhKFwiNFwiIGluIHB5b2RpZGVPanMucmVuZGVyZWRPanMpKSB7XG4gICAgY29uc3QgY29udGFpbmVyID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcImRpdlwiKTtcbiAgICBjb25zdCBzcGlubmVyID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcImRpdlwiKTtcblxuICAgIGlmIChvcHRpb25zLmVjaG8pIHtcbiAgICAgIC8vIFNob3cgb3V0cHV0IGFzIGhpZ2hsaWdodGVkIHNvdXJjZVxuICAgICAgY29uc3QgcHJlRWxlbSA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJwcmVcIik7XG4gICAgICBjb250YWluZXIuY2xhc3NOYW1lID0gXCJzb3VyY2VDb2RlXCI7XG4gICAgICBwcmVFbGVtLmNsYXNzTmFtZSA9IFwic291cmNlQ29kZSBweXRob25cIjtcbiAgICAgIHByZUVsZW0uYXBwZW5kQ2hpbGQoaGlnaGxpZ2h0UHl0aG9uKGJsb2NrLmNvZGUpKTtcbiAgICAgIHNwaW5uZXIuY2xhc3NOYW1lID0gXCJzcGlubmVyLWdyb3cgc3Bpbm5lci1ncm93LXNtIG0tMiBwb3NpdGlvbi1hYnNvbHV0ZSB0b3AtMCBlbmQtMFwiO1xuICAgICAgcHJlRWxlbS5hcHBlbmRDaGlsZChzcGlubmVyKTtcbiAgICAgIGNvbnRhaW5lci5hcHBlbmRDaGlsZChwcmVFbGVtKTtcbiAgICB9IGVsc2Uge1xuICAgICAgc3Bpbm5lci5jbGFzc05hbWUgPSBcInNwaW5uZXItYm9yZGVyIHNwaW5uZXItYm9yZGVyLXNtXCI7XG4gICAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQoc3Bpbm5lcik7XG4gICAgfVxuXG4gICAgeWllbGQgY29udGFpbmVyO1xuICB9XG5cbiAgcHlvZGlkZU9qcy5yZW5kZXJlZE9qc1tcIjRcIl0gPSB0cnVlO1xuICB5aWVsZCBhd2FpdCByZXN1bHQ7XG59XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0zIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6Il9weW9kaWRlX3ZhbHVlXzMgPSB7XG4gIGNvbnN0IHsgaGlnaGxpZ2h0UHl0aG9uLCBiNjREZWNvZGV9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtMy1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIC8vIERlZmF1bHQgZXZhbHVhdGlvbiBjb25maWd1cmF0aW9uXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHtcbiAgICBpZDogXCJweW9kaWRlLTMtY29udGVudHNcIixcbiAgICBlY2hvOiB0cnVlLFxuICAgIG91dHB1dDogdHJ1ZVxuICB9LCBibG9jay5hdHRyKTtcblxuICAvLyBFdmFsdWF0ZSB0aGUgcHJvdmlkZWQgUHl0aG9uIGNvZGVcbiAgY29uc3QgcmVzdWx0ID0gcHlvZGlkZU9qcy5wcm9jZXNzKHtjb2RlOiBibG9jay5jb2RlLCBvcHRpb25zfSwge0NfMiwga2VybmVsXzIsIGdhbW1hXzIsIGRfMiwgcl8yfSk7XG5cbiAgLy8gRWFybHkgeWllbGQgd2hpbGUgd2Ugd2FpdCBmb3IgdGhlIGZpcnN0IGV2YWx1YXRpb24gYW5kIHJlbmRlclxuICBpZiAob3B0aW9ucy5vdXRwdXQgJiYgIShcIjNcIiBpbiBweW9kaWRlT2pzLnJlbmRlcmVkT2pzKSkge1xuICAgIGNvbnN0IGNvbnRhaW5lciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIik7XG4gICAgY29uc3Qgc3Bpbm5lciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIik7XG5cbiAgICBpZiAob3B0aW9ucy5lY2hvKSB7XG4gICAgICAvLyBTaG93IG91dHB1dCBhcyBoaWdobGlnaHRlZCBzb3VyY2VcbiAgICAgIGNvbnN0IHByZUVsZW0gPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwicHJlXCIpO1xuICAgICAgY29udGFpbmVyLmNsYXNzTmFtZSA9IFwic291cmNlQ29kZVwiO1xuICAgICAgcHJlRWxlbS5jbGFzc05hbWUgPSBcInNvdXJjZUNvZGUgcHl0aG9uXCI7XG4gICAgICBwcmVFbGVtLmFwcGVuZENoaWxkKGhpZ2hsaWdodFB5dGhvbihibG9jay5jb2RlKSk7XG4gICAgICBzcGlubmVyLmNsYXNzTmFtZSA9IFwic3Bpbm5lci1ncm93IHNwaW5uZXItZ3Jvdy1zbSBtLTIgcG9zaXRpb24tYWJzb2x1dGUgdG9wLTAgZW5kLTBcIjtcbiAgICAgIHByZUVsZW0uYXBwZW5kQ2hpbGQoc3Bpbm5lcik7XG4gICAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQocHJlRWxlbSk7XG4gICAgfSBlbHNlIHtcbiAgICAgIHNwaW5uZXIuY2xhc3NOYW1lID0gXCJzcGlubmVyLWJvcmRlciBzcGlubmVyLWJvcmRlci1zbVwiO1xuICAgICAgY29udGFpbmVyLmFwcGVuZENoaWxkKHNwaW5uZXIpO1xuICAgIH1cblxuICAgIHlpZWxkIGNvbnRhaW5lcjtcbiAgfVxuXG4gIHB5b2RpZGVPanMucmVuZGVyZWRPanNbXCIzXCJdID0gdHJ1ZTtcbiAgeWllbGQgYXdhaXQgcmVzdWx0O1xufVxuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtMiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJfcHlvZGlkZV92YWx1ZV8yID0ge1xuICBjb25zdCB7IGhpZ2hsaWdodFB5dGhvbiwgYjY0RGVjb2RlfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTItY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICAvLyBEZWZhdWx0IGV2YWx1YXRpb24gY29uZmlndXJhdGlvblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7XG4gICAgaWQ6IFwicHlvZGlkZS0yLWNvbnRlbnRzXCIsXG4gICAgZWNobzogdHJ1ZSxcbiAgICBvdXRwdXQ6IHRydWVcbiAgfSwgYmxvY2suYXR0cik7XG5cbiAgLy8gRXZhbHVhdGUgdGhlIHByb3ZpZGVkIFB5dGhvbiBjb2RlXG4gIGNvbnN0IHJlc3VsdCA9IHB5b2RpZGVPanMucHJvY2Vzcyh7Y29kZTogYmxvY2suY29kZSwgb3B0aW9uc30sIHtDXzEsIGtlcm5lbF8xLCBnYW1tYV8xLCBkXzEsIHJfMX0pO1xuXG4gIC8vIEVhcmx5IHlpZWxkIHdoaWxlIHdlIHdhaXQgZm9yIHRoZSBmaXJzdCBldmFsdWF0aW9uIGFuZCByZW5kZXJcbiAgaWYgKG9wdGlvbnMub3V0cHV0ICYmICEoXCIyXCIgaW4gcHlvZGlkZU9qcy5yZW5kZXJlZE9qcykpIHtcbiAgICBjb25zdCBjb250YWluZXIgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwiZGl2XCIpO1xuICAgIGNvbnN0IHNwaW5uZXIgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwiZGl2XCIpO1xuXG4gICAgaWYgKG9wdGlvbnMuZWNobykge1xuICAgICAgLy8gU2hvdyBvdXRwdXQgYXMgaGlnaGxpZ2h0ZWQgc291cmNlXG4gICAgICBjb25zdCBwcmVFbGVtID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcInByZVwiKTtcbiAgICAgIGNvbnRhaW5lci5jbGFzc05hbWUgPSBcInNvdXJjZUNvZGVcIjtcbiAgICAgIHByZUVsZW0uY2xhc3NOYW1lID0gXCJzb3VyY2VDb2RlIHB5dGhvblwiO1xuICAgICAgcHJlRWxlbS5hcHBlbmRDaGlsZChoaWdobGlnaHRQeXRob24oYmxvY2suY29kZSkpO1xuICAgICAgc3Bpbm5lci5jbGFzc05hbWUgPSBcInNwaW5uZXItZ3JvdyBzcGlubmVyLWdyb3ctc20gbS0yIHBvc2l0aW9uLWFic29sdXRlIHRvcC0wIGVuZC0wXCI7XG4gICAgICBwcmVFbGVtLmFwcGVuZENoaWxkKHNwaW5uZXIpO1xuICAgICAgY29udGFpbmVyLmFwcGVuZENoaWxkKHByZUVsZW0pO1xuICAgIH0gZWxzZSB7XG4gICAgICBzcGlubmVyLmNsYXNzTmFtZSA9IFwic3Bpbm5lci1ib3JkZXIgc3Bpbm5lci1ib3JkZXItc21cIjtcbiAgICAgIGNvbnRhaW5lci5hcHBlbmRDaGlsZChzcGlubmVyKTtcbiAgICB9XG5cbiAgICB5aWVsZCBjb250YWluZXI7XG4gIH1cblxuICBweW9kaWRlT2pzLnJlbmRlcmVkT2pzW1wiMlwiXSA9IHRydWU7XG4gIHlpZWxkIGF3YWl0IHJlc3VsdDtcbn1cbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoiX3B5b2RpZGVfdmFsdWVfMSA9IHtcbiAgY29uc3QgeyBoaWdobGlnaHRQeXRob24sIGI2NERlY29kZX0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgLy8gRGVmYXVsdCBldmFsdWF0aW9uIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oe1xuICAgIGlkOiBcInB5b2RpZGUtMS1jb250ZW50c1wiLFxuICAgIGVjaG86IHRydWUsXG4gICAgb3V0cHV0OiB0cnVlXG4gIH0sIGJsb2NrLmF0dHIpO1xuXG4gIC8vIEV2YWx1YXRlIHRoZSBwcm92aWRlZCBQeXRob24gY29kZVxuICBjb25zdCByZXN1bHQgPSBweW9kaWRlT2pzLnByb2Nlc3Moe2NvZGU6IGJsb2NrLmNvZGUsIG9wdGlvbnN9LCB7Q30pO1xuXG4gIC8vIEVhcmx5IHlpZWxkIHdoaWxlIHdlIHdhaXQgZm9yIHRoZSBmaXJzdCBldmFsdWF0aW9uIGFuZCByZW5kZXJcbiAgaWYgKG9wdGlvbnMub3V0cHV0ICYmICEoXCIxXCIgaW4gcHlvZGlkZU9qcy5yZW5kZXJlZE9qcykpIHtcbiAgICBjb25zdCBjb250YWluZXIgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwiZGl2XCIpO1xuICAgIGNvbnN0IHNwaW5uZXIgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwiZGl2XCIpO1xuXG4gICAgaWYgKG9wdGlvbnMuZWNobykge1xuICAgICAgLy8gU2hvdyBvdXRwdXQgYXMgaGlnaGxpZ2h0ZWQgc291cmNlXG4gICAgICBjb25zdCBwcmVFbGVtID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcInByZVwiKTtcbiAgICAgIGNvbnRhaW5lci5jbGFzc05hbWUgPSBcInNvdXJjZUNvZGVcIjtcbiAgICAgIHByZUVsZW0uY2xhc3NOYW1lID0gXCJzb3VyY2VDb2RlIHB5dGhvblwiO1xuICAgICAgcHJlRWxlbS5hcHBlbmRDaGlsZChoaWdobGlnaHRQeXRob24oYmxvY2suY29kZSkpO1xuICAgICAgc3Bpbm5lci5jbGFzc05hbWUgPSBcInNwaW5uZXItZ3JvdyBzcGlubmVyLWdyb3ctc20gbS0yIHBvc2l0aW9uLWFic29sdXRlIHRvcC0wIGVuZC0wXCI7XG4gICAgICBwcmVFbGVtLmFwcGVuZENoaWxkKHNwaW5uZXIpO1xuICAgICAgY29udGFpbmVyLmFwcGVuZENoaWxkKHByZUVsZW0pO1xuICAgIH0gZWxzZSB7XG4gICAgICBzcGlubmVyLmNsYXNzTmFtZSA9IFwic3Bpbm5lci1ib3JkZXIgc3Bpbm5lci1ib3JkZXItc21cIjtcbiAgICAgIGNvbnRhaW5lci5hcHBlbmRDaGlsZChzcGlubmVyKTtcbiAgICB9XG5cbiAgICB5aWVsZCBjb250YWluZXI7XG4gIH1cblxuICBweW9kaWRlT2pzLnJlbmRlcmVkT2pzW1wiMVwiXSA9IHRydWU7XG4gIHlpZWxkIGF3YWl0IHJlc3VsdDtcbn1cbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLXByZWx1ZGUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJweW9kaWRlT2pzID0ge1xuICBjb25zdCB7XG4gICAgUHlvZGlkZUV2YWx1YXRvcixcbiAgICBQeW9kaWRlRW52aXJvbm1lbnRNYW5hZ2VyLFxuICAgIHNldHVwUHl0aG9uLFxuICAgIHN0YXJ0UHlvZGlkZVdvcmtlcixcbiAgICBiNjREZWNvZGUsXG4gICAgY29sbGFwc2VQYXRoLFxuICB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzdGF0dXNDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctc3RhdHVzXCIpO1xuICBjb25zdCBpbmRpY2F0b3JDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpbmRpY2F0b3JDb250YWluZXIuY2xhc3NMaXN0LnJlbW92ZShcImQtbm9uZVwiKTtcblxuICBsZXQgc3RhdHVzVGV4dCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIilcbiAgc3RhdHVzVGV4dC5jbGFzc0xpc3QgPSBcImV4ZXJjaXNlLWxvYWRpbmctZGV0YWlsc1wiO1xuICBzdGF0dXNUZXh0ID0gc3RhdHVzQ29udGFpbmVyLmFwcGVuZENoaWxkKHN0YXR1c1RleHQpO1xuICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYEluaXRpYWxpc2VgO1xuXG4gIC8vIEhvaXN0IGluZGljYXRvciBvdXQgZnJvbSBmaW5hbCBzbGlkZSB3aGVuIHJ1bm5pbmcgdW5kZXIgcmV2ZWFsXG4gIGNvbnN0IHJldmVhbFN0YXR1cyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsIC5leGVyY2lzZS1sb2FkaW5nLWluZGljYXRvclwiKTtcbiAgaWYgKHJldmVhbFN0YXR1cykge1xuICAgIHJldmVhbFN0YXR1cy5yZW1vdmUoKTtcbiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnJldmVhbCA+IC5zbGlkZXNcIikuYXBwZW5kQ2hpbGQocmV2ZWFsU3RhdHVzKTtcbiAgfVxuXG4gIC8vIE1ha2UgYW55IHJldmVhbCBzbGlkZXMgd2l0aCBsaXZlIGNlbGxzIHNjcm9sbGFibGVcbiAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbChcIi5yZXZlYWwgLmV4ZXJjaXNlLWNlbGxcIikuZm9yRWFjaCgoZWwpID0+IHtcbiAgICBlbC5jbG9zZXN0KCdzZWN0aW9uLnNsaWRlJykuY2xhc3NMaXN0LmFkZChcInNjcm9sbGFibGVcIik7XG4gIH0pXG5cbiAgLy8gUHlvZGlkZSBzdXBwbGVtZW50YWwgZGF0YSBhbmQgb3B0aW9uc1xuICBjb25zdCBkYXRhQ29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLWRhdGFcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBkYXRhID0gSlNPTi5wYXJzZShiNjREZWNvZGUoZGF0YUNvbnRlbnQpKTtcblxuICAvLyBHcmFiIGxpc3Qgb2YgcmVzb3VyY2VzIHRvIGJlIGRvd25sb2FkZWRcbiAgY29uc3QgZmlsZXNDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInZmcy1maWxlXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgZmlsZXMgPSBKU09OLnBhcnNlKGI2NERlY29kZShmaWxlc0NvbnRlbnQpKTtcblxuICBsZXQgcHlvZGlkZVByb21pc2UgPSAoYXN5bmMgKCkgPT4ge1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgUHlvZGlkZWA7XG4gICAgY29uc3QgcHlvZGlkZSA9IGF3YWl0IHN0YXJ0UHlvZGlkZVdvcmtlcihkYXRhLm9wdGlvbnMpO1xuXG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiBtaWNyb3BpcGA7XG4gICAgYXdhaXQgcHlvZGlkZS5sb2FkUGFja2FnZShcIm1pY3JvcGlwXCIpO1xuICAgIGNvbnN0IG1pY3JvcGlwID0gYXdhaXQgcHlvZGlkZS5weWltcG9ydChcIm1pY3JvcGlwXCIpO1xuICAgIGF3YWl0IGRhdGEucGFja2FnZXMucGtncy5tYXAoKHBrZykgPT4gKCkgPT4ge1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiAke3BrZ31gO1xuICAgICAgcmV0dXJuIG1pY3JvcGlwLmluc3RhbGwocGtnKTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcbiAgICBhd2FpdCBtaWNyb3BpcC5kZXN0cm95KCk7XG5cbiAgICAvLyBEb3dubG9hZCBhbmQgaW5zdGFsbCByZXNvdXJjZXNcbiAgICBhd2FpdCBmaWxlcy5tYXAoKGZpbGUpID0+IGFzeW5jICgpID0+IHtcbiAgICAgIGNvbnN0IG5hbWUgPSBmaWxlLnN1YnN0cmluZyhmaWxlLmxhc3RJbmRleE9mKCcvJykgKyAxKTtcbiAgICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgcmVzb3VyY2U6ICR7bmFtZX1gO1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChmaWxlKTtcbiAgICAgIGlmICghcmVzcG9uc2Uub2spIHtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBDYW4ndCBkb3dubG9hZCBcXGAke2ZpbGV9XFxgLiBFcnJvciAke3Jlc3BvbnNlLnN0YXR1c306IFwiJHtyZXNwb25zZS5zdGF0dXNUZXh0fVwiLmApO1xuICAgICAgfVxuICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IHJlc3BvbnNlLmFycmF5QnVmZmVyKCk7XG5cbiAgICAgIC8vIFN0b3JlIFVSTHMgaW4gdGhlIGN3ZCB3aXRob3V0IGFueSBzdWJkaXJlY3Rvcnkgc3RydWN0dXJlXG4gICAgICBpZiAoZmlsZS5pbmNsdWRlcyhcIjovL1wiKSkge1xuICAgICAgICBmaWxlID0gbmFtZTtcbiAgICAgIH1cblxuICAgICAgLy8gQ29sbGFwc2UgaGlnaGVyIGRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGZpbGUgPSBjb2xsYXBzZVBhdGgoZmlsZSk7XG5cbiAgICAgIC8vIENyZWF0ZSBkaXJlY3RvcnkgdHJlZSwgaWdub3JpbmcgXCJkaXJlY3RvcnkgZXhpc3RzXCIgVkZTIGVycm9yc1xuICAgICAgY29uc3QgcGFydHMgPSBmaWxlLnNwbGl0KCcvJykuc2xpY2UoMCwgLTEpO1xuICAgICAgbGV0IHBhdGggPSAnJztcbiAgICAgIHdoaWxlIChwYXJ0cy5sZW5ndGggPiAwKSB7XG4gICAgICAgIHBhdGggKz0gcGFydHMuc2hpZnQoKSArICcvJztcbiAgICAgICAgdHJ5IHtcbiAgICAgICAgICBhd2FpdCBweW9kaWRlLkZTLm1rZGlyKHBhdGgpO1xuICAgICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgICAgaWYgKGUuZXJybm8gIT09IDIwKSB7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICAgICAgY29uc3QgZXJyb3JUZXh0ID0gYXdhaXQgcHlvZGlkZS5fbW9kdWxlLlVURjhUb1N0cmluZyhlcnJvclRleHRQdHIpO1xuICAgICAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgIH1cblxuICAgICAgLy8gV3JpdGUgdGhpcyBmaWxlIHRvIHRoZSBWRlNcbiAgICAgIHRyeSB7XG4gICAgICAgIHJldHVybiBhd2FpdCBweW9kaWRlLkZTLndyaXRlRmlsZShmaWxlLCBuZXcgVWludDhBcnJheShkYXRhKSk7XG4gICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgIGlmIChlLm5hbWUgIT09IFwiRXJybm9FcnJvclwiKSB0aHJvdyBlO1xuICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgIHRocm93IG5ldyBFcnJvcihgRmlsZXN5c3RlbSBFcnJvciAke2UuZXJybm99IFwiJHtlcnJvclRleHR9XCIuYCk7XG4gICAgICB9XG4gICAgfSkucmVkdWNlKChjdXIsIG5leHQpID0+IGN1ci50aGVuKG5leHQpLCBQcm9taXNlLnJlc29sdmUoKSk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYFB5b2RpZGUgZW52aXJvbm1lbnQgc2V0dXBgO1xuICAgIGF3YWl0IHNldHVwUHl0aG9uKHB5b2RpZGUpO1xuXG4gICAgc3RhdHVzVGV4dC5yZW1vdmUoKTtcbiAgICBpZiAoc3RhdHVzQ29udGFpbmVyLmNoaWxkcmVuLmxlbmd0aCA9PSAwKSB7XG4gICAgICBzdGF0dXNDb250YWluZXIucGFyZW50Tm9kZS5yZW1vdmUoKTtcbiAgICB9XG4gICAgcmV0dXJuIHB5b2RpZGU7XG4gIH0pKCkuY2F0Y2goKGVycikgPT4ge1xuICAgIHN0YXR1c1RleHQuc3R5bGUuY29sb3IgPSBcInZhcigtLWV4ZXJjaXNlLWVkaXRvci1obC1lciwgI0FEMDAwMClcIjtcbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gZXJyLm1lc3NhZ2U7XG4gICAgLy9pbmRpY2F0b3JDb250YWluZXIucXVlcnlTZWxlY3RvcihcIi5zcGlubmVyLWdyb3dcIikuY2xhc3NMaXN0LmFkZChcImQtbm9uZVwiKTtcbiAgICB0aHJvdyBlcnI7XG4gIH0pO1xuXG4gIC8vIEtlZXAgdHJhY2sgb2YgaW5pdGlhbCBPSlMgYmxvY2sgcmVuZGVyXG4gIGNvbnN0IHJlbmRlcmVkT2pzID0ge307XG5cbiAgY29uc3QgcHJvY2VzcyA9IGFzeW5jIChjb250ZXh0LCBpbnB1dHMpID0+IHtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgcHlvZGlkZVByb21pc2U7XG4gICAgY29uc3QgZXZhbHVhdG9yID0gbmV3IFB5b2RpZGVFdmFsdWF0b3IocHlvZGlkZSwgY29udGV4dCk7XG4gICAgYXdhaXQgZXZhbHVhdG9yLnByb2Nlc3MoaW5wdXRzKTtcbiAgICByZXR1cm4gZXZhbHVhdG9yLmNvbnRhaW5lcjtcbiAgfVxuXG4gIHJldHVybiB7XG4gICAgcHlvZGlkZVByb21pc2UsXG4gICAgcmVuZGVyZWRPanMsXG4gICAgcHJvY2VzcyxcbiAgfTtcbn1cbiJ9XX0=
 </script>
 <div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
 <div id="exercise-loading-status" class="d-flex gap-2">
@@ -1298,7 +1517,7 @@ W10=
 
 </main> <!-- /main -->
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W119
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InZpZXdvZiBDID0gSW5wdXRzLnNlbGVjdChcbiAgWzAuMDAxLCAwLjAxLCAwLjEsIDEsIDEwLCAxMDBdLFxuICB7bGFiZWw6IFwiQzpcIiwgdmFsdWU6IDF9XG4pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ2aWV3b2YgQ18xID0gSW5wdXRzLnNlbGVjdChcbiAgWzAuMDEsIDAuMSwgMSwgMTAsIDEwMF0sXG4gIHtsYWJlbDogXCJDOlwiLCB2YWx1ZTogMX1cbilcblxudmlld29mIGtlcm5lbF8xID0gSW5wdXRzLnNlbGVjdChcbiAgW1wibGluZWFyXCIsIFwicG9seVwiLCBcInJiZlwiLCBcInNpZ21vaWRcIl0sXG4gIHtsYWJlbDogXCJLZXJuZWw6XCIsIHZhbHVlOiBcImxpbmVhclwifVxuKVxuXG52aWV3b2YgZ2FtbWFfMSA9IElucHV0cy5zZWxlY3QoXG4gIFtcInNjYWxlXCIsIFwiYXV0b1wiLCAwLjAwMSwgMC4wMSwgMC4xLCAxLCAxMF0sXG4gIHtsYWJlbDogXCLOszpcIiwgdmFsdWU6IFwic2NhbGVcIn1cbilcblxudmlld29mIGRfMSA9IElucHV0cy5zZWxlY3QoXG4gIFsyLCAzLCA0LCA1XSxcbiAge2xhYmVsOiBcImQ6XCIsIHZhbHVlOiAzfVxuKVxuXG52aWV3b2Ygcl8xID0gSW5wdXRzLnNlbGVjdChcbiAgWzAsIDAuNSwgMSwgMiwgNV0sXG4gIHtsYWJlbDogXCJyOlwiLCB2YWx1ZTogMH1cbilcblxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0zIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoidmlld29mIENfMiA9IElucHV0cy5zZWxlY3QoXG4gIFswLjAxLCAwLjEsIDEsIDEwLCAxMDBdLFxuICB7bGFiZWw6IFwiQzpcIiwgdmFsdWU6IDF9XG4pXG5cbnZpZXdvZiBrZXJuZWxfMiA9IElucHV0cy5zZWxlY3QoXG4gIFtcImxpbmVhclwiLCBcInBvbHlcIiwgXCJyYmZcIiwgXCJzaWdtb2lkXCJdLFxuICB7bGFiZWw6IFwiS2VybmVsOlwiLCB2YWx1ZTogXCJsaW5lYXJcIn1cbilcblxudmlld29mIGdhbW1hXzIgPSBJbnB1dHMuc2VsZWN0KFxuICBbXCJzY2FsZVwiLCBcImF1dG9cIiwgMC4wMDEsIDAuMDEsIDAuMSwgMSwgMTBdLFxuICB7bGFiZWw6IFwizrM6XCIsIHZhbHVlOiBcInNjYWxlXCJ9XG4pXG5cbnZpZXdvZiBkXzIgPSBJbnB1dHMuc2VsZWN0KFxuICBbMiwgMywgNCwgNV0sXG4gIHtsYWJlbDogXCJkOlwiLCB2YWx1ZTogM31cbilcblxudmlld29mIHJfMiA9IElucHV0cy5zZWxlY3QoXG4gIFswLCAwLjUsIDEsIDIsIDVdLFxuICB7bGFiZWw6IFwicjpcIiwgdmFsdWU6IDB9XG4pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTQiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ2aWV3b2YgQ18zID0gSW5wdXRzLnNlbGVjdChcbiAgWzAuMDEsIDAuMSwgMSwgMTAsIDEwMF0sXG4gIHtsYWJlbDogXCJDOlwiLCB2YWx1ZTogMX1cbilcblxudmlld29mIGtlcm5lbF8zID0gSW5wdXRzLnNlbGVjdChcbiAgW1wibGluZWFyXCIsIFwicG9seVwiLCBcInJiZlwiLCBcInNpZ21vaWRcIl0sXG4gIHtsYWJlbDogXCJLZXJuZWw6XCIsIHZhbHVlOiBcImxpbmVhclwifVxuKVxuXG52aWV3b2YgZ2FtbWFfMyA9IElucHV0cy5zZWxlY3QoXG4gIFtcInNjYWxlXCIsIFwiYXV0b1wiLCAwLjAwMSwgMC4wMSwgMC4xLCAxLCAxMF0sXG4gIHtsYWJlbDogXCLOszpcIiwgdmFsdWU6IFwic2NhbGVcIn1cbilcblxudmlld29mIGRfMyA9IElucHV0cy5zZWxlY3QoXG4gIFsyLCAzLCA0LCA1XSxcbiAge2xhYmVsOiBcImQ6XCIsIHZhbHVlOiAzfVxuKVxuXG52aWV3b2Ygcl8zID0gSW5wdXRzLnNlbGVjdChcbiAgWzAsIDAuNSwgMSwgMiwgNV0sXG4gIHtsYWJlbDogXCJyOlwiLCB2YWx1ZTogMH1cbilcblxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdDJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ0NfMScpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdrZXJuZWxfMScpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdnYW1tYV8xJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ2RfMScpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdyXzEnKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnQ18yJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ2tlcm5lbF8yJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ2dhbW1hXzInKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnZF8yJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3JfMicpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdDXzMnKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgna2VybmVsXzMnKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnZ2FtbWFfMycpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdkXzMnKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgncl8zJykifV19
 </script>
 <script type="module">
 if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
