@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Traducción al Castellano – Optimización y Aprendizaje Automático II</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../CAPITULO_3/C2_gmm.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-327735d1480bff6f7510335fe22ad292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../CAPITULO_2/B1_regresion_lineal_logistica.html">2. MODELOS DISCRIMINATIVOS</a></li><li class="breadcrumb-item"><a href="../CAPITULO_3/C3_em.html">3.3 Algoritmo EM</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Optimización y Aprendizaje Automático II</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">1. OPTIMIZACIÓN MATEMÁTICA</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_1/A1_intro_optimizacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.1 Introducción a la optimización</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_1/A2_optimizacion_convexa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.2 Optimización convexa</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_1/A3_resolucion_computacional.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.3 Resolución computacional y problemas clásicos de optimización convexa</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_1/A4_condiciones_optimalidad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.4 Condiciones de optimalidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_1/A5_metodos_optimizacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.5 Métodos de optimización</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">2. MODELOS DISCRIMINATIVOS</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B1_regresion_lineal_logistica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.1 Regresión lineal y regresión logística</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B2_glm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.2 Modelos lineales generalizados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B3_ridge_lasso.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.3 Métodos de regularización</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B4_svm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.4 Máquinas de vectores soporte</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_3/C2_gmm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3.1-3.2 Mezclado GDA/GMM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_3/C3_em.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">3.3 Algoritmo EM</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción">Introducción</a></li>
+  <li><a href="#em-para-mezcla-de-gaussianas" id="toc-em-para-mezcla-de-gaussianas" class="nav-link" data-scroll-target="#em-para-mezcla-de-gaussianas">EM para Mezcla de Gaussianas</a>
+  <ul class="collapse">
+  <li><a href="#el-algoritmo-em" id="toc-el-algoritmo-em" class="nav-link" data-scroll-target="#el-algoritmo-em">El Algoritmo EM</a>
+  <ul class="collapse">
+  <li><a href="#procedimiento-detallado" id="toc-procedimiento-detallado" class="nav-link" data-scroll-target="#procedimiento-detallado">Procedimiento Detallado</a></li>
+  <li><a href="#propiedades-del-algoritmo" id="toc-propiedades-del-algoritmo" class="nav-link" data-scroll-target="#propiedades-del-algoritmo">Propiedades del Algoritmo</a></li>
+  </ul></li>
+  <li><a href="#funciona-esto-habria-que-dar-algo-no-se-si-esto-esta-bien" id="toc-funciona-esto-habria-que-dar-algo-no-se-si-esto-esta-bien" class="nav-link" data-scroll-target="#funciona-esto-habria-que-dar-algo-no-se-si-esto-esta-bien">Funciona? (esto habria que dar algo no se si esto esta bien)</a>
+  <ul class="collapse">
+  <li><a href="#visualización-de-clusters" id="toc-visualización-de-clusters" class="nav-link" data-scroll-target="#visualización-de-clusters">Visualización de Clusters</a></li>
+  <li><a href="#log-verosimilitud" id="toc-log-verosimilitud" class="nav-link" data-scroll-target="#log-verosimilitud">Log-Verosimilitud</a></li>
+  <li><a href="#validación-cruzada-evaluación-cuantitativa" id="toc-validación-cruzada-evaluación-cuantitativa" class="nav-link" data-scroll-target="#validación-cruzada-evaluación-cuantitativa">Validación Cruzada (Evaluación Cuantitativa)</a></li>
+  <li><a href="#coherencia-interna" id="toc-coherencia-interna" class="nav-link" data-scroll-target="#coherencia-interna">Coherencia Interna</a></li>
+  <li><a href="#evaluación-supervisada-si-hay-etiquetas" id="toc-evaluación-supervisada-si-hay-etiquetas" class="nav-link" data-scroll-target="#evaluación-supervisada-si-hay-etiquetas">Evaluación Supervisada (Si Hay Etiquetas)</a></li>
+  <li><a href="#robustez-ante-diferentes-inicializaciones" id="toc-robustez-ante-diferentes-inicializaciones" class="nav-link" data-scroll-target="#robustez-ante-diferentes-inicializaciones">Robustez ante Diferentes Inicializaciones</a></li>
+  <li><a href="#evaluación-manual-o-contextual" id="toc-evaluación-manual-o-contextual" class="nav-link" data-scroll-target="#evaluación-manual-o-contextual">Evaluación Manual o Contextual</a></li>
+  </ul></li>
+  <li><a href="#implementación-del-algoritmo-em-y-aplicación-a-un-ejemplo-simulado-y-un-ejemplo-real" id="toc-implementación-del-algoritmo-em-y-aplicación-a-un-ejemplo-simulado-y-un-ejemplo-real" class="nav-link" data-scroll-target="#implementación-del-algoritmo-em-y-aplicación-a-un-ejemplo-simulado-y-un-ejemplo-real">Implementación del Algoritmo EM y aplicación a un ejemplo simulado y un ejemplo Real</a></li>
+  </ul></li>
+  <li><a href="#convergencia-a-un-mínimo-local-del-algoritmo-em" id="toc-convergencia-a-un-mínimo-local-del-algoritmo-em" class="nav-link" data-scroll-target="#convergencia-a-un-mínimo-local-del-algoritmo-em">Convergencia a un mínimo local del algoritmo EM</a>
+  <ul class="collapse">
+  <li><a href="#desigualdad-de-jensen-capaz-se-enseño-antes-igual-pongamoslo-aca-por-las-duads-y-luego-lo-pasamos" id="toc-desigualdad-de-jensen-capaz-se-enseño-antes-igual-pongamoslo-aca-por-las-duads-y-luego-lo-pasamos" class="nav-link" data-scroll-target="#desigualdad-de-jensen-capaz-se-enseño-antes-igual-pongamoslo-aca-por-las-duads-y-luego-lo-pasamos">Desigualdad de Jensen (capaz se enseño antes, igual pongamoslo aca por las duads y luego lo pasamos)</a></li>
+  <li><a href="#algoritmos-generales-em" id="toc-algoritmos-generales-em" class="nav-link" data-scroll-target="#algoritmos-generales-em">Algoritmos Generales EM</a>
+  <ul class="collapse">
+  <li><a href="#introducción-1" id="toc-introducción-1" class="nav-link" data-scroll-target="#introducción-1">Introducción</a></li>
+  <li><a href="#motivación-para-el-algoritmo-em" id="toc-motivación-para-el-algoritmo-em" class="nav-link" data-scroll-target="#motivación-para-el-algoritmo-em">Motivación para el Algoritmo EM</a></li>
+  <li><a href="#idea-general-em-ver-las-imagines" id="toc-idea-general-em-ver-las-imagines" class="nav-link" data-scroll-target="#idea-general-em-ver-las-imagines">Idea general EM (ver las imagines)</a></li>
+  <li><a href="#reformulación-del-problema" id="toc-reformulación-del-problema" class="nav-link" data-scroll-target="#reformulación-del-problema">Reformulación del Problema</a></li>
+  <li><a href="#implementación-del-algoritmo-em" id="toc-implementación-del-algoritmo-em" class="nav-link" data-scroll-target="#implementación-del-algoritmo-em">Implementación del Algoritmo EM</a></li>
+  </ul></li>
+  <li><a href="#reescritura-con-elbo" id="toc-reescritura-con-elbo" class="nav-link" data-scroll-target="#reescritura-con-elbo">Reescritura con ELBO</a>
+  <ul class="collapse">
+  <li><a href="#generalización-a-múltiples-ejemplos-1" id="toc-generalización-a-múltiples-ejemplos-1" class="nav-link" data-scroll-target="#generalización-a-múltiples-ejemplos-1">Generalización a Múltiples Ejemplos</a></li>
+  <li><a href="#construcción-de-la-cota-inferior-1" id="toc-construcción-de-la-cota-inferior-1" class="nav-link" data-scroll-target="#construcción-de-la-cota-inferior-1">Construcción de la Cota Inferior</a></li>
+  <li><a href="#implementación-del-algoritmo-em-1" id="toc-implementación-del-algoritmo-em-1" class="nav-link" data-scroll-target="#implementación-del-algoritmo-em-1">Implementación del Algoritmo EM</a></li>
+  <li><a href="#convergencia-del-algoritmo-em-1" id="toc-convergencia-del-algoritmo-em-1" class="nav-link" data-scroll-target="#convergencia-del-algoritmo-em-1">Convergencia del Algoritmo EM</a></li>
+  <li><a href="#propiedades-del-algoritmo-em" id="toc-propiedades-del-algoritmo-em" class="nav-link" data-scroll-target="#propiedades-del-algoritmo-em">Propiedades del Algoritmo EM</a></li>
+  </ul></li>
+  <li><a href="#otras-interpretaciones-de-elbo" id="toc-otras-interpretaciones-de-elbo" class="nav-link" data-scroll-target="#otras-interpretaciones-de-elbo">Otras Interpretaciones de ELBO</a></li>
+  </ul></li>
+  <li><a href="#mezclas-de-gaussianas-revisadas" id="toc-mezclas-de-gaussianas-revisadas" class="nav-link" data-scroll-target="#mezclas-de-gaussianas-revisadas">Mezclas de Gaussianas revisadas</a>
+  <ul class="collapse">
+  <li><a href="#paso-e-expectation" id="toc-paso-e-expectation" class="nav-link" data-scroll-target="#paso-e-expectation">Paso E (Expectation)</a></li>
+  <li><a href="#paso-m-maximization" id="toc-paso-m-maximization" class="nav-link" data-scroll-target="#paso-m-maximization">Paso M (Maximization)</a>
+  <ul class="collapse">
+  <li><a href="#actualización-de-mu_j" id="toc-actualización-de-mu_j" class="nav-link" data-scroll-target="#actualización-de-mu_j">Actualización de <span class="math inline">\(\mu_j\)</span></a></li>
+  <li><a href="#actualización-de-phi_j" id="toc-actualización-de-phi_j" class="nav-link" data-scroll-target="#actualización-de-phi_j">Actualización de <span class="math inline">\(\phi_j\)</span></a></li>
+  <li><a href="#ejemplo-simulado" id="toc-ejemplo-simulado" class="nav-link" data-scroll-target="#ejemplo-simulado">Ejemplo Simulado</a></li>
+  <li><a href="#ejemplo-con-datos-reales" id="toc-ejemplo-con-datos-reales" class="nav-link" data-scroll-target="#ejemplo-con-datos-reales">Ejemplo con Datos Reales</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#factor-análisis" id="toc-factor-análisis" class="nav-link" data-scroll-target="#factor-análisis">Factor análisis</a>
+  <ul class="collapse">
+  <li><a href="#introducción-2" id="toc-introducción-2" class="nav-link" data-scroll-target="#introducción-2">Introducción</a></li>
+  <li><a href="#restricciones-de-sigma" id="toc-restricciones-de-sigma" class="nav-link" data-scroll-target="#restricciones-de-sigma">Restricciones de <span class="math inline">\(\Sigma\)</span></a></li>
+  </ul></li>
+  <li><a href="#marginales-y-condicionales-de-gaussianas-esto-no-va-aca-sino-con-la-normal-pero-bueno-para-que-ya-este" id="toc-marginales-y-condicionales-de-gaussianas-esto-no-va-aca-sino-con-la-normal-pero-bueno-para-que-ya-este" class="nav-link" data-scroll-target="#marginales-y-condicionales-de-gaussianas-esto-no-va-aca-sino-con-la-normal-pero-bueno-para-que-ya-este">Marginales y Condicionales de Gaussianas (esto no va aca sino con la normal pero bueno, para que ya este)</a>
+  <ul class="collapse">
+  <li><a href="#modelo-de-análisis-de-factores" id="toc-modelo-de-análisis-de-factores" class="nav-link" data-scroll-target="#modelo-de-análisis-de-factores">Modelo de Análisis de Factores</a></li>
+  <li><a href="#algoritmo-em-para-análisis-de-factores" id="toc-algoritmo-em-para-análisis-de-factores" class="nav-link" data-scroll-target="#algoritmo-em-para-análisis-de-factores">Algoritmo EM para Análisis de Factores</a>
+  <ul class="collapse">
+  <li><a href="#paso-e-esperanza" id="toc-paso-e-esperanza" class="nav-link" data-scroll-target="#paso-e-esperanza">Paso E (Esperanza)</a></li>
+  <li><a href="#paso-m-maximización" id="toc-paso-m-maximización" class="nav-link" data-scroll-target="#paso-m-maximización">Paso M (Maximización)</a></li>
+  </ul></li>
+  <li><a href="#ejemplo-simulado-1" id="toc-ejemplo-simulado-1" class="nav-link" data-scroll-target="#ejemplo-simulado-1">Ejemplo Simulado</a></li>
+  <li><a href="#ejemplo-del-mundo-real" id="toc-ejemplo-del-mundo-real" class="nav-link" data-scroll-target="#ejemplo-del-mundo-real">Ejemplo del Mundo Real</a></li>
+  <li><a href="#conclusiones" id="toc-conclusiones" class="nav-link" data-scroll-target="#conclusiones">Conclusiones</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../CAPITULO_2/B1_regresion_lineal_logistica.html">2. MODELOS DISCRIMINATIVOS</a></li><li class="breadcrumb-item"><a href="../CAPITULO_3/C3_em.html">3.3 Algoritmo EM</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Traducción al Castellano</h1>
+<p class="subtitle lead">Capítulo 3 - Sección 3</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<hr style="border: 1px solid rgba(50, 0, 0, 1);">
+<div class="hidden">
+<p><span class="math display">\[
+\def\NN{\mathbb{N}}
+\def\ZZ{\mathbb{Z}}
+\def\RR{\mathbb{R}}
+\def\media{\mathbb{E}}
+\def\cov{\text{Cov}}
+\def\prob{\mathbb{P}}
+\def\calL{\mathcal{L}}
+\def\calG{\mathcal{G}}
+\def\calH{\mathcal{H}}
+\def\calD{\mathcal{D}}
+\def\calN{\mathcal{N}}
+\def\aa{{\bf a}}
+\def\bb{{\bf b}}
+\def\cc{{\bf c}}
+\def\dd{{\bf d}}
+\def\hh{{\bf h}}
+\def\qq{{\bf q}}
+\def\xx{{\bf x}}
+\def\yy{{\bf y}}
+\def\zz{{\bf z}}
+\def\uu{{\bf u}}
+\def\vv{{\bf v}}
+\def\ww{{\bf w}}
+\def\XX{{\bf X}}
+\def\TT{{\bf T}}
+\def\SS{{\bf S}}
+\def\bfZ{{\bf Z}}
+\def\bfg{{\bf g}}
+\def\bftheta{\boldsymbol{\theta}}
+\def\bfphi{\boldsymbol{\phi}}
+\def\bfmu{\boldsymbol{\mu}}
+\def\bfxi{\boldsymbol{\xi}}
+\def\bflambda{\boldsymbol{\lambda}}
+\def\bfgamma{\boldsymbol{\gamma}}
+\def\bfbeta{\boldsymbol{\beta}}
+\def\bfalpha{\boldsymbol{\alpha}}
+\def\bfeta{\boldsymbol{\eta}}
+\def\bfmu{\boldsymbol{\mu}}
+\def\bfnu{\boldsymbol{\nu}}
+\def\bfTheta{\boldsymbol{\Theta}}
+\def\bfSigma{\boldsymbol{\Sigma}}
+\def\bfone{\mathbf{1}}
+\def\bfzero{\mathbf{0}}
+\def\argmin{\mathop{\mathrm{arg\,min\,}}}
+\def\argmax{\mathop{\mathrm{arg\,max\,}}}
+\]</span></p>
+</div>
+<p><span style="color:darkred;"> SIN EDICION (Ng)</span></p>
+<section id="introducción" class="level1">
+<h1>Introducción</h1>
+<p>En estas notas, discutimos el algoritmo EM (Expectation-Maximization) para la estimación de densidad. Este algoritmo es ampliamente utilizado en problemas de estimación donde las variables latentes dificultan la optimización directa. El EM permite manejar este tipo de problemas dividiendo el proceso en dos etapas iterativas: el paso de “esperanza” (E-step) y el paso de “maximización” (M-step).</p>
+<p>FALTA MOTIVACION. El da uno lindo…Mide cosas, y quiere detectar anomalias, entonces vos queres estimar la densidad para saber si tu punto esta en un lugar de la densidad es muy baja. Pero no es normal, pero se puede pensar como una mezcla de gaussiana. Un grafico seria bueno. Es muy lindocomo cuneta que cadda valor puede no ser raro pero la combinacion si (eso me parece que ilumina).</p>
+</section>
+<section id="em-para-mezcla-de-gaussianas" class="level1">
+<h1>EM para Mezcla de Gaussianas</h1>
+<p>ACA MOTIVA de nuevo lindo, con datos unidimensionales viniendo de dos gaussianas. Supone que sabe los puntos de que gausiana entonces luego estima…esto hasta seria lindo hacer las cuentas para dos conjuntos de puntos unidimemsnionales que sabemos de donde vienen.</p>
+<p>Supongamos que tenemos un conjunto de entrenamiento <span class="math inline">\(\{x^{(1)}, \ldots, x^{(n)}\}\)</span>. Dado que estamos en el contexto de aprendizaje no supervisado, estos puntos no tienen etiquetas.</p>
+<p>Para ello suponemos que hay variables <span class="math inline">\(z^{(i)}\)</span> no observables y modelamos los datos especificando una distribución conjunta <span class="math inline">\(p(x^{(i)}, z^{(i)}) = p(x^{(i)}|z^{(i)})p(z^{(i)})\)</span> . Aquí:</p>
+<ul>
+<li><span class="math inline">\(z^{(i)} \sim \text{Multinomial}(\phi)\)</span> , donde:
+<ul>
+<li><span class="math inline">\(\phi_j \geq 0\)</span> ,</li>
+<li><span class="math inline">\(\sum_{j=1}^k \phi_j = 1\)</span> , y</li>
+<li>el parámetro <span class="math inline">\(\phi_j=p(z^{(i)} = j)\)</span> .</li>
+</ul></li>
+<li>Condicional a <span class="math inline">\(z^{(i)} = j\)</span> , se tiene <span class="math inline">\(x^{(i)}|z^{(i)} = j \sim \mathcal{N}(\mu_j, \Sigma_j)\)</span>.</li>
+</ul>
+<p>Dejamos que <span class="math inline">\(k\)</span> sea el número de valores que <span class="math inline">\(z^{(i)}\)</span> puede tomar. Así, nuestro modelo establece que cada <span class="math inline">\(x^{(i)}\)</span> fue generado eligiendo aleatoriamente <span class="math inline">\(z^{(i)}\)</span> de <span class="math inline">\(\{1, \ldots, k\)</span> , y luego <span class="math inline">\(x^{(i)}\)</span> fue extraido de una de <span class="math inline">\(k\)</span> gaussianas dependiendo de <span class="math inline">\(z^{(i)}\)</span> . Esto se denomina <strong>mezcla de gaussianas</strong>. También, note que las <span class="math inline">\(z^{(i)}\)</span> son variables aleatorias latentes, es decir, no son observadas directamente. Este hecho introduce complejidad en el proceso de estimación de parámetros.</p>
+<p>Parece Análisis Gausiano discriminante, pero tiene dos diferencias: - <span class="math inline">\(z^{(i)} \sim \text{Multinomial}(\phi)\)</span>, mixto de gausiana con dos clases es Bernulli, pero AGD tambien hay con mas clases, no seria lo mismo? deberiamos dar AGD con mas de dos clases si no esta dado. HABLAR. Para mi no hay diferenica. - Las gausianas tienen diferente varianza, pero de nuevo en analisis discriminante gausiano cuadratico es asi.</p>
+<p><strong>Para mi la diferencia es que aca no sabes de donde vienen los casos, punto.</strong></p>
+<p>Los parámetros de nuestro modelo son <span class="math inline">\(\phi\)</span>, <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\Sigma\)</span> . Para estimarlos, escribimos la verosimilitud de nuestros datos:</p>
+<p><span class="math display">\[
+\begin{align*}
+\ell(\phi, \mu, \Sigma) &amp;= \sum_{i=1}^n \log p(x^{(i)}; \phi, \mu, \Sigma)\\ &amp; = \sum_{i=1}^n \log \sum_{z^{(i)}=1}^k p(x^{(i)}|z^{(i)}; \mu, \Sigma)p(z^{(i)}; \phi).
+\end{align*}
+\]</span></p>
+<p>No es posible encontrar estimaciones de máxima verosimilitud en forma cerrada resolviendo las derivadas de esta ecuación. Sin embargo, si supiéramos las <span class="math inline">\(z^{(i)}\)</span>, la verosimilitud sería fácil de calcular:</p>
+<p><span class="math display">\[
+\ell(\phi, \mu, \Sigma) = \sum_{i=1}^n \log p(x^{(i)}|z^{(i)}; \mu, \Sigma) + \log p(z^{(i)}; \phi).
+\]</span></p>
+<p>Maximizando con respecto a <span class="math inline">\(\phi\)</span>, <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\Sigma\)</span> da los parámetros:</p>
+<p><span class="math display">\[
+\begin{align*}
+\phi_j &amp;= \frac{1}{n} \sum_{i=1}^n 1\{z^{(i)} = j\}, \\
+\mu_j &amp;= \frac{\sum_{i=1}^n 1\{z^{(i)} = j\}x^{(i)}}{\sum_{i=1}^n 1\{z^{(i)} = j\}}, \\
+\Sigma_j &amp;= \frac{\sum_{i=1}^n 1\{z^{(i)} = j\}(x^{(i)} - \mu_j)(x^{(i)} - \mu_j)^T}{\sum_{i=1}^n 1\{z^{(i)} = j\}}.
+\end{align*}
+\]</span></p>
+<p>Estas expresiones permiten entender que si las variables latentes <span class="math inline">\(z^{(i)}\)</span> fueran conocidas, la estimación de los parámetros sería directa, similar a otros problemas supervisados como el Análisis Discriminante Gaussiano.</p>
+<p>Sin embargo, dado que las <span class="math inline">\(z^{(i)}\)</span> no son conocidas, necesitamos un método iterativo para estimarlas y, a su vez, refinar los parámetros del modelo. Aquí es donde entra en juego el algoritmo EM.</p>
+<section id="el-algoritmo-em" class="level2">
+<h2 class="anchored" data-anchor-id="el-algoritmo-em">El Algoritmo EM</h2>
+<p>El algoritmo EM es una solución iterativa para problemas con variables latentes. Tiene dos pasos principales:</p>
+<ol type="1">
+<li><strong>Paso E (Expectation)</strong>: “Adivinar” los valores de las <span class="math inline">\(z^{(i)}\)</span> calculando su valor esperado dado los parámetros actuales.</li>
+<li><strong>Paso M (Maximization)</strong>: Actualizar los parámetros <span class="math inline">\(\phi\)</span> , <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\Sigma\)</span> maximizando la verosimilitud con base en las “adivinanzas” del paso anterior.</li>
+</ol>
+<section id="procedimiento-detallado" class="level3">
+<h3 class="anchored" data-anchor-id="procedimiento-detallado">Procedimiento Detallado</h3>
+<p><strong>Repetir hasta la convergencia:</strong></p>
+<ul>
+<li><strong>Paso E:</strong> Para cada <span class="math inline">\(i, j\)</span> , calcular:</li>
+</ul>
+<p><span class="math display">\[
+\begin{align*}
+w_j^{(i)} &amp;:= p(z^{(i)} = j|x^{(i)}; \phi, \mu, \Sigma) \\&amp;= \frac{p(x^{(i)}|z^{(i)} = j; \mu, \Sigma)p(z^{(i)} = j; \phi)}{\sum_{l=1}^k p(x^{(i)}|z^{(i)} = l; \mu, \Sigma)p(z^{(i)} = l; \phi)}.
+\end{align*}
+\]</span></p>
+<p>Estos valores representan la probabilidad a posteriori de que el dato <span class="math inline">\(x^{(i)}\)</span> provenga de la componente <span class="math inline">\(j\)</span> de la mezcla.</p>
+<ul>
+<li><strong>Paso M:</strong> Actualizar los parámetros usando los pesos <span class="math inline">\(w_j^{(i)}\)</span>:</li>
+</ul>
+<p><span class="math display">\[
+\begin{align*}
+\phi_j &amp;= \frac{1}{n} \sum_{i=1}^n w_j^{(i)}, \\
+\mu_j &amp;= \frac{\sum_{i=1}^n w_j^{(i)}x^{(i)}}{\sum_{i=1}^n w_j^{(i)}}, \\
+\Sigma_j &amp;= \frac{\sum_{i=1}^n w_j^{(i)}(x^{(i)} - \mu_j)(x^{(i)} - \mu_j)^T}{\sum_{i=1}^n w_j^{(i)}}.
+\end{align*}
+\]</span></p>
+<p>El algoritmo se detiene cuando las actualizaciones de los parámetros son suficientemente pequeñas, indicando convergencia.</p>
+<section id="interpretación-del-algoritmo" class="level4">
+<h4 class="anchored" data-anchor-id="interpretación-del-algoritmo">Interpretación del Algoritmo</h4>
+<p>El paso E permite calcular las probabilidades a posteriori de las variables latentes <span class="math inline">\(z^{(i)}\)</span> usando la regla de Bayes. Estas probabilidades “suaves” reemplazan las asignaciones “duras” del algoritmo <span class="math inline">\(k\)</span>-medias, lo que hace al EM más flexible.</p>
+<p>El paso M es una optimización directa de los parámetros <span class="math inline">\(\phi\)</span>, <span class="math inline">\(\mu\)</span>, y <span class="math inline">\(\Sigma\)</span> asumiendo que las probabilidades <span class="math inline">\(w_j^{(i)}\)</span> son correctas. Además, deberías comparar las actualizaciones en el paso M con las fórmulas que teníamos cuando los valores de eran conocidos exactamente. Son idénticas, excepto que en lugar de las funciones indicadoras , que indicaban de qué distribución gaussiana provenía cada punto de datos, ahora tenemos en su lugar los valores .</p>
+<p>Entonces, una intuición sobre este algoritmo de mezcla de Gaussianas es que es un poco como el k-means, pero con asignaciones suaves. En k-means, en el primer paso, tomaríamos cada punto y lo asignaríamos a uno de los k centroides del clúster, Y si estuviera un poco más cerca del centroide del clúster rojo que del centroide del clúster azul, simplemente lo asignaríamos al centroide del clúster rojo. Entonces, incluso si estuviera solo un poco más cerca de un centroide que de otro, k-means simplemente hace lo que se llama una asignación dura. Es decir, asigna el punto al 100% al centroide del clúster más cercano.</p>
+<p>Por otro lado, EM implementa una forma más suave de asignar puntos a los diferentes centroides de los clústeres. En lugar de elegir simplemente el centro de la Gaussiana más cercana y asignarlo ahí, utiliza estas probabilidades y les da un peso, en términos de cuánto se asigna a la Gaussiana 1 frente a la Gaussiana 2.</p>
+<p>En el segundo paso, actualiza las medias en consecuencia. Suma todos los <span class="math inline">\(x^{(i)}\)</span> según la medida en que se asignan a ese centroide del clúster, dividido por el número de ejemplos asignados a ese centroide. Entonces, esa es una intuición sobre la relación entre EM y k-means.</p>
+<p>Cuando ejecutas este algoritmo, resulta que este algoritmo convergerá, con algunas salvedades que mencionaré más adelante, y encontrará una estimación bastante decente de los parámetros, por ejemplo, al ajustar un modelo de mezcla de dos Gaussianas.</p>
+</section>
+</section>
+<section id="propiedades-del-algoritmo" class="level3">
+<h3 class="anchored" data-anchor-id="propiedades-del-algoritmo">Propiedades del Algoritmo</h3>
+<ul>
+<li>Garantiza convergencia a un máximo local de la verosimilitud.</li>
+<li>Puede ser sensible a las condiciones iniciales (similar a <span class="math inline">\(k\)</span>-medias), por lo que se recomienda inicializarlo varias veces con diferentes valores.</li>
+</ul>
+<p>El algoritmo EM proporciona una metodología general para problemas de estimación donde hay variables latentes y es ampliamente aplicable en diversas áreas como mezcla de gaussianas, inferencia en modelos bayesianos y estimación de parámetros ocultos en cadenas de Markov.</p>
+<p>VUELVE ACA AL EJEMPLO MOTIVADOR DE DETECCION DE ANOMALIDADES Y CUENTA COSAS (Esta bueno)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EM1.jpg" class="img-fluid figure-img"></p>
+<figcaption>Ejemplo de deteccion anomalias</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EM2.jpg" class="img-fluid figure-img"></p>
+<figcaption>Ejemplo de deteccion anomalias</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="funciona-esto-habria-que-dar-algo-no-se-si-esto-esta-bien" class="level2">
+<h2 class="anchored" data-anchor-id="funciona-esto-habria-que-dar-algo-no-se-si-esto-esta-bien">Funciona? (esto habria que dar algo no se si esto esta bien)</h2>
+<p>Medir si el algoritmo EM para mezcla de Gaussianas “funciona” depende del contexto, los datos y el objetivo del análisis. Aquí hay varias métricas y métodos para evaluar su desempeño:</p>
+<section id="visualización-de-clusters" class="level3">
+<h3 class="anchored" data-anchor-id="visualización-de-clusters">Visualización de Clusters</h3>
+<ul>
+<li>Método: Observa si los clusters formados reflejan estructuras coherentes en los datos, especialmente si las distribuciones gaussianas se ajustan bien.</li>
+<li>Herramienta: Graficar los datos con colores según los clusters asignados y las gaussianas ajustadas (como en los gráficos de elipses).</li>
+<li>Interpretación: Si los puntos en un cluster están cerca entre sí y las gaussianas parecen ajustarse a la densidad real de los datos, el modelo probablemente funciona.</li>
+</ul>
+</section>
+<section id="log-verosimilitud" class="level3">
+<h3 class="anchored" data-anchor-id="log-verosimilitud">Log-Verosimilitud</h3>
+<ul>
+<li>Método: Observa la evolución de la log-verosimilitud durante las iteraciones del algoritmo EM.</li>
+<li>Interpretación: Aumento constante: Indica que el algoritmo está ajustándose progresivamente a los datos. Convergencia estable: Indica que el modelo ha alcanzado un máximo local de verosimilitud. Si la log-verosimilitud disminuye o no converge, puede ser un signo de problemas en los datos o en la inicialización.</li>
+</ul>
+</section>
+<section id="validación-cruzada-evaluación-cuantitativa" class="level3">
+<h3 class="anchored" data-anchor-id="validación-cruzada-evaluación-cuantitativa">Validación Cruzada (Evaluación Cuantitativa)</h3>
+<ul>
+<li>Método: Divide los datos en un conjunto de entrenamiento y otro de prueba. Ajusta el modelo con el conjunto de entrenamiento y evalúa la log-verosimilitud en el conjunto de prueba.</li>
+<li>Interpretación: Una log-verosimilitud alta en los datos de prueba sugiere que el modelo generaliza bien y capta la estructura subyacente.</li>
+</ul>
+</section>
+<section id="coherencia-interna" class="level3">
+<h3 class="anchored" data-anchor-id="coherencia-interna">Coherencia Interna</h3>
+<ul>
+<li>Método: Mide si los puntos dentro de un cluster son más similares entre sí que con puntos de otros clusters. Métrica:</li>
+<li>Índice de Silueta: Mide qué tan cerca están los puntos de su cluster frente a otros clusters. Valores cercanos a 1 indican buenos clusters.</li>
+<li>Inercia o SSE (Suma de Errores Cuadrados): Mide la compactación de los clusters (similar a k-means).</li>
+</ul>
+</section>
+<section id="evaluación-supervisada-si-hay-etiquetas" class="level3">
+<h3 class="anchored" data-anchor-id="evaluación-supervisada-si-hay-etiquetas">Evaluación Supervisada (Si Hay Etiquetas)</h3>
+<p>Si los datos tienen etiquetas reales (como en el conjunto de Iris):</p>
+<ul>
+<li>Método: Compara las asignaciones de clusters del modelo EM con las etiquetas reales.</li>
+<li>Métricas: Precisión y Recall: Proporción de etiquetas correctas y falsos positivos. ARI (Adjusted Rand Index): Mide qué tan similares son las asignaciones del modelo con las etiquetas reales. NMI (Normalized Mutual Information): Mide qué tan dependientes son los clusters generados de las etiquetas.</li>
+</ul>
+</section>
+<section id="robustez-ante-diferentes-inicializaciones" class="level3">
+<h3 class="anchored" data-anchor-id="robustez-ante-diferentes-inicializaciones">Robustez ante Diferentes Inicializaciones</h3>
+<ul>
+<li>Método: Ejecuta el algoritmo varias veces con diferentes inicializaciones y compara los resultados (clusters formados, log-verosimilitud final).</li>
+<li>Interpretación: Si los resultados son consistentes, el modelo es robusto. Si los resultados varían significativamente, puede indicar que el modelo está atrapado en óptimos locales.</li>
+</ul>
+</section>
+<section id="evaluación-manual-o-contextual" class="level3">
+<h3 class="anchored" data-anchor-id="evaluación-manual-o-contextual">Evaluación Manual o Contextual</h3>
+<ul>
+<li>Método: Evalúa si los clusters obtenidos tienen sentido en el contexto del problema (por ejemplo, categorías de usuarios o segmentos de mercado).</li>
+<li>Herramienta: Consulta con expertos en el dominio o analiza patrones específicos en los clusters.</li>
+</ul>
+</section>
+</section>
+<section id="implementación-del-algoritmo-em-y-aplicación-a-un-ejemplo-simulado-y-un-ejemplo-real" class="level2">
+<h2 class="anchored" data-anchor-id="implementación-del-algoritmo-em-y-aplicación-a-un-ejemplo-simulado-y-un-ejemplo-real">Implementación del Algoritmo EM y aplicación a un ejemplo simulado y un ejemplo Real</h2>
+<div>
+<div id="pyodide-1" class="exercise-cell">
+
+</div>
+<script type="pyodide-1-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG51bXB5IGFzIG5wXG5mcm9tIHNjaXB5LnN0YXRzIGltcG9ydCBtdWx0aXZhcmlhdGVfbm9ybWFsXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5mcm9tIHNrbGVhcm4ubWV0cmljcyBpbXBvcnQgc2lsaG91ZXR0ZV9zY29yZSwgYWRqdXN0ZWRfcmFuZF9zY29yZVxuXG4jIEZ1bmNpw7NuIHBhcmEgaW5pY2lhbGl6YXIgbG9zIHBhcsOhbWV0cm9zXG5kZWYgaW5pY2lhbGl6YXJfcGFyYW1ldHJvcyhrLCBkaW0pOlxuICAgIHBoaSA9IG5wLm9uZXMoaykgLyBrXG4gICAgbXUgPSBucC5yYW5kb20ucmFuZChrLCBkaW0pXG4gICAgc2lnbWEgPSBucC5hcnJheShbbnAuZXllKGRpbSkgZm9yIF8gaW4gcmFuZ2UoayldKVxuICAgIHJldHVybiBwaGksIG11LCBzaWdtYVxuXG4jIEltcGxlbWVudGFjacOzbiBkZWwgYWxnb3JpdG1vIEVNXG5kZWYgRU1fbWV6Y2xhX2dhdXNzaWFuYXMoWCwgaywgbWF4X2l0ZXI9MTAwLCB0b2w9MWUtNik6XG4gICAgbiwgZGltID0gWC5zaGFwZVxuICAgIHBoaSwgbXUsIHNpZ21hID0gaW5pY2lhbGl6YXJfcGFyYW1ldHJvcyhrLCBkaW0pXG4gICAgXG4gICAgbG9nX2xpa2VsaWhvb2QgPSBbXVxuICAgIFxuICAgIGZvciBpdGVyYXRpb24gaW4gcmFuZ2UobWF4X2l0ZXIpOlxuICAgICAgICAjIFBhc28gRTogQ2FsY3VsYXIgd19qXihpKVxuICAgICAgICB3ID0gbnAuemVyb3MoKG4sIGspKVxuICAgICAgICBmb3IgaiBpbiByYW5nZShrKTpcbiAgICAgICAgICAgIHdbOiwgal0gPSBwaGlbal0gKiBtdWx0aXZhcmlhdGVfbm9ybWFsLnBkZihYLCBtZWFuPW11W2pdLCBjb3Y9c2lnbWFbal0pXG4gICAgICAgIHcgLz0gbnAuc3VtKHcsIGF4aXM9MSwga2VlcGRpbXM9VHJ1ZSlcbiAgICAgICAgXG4gICAgICAgICMgUGFzbyBNOiBBY3R1YWxpemFyIHBhcsOhbWV0cm9zXG4gICAgICAgIE5fayA9IG5wLnN1bSh3LCBheGlzPTApXG4gICAgICAgIHBoaSA9IE5fayAvIG5cbiAgICAgICAgbXUgPSBucC5kb3Qody5ULCBYKSAvIE5fa1s6LCBucC5uZXdheGlzXVxuICAgICAgICBzaWdtYSA9IG5wLmFycmF5KFtcbiAgICAgICAgICAgICh3WzosIGosIG5wLm5ld2F4aXNdICogKFggLSBtdVtqXSkpLlQgQCAoWCAtIG11W2pdKSAvIE5fa1tqXVxuICAgICAgICAgICAgZm9yIGogaW4gcmFuZ2UoaylcbiAgICAgICAgXSlcbiAgICAgICAgXG4gICAgICAgICMgQ2FsY3VsYXIgbG9nLXZlcm9zaW1pbGl0dWRcbiAgICAgICAgbGwgPSBucC5zdW0obnAubG9nKG5wLnN1bShbXG4gICAgICAgICAgICBwaGlbal0gKiBtdWx0aXZhcmlhdGVfbm9ybWFsLnBkZihYLCBtZWFuPW11W2pdLCBjb3Y9c2lnbWFbal0pXG4gICAgICAgICAgICBmb3IgaiBpbiByYW5nZShrKVxuICAgICAgICBdLCBheGlzPTApKSlcbiAgICAgICAgbG9nX2xpa2VsaWhvb2QuYXBwZW5kKGxsKVxuICAgICAgICBcbiAgICAgICAgIyBWZXJpZmljYXIgY29udmVyZ2VuY2lhXG4gICAgICAgIGlmIGl0ZXJhdGlvbiA+IDAgYW5kIG5wLmFicyhsb2dfbGlrZWxpaG9vZFstMV0gLSBsb2dfbGlrZWxpaG9vZFstMl0pIDwgdG9sOlxuICAgICAgICAgICAgYnJlYWtcbiAgICBcbiAgICByZXR1cm4gcGhpLCBtdSwgc2lnbWEsIHcsIGxvZ19saWtlbGlob29kXG5cblxuIyMjIEVqZW1wbG8gZGUgSnVndWV0ZVxuXG5cbiMgR2VuZXJhciBkYXRvc1xubnAucmFuZG9tLnNlZWQoNDIpXG5YMSA9IG5wLnJhbmRvbS5tdWx0aXZhcmlhdGVfbm9ybWFsKFsyLCAyXSwgW1swLjUsIDBdLCBbMCwgMC41XV0sIDEwMClcblgyID0gbnAucmFuZG9tLm11bHRpdmFyaWF0ZV9ub3JtYWwoWy0yLCAtMl0sIFtbMC41LCAwXSwgWzAsIDAuNV1dLCAxMDApXG5YMyA9IG5wLnJhbmRvbS5tdWx0aXZhcmlhdGVfbm9ybWFsKFs1LCAtNV0sIFtbMC41LCAwXSwgWzAsIDAuNV1dLCAxMDApXG5YID0gbnAudnN0YWNrKFtYMSwgWDIsIFgzXSlcblxuIyBBanVzdGFyIGVsIG1vZGVsb1xucGhpLCBtdSwgc2lnbWEsIHcsIGxvZ19saWtlbGlob29kID0gRU1fbWV6Y2xhX2dhdXNzaWFuYXMoWCwgaz0zKVxuXG4jIFZpc3VhbGl6YWNpw7NuXG5wbHQuc2NhdHRlcihYWzosIDBdLCBYWzosIDFdLCBjPW5wLmFyZ21heCh3LCBheGlzPTEpLCBjbWFwPSd2aXJpZGlzJywgcz0xMClcbnBsdC5zY2F0dGVyKG11WzosIDBdLCBtdVs6LCAxXSwgYz0ncmVkJywgbWFya2VyPSd4JywgbGFiZWw9J0NlbnRyb2lkZXMnKVxucGx0LnRpdGxlKFwiQ2xhc2lmaWNhY2nDs24gcG9yIE1lemNsYSBkZSBHYXVzc2lhbmFzIChFTSlcIilcbnBsdC5sZWdlbmQoKVxucGx0LnNob3coKVxuXG4jIEdyYWZpY2FyIGxvZy12ZXJvc2ltaWxpdHVkXG5wbHQucGxvdChsb2dfbGlrZWxpaG9vZClcbnBsdC50aXRsZShcIkxvZy1WZXJvc2ltaWxpdHVkXCIpXG5wbHQueGxhYmVsKFwiSXRlcmFjacOzblwiKVxucGx0LnlsYWJlbChcIkxvZy1WZXJvc2ltaWxpdHVkXCIpXG5wbHQuc2hvdygpXG5cblxuIyMjIERhdG9zIHJlYWxlc1xuIyMgUGFyYSBkYXRvcyByZWFsZXMsIHVzYW1vcyBlbCBjb25qdW50byBkZSBkYXRvcyBkZSBJcmlzLlxuXG5cbmZyb20gc2tsZWFybi5kYXRhc2V0cyBpbXBvcnQgbG9hZF9pcmlzXG5cbiMgQ2FyZ2FyIGRhdG9zXG5pcmlzID0gbG9hZF9pcmlzKClcblhfcmVhbCA9IGlyaXMuZGF0YVxuXG4jIEFqdXN0YXIgZWwgbW9kZWxvXG5waGlfcmVhbCwgbXVfcmVhbCwgc2lnbWFfcmVhbCwgd19yZWFsLCBsb2dfbGlrZWxpaG9vZF9yZWFsID0gRU1fbWV6Y2xhX2dhdXNzaWFuYXMoWF9yZWFsLCBrPTMpXG5cbiMgR3JhZmljYXIgbGEgZGlzdHJpYnVjacOzbiBkZSBsb3MgZGF0b3Mgb3JpZ2luYWxlcyAocHJpbWVyYXMgZG9zIGRpbWVuc2lvbmVzKVxucGx0LnNjYXR0ZXIoWF9yZWFsWzosIDBdLCBYX3JlYWxbOiwgMV0sIGM9J2dyYXknLCBzPTEwKVxucGx0LnRpdGxlKFwiRGlzdHJpYnVjacOzbiBPcmlnaW5hbCBkZSBsb3MgRGF0b3MgKFByaW1lcmFzIDIgRGltZW5zaW9uZXMpXCIpXG5wbHQueGxhYmVsKFwiQ2FyYWN0ZXLDrXN0aWNhIDFcIilcbnBsdC55bGFiZWwoXCJDYXJhY3RlcsOtc3RpY2EgMlwiKVxucGx0LnNob3coKVxuXG4jIFZpc3VhbGl6YWNpw7NuIGRlIGxvcyBjbHVzdGVycyBvYnRlbmlkb3NcbnBsdC5zY2F0dGVyKFhfcmVhbFs6LCAwXSwgWF9yZWFsWzosIDFdLCBjPW5wLmFyZ21heCh3X3JlYWwsIGF4aXM9MSksIGNtYXA9J3ZpcmlkaXMnLCBzPTEwKVxucGx0LnNjYXR0ZXIobXVfcmVhbFs6LCAwXSwgbXVfcmVhbFs6LCAxXSwgYz0ncmVkJywgbWFya2VyPSd4JywgbGFiZWw9J0NlbnRyb2lkZXMnKVxucGx0LnRpdGxlKFwiQ2x1c3RlcnMgT2J0ZW5pZG9zIGNvbiBNZXpjbGEgZGUgR2F1c3NpYW5hcyAoRU0pXCIpXG5wbHQueGxhYmVsKFwiQ2FyYWN0ZXLDrXN0aWNhIDFcIilcbnBsdC55bGFiZWwoXCJDYXJhY3RlcsOtc3RpY2EgMlwiKVxucGx0LmxlZ2VuZCgpXG5wbHQuc2hvdygpXG5cbiMgR3JhZmljYXIgY2FkYSBjb21wb25lbnRlIGdhdXNzaWFuYSBjb21vIHVuYSBlbGlwc2UgZW4gbGFzIHByaW1lcmFzIGRvcyBkaW1lbnNpb25lc1xuZnJvbSBtYXRwbG90bGliLnBhdGNoZXMgaW1wb3J0IEVsbGlwc2VcblxuZGVmIHBsb3RfZ2F1c3NpYW4obXUsIHNpZ21hLCBheCwgY29sb3IpOlxuICAgIHZhbHMsIHZlY3MgPSBucC5saW5hbGcuZWlnaChzaWdtYSlcbiAgICBvcmRlciA9IHZhbHMuYXJnc29ydCgpWzo6LTFdXG4gICAgdmFscywgdmVjcyA9IHZhbHNbb3JkZXJdLCB2ZWNzWzosIG9yZGVyXVxuICAgIGFuZ2xlID0gbnAuZGVncmVlcyhucC5hcmN0YW4yKCp2ZWNzWzosIDBdWzo6LTFdKSlcbiAgICB3aWR0aCwgaGVpZ2h0ID0gMiAqIG5wLnNxcnQodmFscylcbiAgICBlbGwgPSBFbGxpcHNlKHh5PW11LCB3aWR0aD13aWR0aCwgaGVpZ2h0PWhlaWdodCwgYW5nbGU9YW5nbGUsIGNvbG9yPWNvbG9yLCBhbHBoYT0wLjUpXG4gICAgYXguYWRkX3BhdGNoKGVsbClcblxuZmlnLCBheCA9IHBsdC5zdWJwbG90cygpXG5wbHQuc2NhdHRlcihYX3JlYWxbOiwgMF0sIFhfcmVhbFs6LCAxXSwgYz1ucC5hcmdtYXgod19yZWFsLCBheGlzPTEpLCBjbWFwPSd2aXJpZGlzJywgcz0xMClcbmZvciBqIGluIHJhbmdlKGxlbihtdV9yZWFsKSk6XG4gICAgcGxvdF9nYXVzc2lhbihtdV9yZWFsW2pdWzoyXSwgc2lnbWFfcmVhbFtqXVs6MiwgOjJdLCBheCwgY29sb3I9J3JlZCcpXG5wbHQudGl0bGUoXCJDb21wb25lbnRlcyBHYXVzc2lhbmFzIEFwcm94aW1hZGFzIChQcmltZXJhcyAyIERpbWVuc2lvbmVzKVwiKVxucGx0LnhsYWJlbChcIkNhcmFjdGVyw61zdGljYSAxXCIpXG5wbHQueWxhYmVsKFwiQ2FyYWN0ZXLDrXN0aWNhIDJcIilcbnBsdC5zaG93KClcblxuIyBHcmFmaWNhciBsYSBldm9sdWNpw7NuIGRlIGxhIGxvZy12ZXJvc2ltaWxpdHVkXG5wbHQucGxvdChsb2dfbGlrZWxpaG9vZF9yZWFsLCBtYXJrZXI9J28nKVxucGx0LnRpdGxlKFwiRXZvbHVjacOzbiBkZSBsYSBMb2ctVmVyb3NpbWlsaXR1ZFwiKVxucGx0LnhsYWJlbChcIkl0ZXJhY2nDs25cIilcbnBsdC55bGFiZWwoXCJMb2ctVmVyb3NpbWlsaXR1ZFwiKVxucGx0LmdyaWQoKVxucGx0LnNob3coKVxuXG4jIEdyYWZpY2FyIGxhcyBwcm9iYWJpbGlkYWRlcyBhIHBvc3RlcmlvcmkgcGFyYSBjYWRhIGNvbXBvbmVudGVcbmZvciBqIGluIHJhbmdlKDMpOlxuICAgIHBsdC5oaXN0KHdfcmVhbFs6LCBqXSwgYmlucz0yMCwgYWxwaGE9MC41LCBsYWJlbD1mXCJDb21wb25lbnRlIHtqKzF9XCIpXG5wbHQudGl0bGUoXCJEaXN0cmlidWNpw7NuIGRlIFByb2JhYmlsaWRhZGVzIFBvc3RlcmlvcmVzIHBvciBDb21wb25lbnRlXCIpXG5wbHQueGxhYmVsKFwiUHJvYmFiaWxpZGFkIFBvc3RlcmlvclwiKVxucGx0LnlsYWJlbChcIkZyZWN1ZW5jaWFcIilcbnBsdC5sZWdlbmQoKVxucGx0LnNob3coKVxuXG5cbiMgRXZhbHVhY2nDs24gU3VwZXJ2aXNhZGEgKElyaXMgdGllbmUgZXRpcXVldGFzKVxudHJ1ZV9sYWJlbHMgPSBpcmlzLnRhcmdldFxucHJlZGljdGVkX2xhYmVscyA9IG5wLmFyZ21heCh3X3JlYWwsIGF4aXM9MSlcblxuIyBBUkkgKEFkanVzdGVkIFJhbmQgSW5kZXgpXG5hcmkgPSBhZGp1c3RlZF9yYW5kX3Njb3JlKHRydWVfbGFiZWxzLCBwcmVkaWN0ZWRfbGFiZWxzKVxucHJpbnQoZlwiQVJJIChBZGp1c3RlZCBSYW5kIEluZGV4KToge2FyaTouM2Z9XCIpXG5cbiMgU2lsaG91ZXR0ZSBTY29yZVxuc2lsaG91ZXR0ZSA9IHNpbGhvdWV0dGVfc2NvcmUoWF9yZWFsLCBwcmVkaWN0ZWRfbGFiZWxzKVxucHJpbnQoZlwiw41uZGljZSBkZSBTaWx1ZXRhOiB7c2lsaG91ZXR0ZTouM2Z9XCIpIn0=
+</script>
+</div>
+</section>
+</section>
+<section id="convergencia-a-un-mínimo-local-del-algoritmo-em" class="level1">
+<h1>Convergencia a un mínimo local del algoritmo EM</h1>
+<p>En el caso particular de las mezclas de Gaussianas con el algoritmo EM, hay una forma más formal de derivar el algoritmo EM que demuestra que este es un algoritmo de estimación de máxima verosimilitud y que converge al menos en un óptimo local.</p>
+<p>En particular, lo que haremos será mostrar que, si tu objetivo es dado un modelo <span class="math inline">\(P(x,z)\)</span> parametrizado por <span class="math inline">\(\theta\)</span>, maximizar $ <span class="math inline">\(P(x)\)</span>.</p>
+<p>Esto es lo que la máxima verosimilitud se supone que debe hacer. Y el algoritmo EM está exactamente intentando hacer eso, ¿de acuerdo?</p>
+<p>Entonces, presentaremos esta derivación más general, la forma general de derivar el algoritmo EM que no depende de este argumento intuitivo de que es más fácil usar máxima verosimilitud con valores iniciales estimados.</p>
+<section id="desigualdad-de-jensen-capaz-se-enseño-antes-igual-pongamoslo-aca-por-las-duads-y-luego-lo-pasamos" class="level2">
+<h2 class="anchored" data-anchor-id="desigualdad-de-jensen-capaz-se-enseño-antes-igual-pongamoslo-aca-por-las-duads-y-luego-lo-pasamos">Desigualdad de Jensen (capaz se enseño antes, igual pongamoslo aca por las duads y luego lo pasamos)</h2>
+<p>Comenzamos nuestra discusión con un resultado muy útil llamado <strong>Desigualdad de Jensen</strong>.</p>
+<p>Sea <span class="math inline">\(f\)</span> una función cuyo dominio sea el conjunto de los números reales. Recordemos que <span class="math inline">\(f\)</span> es una función convexa si su segunda derivada <span class="math inline">\(f''(x) \geq 0\)</span> (para todo <span class="math inline">\(x \in \mathbb{R}\)</span>). En el caso de que <span class="math inline">\(f\)</span> tome entradas vectoriales, esto se generaliza a la condición de que su hessiano <span class="math inline">\(H\)</span> sea semidefinido positivo (<span class="math inline">\(H \geq 0\)</span>). Si <span class="math inline">\(f''(x) &gt; 0\)</span> para todo <span class="math inline">\(x\)</span>, decimos que <span class="math inline">\(f\)</span> es estrictamente convexa (en el caso vectorial, esto corresponde a que <span class="math inline">\(H\)</span> debe ser definido positivo, denotado como <span class="math inline">\(H &gt; 0\)</span>). La desigualdad de Jensen puede ser enunciada como sigue:</p>
+<p><strong>Teorema.</strong> Sea <span class="math inline">\(f\)</span> una función convexa y sea <span class="math inline">\(X\)</span> una variable aleatoria. Entonces:</p>
+<p><span class="math display">\[
+\mathbb{E}[f(X)] \geq f(\mathbb{E}[X]).
+\]</span></p>
+<p>Además, si <span class="math inline">\(f\)</span> es estrictamente convexa, entonces <span class="math inline">\(\mathbb{E}[f(X)] = f(\mathbb{E}[X])\)</span> sólo si y sólo si <span class="math inline">\(X = \mathbb{E}[X]\)</span> con probabilidad 1 (es decir, si <span class="math inline">\(X\)</span> es constante).</p>
+<p>Recordemos nuestra convención de omitir ocasionalmente los paréntesis al escribir esperanzas, por lo que en el teorema anterior, <span class="math inline">\(f(\mathbb{E}[X]) = f(\mathbb{E}[X])\)</span>.</p>
+<p>Para interpretar el teorema, consideremos la figura a continuación:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="convexa.jpg" class="img-fluid figure-img"></p>
+<figcaption>Ilustración de la Desigualdad de Jensen</figcaption>
+</figure>
+</div>
+<p>Aquí, <span class="math inline">\(f\)</span> es una función convexa representada por la línea sólida. Además, <span class="math inline">\(X\)</span> es una variable aleatoria que tiene una probabilidad de 0.5 de tomar el valor <span class="math inline">\(a\)</span> y una probabilidad de 0.5 de tomar el valor <span class="math inline">\(b\)</span> (indicados en el eje <span class="math inline">\(x\)</span>). Así, el valor esperado de <span class="math inline">\(X\)</span> está dado por el punto medio entre <span class="math inline">\(a\)</span> y <span class="math inline">\(b\)</span>.</p>
+<p>También vemos los valores <span class="math inline">\(f(a)\)</span>, <span class="math inline">\(f(b)\)</span> y <span class="math inline">\(f(\mathbb{E}[X])\)</span> indicados en el eje <span class="math inline">\(y\)</span>. Además, el valor <span class="math inline">\(\mathbb{E}[f(X)]\)</span> ahora es el punto medio en el eje <span class="math inline">\(y\)</span> entre <span class="math inline">\(f(a)\)</span> y <span class="math inline">\(f(b)\)</span>. A partir de este ejemplo, vemos que, debido a que <span class="math inline">\(f\)</span> es convexa, debe cumplirse que <span class="math inline">\(\mathbb{E}[f(X)] \geq f(\mathbb{E}[X])\)</span>.</p>
+<p>Incidentalmente, muchas personas tienen problemas para recordar en qué dirección va la desigualdad, y recordar un gráfico como este es una buena manera de resolver rápidamente la duda.</p>
+<p><strong>Observación.</strong> Recordemos que <span class="math inline">\(f\)</span> es [estrictamente] cóncava si y sólo si <span class="math inline">\(-f\)</span> es [estrictamente] convexa (es decir, <span class="math inline">\(f''(x) \leq 0\)</span> o <span class="math inline">\(H \leq 0\)</span>). La desigualdad de Jensen también se cumple para funciones cóncavas, pero con la dirección de todas las desigualdades invertida:</p>
+<p><span class="math display">\[
+\mathbb{E}[f(X)] \leq f(\mathbb{E}[X]), \text{ etc.}
+\]</span></p>
+<p>La línea recta es convexa y cóncava (no estricta). La igualdad en Jensen se da si y solo si <span class="math inline">\(X\)</span> es casi siempre igual a constante. (Ponerlo como ejercicio?). O <span class="math inline">\(X=E(X)\)</span> con probabilidad 1.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="jensen1.jpg" class="img-fluid figure-img"></p>
+<figcaption>Jensen</figcaption>
+</figure>
+</div>
+</section>
+<section id="algoritmos-generales-em" class="level2">
+<h2 class="anchored" data-anchor-id="algoritmos-generales-em">Algoritmos Generales EM</h2>
+<section id="introducción-1" class="level3">
+<h3 class="anchored" data-anchor-id="introducción-1">Introducción</h3>
+<p>Supongamos que tenemos un problema de estimación en el cual disponemos de un conjunto de entrenamiento <span class="math inline">\(\{x^{(1)}, \ldots, x^{(n)}\}\)</span> que consiste en <span class="math inline">\(n\)</span> ejemplos independientes. Este conjunto puede ser observado, pero también existe una variable latente <span class="math inline">\(z\)</span>, no observable, que dificulta la estimación directa de los parámetros. Este tipo de problemas son comunes en muchas áreas, como el modelado de mezclas gaussianas o modelos ocultos de Markov.</p>
+<p>Tenemos un modelo de variable latente <span class="math inline">\(p(x, z; \theta)\)</span>, donde <span class="math inline">\(z\)</span> es la variable latente (que, por simplicidad, se asume que toma un número finito de valores). La densidad marginal de <span class="math inline">\(x\)</span> se puede obtener marginalizando sobre la variable latente <span class="math inline">\(z\)</span>:</p>
+<p><span class="math display">\[
+p(x; \theta) = \sum_z p(x, z; \theta).  
+\]</span></p>
+<p>El objetivo es ajustar los parámetros <span class="math inline">\(\theta\)</span> de tal manera que se maximice la verosimilitud de los datos observados. Para esto, definimos la función de verosimilitud como:</p>
+<p><span class="math display">\[
+\begin{align*}
+\ell(\theta) &amp;= \sum_{i=1}^n \log p(x^{(i)}; \theta).
+\end{align*}
+\]</span></p>
+<p>Esto implica maximizar la probabilidad conjunta de los datos observados. Sin embargo, el cálculo directo de esta función puede ser complicado debido a la marginalización sobre las variables latentes.</p>
+<p>Podemos reescribir la función objetivo en términos de la densidad conjunta <span class="math inline">\(p(x, z; \theta)\)</span>:</p>
+<p><span class="math display">\[
+\ell(\theta) = \sum_{i=1}^n \log \sum_{z^{(i)}} p(x^{(i)}, z^{(i)}; \theta).
+\]</span></p>
+<p>La suma interna hace que esta expresión sea computacionalmente costosa. Esto se debe a que la maximización directa de la verosimilitud en presencia de variables latentes puede conducir a problemas de optimización no convexa y difícil de resolver.</p>
+</section>
+<section id="motivación-para-el-algoritmo-em" class="level3">
+<h3 class="anchored" data-anchor-id="motivación-para-el-algoritmo-em">Motivación para el Algoritmo EM</h3>
+<p>En muchos casos, si las variables latentes <span class="math inline">\(z^{(i)}\)</span> fueran conocidas, el problema de estimación de máxima verosimilitud sería mucho más sencillo. En este contexto, el algoritmo EM (Expectation-Maximization) proporciona una solución eficiente al iterar entre dos pasos principales:</p>
+<ol type="1">
+<li><strong>Paso E (Expectation):</strong> Calcular las expectativas de las variables latentes dado el conjunto de datos y los parámetros actuales.</li>
+<li><strong>Paso M (Maximization):</strong> Actualizar los parámetros maximizando la verosimilitud condicionada en las expectativas calculadas.</li>
+</ol>
+</section>
+<section id="idea-general-em-ver-las-imagines" class="level3">
+<h3 class="anchored" data-anchor-id="idea-general-em-ver-las-imagines">Idea general EM (ver las imagines)</h3>
+<section id="construcción-de-una-cota-inferior-con-el-algoritmo-em" class="level4">
+<h4 class="anchored" data-anchor-id="construcción-de-una-cota-inferior-con-el-algoritmo-em">Construcción de una cota inferior con el algoritmo EM</h4>
+<p>El algoritmo EM, en el paso E, construye una <strong>cota inferior</strong> (representada aquí por una curva verde) para la log-verosimilitud.</p>
+</section>
+<section id="propiedades-de-la-cota-inferior" class="level4">
+<h4 class="anchored" data-anchor-id="propiedades-de-la-cota-inferior">Propiedades de la cota inferior</h4>
+<ol type="1">
+<li><strong>Cota inferior:</strong> En todos los valores de (), la curva verde está por debajo de la curva azul, que representa la log-verosimilitud. Por lo tanto, esta curva verde es efectivamente una cota inferior.</li>
+<li><strong>Igualdad en el valor actual de ():</strong> En el valor actual de (), la curva verde es igual a la curva azul.</li>
+</ol>
+<p>Estas propiedades son fundamentales para entender cómo funciona el paso E.</p>
+</section>
+<section id="representación-del-paso-e" class="level4">
+<h4 class="anchored" data-anchor-id="representación-del-paso-e">Representación del paso E</h4>
+<p>El paso E construye esta cota inferior (la curva verde), y esta construcción utiliza un adendum de la desigualdad de Jensen. En particular, bajo ciertas condiciones, la desigualdad de Jensen se convierte en una igualdad, es decir:</p>
+<p><span class="math display">\[\mathbb{E}[f(x)] = f(\mathbb{E}[x]).\]</span></p>
+<p>Usamos este principio para garantizar que la curva verde sea igual a la curva azul en el valor actual de (). El paso E dibuja esta curva verde.</p>
+</section>
+<section id="representación-del-paso-m" class="level4">
+<h4 class="anchored" data-anchor-id="representación-del-paso-m">Representación del paso M</h4>
+<p>Por otro lado, el paso M toma la curva verde y encuentra su máximo. Esto se traduce en mover el valor de () desde su posición actual (el valor inicial representado en verde) a un nuevo valor (representado en rojo).</p>
+</section>
+<section id="iteraciones-del-algoritmo-em" class="level4">
+<h4 class="anchored" data-anchor-id="iteraciones-del-algoritmo-em">Iteraciones del algoritmo EM</h4>
+<ol type="1">
+<li><strong>Primera iteración:</strong> El paso E construye la curva verde, y el paso M encuentra su máximo, moviendo () del valor verde al valor rojo.</li>
+<li><strong>Segunda iteración:</strong> En el nuevo valor de () (el valor rojo), el paso E construye una nueva cota inferior, una nueva curva verde. Luego, el paso M maximiza esta nueva curva verde, moviendo () nuevamente.</li>
+<li><strong>Iteraciones subsiguientes:</strong> Este proceso se repite, con el algoritmo EM construyendo y maximizando nuevas cotas inferiores, aumentando constantemente el valor de (L()) (la log-verosimilitud) hasta que converge a un óptimo local.</li>
+</ol>
+</section>
+<section id="convergencia-del-algoritmo-em" class="level4">
+<h4 class="anchored" data-anchor-id="convergencia-del-algoritmo-em">Convergencia del algoritmo EM</h4>
+<p>El algoritmo EM siempre converge a un <strong>óptimo local</strong>, pero no necesariamente a un <strong>óptimo global</strong>. Por ejemplo, si existiera un óptimo mejor en otra región del espacio de parámetros, el algoritmo podría no encontrarlo si no comienza cerca de esa región. Sin embargo, al repetir este proceso iterativo, el algoritmo EM converge, en general, a un buen óptimo local.</p>
+<p><img src="EM3.jpg" class="img-fluid" alt="Idea EM"> <img src="EM4.jpg" class="img-fluid" alt="Idea EM"> <img src="EM5.jpg" class="img-fluid" alt="Idea EM"></p>
+</section>
+</section>
+<section id="reformulación-del-problema" class="level3">
+<h3 class="anchored" data-anchor-id="reformulación-del-problema">Reformulación del Problema</h3>
+<p>Para simplificar, consideremos primero la optimización de la verosimilitud <span class="math inline">\(\log p(x; \theta)\)</span> para un solo ejemplo <span class="math inline">\(x\)</span>. Posteriormente, generalizaremos el resultado para <span class="math inline">\(n\)</span> ejemplos.</p>
+<p>La función de log-verosimilitud para un ejemplo <span class="math inline">\(x\)</span> se puede reescribir como:</p>
+<p><span class="math display">\[
+\log p(x; \theta) = \log \sum_z p(x, z; \theta).  
+\]</span></p>
+<p>Aquí introducimos una distribución auxiliar <span class="math inline">\(Q(z)\)</span> sobre los valores posibles de <span class="math inline">\(z\)</span>. Esta distribución cumple que <span class="math inline">\(\sum_z Q(z) = 1\)</span> y <span class="math inline">\(Q(z) \geq 0\)</span>. Utilizando <span class="math inline">\(Q(z)\)</span>, podemos reescribir la ecuación como:</p>
+<p><span class="math display">\[
+\begin{align*}
+\log p(x; \theta) &amp;= \log \sum_z Q(z) \frac{p(x, z; \theta)}{Q(z)} \\ &amp; \geq \sum_z Q(z) \log \frac{p(x, z; \theta)}{Q(z)}.
+\end{align*}
+\]</span></p>
+<p>Esta desigualdad proviene de la desigualdad de Jensen, que establece que la función <span class="math inline">\(f(x) = \log x\)</span> es cóncava.</p>
+<p>Prueba: consideremos el término:</p>
+<p><span class="math display">\[
+\sum_z Q(z) \log \frac{p(x, z; \theta)}{Q(z)}
+\]</span> donde la suma representa una expectativa de la cantidad <span class="math inline">\(\frac{p(x, z; \theta)}{Q(z)}\)</span>, calculada con respecto a <span class="math inline">\(z\)</span> según la distribución definida por <span class="math inline">\(Q(z)\)</span>. Usando la desigualdad de Jensen, tenemos:</p>
+<p><span class="math display">\[f\left( \mathbb{E}_{z \sim Q} \left[ \frac{p(x, z; \theta)}{Q(z)} \right] \right) \geq \mathbb{E}_{z \sim Q} \left[ f\left( \frac{p(x, z; \theta)}{Q(z)} \right) \right],
+\]</span></p>
+<p>En este caso, los subíndices <span class="math inline">\(z \sim Q\)</span> indican que las expectativas se calculan respecto a <span class="math inline">\(z\)</span> distribuidos según <span class="math inline">\(Q\)</span>.</p>
+<section id="elección-de-qz" class="level4">
+<h4 class="anchored" data-anchor-id="elección-de-qz">Elección de <span class="math inline">\(Q(z)\)</span></h4>
+<p>Para cualquier distribución <span class="math inline">\(Q\)</span>, la ecuación de arriba proporciona una cota inferior para <span class="math inline">\(\log p(x; \theta)\)</span>. Sin embargo, hay muchas elecciones posibles para <span class="math inline">\(Q\)</span>. ¿Cuál deberíamos elegir? Si tenemos una estimación inicial de <span class="math inline">\(\theta\)</span>, es natural intentar ajustar la cota inferior de manera que sea más ajustada para ese valor particular de <span class="math inline">\(\theta\)</span>. En otras palabras, buscamos que la desigualdad sea una igualdad para nuestro valor particular de <span class="math inline">\(\theta\)</span>.</p>
+<p>Recordemos esta figura: <img src="EM5.jpg" class="img-fluid" alt="Idea EM"></p>
+<p>Para que esto sea cierto, sabemos que es suficiente que la esperanza sea tomada con respecto a una variable aleatoria “constante”. Es decir, necesitamos que:</p>
+<p><span class="math display">\[ \frac{p(x,z;\theta)}{Q(z)}= c\]</span></p>
+<p>para alguna constante <span class="math inline">\(c\)</span> que no dependa de <span class="math inline">\(z\)</span>. Esto se logra fácilmente eligiendo (recordar que <span class="math inline">\(\sum_z Q(z) = 1\)</span> por ser una distribución):</p>
+<p><span class="math display">\[
+\begin{align*}
+Q(z) &amp;= \frac{p(x, z; \theta)}{\sum_{z'} p(x, z'; \theta)} \\
+&amp;= p(z|x; \theta).
+\end{align*}
+\]</span></p>
+<p>Así, simplemente establecemos que los <span class="math inline">\(Q\)</span> sean la distribución posterior de las <span class="math inline">\(z\)</span> dado <span class="math inline">\(x\)</span> y los parámetros <span class="math inline">\(\theta\)</span>.</p>
+<p>De hecho, podemos verificar directamente que cuando <span class="math inline">\(Q(z) = p(z|x; \theta)\)</span>, entonces tenemos:</p>
+<p><span class="math display">\[
+\begin{align*}
+\sum_z Q(z) \log \frac{p(x, z; \theta)}{Q(z)}
+&amp;= \sum_z p(z|x; \theta) \log \frac{p(x, z; \theta)}{p(z|x; \theta)} \\&amp;
+= \sum_z p(z|x; \theta) \log \frac{p(x, z; \theta) p(z|x; \theta)}{p(z|x; \theta)} \\
+&amp;= \sum_z p(z|x; \theta) \log p(x; \theta) \\
+&amp;= \log p(x; \theta) \sum_z p(z|x; \theta) \\
+&amp;= \log p(x; \theta) \quad (\text{porque } \sum_z p(z|x; \theta) = 1).
+\end{align*}
+\]</span></p>
+<p>Con esta elección, podemos definir la cota inferior de la evidencia (ELBO, por sus siglas en inglés) como:</p>
+<p><span class="math display">\[
+\text{ELBO}(Q, \theta) = \sum_z Q(z) \log \frac{p(x, z; \theta)}{Q(z)}. \tag{11.9}
+\]</span></p>
+<p>Con esta ecuación, podemos reescribir:</p>
+<p><span class="math display">\[
+\forall Q, \theta, x, \quad \log p(x; \theta) \geq \text{ELBO}(x; Q, \theta). \tag{11.10}
+\]</span></p>
+<p>Intuitivamente, el algoritmo EM alterna entre actualizar <span class="math inline">\(Q\)</span> y <span class="math inline">\(\theta\)</span> mediante:</p>
+<ol type="1">
+<li>Establecer <span class="math inline">\(Q(z) = p(z|x; \theta)\)</span> según la Ecuación (11.8), de forma que <span class="math inline">\(\text{ELBO}(x; Q, \theta) = \log p(x; \theta)\)</span> para un <span class="math inline">\(x\)</span> y el <span class="math inline">\(\theta\)</span> actual.</li>
+<li>Maximizar <span class="math inline">\(\text{ELBO}(x; Q, \theta)\)</span> con respecto a <span class="math inline">\(\theta\)</span>, manteniendo <span class="math inline">\(Q\)</span> fijo.</li>
+</ol>
+<p>OPINO: no seria mejor escribirlo luego como algoritmo que quede claro que $$ es cada vez? ya pongo donde…</p>
+</section>
+<section id="generalización-a-múltiples-ejemplos" class="level4">
+<h4 class="anchored" data-anchor-id="generalización-a-múltiples-ejemplos">Generalización a Múltiples Ejemplos</h4>
+<p>Hasta ahora, toda la discusión se centraba en optimizar <span class="math inline">\(\log p(x; \theta)\)</span> para un solo ejemplo <span class="math inline">\(x\)</span>. Sin embargo, cuando tenemos múltiples ejemplos de entrenamiento, la idea básica sigue siendo la misma. Sólo necesitamos sumar los ejemplos en los lugares relevantes. A continuación, construiremos la cota inferior de la evidencia para múltiples ejemplos de entrenamiento y formalizaremos el algoritmo EM.</p>
+<p>Supongamos que tenemos un conjunto de entrenamiento <span class="math inline">\(\{x^{(1)}, \ldots, x^{(n)}\}\)</span>. Observemos que la elección óptima de <span class="math inline">\(Q\)</span> es <span class="math inline">\(p(z|x; \theta)\)</span> y depende del ejemplo particular <span class="math inline">\(x^{(i)}\)</span>. Por lo tanto, introduciremos <span class="math inline">\(n\)</span> distribuciones <span class="math inline">\(Q_1, \ldots, Q_n\)</span>, una para cada ejemplo <span class="math inline">\(x^{(i)}\)</span>. Para cada ejemplo <span class="math inline">\(x^{(i)}\)</span>, podemos construir la cota inferior de la evidencia como:</p>
+<p><span class="math display">\[
+\log p(x^{(i)}; \theta) \geq \text{ELBO}(x^{(i)}; Q_i, \theta) = \sum_{z^{(i)}} Q_i(z^{(i)}) \log \frac{p(x^{(i)}, z^{(i)}; \theta)}{Q_i(z^{(i)})}.
+\]</span></p>
+</section>
+<section id="construcción-de-la-cota-inferior" class="level4">
+<h4 class="anchored" data-anchor-id="construcción-de-la-cota-inferior">Construcción de la Cota Inferior</h4>
+<p>Sumando sobre todos los ejemplos, obtenemos una cota inferior para la verosimilitud total:</p>
+<p><span class="math display">\[
+\begin{align*}
+\ell(\theta) &amp;\geq \sum_i \text{ELBO}(x^{(i)}; Q_i, \theta)
+\\&amp;= \sum_i \sum_{z^{(i)}} Q_i(z^{(i)}) \log \frac{p(x^{(i)}, z^{(i)}; \theta)}{Q_i(z^{(i)})}.
+\end{align*}
+\]</span></p>
+<p>Para cualquier conjunto de distribuciones <span class="math inline">\(Q_1, \ldots, Q_n\)</span>, la Ecuación (11.11) proporciona una cota inferior para <span class="math inline">\(\ell(\theta)\)</span>. De manera análoga al argumento de la Ecuación (11.8), la <span class="math inline">\(Q_i\)</span> que satisface la igualdad es:</p>
+<p><span class="math display">\[
+Q_i(z^{(i)}) = p(z^{(i)}|x^{(i)}; \theta).
+\]</span></p>
+<p>Por lo tanto, simplemente establecemos que los <span class="math inline">\(Q_i\)</span> sean la distribución posterior de las <span class="math inline">\(z^{(i)}\)</span> dado <span class="math inline">\(x^{(i)}\)</span> con los parámetros actuales <span class="math inline">\(\theta\)</span>. Esto asegura que la cota inferior se convierta en una igualdad, lo que permite que el algoritmo EM optimice de manera eficiente la verosimilitud total.</p>
+</section>
+</section>
+<section id="implementación-del-algoritmo-em" class="level3">
+<h3 class="anchored" data-anchor-id="implementación-del-algoritmo-em">Implementación del Algoritmo EM</h3>
+<p>Ahora, para esta elección de <span class="math inline">\(Q_i\)</span>, la Ecuación (11.11) proporciona una cota inferior para la verosimilitud logarítmica <span class="math inline">\(\ell(\theta)\)</span> que estamos tratando de maximizar. Este es el Paso E. En el Paso M del algoritmo, maximizamos la Ecuación (11.11) con respecto a los parámetros para obtener un nuevo ajuste de <span class="math inline">\(\theta\)</span>. Repetir estos dos pasos nos da el algoritmo EM, que se describe a continuación:</p>
+<p><strong>Repetir hasta la convergencia:</strong></p>
+<ol type="1">
+<li><strong>Paso E:</strong> Para cada <span class="math inline">\(i\)</span>, establecer:</li>
+</ol>
+<p><span class="math display">\[
+Q_i(z^{(i)}) := p(z^{(i)}|x^{(i)}; \theta).
+\]</span></p>
+<ol start="2" type="1">
+<li><strong>Paso M:</strong> Maximizar:</li>
+</ol>
+<p><span class="math display">\[
+\theta := \arg\max_{\theta} \sum_i \sum_{z^{(i)}} Q_i(z^{(i)}) \log p(x^{(i)}, z^{(i)}; \theta).
+\]</span></p>
+<p>Esta cota inferior nos permite maximizar la verosimilitud de manera eficiente mediante un enfoque iterativo.</p>
+<p>##LO ESCRIBIRIA ASI:</p>
+<p><strong>Repetir hasta la convergencia:</strong></p>
+<ol type="1">
+<li><strong>Paso E:</strong> Para cada <span class="math inline">\(i\)</span>, y el actual valor de <span class="math inline">\(\theta_t\)</span> establecer:</li>
+</ol>
+<p><span class="math display">\[
+Q_i(z^{(i)}) := p(z^{(i)}|x^{(i)}; \theta_t).
+\]</span></p>
+<ol start="2" type="1">
+<li><strong>Paso M:</strong> Maximizar:</li>
+</ol>
+<p><span class="math display">\[
+\theta_{t+1} := \arg\max_{\theta} \sum_i \sum_{z^{(i)}} Q_i(z^{(i)}) \log p(x^{(i)}, z^{(i)}; \theta_t).
+\]</span></p>
+<p>Esta cota inferior nos permite maximizar la verosimilitud de manera eficiente mediante un enfoque iterativo.</p>
+</section>
+</section>
+<section id="reescritura-con-elbo" class="level2">
+<h2 class="anchored" data-anchor-id="reescritura-con-elbo">Reescritura con ELBO</h2>
+<p>Con esta ecuación, podemos reescribir la Ecuación (11.7) como:</p>
+<p><span class="math display">\[
+\forall Q, \theta, x, \quad \log p(x; \theta) \geq \text{ELBO}(x; Q, \theta). \tag{11.10}
+\]</span></p>
+<p>Intuitivamente, el algoritmo EM alterna entre actualizar <span class="math inline">\(Q\)</span> y <span class="math inline">\(\theta\)</span> mediante:</p>
+<ol type="1">
+<li>Establecer <span class="math inline">\(Q(z) = p(z|x; \theta)\)</span> según la Ecuación (11.8), de forma que <span class="math inline">\(\text{ELBO}(x; Q, \theta) = \log p(x; \theta)\)</span> para un <span class="math inline">\(x\)</span> y el <span class="math inline">\(\theta\)</span> actual.</li>
+<li>Maximizar <span class="math inline">\(\text{ELBO}(x; Q, \theta)\)</span> con respecto a <span class="math inline">\(\theta\)</span>, manteniendo <span class="math inline">\(Q\)</span> fijo.</li>
+</ol>
+<section id="generalización-a-múltiples-ejemplos-1" class="level3">
+<h3 class="anchored" data-anchor-id="generalización-a-múltiples-ejemplos-1">Generalización a Múltiples Ejemplos</h3>
+<p>Hasta ahora, toda la discusión se centraba en optimizar <span class="math inline">\(\log p(x; \theta)\)</span> para un solo ejemplo <span class="math inline">\(x\)</span>. Sin embargo, cuando tenemos múltiples ejemplos de entrenamiento, la idea básica sigue siendo la misma. Sólo necesitamos sumar los ejemplos en los lugares relevantes. A continuación, construiremos la cota inferior de la evidencia para múltiples ejemplos de entrenamiento y formalizaremos el algoritmo EM.</p>
+<p>Supongamos que tenemos un conjunto de entrenamiento <span class="math inline">\(\{x^{(1)}, \ldots, x^{(n)}\}\)</span>. Observemos que la elección óptima de <span class="math inline">\(Q\)</span> es <span class="math inline">\(p(z|x; \theta)\)</span> y depende del ejemplo particular <span class="math inline">\(x^{(i)}\)</span>. Por lo tanto, introduciremos <span class="math inline">\(n\)</span> distribuciones <span class="math inline">\(Q_1, \ldots, Q_n\)</span>, una para cada ejemplo <span class="math inline">\(x^{(i)}\)</span>. Para cada ejemplo <span class="math inline">\(x^{(i)}\)</span>, podemos construir la cota inferior de la evidencia como:</p>
+<p><span class="math display">\[
+\log p(x^{(i)}; \theta) \geq \text{ELBO}(x^{(i)}; Q_i, \theta) = \sum_{z^{(i)}} Q_i(z^{(i)}) \log \frac{p(x^{(i)}, z^{(i)}; \theta)}{Q_i(z^{(i)})}.
+\]</span></p>
+</section>
+<section id="construcción-de-la-cota-inferior-1" class="level3">
+<h3 class="anchored" data-anchor-id="construcción-de-la-cota-inferior-1">Construcción de la Cota Inferior</h3>
+<p>Sumando sobre todos los ejemplos, obtenemos una cota inferior para la verosimilitud total:</p>
+<p><span class="math display">\[
+\ell(\theta) \geq \sum_i \text{ELBO}(x^{(i)}; Q_i, \theta)
+= \sum_i \sum_{z^{(i)}} Q_i(z^{(i)}) \log \frac{p(x^{(i)}, z^{(i)}; \theta)}{Q_i(z^{(i)})}. \tag{11.11}
+\]</span></p>
+<p>Para cualquier conjunto de distribuciones <span class="math inline">\(Q_1, \ldots, Q_n\)</span>, la Ecuación (11.11) proporciona una cota inferior para <span class="math inline">\(\ell(\theta)\)</span>. De manera análoga al argumento de la Ecuación (11.8), la <span class="math inline">\(Q_i\)</span> que satisface la igualdad es:</p>
+<p><span class="math display">\[
+Q_i(z^{(i)}) = p(z^{(i)}|x^{(i)}; \theta).
+\]</span></p>
+<p>Por lo tanto, simplemente establecemos que los <span class="math inline">\(Q_i\)</span> sean la distribución posterior de las <span class="math inline">\(z^{(i)}\)</span> dado <span class="math inline">\(x^{(i)}\)</span> con los parámetros actuales <span class="math inline">\(\theta\)</span>. Esto asegura que la cota inferior se convierta en una igualdad, lo que permite que el algoritmo EM optimice de manera eficiente la verosimilitud total.</p>
+</section>
+<section id="implementación-del-algoritmo-em-1" class="level3">
+<h3 class="anchored" data-anchor-id="implementación-del-algoritmo-em-1">Implementación del Algoritmo EM</h3>
+<p>Ahora, para esta elección de <span class="math inline">\(Q_i\)</span>, la Ecuación (11.11) proporciona una cota inferior para la verosimilitud logarítmica <span class="math inline">\(\ell(\theta)\)</span> que estamos tratando de maximizar. Este es el Paso E. En el Paso M del algoritmo, maximizamos la Ecuación (11.11) con respecto a los parámetros para obtener un nuevo ajuste de <span class="math inline">\(\theta\)</span>. Repetir estos dos pasos nos da el algoritmo EM, que se describe a continuación:</p>
+<p><strong>Repetir hasta la convergencia:</strong></p>
+<ol type="1">
+<li><strong>Paso E:</strong> Para cada <span class="math inline">\(i\)</span>, establecer:</li>
+</ol>
+<p><span class="math display">\[
+Q_i(z^{(i)}) := p(z^{(i)}|x^{(i)}; \theta).
+\]</span></p>
+<ol start="2" type="1">
+<li><strong>Paso M:</strong> Maximizar:</li>
+</ol>
+<p><span class="math display">\[
+\theta := \arg\max_{\theta} \sum_i \sum_{z^{(i)}} Q_i(z^{(i)}) \log p(x^{(i)}, z^{(i)}; \theta).
+\]</span></p>
+</section>
+<section id="convergencia-del-algoritmo-em-1" class="level3">
+<h3 class="anchored" data-anchor-id="convergencia-del-algoritmo-em-1">Convergencia del Algoritmo EM</h3>
+<p>¿Cómo sabemos que este algoritmo convergerá? Supongamos que <span class="math inline">\(\theta^{(t)}\)</span> y <span class="math inline">\(\theta^{(t+1)}\)</span> son los parámetros de dos iteraciones sucesivas del EM. Ahora probaremos que <span class="math inline">\(\ell(\theta^{(t)}) \leq \ell(\theta^{(t+1)})\)</span>, lo que demuestra que EM siempre mejora monótonamente la verosimilitud logarítmica. La clave para mostrar este resultado radica en nuestra elección de los <span class="math inline">\(Q_i\)</span>.</p>
+<p>Específicamente, en la iteración del EM en la que los parámetros comenzaron como <span class="math inline">\(\theta^{(t)}\)</span>, habríamos elegido <span class="math inline">\(Q_i^{(t)}(z^{(i)}) := p(z^{(i)}|x^{(i)}; \theta^{(t)})\)</span>. Como vimos anteriormente, esta elección asegura que la desigualdad de Jensen, aplicada para obtener la Ecuación (11.11), se cumpla con igualdad, y por lo tanto:</p>
+<p><span class="math display">\[
+\ell(\theta^{(t)}) = \sum_{i=1}^n \text{ELBO}(x^{(i)}; Q_i^{(t)}, \theta^{(t)}). \tag{11.13}
+\]</span></p>
+<p>Los parámetros <span class="math inline">\(\theta^{(t+1)}\)</span> se obtienen maximizando el lado derecho de la ecuación anterior. Por lo tanto:</p>
+<p><span class="math display">\[
+\begin{align*}
+\ell(\theta^{(t+1)})&amp; \geq \sum_{i=1}^n \text{ELBO}(x^{(i)}; Q_i^{(t)}, \theta^{(t+1)})\\
+&amp; \geq \sum_{i=1}^n \text{ELBO}(x^{(i)}; Q_i^{(t)}, \theta^{(t)}) \\
+&amp;= \ell(\theta^{(t)}).
+\end{align*}
+\]</span></p>
+<p>Donde la última desigualdad se deriva del hecho de que <span class="math inline">\(\theta^{(t+1)}\)</span> se elige explícitamente como:</p>
+<p><span class="math display">\[
+\theta := \arg\max_{\theta} \sum_{i=1}^n \text{ELBO}(x^{(i)}; Q_i^{(t)}, \theta).
+\]</span></p>
+<p>Por lo tanto, EM hace que la verosimilitud converja de manera monótona. En nuestra descripción del algoritmo EM, dijimos que lo ejecutaríamos hasta la convergencia. Dados los resultados que acabamos de mostrar, una prueba razonable de convergencia sería verificar si el incremento en <span class="math inline">\(\ell(\theta)\)</span> entre iteraciones sucesivas es menor que algún parámetro de tolerancia, y declarar la convergencia si EM mejora <span class="math inline">\(\ell(\theta)\)</span> demasiado lentamente.</p>
+<section id="observación-sobre-elbo" class="level4">
+<h4 class="anchored" data-anchor-id="observación-sobre-elbo">Observación sobre ELBO</h4>
+<p>Si definimos (sobrecargando ELBO):</p>
+<p><span class="math display">\[
+\text{ELBO}(Q, \theta) = \sum_{i=1}^n \text{ELBO}(x^{(i)}; Q_i, \theta) = \sum_i \sum_{z^{(i)}} Q_i(z^{(i)}) \log \frac{p(x^{(i)}, z^{(i)}; \theta)}{Q_i(z^{(i)})},
+\]</span></p>
+<p>entonces sabemos que <span class="math inline">\(\ell(\theta) \geq \text{ELBO}(Q, \theta)\)</span> por nuestra derivación anterior. El EM también puede verse como un algoritmo de maximización alternada sobre <span class="math inline">\(\text{ELBO}(Q, \theta)\)</span>, donde el Paso E lo maximiza con respecto a <span class="math inline">\(Q\)</span> (verifícalo por ti mismo) y el Paso M lo maximiza con respecto a <span class="math inline">\(\theta\)</span>.</p>
+</section>
+</section>
+<section id="propiedades-del-algoritmo-em" class="level3">
+<h3 class="anchored" data-anchor-id="propiedades-del-algoritmo-em">Propiedades del Algoritmo EM</h3>
+<ul>
+<li><strong>Convergencia Monótona:</strong> El algoritmo garantiza que la verosimilitud logarítmica <span class="math inline">\(\ell(\theta)\)</span> aumenta en cada iteración.</li>
+<li><strong>Criterio de Parada:</strong> Se puede detener cuando el incremento en <span class="math inline">\(\ell(\theta)\)</span> entre iteraciones sea menor que un umbral predefinido.</li>
+</ul>
+</section>
+</section>
+<section id="otras-interpretaciones-de-elbo" class="level2">
+<h2 class="anchored" data-anchor-id="otras-interpretaciones-de-elbo">Otras Interpretaciones de ELBO</h2>
+<p>Sea <span class="math display">\[ \text{ELBO}(x; Q, \theta) = \sum_z Q(z) \log \frac{p(x,z;\theta)}{Q(z)}. \]</span> Existen varias otras formas de ELBO. Primero, podemos reescribirlo como:</p>
+<p><span class="math display">\[
+\begin{align*}
+\text{ELBO}(x; Q, \theta) &amp;= \mathbb{E}_{z\sim Q}[\log p(x, z; \theta)] - \mathbb{E}_{z\sim Q}[\log Q(z)].
+\\
+&amp;= \mathbb{E}_{z\sim Q}[\log p(x \vert z; \theta)] - D_{\text{KL}}(Q \| p_z),
+\end{align*}
+\]</span></p>
+<p>donde usamos $p_z $ para denotar la distribución marginal de $z $ (bajo la distribución $p(x, z; ) $), y $D_{} $ denota la divergencia de Kullback-Leibler:</p>
+<p><span class="math display">\[
+D_{\text{KL}}(Q \| p_z) = \sum_z Q(z) \log \frac{Q(z)}{p(z)}.
+\]</span></p>
+<p>En muchos casos, la distribución marginal de <span class="math inline">\(z\)</span> no depende del parámetro <span class="math inline">\(\theta\)</span>. En este caso, podemos ver que maximizar respecto a <span class="math inline">\(\theta\)</span> equivale a maximizar el primer término. Esto corresponde a maximizar la verosimilitud condicional de <span class="math inline">\(x\)</span> dado <span class="math inline">\(z\)</span>, lo que a menudo es una pregunta más simple que la pregunta original.</p>
+<p>Otra forma de {ELBO} es:</p>
+<p><span class="math display">\[
+\text{ELBO}(x; Q, \theta) = \log p(x) - D_{\text{KL}}(Q \| p_{z \vert x}),
+\]</span></p>
+<p>donde <span class="math inline">\(p_{z \vert x}\)</span> es la distribución condicional de $z $ dado <span class="math inline">\(x\)</span> bajo el parámetro <span class="math inline">\(\theta\)</span>. Esta forma muestra que el maximizador de <span class="math inline">\(\text{ELBO}(Q, \theta)\)</span> sobre $Q $ se obtiene cuando <span class="math inline">\(Q = p_{z \vert x}\)</span>, lo cual se mostró en la ecuación (11.8) anteriormente.</p>
+</section>
+</section>
+<section id="mezclas-de-gaussianas-revisadas" class="level1">
+<h1>Mezclas de Gaussianas revisadas</h1>
+<p>Armados con nuestra definición general del algoritmo EM, volvamos a nuestro ejemplo anterior de ajuste de los parámetros <span class="math inline">\(\phi\)</span>, <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\Sigma\)</span> en una mezcla de Gaussianas.</p>
+<p>Para simplificar, llevaremos a cabo las derivaciones para las actualizaciones del paso M solo para <span class="math inline">\(\phi\)</span> y <span class="math inline">\(\mu_j\)</span>, y dejaremos las actualizaciones para <span class="math inline">\(\Sigma_j\)</span> como un ejercicio para el lector.</p>
+<section id="paso-e-expectation" class="level2">
+<h2 class="anchored" data-anchor-id="paso-e-expectation">Paso E (Expectation)</h2>
+<p>El paso E es sencillo. Siguiendo nuestra derivación anterior del algoritmo, simplemente calculamos:</p>
+<p><span class="math display">\[
+w_j^{(i)} = Q_i(z^{(i)} = j) = P(z^{(i)} = j|x^{(i)}; \phi, \mu, \Sigma).
+\]</span></p>
+<p>Aquí, “<span class="math inline">\(Q_i(z^{(i)} = j)\)</span>” denota la probabilidad de que <span class="math inline">\(z^{(i)}\)</span> tome el valor <span class="math inline">\(j\)</span> bajo la distribución <span class="math inline">\(Q_i\)</span>.</p>
+</section>
+<section id="paso-m-maximization" class="level2">
+<h2 class="anchored" data-anchor-id="paso-m-maximization">Paso M (Maximization)</h2>
+<p>En el paso M, necesitamos maximizar, con respecto a nuestros parámetros <span class="math inline">\(\phi\)</span>, <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\Sigma\)</span>, la cantidad:</p>
+<p><span class="math display">\[
+\sum_{i=1}^n \sum_{z^{(i)}} Q_i(z^{(i)}) \log \frac{p(x^{(i)}, z^{(i)}; \phi, \mu, \Sigma)}{Q_i(z^{(i)})}.
+\]</span></p>
+<p>Reescribiendo esto, tenemos:</p>
+<p><span class="math display">\[
+\sum_{i=1}^n \sum_{j=1}^k w_j^{(i)} \log \frac{1}{(2\pi)^{d/2}|\Sigma_j|^{1/2}} \exp\left(-\frac{1}{2}(x^{(i)} - \mu_j)^T \Sigma_j^{-1} (x^{(i)} - \mu_j)\right) \cdot \phi_j/ w_j^{(i)}.
+\]</span></p>
+<p>La expresión se puede descomponer en términos independientes, uno para cada parámetro que deseamos actualizar.</p>
+<section id="actualización-de-mu_j" class="level3">
+<h3 class="anchored" data-anchor-id="actualización-de-mu_j">Actualización de <span class="math inline">\(\mu_j\)</span></h3>
+<p>Maximicemos con respecto a <span class="math inline">\(\mu\)</span>. Tomando la derivada con respecto a <span class="math inline">\(\mu\)</span>, obtenemos:</p>
+<p><span class="math display">\[
+\nabla_{\mu_j} \sum_{i=1}^n \sum_{j=1}^k w_j^{(i)} \log \phi_j \exp\left(-\frac{1}{2}(x^{(i)} - \mu_j)^T \Sigma_j^{-1}(x^{(i)} - \mu_j)\right)/ w_j^{(i)} = 0.
+\]</span></p>
+<p>Resolviendo, encontramos: (puede dejarse como ejercicio)</p>
+<p><span class="math display">\[
+\mu_j = \frac{\sum_{i=1}^n w_j^{(i)} x^{(i)}}{\sum_{i=1}^n w_j^{(i)}}.
+\]</span></p>
+</section>
+<section id="actualización-de-phi_j" class="level3">
+<h3 class="anchored" data-anchor-id="actualización-de-phi_j">Actualización de <span class="math inline">\(\phi_j\)</span></h3>
+<p>Para <span class="math inline">\(\phi_j\)</span>, debemos maximizar:</p>
+<p><span class="math display">\[
+\sum_{i=1}^n \sum_{j=1}^k w_j^{(i)} \log \phi_j.
+\]</span></p>
+<p>Con la restricción de que <span class="math inline">\(\sum_{j=1}^k \phi_j = 1\)</span>, construimos el Lagrangiano:</p>
+<p><span class="math display">\[
+\mathcal{L}(\phi) = \sum_{i=1}^n \sum_{j=1}^k w_j^{(i)} \log \phi_j + \beta \left(\sum_{j=1}^k \phi_j - 1\right),
+\]</span></p>
+<p>donde <span class="math inline">\(\beta\)</span> es el multiplicador de Lagrange. Resolviendo, y usando la restriccion, obtenemos:</p>
+<p><span class="math display">\[
+\phi_j = \frac{1}{n} \sum_{i=1}^n w_j^{(i)}.
+\]</span></p>
+<p>La derivación para las actualizaciones del paso M de <span class="math inline">\(\Sigma_j\)</span> también es directa.</p>
+<hr>
+</section>
+<section id="ejemplo-simulado" class="level3">
+<h3 class="anchored" data-anchor-id="ejemplo-simulado">Ejemplo Simulado</h3>
+<div>
+<div id="pyodide-2" class="exercise-cell">
+
+</div>
+<script type="pyodide-2-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiIyBMaWJyZXLDrWFzXG5pbXBvcnQgbnVtcHkgYXMgbnBcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHRcbmZyb20gc2tsZWFybi5taXh0dXJlIGltcG9ydCBHYXVzc2lhbk1peHR1cmVcblxuIyBHZW5lcmFyIGRhdG9zIHNpbXVsYWRvc1xubnAucmFuZG9tLnNlZWQoNDIpXG54MSA9IG5wLnJhbmRvbS5tdWx0aXZhcmlhdGVfbm9ybWFsKFswLCAwXSwgW1sxLCAwLjVdLCBbMC41LCAxXV0sIHNpemU9MTUwKVxueDIgPSBucC5yYW5kb20ubXVsdGl2YXJpYXRlX25vcm1hbChbNSwgNV0sIFtbMSwgLTAuNV0sIFstMC41LCAxXV0sIHNpemU9MTUwKVxuZGF0YSA9IG5wLnZzdGFjayhbeDEsIHgyXSlcblxuIyBBanVzdGUgZGVsIG1vZGVsbyBFTVxubW9kZWwgPSBHYXVzc2lhbk1peHR1cmUobl9jb21wb25lbnRzPTIsIHJhbmRvbV9zdGF0ZT00Milcbm1vZGVsLmZpdChkYXRhKVxubGFiZWxzID0gbW9kZWwucHJlZGljdChkYXRhKVxuXG4jIFZpc3VhbGl6YWNpw7NuXG5wbHQuc2NhdHRlcihkYXRhWzosIDBdLCBkYXRhWzosIDFdLCBjPWxhYmVscywgY21hcD0ndmlyaWRpcycsIHM9MzApXG5wbHQuc2NhdHRlcihtb2RlbC5tZWFuc19bOiwgMF0sIG1vZGVsLm1lYW5zX1s6LCAxXSwgYz0ncmVkJywgbWFya2VyPSd4JywgbGFiZWw9J0NlbnRyb2lkZXMnKVxucGx0LnRpdGxlKFwiTWV6Y2xhIGRlIEdhdXNzaWFuYXMgLSBEYXRvcyBTaW11bGFkb3NcIilcbnBsdC5sZWdlbmQoKVxucGx0LnNob3coKSJ9
+</script>
+</div>
+<hr>
+</section>
+<section id="ejemplo-con-datos-reales" class="level3">
+<h3 class="anchored" data-anchor-id="ejemplo-con-datos-reales">Ejemplo con Datos Reales</h3>
+<p>Usaremos el conjunto de datos de iris para ilustrar la aplicación del algoritmo EM en un caso real.</p>
+<div>
+<div id="pyodide-3" class="exercise-cell">
+
+</div>
+<script type="pyodide-3-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiZnJvbSBza2xlYXJuLmRhdGFzZXRzIGltcG9ydCBsb2FkX2lyaXNcbmZyb20gc2tsZWFybi5taXh0dXJlIGltcG9ydCBHYXVzc2lhbk1peHR1cmVcbmZyb20gc2tsZWFybi5kZWNvbXBvc2l0aW9uIGltcG9ydCBQQ0FcbmZyb20gc2tsZWFybi5tZXRyaWNzIGltcG9ydCBjb25mdXNpb25fbWF0cml4LCBhZGp1c3RlZF9yYW5kX3Njb3JlLCBhY2N1cmFjeV9zY29yZVxuaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdFxuaW1wb3J0IG51bXB5IGFzIG5wXG5cbiMgQ2FyZ2FyIGRhdG9zIHJlYWxlc1xuaXJpcyA9IGxvYWRfaXJpcygpXG5kYXRhID0gaXJpcy5kYXRhXG50YXJnZXQgPSBpcmlzLnRhcmdldFxudGFyZ2V0X25hbWVzID0gaXJpcy50YXJnZXRfbmFtZXNcblxuIyBSZWR1Y2Npw7NuIGRlIGRpbWVuc2lvbmFsaWRhZCBwYXJhIHZpc3VhbGl6YWNpw7NuXG5wY2EgPSBQQ0Eobl9jb21wb25lbnRzPTIpXG5kYXRhXzJkID0gcGNhLmZpdF90cmFuc2Zvcm0oZGF0YSlcblxuIyBBanVzdGFyIGVsIG1vZGVsbyBFTVxubW9kZWwgPSBHYXVzc2lhbk1peHR1cmUobl9jb21wb25lbnRzPTMsIHJhbmRvbV9zdGF0ZT00Milcbm1vZGVsLmZpdChkYXRhKVxubGFiZWxzID0gbW9kZWwucHJlZGljdChkYXRhKVxuXG4jIFJlbGFiZWxhciBwYXJhIGFqdXN0YXIgYSBsYXMgZXRpcXVldGFzIHJlYWxlc1xuZnJvbSBzY2lweS5vcHRpbWl6ZSBpbXBvcnQgbGluZWFyX3N1bV9hc3NpZ25tZW50XG5jb3N0X21hdHJpeCA9IC1jb25mdXNpb25fbWF0cml4KHRhcmdldCwgbGFiZWxzKVxucm93X2luZCwgY29sX2luZCA9IGxpbmVhcl9zdW1fYXNzaWdubWVudChjb3N0X21hdHJpeClcbnJlbGFiZWxfbWFwID0gZGljdCh6aXAoY29sX2luZCwgcm93X2luZCkpXG5sYWJlbHNfbWFwcGVkID0gbnAuYXJyYXkoW3JlbGFiZWxfbWFwW2xhYmVsXSBmb3IgbGFiZWwgaW4gbGFiZWxzXSlcblxuIyBNZWRpZGFzIGRlIHJlbmRpbWllbnRvXG5jb25mX21hdHJpeCA9IGNvbmZ1c2lvbl9tYXRyaXgodGFyZ2V0LCBsYWJlbHNfbWFwcGVkKVxuYXJpX3Njb3JlID0gYWRqdXN0ZWRfcmFuZF9zY29yZSh0YXJnZXQsIGxhYmVsc19tYXBwZWQpXG5hY2N1cmFjeSA9IGFjY3VyYWN5X3Njb3JlKHRhcmdldCwgbGFiZWxzX21hcHBlZClcblxucHJpbnQoXCJNYXRyaXogZGUgY29uZnVzacOzbjpcIilcbnByaW50KGNvbmZfbWF0cml4KVxucHJpbnQoZlwiQVJJIChBZGp1c3RlZCBSYW5kIEluZGV4KToge2FyaV9zY29yZTouM2Z9XCIpXG5wcmludChmXCJBY2N1cmFjeToge2FjY3VyYWN5Oi4zZn1cIilcblxuIyBWaXN1YWxpemFjaW9uZXNcbiMgMS4gQ2x1c3RlcnMgZXN0aW1hZG9zXG5wbHQuZmlndXJlKGZpZ3NpemU9KDgsIDYpKVxucGx0LnNjYXR0ZXIoZGF0YV8yZFs6LCAwXSwgZGF0YV8yZFs6LCAxXSwgYz1sYWJlbHMsIGNtYXA9J3ZpcmlkaXMnLCBzPTMwLCBsYWJlbD0nQ2x1c3RlcnMgZXN0aW1hZG9zJylcbnBsdC5zY2F0dGVyKG1vZGVsLm1lYW5zX1s6LCAwXSwgbW9kZWwubWVhbnNfWzosIDFdLCBjPSdyZWQnLCBtYXJrZXI9J3gnLCBzPTEwMCwgbGFiZWw9J0NlbnRyb2lkZXMnKVxucGx0LnRpdGxlKFwiQ2x1c3RlcnMgZXN0aW1hZG9zIC0gTWV6Y2xhIGRlIEdhdXNzaWFuYXNcIilcbnBsdC54bGFiZWwoXCJDb21wb25lbnRlIHByaW5jaXBhbCAxXCIpXG5wbHQueWxhYmVsKFwiQ29tcG9uZW50ZSBwcmluY2lwYWwgMlwiKVxucGx0LmxlZ2VuZCgpXG5wbHQuZ3JpZChhbHBoYT0wLjMpXG5wbHQuc2hvdygpXG5cbiMgMi4gQ2x1c3RlcnMgcmVhbGVzXG5wbHQuZmlndXJlKGZpZ3NpemU9KDgsIDYpKVxucGx0LnNjYXR0ZXIoZGF0YV8yZFs6LCAwXSwgZGF0YV8yZFs6LCAxXSwgYz10YXJnZXQsIGNtYXA9J3ZpcmlkaXMnLCBzPTMwLCBsYWJlbD0nQ2x1c3RlcnMgcmVhbGVzJylcbnBsdC50aXRsZShcIkNsdXN0ZXJzIHJlYWxlcyAtIERhdG9zIElyaXNcIilcbnBsdC54bGFiZWwoXCJDb21wb25lbnRlIHByaW5jaXBhbCAxXCIpXG5wbHQueWxhYmVsKFwiQ29tcG9uZW50ZSBwcmluY2lwYWwgMlwiKVxucGx0LmxlZ2VuZCgpXG5wbHQuZ3JpZChhbHBoYT0wLjMpXG5wbHQuc2hvdygpXG5cbiMgMy4gTWF0cml6IGRlIGNvbmZ1c2nDs24gY29uIG1hdHBsb3RsaWJcbnBsdC5maWd1cmUoZmlnc2l6ZT0oOCwgNikpXG5wbHQudGl0bGUoXCJNYXRyaXogZGUgY29uZnVzacOzblwiKVxucGx0Lmltc2hvdyhjb25mX21hdHJpeCwgaW50ZXJwb2xhdGlvbj0nbmVhcmVzdCcsIGNtYXA9J0JsdWVzJylcbnBsdC5jb2xvcmJhcigpXG5wbHQueHRpY2tzKG5wLmFyYW5nZShsZW4odGFyZ2V0X25hbWVzKSksIHRhcmdldF9uYW1lcywgcm90YXRpb249NDUpXG5wbHQueXRpY2tzKG5wLmFyYW5nZShsZW4odGFyZ2V0X25hbWVzKSksIHRhcmdldF9uYW1lcylcbnBsdC54bGFiZWwoXCJQcmVkaWNjacOzblwiKVxucGx0LnlsYWJlbChcIkV0aXF1ZXRhIHJlYWxcIilcbmZvciBpIGluIHJhbmdlKGxlbih0YXJnZXRfbmFtZXMpKTpcbiAgICBmb3IgaiBpbiByYW5nZShsZW4odGFyZ2V0X25hbWVzKSk6XG4gICAgICAgIHBsdC50ZXh0KGosIGksIGNvbmZfbWF0cml4W2ksIGpdLCBoYT1cImNlbnRlclwiLCB2YT1cImNlbnRlclwiLCBjb2xvcj1cImJsYWNrXCIpXG5wbHQudGlnaHRfbGF5b3V0KClcbnBsdC5zaG93KCkifQ==
+</script>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="factor-análisis" class="level1">
+<h1>Factor análisis</h1>
+<section id="introducción-2" class="level2">
+<h2 class="anchored" data-anchor-id="introducción-2">Introducción</h2>
+<p>Cuando tenemos datos <span class="math inline">\(x^{(i)} \in \mathbb{R}^d\)</span> que provienen de una mezcla de varias distribuciones Gaussianas, el algoritmo EM se puede aplicar para ajustar un modelo de mezcla. En este contexto, generalmente imaginamos problemas donde disponemos de suficientes datos como para discernir la estructura de múltiples Gaussianas en los datos. Por ejemplo, este sería el caso si el tamaño de nuestro conjunto de entrenamiento <span class="math inline">\(n\)</span> fuera significativamente mayor que la dimensión <span class="math inline">\(p\)</span> de los datos.</p>
+<p>Ahora, consideremos un escenario en el que <span class="math inline">\(p &gt; n\)</span>. En tal problema, podría ser difícil modelar los datos incluso con una sola Gaussiana, mucho menos con una mezcla de Gaussianas. Específicamente, dado que los <span class="math inline">\(n\)</span> puntos de datos solo abarcan un subespacio de baja dimensión de <span class="math inline">\(\mathbb{R}^p\)</span>, si modelamos los datos como una Gaussiana y estimamos la media y la covarianza utilizando los estimadores de máxima verosimilitud habituales, tenemos:</p>
+<p><span class="math display">\[
+\mu = \frac{1}{n} \sum_{i=1}^{n} x^{(i)}
+\]</span></p>
+<p><span class="math display">\[
+\Sigma = \frac{1}{n} \sum_{i=1}^{n} (x^{(i)} - \mu)(x^{(i)} - \mu)^\top,
+\]</span></p>
+<p>encontraríamos que la matriz <span class="math inline">\(\Sigma\)</span> es singular. Esto significa que <span class="math inline">\(\Sigma^{-1}\)</span> no existe, y que <span class="math inline">\(1/|\Sigma|^{1/2} = 1/0\)</span>. Pero ambos términos son necesarios para calcular la densidad habitual de una distribución Gaussiana multivariada. Otra manera de expresar esta dificultad es que las estimaciones de máxima verosimilitud de los parámetros resultan en una Gaussiana que coloca toda su probabilidad en el espacio afín abarcado por los datos, y esto corresponde a una matriz de covarianza singular.</p>
+<p>Más generalmente, a menos que <span class="math inline">\(n\)</span> exceda a <span class="math inline">\(p\)</span> por una cantidad razonable, las estimaciones de máxima verosimilitud de la media y la covarianza pueden ser bastante deficientes. No obstante, aún nos gustaría poder ajustar un modelo Gaussiano razonable a los datos y, tal vez, capturar alguna estructura de covarianza interesante en los datos. ¿Cómo podemos lograr esto?</p>
+<p>En la siguiente sección, comenzamos revisando dos posibles restricciones en <span class="math inline">\(\Sigma\)</span> que nos permiten ajustarla con pequeñas cantidades de datos, aunque ninguna proporcionará una solución satisfactoria a nuestro problema. Luego, discutimos algunas propiedades de las Gaussianas que serán necesarias más adelante; específicamente, cómo encontrar distribuciones marginales y condicionales de Gaussianas. Finalmente, presentamos el modelo de análisis factorial y el algoritmo EM para este modelo.</p>
+</section>
+<section id="restricciones-de-sigma" class="level2">
+<h2 class="anchored" data-anchor-id="restricciones-de-sigma">Restricciones de <span class="math inline">\(\Sigma\)</span></h2>
+<p>Si no tenemos suficientes datos para ajustar una matriz de covarianza completa, podemos imponer algunas restricciones en el espacio de matrices <span class="math inline">\(\Sigma\)</span> que consideraremos. Por ejemplo, podríamos optar por ajustar una matriz de covarianza <span class="math inline">\(\Sigma\)</span> que sea diagonal. En este caso, el lector puede verificar fácilmente que la estimación de máxima verosimilitud de la matriz de covarianza está dada por la matriz diagonal <span class="math inline">\(\Sigma\)</span> que satisface:</p>
+<p><span class="math display">\[
+\Sigma_{jj} = \frac{1}{n} \sum_{i=1}^n (x_j^{(i)} - \mu_j)^2.
+\]</span></p>
+<p>Así, <span class="math inline">\(\Sigma_{jj}\)</span> es simplemente la estimación empírica de la varianza de la <span class="math inline">\(j\)</span>-ésima coordenada de los datos.</p>
+<p>Recuerda que los contornos de una densidad Gaussiana son elipses. Una <span class="math inline">\(\Sigma\)</span> diagonal corresponde a una Gaussiana donde los ejes principales de estas elipses están alineados con los ejes.</p>
+<p>A veces, podemos imponer una restricción adicional a la matriz de covarianza: no solo debe ser diagonal, sino que todas sus entradas diagonales deben ser iguales. En este caso, tenemos <span class="math inline">\(\Sigma = \sigma^2 I\)</span>, donde <span class="math inline">\(\sigma^2\)</span> es el parámetro bajo nuestro control. La estimación de máxima verosimilitud de <span class="math inline">\(\sigma^2\)</span> se encuentra como:</p>
+<p><span class="math display">\[
+\sigma^2 = \frac{1}{nd} \sum_{j=1}^d \sum_{i=1}^n (x_j^{(i)} - \mu_j)^2.
+\]</span></p>
+<p>Este modelo corresponde a usar distribuciones Gaussianas cuyas densidades tienen contornos que son círculos (en dos dimensiones) o esferas/hiperesferas en dimensiones superiores.</p>
+<p>Si estamos ajustando una matriz de covarianza <span class="math inline">\(\Sigma\)</span> completa y sin restricciones a los datos, es necesario que <span class="math inline">\(n \geq p + 1\)</span> para que la estimación de máxima verosimilitud de <span class="math inline">\(\Sigma\)</span> no sea singular. Bajo cualquiera de las dos restricciones anteriores, podemos obtener una <span class="math inline">\(\Sigma\)</span> no singular cuando <span class="math inline">\(n \geq 2\)</span>.</p>
+<p>Sin embargo, restringir <span class="math inline">\(\Sigma\)</span> a ser diagonal también implica modelar las diferentes coordenadas <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x_j\)</span> de los datos como no correlacionadas e independientes. A menudo, sería deseable capturar alguna estructura de correlación interesante en los datos. Si utilizáramos cualquiera de las restricciones descritas anteriormente sobre <span class="math inline">\(\Sigma\)</span>, no podríamos hacerlo. En este conjunto de notas, describiremos el modelo de análisis factorial, que utiliza más parámetros que la <span class="math inline">\(\Sigma\)</span> diagonal y captura algunas correlaciones en los datos, pero sin necesidad de ajustar una matriz de covarianza completa.</p>
+</section>
+</section>
+<section id="marginales-y-condicionales-de-gaussianas-esto-no-va-aca-sino-con-la-normal-pero-bueno-para-que-ya-este" class="level1">
+<h1>Marginales y Condicionales de Gaussianas (esto no va aca sino con la normal pero bueno, para que ya este)</h1>
+<p>Antes de describir el análisis factorial, nos detenemos brevemente para hablar sobre cómo encontrar las distribuciones marginales y condicionales de variables aleatorias con una distribución conjunta Gaussiana multivariada.</p>
+<p>Supongamos que tenemos una variable aleatoria vectorial:</p>
+<p><span class="math display">\[
+x =
+\begin{bmatrix}
+x_1 \\
+x_2
+\end{bmatrix},
+\]</span></p>
+<p>donde <span class="math inline">\(x_1 \in \mathbb{R}^r\)</span>, <span class="math inline">\(x_2 \in \mathbb{R}^s\)</span>, y <span class="math inline">\(x \in \mathbb{R}^{r+s}\)</span>. Supongamos que <span class="math inline">\(x \sim \mathcal{N}(\mu, \Sigma)\)</span>, donde:</p>
+<p><span class="math display">\[
+\mu =
+\begin{bmatrix}
+\mu_1 \\
+\mu_2
+\end{bmatrix},
+\quad
+\Sigma =
+\begin{bmatrix}
+\Sigma_{11} &amp; \Sigma_{12} \\
+\Sigma_{21} &amp; \Sigma_{22}
+\end{bmatrix}.
+\]</span></p>
+<p>Aquí, <span class="math inline">\(\mu_1 \in \mathbb{R}^r\)</span>, <span class="math inline">\(\mu_2 \in \mathbb{R}^s\)</span>, <span class="math inline">\(\Sigma_{11} \in \mathbb{R}^{r \times r}\)</span>, <span class="math inline">\(\Sigma_{22} \in \mathbb{R}^{s \times s}\)</span>, y así sucesivamente. Nota que las matrices de covarianza son simétricas, lo que implica que <span class="math inline">\(\Sigma_{12} = \Sigma_{21}^\top\)</span>.</p>
+<p>Bajo nuestras suposiciones, <span class="math inline">\(x_1\)</span> y <span class="math inline">\(x_2\)</span> son conjuntamente Gaussianas multivariadas. ¿Cuál es la distribución marginal de <span class="math inline">\(x_1\)</span>? No es difícil ver que <span class="math inline">\(\mathbb{E}[x_1] = \mu_1\)</span> y que <span class="math inline">\(\text{Cov}[x_1] = \Sigma_{11}\)</span>. Para ver que esto último es cierto, observemos que, por definición de la covarianza conjunta de <span class="math inline">\(x_1\)</span> y <span class="math inline">\(x_2\)</span>, tenemos:</p>
+<p><span class="math display">\[
+\text{Cov}[x] =
+\mathbb{E}\left[
+\begin{bmatrix}
+x_1 - \mu_1 \\
+x_2 - \mu_2
+\end{bmatrix}
+\begin{bmatrix}
+x_1 - \mu_1 \\
+x_2 - \mu_2
+\end{bmatrix}^\top
+\right].
+\]</span></p>
+<p>Expandiendo y emparejando los términos correspondientes en las matrices, podemos demostrar que la distribución marginal de <span class="math inline">\(x_1\)</span> está dada por <span class="math inline">\(x_1 \sim \mathcal{N}(\mu_1, \Sigma_{11})\)</span>.</p>
+<p>Ahora, ¿cuál es la distribución condicional de <span class="math inline">\(x_1\)</span> dado <span class="math inline">\(x_2\)</span>? Usando el hecho de que la distribución conjunta de <span class="math inline">\(x_1\)</span> y <span class="math inline">\(x_2\)</span> es Gaussiana multivariada, podemos derivar que la distribución condicional de <span class="math inline">\(x_1\)</span> dado <span class="math inline">\(x_2\)</span> está dada por:</p>
+<p><span class="math display">\[
+x_1 \mid x_2 \sim \mathcal{N}(\mu_{1 \mid 2}, \Sigma_{1 \mid 2}),
+\]</span></p>
+<p>donde:</p>
+<p><span class="math display">\[
+\mu_{1 \mid 2} = \mu_1 + \Sigma_{12} \Sigma_{22}^{-1} (x_2 - \mu_2),
+\]</span></p>
+<p><span class="math display">\[
+\Sigma_{1 \mid 2} = \Sigma_{11} - \Sigma_{12} \Sigma_{22}^{-1} \Sigma_{21}.
+\]</span></p>
+<p>Cuando trabajamos con el modelo de análisis factorial en la próxima sección, estas fórmulas para encontrar distribuciones marginales y condicionales de Gaussianas serán muy útiles.</p>
+<section id="modelo-de-análisis-de-factores" class="level2">
+<h2 class="anchored" data-anchor-id="modelo-de-análisis-de-factores">Modelo de Análisis de Factores</h2>
+<p>En este modelo, los datos <span class="math inline">\(x\)</span> son generados por una combinación lineal de variables latentes <span class="math inline">\(z\)</span> y ruido Gaussiano:</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;z \sim \mathcal{N}(0, I), \\
+&amp;x \vert z \sim \mathcal{N}(\mu + \Lambda z, \Psi).
+\end{aligned}
+\]</span></p>
+<p>Donde:</p>
+<ul>
+<li><p><span class="math inline">\(\mu\)</span>: Vector de medias de las variables observadas (dimensión <span class="math inline">\(\mathbb{R}^p\)</span>).</p></li>
+<li><p><span class="math inline">\(\Lambda\)</span>: Matriz de cargas factoriales, que define la relación lineal entre las variables latentes y las observadas (dimensión <span class="math inline">\(\mathbb{R}^{p \times k}\)</span>, con <span class="math inline">\(k &lt; p\)</span>).</p></li>
+<li><p><span class="math inline">\(\Psi\)</span>: Matriz diagonal que representa la varianza específica o ruido asociado a cada variable observada.</p></li>
+</ul>
+<p>El modelo supone que las variables latentes <span class="math inline">\(z\)</span> tienen una distribución normal estándar y que el ruido Gaussiano es independiente y tiene una estructura diagonal.</p>
+<p>Imaginemos que cada punto de datos <span class="math inline">\(x^{(i)}\)</span> es generado al muestrear una Gaussiana multivariada de dimensión <span class="math inline">\(k\)</span>, denotada como <span class="math inline">\(z^{(i)}\)</span>. Luego, <span class="math inline">\(z^{(i)}\)</span> es mapeado a un espacio afín de <span class="math inline">\(\mathbb{R}^d\)</span> al computar <span class="math inline">\(\mu + \Lambda z^{(i)}\)</span>. Finalmente, <span class="math inline">\(x^{(i)}\)</span> es generado al agregar ruido con covarianza <span class="math inline">\(\Psi\)</span> a <span class="math inline">\(\mu + \Lambda z^{(i)}\)</span>.</p>
+<p>De manera equivalente (puedes verificar que este es el caso), también podemos definir el modelo de análisis factorial como:</p>
+<p><span class="math display">\[
+z \sim \mathcal{N}(0, I)
+\]</span></p>
+<p><span class="math display">\[
+\epsilon \sim \mathcal{N}(0, \Psi)
+\]</span></p>
+<p><span class="math display">\[
+x = \mu + \Lambda z + \epsilon,
+\]</span></p>
+<p>donde <span class="math inline">\(\epsilon\)</span> y <span class="math inline">\(z\)</span> son independientes.</p>
+<p>Ahora, calculemos exactamente qué distribución define nuestro modelo. Las variables aleatorias <span class="math inline">\(z\)</span> y <span class="math inline">\(x\)</span> tienen una distribución conjunta Gaussiana:</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+z \\
+x
+\end{bmatrix}
+\sim \mathcal{N}(\mu_{zx}, \Sigma).
+\]</span></p>
+<p>Vamos a encontrar <span class="math inline">\(\mu_{zx}\)</span> y <span class="math inline">\(\Sigma\)</span>.</p>
+<p>Sabemos que <span class="math inline">\(\mathbb{E}[z] = 0\)</span>, debido al hecho de que <span class="math inline">\(z \sim \mathcal{N}(0, I)\)</span>. Además, tenemos que:</p>
+<p><span class="math display">\[
+\begin{align*}
+\mathbb{E}[x] &amp;= \mathbb{E}[\mu + \Lambda z + \epsilon]\\
+&amp;= \mu + \Lambda \mathbb{E}[z] + \mathbb{E}[\epsilon]\\
+&amp;= \mu.
+\end{align*}
+\]</span></p>
+<p>Combinando estos resultados, obtenemos:</p>
+<p><span class="math display">\[
+\mu_{zx} =
+\begin{bmatrix}
+0 \\
+\mu
+\end{bmatrix}.
+\]</span></p>
+<p>A continuación, para encontrar <span class="math inline">\(\Sigma\)</span>, necesitamos calcular los siguientes bloques:</p>
+<ol type="1">
+<li><span class="math inline">\(\Sigma_{zz} = \mathbb{E}[(z - \mathbb{E}[z])(z - \mathbb{E}[z])^\top]\)</span> (el bloque superior izquierdo de <span class="math inline">\(\Sigma\)</span>),</li>
+<li><span class="math inline">\(\Sigma_{zx} = \mathbb{E}[(z - \mathbb{E}[z])(x - \mathbb{E}[x])^\top]\)</span> (el bloque superior derecho de <span class="math inline">\(\Sigma\)</span>),</li>
+<li><span class="math inline">\(\Sigma_{xx} = \mathbb{E}[(x - \mathbb{E}[x])(x - \mathbb{E}[x])^\top]\)</span> (el bloque inferior derecho de <span class="math inline">\(\Sigma\)</span>).</li>
+</ol>
+<p>Dado que <span class="math inline">\(z \sim \mathcal{N}(0, I)\)</span>, encontramos fácilmente que <span class="math inline">\(\Sigma_{zz} = \text{Cov}(z) = I\)</span>. Además:</p>
+<p><span class="math display">\[
+\begin{align*}
+\mathbb{E}[(z - \mathbb{E}[z])(x - \mathbb{E}[x])^\top] &amp;= \mathbb{E}[z(\mu + \Lambda z + \epsilon - \mu)^\top]\\
+&amp;= \mathbb{E}[zz^\top \Lambda^\top + z \epsilon^\top]\\
+&amp;= \Lambda^\top.
+\end{align*}
+\]</span></p>
+<p>En el último paso, usamos el hecho de que <span class="math inline">\(\mathbb{E}[zz^\top] = \text{Cov}(z)\)</span> (ya que <span class="math inline">\(z\)</span> tiene media cero), y <span class="math inline">\(\mathbb{E}[z\epsilon^\top] = \mathbb{E}[z]\mathbb{E}[\epsilon^\top] = 0\)</span> (ya que <span class="math inline">\(z\)</span> y <span class="math inline">\(\epsilon\)</span> son independientes).</p>
+<p>De manera similar, podemos encontrar <span class="math inline">\(\Sigma_{xx}\)</span> de la siguiente manera:</p>
+<p><span class="math display">\[
+\begin{align*}
+\mathbb{E}[(x - \mathbb{E}[x])(x - \mathbb{E}[x])^\top] &amp;= \mathbb{E}[(\mu + \Lambda z + \epsilon - \mu)(\mu + \Lambda z + \epsilon - \mu)^\top]
+\\
+&amp;= \mathbb{E}[\Lambda zz^\top \Lambda^\top + \epsilon z^\top \Lambda^\top + \Lambda z \epsilon^\top + \epsilon \epsilon^\top]
+\\
+&amp;= \Lambda \mathbb{E}[zz^\top] \Lambda^\top + \mathbb{E}[\epsilon \epsilon^\top]\\
+&amp;= \Lambda \Lambda^\top + \Psi.
+\end{align*}
+\]</span></p>
+<p>Combinando todo, obtenemos lo siguiente:</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+z \\
+x
+\end{bmatrix}
+\sim \mathcal{N}
+\left(
+\begin{bmatrix}
+\mathbf{0} \\
+\mu
+\end{bmatrix},
+\begin{bmatrix}
+I &amp; \Lambda^\top \\
+\Lambda &amp; \Lambda \Lambda^\top + \Psi
+\end{bmatrix}
+\right).
+\]</span></p>
+<ol type="1">
+<li><p><strong>Distribución Marginal</strong>: La distribución marginal de las variables observadas <span class="math inline">\(x\)</span> es una distribución Gaussiana con media <span class="math inline">\(\mu\)</span> y matriz de covarianza <span class="math inline">\(\Sigma = \Lambda\Lambda^T + \Psi\)</span>:</p>
+<p><span class="math display">\[
+x \sim \mathcal{N}(\mu, \Lambda\Lambda^T + \Psi).
+\]</span></p></li>
+<li><p><strong>Distribución Condicional</strong>: La distribución de las variables latentes <span class="math inline">\(z\)</span> dado <span class="math inline">\(x\)</span>también es Gaussiana, con media y covarianza dadas por:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mu_{z \vert x} &amp;= \Lambda^T(\Lambda\Lambda^T + \Psi)^{-1}(x - \mu), \\
+\Sigma_{z \vert x} &amp;= I - \Lambda^T(\Lambda\Lambda^T + \Psi)^{-1}\Lambda.
+\end{aligned}
+\]</span></p></li>
+</ol>
+<p>Estas propiedades son esenciales para la implementación del algoritmo EM, ya que podemos escribir la verosimilitud usando lo anterior: <span class="math display">\[
+\ell(\mu, \Lambda, \Psi) = \log \prod_{i=1}^n \frac{1}{(2\pi)^{d/2} |\Lambda \Lambda^\top + \Psi|^{1/2}} \exp\left(-\frac{1}{2} (x^{(i)} - \mu)^\top (\Lambda \Lambda^\top + \Psi)^{-1} (x^{(i)} - \mu)\right).
+\]</span></p>
+<p>Para realizar la estimación de máxima verosimilitud, nos gustaría maximizar esta cantidad con respecto a los parámetros. Sin embargo, maximizar esta fórmula explícitamente es difícil (inténtalo tú mismo), y no conocemos ningún algoritmo que lo haga en forma cerrada. Por lo tanto, en su lugar, utilizaremos el algoritmo EM. En la próxima sección, derivamos EM para el análisis factorial.o</p>
+</section>
+<section id="algoritmo-em-para-análisis-de-factores" class="level2">
+<h2 class="anchored" data-anchor-id="algoritmo-em-para-análisis-de-factores">Algoritmo EM para Análisis de Factores</h2>
+<p>El algoritmo EM optimiza los parámetros del modelo iterativamente mediante dos pasos:</p>
+<section id="paso-e-esperanza" class="level3">
+<h3 class="anchored" data-anchor-id="paso-e-esperanza">Paso E (Esperanza)</h3>
+<p><strong>Síntesis:</strong> en este paso, calculamos la distribución condicional de las variables latentes <span class="math inline">\(z\)</span> dado <span class="math inline">\(x\)</span> y los parámetros actuales del modelo. Esto implica calcular:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mu_{z \vert x} &amp;= \Lambda^T(\Lambda\Lambda^T + \Psi)^{-1}(x - \mu), \\
+\Sigma_{z \vert x} &amp;= I - \Lambda^T(\Lambda\Lambda^T + \Psi)^{-1}\Lambda.
+\end{aligned}
+\]</span></p>
+<p>Estos valores representan la media y la covarianza condicionales de <span class="math inline">\(z\)</span>, que se utilizan para estimar las contribuciones de las variables latentes a los datos observados.</p>
+<p><strong>Derivación del Paso E:</strong>*</p>
+<p>La derivación del paso E es sencilla. Necesitamos calcular <span class="math inline">\(Q_i(z^{(i)}) = p(z^{(i)} \mid x^{(i)}; \mu, \Lambda, \Psi)\)</span>. Sustituyendo la distribución dada en la Ecuación (3) en las fórmulas (1-2) utilizadas para encontrar la distribución condicional de una Gaussiana, encontramos que:</p>
+<p><span class="math display">\[
+z^{(i)} \mid x^{(i)}; \mu, \Lambda, \Psi \sim \mathcal{N}(\mu_{z^{(i)} \mid x^{(i)}}, \Sigma_{z^{(i)} \mid x^{(i)}}),
+\]</span></p>
+<p>donde:</p>
+<p><span class="math display">\[
+\begin{align*}
+\mu_{z^{(i)} \mid x^{(i)}} &amp;= \Lambda^\top (\Lambda \Lambda^\top + \Psi)^{-1} (x^{(i)} - \mu)
+\\
+\Sigma_{z^{(i)} \mid x^{(i)}} &amp;= I - \Lambda^\top (\Lambda \Lambda^\top + \Psi)^{-1} \Lambda.
+\end{align*}
+\]</span></p>
+<p>Por lo tanto, usando estas definiciones para <span class="math inline">\(\mu_{z^{(i)} \mid x^{(i)}}\)</span> y <span class="math inline">\(\Sigma_{z^{(i)} \mid x^{(i)}}\)</span>, tenemos:</p>
+<p><span class="math display">\[
+Q_i(z^{(i)}) = \frac{1}{(2\pi)^{k/2} |\Sigma_{z^{(i)} \mid x^{(i)}}|^{1/2}}
+\exp \left( -\frac{1}{2} (z^{(i)} - \mu_{z^{(i)} \mid x^{(i)}})^\top \Sigma_{z^{(i)} \mid x^{(i)}}^{-1} (z^{(i)} - \mu_{z^{(i)} \mid x^{(i)}}) \right).
+\]</span></p>
+</section>
+<section id="paso-m-maximización" class="level3">
+<h3 class="anchored" data-anchor-id="paso-m-maximización">Paso M (Maximización)</h3>
+<p><strong>Síntesis:</strong> en este paso, actualizamos los parámetros <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\Lambda\)</span> y <span class="math inline">\(\Psi\)</span> maximizando la esperanza de la log-verosimilitud:</p>
+<ol type="1">
+<li><p><strong>Actualización de <span class="math inline">\(\mu\)</span>:</strong></p>
+<p><span class="math display">\[
+\mu = \frac{1}{n} \sum_{i=1}^n x^{(i)}.
+\]</span></p></li>
+<li><p><strong>Actualización de <span class="math inline">\(\Lambda\)</span>:</strong></p>
+<p><span class="math display">\[
+\Lambda = \left( \sum_{i=1}^n (x^{(i)} - \mu)\mu_{z \vert x}^{(i)T} \right) \left( \sum_{i=1}^n \mu_{z \vert x}^{(i)}\mu_{z \vert x}^{(i)T} + \Sigma_{z \vert x}^{(i)} \right)^{-1}.
+\]</span></p></li>
+<li><p><strong>Actualización de <span class="math inline">\(Psi\)</span>:</strong></p>
+<p><span class="math display">\[
+\Psi = \text{diag}\left( \frac{1}{n} \sum_{i=1}^n \left[ x^{(i)}x^{(i)T} - \Lambda \mu_{z \vert x}^{(i)}x^{(i)T} \right] \right).
+\]</span></p></li>
+</ol>
+<p>Este proceso se repite hasta que los parámetros convergen, indicando que se ha encontrado un óptimo local.</p>
+<p><strong>Derivación del paso M:</strong></p>
+<p>Trabajemos ahora en el paso M. Aquí, necesitamos maximizar:</p>
+<p><span class="math display">\[
+\sum_{i=1}^n \int_{z^{(i)}} Q_i(z^{(i)}) \log \frac{p(x^{(i)}, z^{(i)}; \mu, \Lambda, \Psi)}{Q_i(z^{(i)})} dz^{(i)}  
+\]</span></p>
+<p>con respecto a los parámetros <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\Lambda\)</span>, <span class="math inline">\(\Psi\)</span>. Resolveremos únicamente la optimización con respecto a <span class="math inline">\(\Lambda\)</span> y dejaremos como ejercicio para el lector las derivaciones de las actualizaciones para <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\Psi\)</span>.</p>
+<p>Podemos simplificar la función a maximizar como:</p>
+<p><span class="math display">\[
+\begin{align*}
+&amp; \sum_{i=1}^n \int_{z^{(i)}} Q_i(z^{(i)}) \big[ \log p(x^{(i)} \mid z^{(i)}; \mu, \Lambda, \Psi) + \log p(z^{(i)}) - \log Q_i(z^{(i)}) \big] dz^{(i)}  
+\\&amp;
+= \sum_{i=1}^n \mathbb{E}_{z^{(i)} \sim Q_i} \big[ \log p(x^{(i)} \mid z^{(i)}; \mu, \Lambda, \Psi) + \log p(z^{(i)}) - \log Q_i(z^{(i)}) \big] \end{align*}
+\]</span></p>
+<p>Aquí, el subíndice “<span class="math inline">\(z^{(i)} \sim Q_i\)</span>” indica que la esperanza se toma con respecto a <span class="math inline">\(z^{(i)}\)</span> muestreado de <span class="math inline">\(Q_i\)</span>. En el desarrollo subsiguiente, omitiremos este subíndice cuando no haya riesgo de ambigüedad. Al eliminar términos que no dependen de los parámetros, encontramos que necesitamos maximizar:</p>
+<p><span class="math display">\[
+\begin{align*}
+&amp;\sum_{i=1}^n \mathbb{E} \big[ \log p(x^{(i)} \mid z^{(i)}; \mu, \Lambda, \Psi) \big]
+\\
+&amp;=\sum_{i=1}^n \mathbb{E} \bigg[ \log \frac{1}{(2\pi)^{d/2} |\Psi|^{1/2}} \exp \left( -\frac{1}{2} (x^{(i)} - \mu - \Lambda z^{(i)})^\top \Psi^{-1} (x^{(i)} - \mu - \Lambda z^{(i)}) \right) \bigg].
+\\
+&amp;=\sum_{i=1}^n \mathbb{E} \bigg[ -\frac{1}{2} \log |\Psi| - \frac{n}{2} \log (2\pi) - \frac{1}{2} (x^{(i)} - \mu - \Lambda z^{(i)})^\top \Psi^{-1} (x^{(i)} - \mu - \Lambda z^{(i)}) \bigg].
+\end{align*}
+\]</span></p>
+<p><strong>Maximización con respecto a <span class="math inline">\(\Lambda\)</span></strong></p>
+<p>Maximicemos esta expresión con respecto a <span class="math inline">\(\Lambda\)</span>. Solo el último término en la ecuación anterior depende de <span class="math inline">\(\Lambda\)</span>. Tomando las derivadas y utilizando los hechos de que <span class="math inline">\(\text{tr}(AB) = \text{tr}(BA)\)</span> y <span class="math inline">\(\nabla_{\text{tr}}(ABAC) = CAB + C^\top AB^\top\)</span>, obtenemos:</p>
+<p><span class="math display">\[
+\begin{align*}
+&amp;\nabla_\Lambda \sum_{i=1}^n \mathbb{E} \bigg[ -\frac{1}{2} (x^{(i)} - \mu - \Lambda z^{(i)})^\top \Psi^{-1} (x^{(i)} - \mu - \Lambda z^{(i)}) \bigg]\\
+&amp;= \sum_{i=1}^n \nabla_\Lambda \mathbb{E} \bigg[ -\frac{1}{2} \text{tr} \big( z^{(i)} z^{(i)\top} \Lambda^\top \Psi^{-1} \Lambda \big) + \text{tr} \big( z^{(i)} (x^{(i)} - \mu)^\top \Psi^{-1} \Lambda^\top \big) \bigg]
+\\
+&amp;= \sum_{i=1}^n \nabla_\Lambda \mathbb{E} \bigg[ -\frac{1}{2} \text{tr} \big( \Lambda^\top \Psi^{-1} \Lambda z^{(i)} z^{(i)\top} \big) + \text{tr} \big( \Psi^{-1} (x^{(i)} - \mu) z^{(i)\top} \Lambda^\top \big) \bigg]
+\\
+&amp;= \sum_{i=1}^n \mathbb{E} \bigg[ -\Psi^{-1} \Lambda z^{(i)} z^{(i)\top} + \Psi^{-1} (x^{(i)} - \mu) z^{(i)\top} \bigg].
+\end{align*}
+\]</span></p>
+<p>Al igualar esta derivada a cero y simplificar, obtenemos:</p>
+<p><span class="math display">\[
+\sum_{i=1}^n \Lambda \mathbb{E}_{z^{(i)} \sim Q_i} \big[ z^{(i)} z^{(i)\top} \big] = \sum_{i=1}^n (x^{(i)} - \mu) \mathbb{E}_{z^{(i)} \sim Q_i} \big[ z^{(i)\top} \big].
+\]</span></p>
+<p>Resolviendo para <span class="math inline">\(\Lambda\)</span>, encontramos:</p>
+<p><span class="math display">\[
+\Lambda = \bigg( \sum_{i=1}^n (x^{(i)} - \mu) \mathbb{E}_{z^{(i)} \sim Q_i} \big[ z^{(i)\top} \big] \bigg) \bigg( \sum_{i=1}^n \mathbb{E}_{z^{(i)} \sim Q_i} \big[ z^{(i)} z^{(i)\top} \big] \bigg)^{-1}. \tag{7}
+\]</span></p>
+<p><strong>Relación con las ecuaciones normales</strong></p>
+<p>Es interesante notar la relación entre esta ecuación y la ecuación normal que derivamos para la regresión por mínimos cuadrados ordinarios:</p>
+<p><span class="math display">\[
+\theta^\top = (y^\top X)(X^\top X)^{-1}.
+\]</span></p>
+<p>La analogía aquí es que los <span class="math inline">\(x\)</span> son una función lineal de los <span class="math inline">\(z\)</span> (más ruido). Dadas las “estimaciones” para <span class="math inline">\(z\)</span> encontradas en el Paso E, ahora intentaremos estimar la linealidad desconocida <span class="math inline">\(\Lambda\)</span> que relaciona los <span class="math inline">\(x\)</span> y los <span class="math inline">\(z\)</span>. No es sorprendente que obtengamos algo similar a la ecuación normal. Sin embargo, hay una diferencia importante entre este procedimiento y un algoritmo que realiza mínimos cuadrados usando solo las “mejores estimaciones” de los <span class="math inline">\(z\)</span>. Veremos esta diferencia en breve.</p>
+<p>Para completar la actualización del Paso M, trabajemos los valores de las esperanzas en la Ecuación (7). A partir de nuestra definición de <span class="math inline">\(Q_i\)</span> como Gaussiana con media <span class="math inline">\(\mu_{z^{(i)} \mid x^{(i)}}\)</span> y covarianza <span class="math inline">\(\Sigma_{z^{(i)} \mid x^{(i)}}\)</span>, fácilmente encontramos:</p>
+<p><span class="math display">\[
+\begin{align*}
+\mathbb{E}_{z^{(i)} \sim Q_i} \big[ z^{(i)} \big] &amp;= \mu_{z^{(i)} \mid x^{(i)}}
+\\
+\mathbb{E}_{z^{(i)} \sim Q_i} \big[ z^{(i)} z^{(i)\top} \big] &amp;= \mu_{z^{(i)} \mid x^{(i)}} \mu_{z^{(i)} \mid x^{(i)}\top} + \Sigma_{z^{(i)} \mid x^{(i)}}.
+\end{align*}
+\]</span></p>
+<p>El último resultado proviene del hecho de que, para una variable aleatoria <span class="math inline">\(Y\)</span>, <span class="math inline">\(\text{Cov}(Y) = \mathbb{E}[YY^\top] - \mathbb{E}[Y]\mathbb{E}[Y^\top]\)</span>, y por lo tanto <span class="math inline">\(\mathbb{E}[YY^\top] = \mathbb{E}[Y]\mathbb{E}[Y^\top] + \text{Cov}(Y)\)</span>. Sustituyendo esto de nuevo en la Ecuación (7), obtenemos la actualización del Paso M para <span class="math inline">\(\Lambda\)</span>:</p>
+<p><span class="math display">\[
+\Lambda = \bigg( \sum_{i=1}^n (x^{(i)} - \mu) \mu_{z^{(i)} \mid x^{(i)}\top} \bigg) \bigg( \sum_{i=1}^n \big( \mu_{z^{(i)} \mid x^{(i)}} \mu_{z^{(i)} \mid x^{(i)}\top} + \Sigma_{z^{(i)} \mid x^{(i)}} \big) \bigg)^{-1}. \tag{8}
+\]</span></p>
+<p>Es importante notar la presencia de <span class="math inline">\(\Sigma_{z^{(i)} \mid x^{(i)}}\)</span> en el lado derecho de esta ecuación. Esta es la covarianza en la distribución posterior <span class="math inline">\(p(z^{(i)} \mid x^{(i)})\)</span>, y el Paso M debe tener en cuenta esta incertidumbre sobre <span class="math inline">\(z^{(i)}\)</span> en el posterior. Un error común al derivar el EM es asumir que, en el Paso E, necesitamos calcular únicamente la esperanza <span class="math inline">\(\mathbb{E}[z]\)</span> de la variable aleatoria latente <span class="math inline">\(z\)</span>, y luego usarla en la optimización en el Paso M donde aparece <span class="math inline">\(z\)</span>. Aunque esto funcionó para problemas simples como mezclas de Gaussianas, en nuestra derivación para análisis factorial necesitamos <span class="math inline">\(\mathbb{E}[zz^\top]\)</span> y <span class="math inline">\(\Sigma_{z^{(i)} \mid x^{(i)}}\)</span>.</p>
+<p>Por último, también podemos encontrar las optimizaciones del Paso M para los parámetros <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\Psi\)</span>. No es difícil demostrar que la primera está dada por:</p>
+<p><span class="math display">\[
+\mu = \frac{1}{n} \sum_{i=1}^n x^{(i)}.
+\]</span></p>
+<p>Dado que este término no cambia a medida que los parámetros se varían (es decir, a diferencia de la actualización para <span class="math inline">\(\Lambda\)</span>, el lado derecho no depende de <span class="math inline">\(Q_i(z^{(i)}) = p(z^{(i)} \mid x^{(i)}; \mu, \Lambda, \Psi)\)</span>), puede calcularse una sola vez y no necesita ser actualizado continuamente durante el algoritmo. De manera similar, la matriz diagonal <span class="math inline">\(\Psi\)</span> puede encontrarse calculando:</p>
+<p><span class="math display">\[
+\Phi = \frac{1}{n} \sum_{i=1}^n x^{(i)} x^{(i)\top} - x^{(i)} \mu_{z^{(i)} \mid x^{(i)}}^\top \Lambda^\top - \Lambda \mu_{z^{(i)} \mid x^{(i)}} x^{(i)\top} + \Lambda \big( \mu_{z^{(i)} \mid x^{(i)}} \mu_{z^{(i)} \mid x^{(i)}\top} + \Sigma_{z^{(i)} \mid x^{(i)}} \big) \Lambda^\top,
+\]</span></p>
+<p>y estableciendo <span class="math inline">\(\Psi_{ii} = \Phi_{ii}\)</span> (es decir, haciendo que <span class="math inline">\(\Psi\)</span> sea la matriz diagonal que contiene únicamente las entradas diagonales de <span class="math inline">\(\Phi\)</span>).</p>
+</section>
+</section>
+<section id="ejemplo-simulado-1" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-simulado-1">Ejemplo Simulado</h2>
+<p>Generemos datos siguiendo un modelo de análisis de factores con dos dimensiones latentes:</p>
+<div>
+<div id="pyodide-4" class="exercise-cell">
+
+</div>
+<script type="pyodide-4-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG51bXB5IGFzIG5wXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5cbiMgR2VuZXJhciBkYXRvcyBzaW11bGFkb3Ncbm5wLnJhbmRvbS5zZWVkKDQyKVxuZCA9IDUgICMgRGltZW5zacOzbiBkZSBsb3MgZGF0b3NcbmsgPSAyICAjIERpbWVuc2nDs24gbGF0ZW50ZVxubiA9IDIwMCAgIyBUYW1hw7FvIGRlIGxhIG11ZXN0cmFcblxubXUgPSBucC56ZXJvcyhkKVxuTGFtYmRhID0gbnAucmFuZG9tLnJhbmQoZCwgaylcblBzaSA9IG5wLmRpYWcobnAucmFuZG9tLnJhbmQoZCkpXG5cbnogPSBucC5yYW5kb20ucmFuZG4obiwgaylcbm5vaXNlID0gbnAucmFuZG9tLm11bHRpdmFyaWF0ZV9ub3JtYWwobnAuemVyb3MoZCksIFBzaSwgc2l6ZT1uKVxuZGF0YSA9IHogQCBMYW1iZGEuVCArIG5vaXNlXG5cbiMgQWp1c3RlIGRlbCBtb2RlbG86IFJlY29uc3RydWNjacOzbiBkZSBkYXRvc1xuZGF0YV9tZWFuID0gbnAubWVhbihkYXRhLCBheGlzPTApICAjIE1lZGlhIGRlIGxvcyBkYXRvc1xuZGF0YV9jZW50ZXJlZCA9IGRhdGEgLSBkYXRhX21lYW4gICAjIENlbnRyYXIgbG9zIGRhdG9zXG5cbiMgRXN0aW1hY2nDs24gZGUgbG9zIGZhY3RvcmVzXG56X2VzdGltYXRlZCA9IG5wLmxpbmFsZy5waW52KExhbWJkYS5UIEAgTGFtYmRhKSBAIExhbWJkYS5UIEAgZGF0YV9jZW50ZXJlZC5UXG5kYXRhX3JlY29uc3RydWN0ZWQgPSAoel9lc3RpbWF0ZWQuVCBAIExhbWJkYS5UKSArIGRhdGFfbWVhblxuXG4jIEPDoWxjdWxvIGRlIGxhIHZhcmlhbnphIGV4cGxpY2FkYVxudG90YWxfdmFyaWFuY2UgPSBucC52YXIoZGF0YSwgYXhpcz0wKS5zdW0oKVxuZXhwbGFpbmVkX3ZhcmlhbmNlID0gbnAudmFyKGRhdGFfcmVjb25zdHJ1Y3RlZCwgYXhpcz0wKS5zdW0oKVxuZXhwbGFpbmVkX3JhdGlvID0gZXhwbGFpbmVkX3ZhcmlhbmNlIC8gdG90YWxfdmFyaWFuY2VcblxucHJpbnQoZlwiVmFyaWFuemEgdG90YWwgZGUgbG9zIGRhdG9zOiB7dG90YWxfdmFyaWFuY2U6LjRmfVwiKVxucHJpbnQoZlwiVmFyaWFuemEgZXhwbGljYWRhOiB7ZXhwbGFpbmVkX3ZhcmlhbmNlOi40Zn1cIilcbnByaW50KGZcIlByb3BvcmNpw7NuIGRlIHZhcmlhbnphIGV4cGxpY2FkYToge2V4cGxhaW5lZF9yYXRpbzouMiV9XCIpXG5cbiMgR3LDoWZpY29zXG5wbHQuZmlndXJlKGZpZ3NpemU9KDEwLCA1KSlcblxuIyBHcsOhZmljbyAxOiBEYXRvcyBnZW5lcmFkb3NcbnBsdC5zdWJwbG90KDEsIDIsIDEpXG5wbHQuc2NhdHRlcihkYXRhWzosIDBdLCBkYXRhWzosIDFdLCBhbHBoYT0wLjYsIGxhYmVsPVwiRGF0b3Mgb3JpZ2luYWxlc1wiKVxucGx0LnRpdGxlKFwiRGF0b3MgZ2VuZXJhZG9zIGNvbiBBbsOhbGlzaXMgZGUgRmFjdG9yZXNcIilcbnBsdC54bGFiZWwoXCJEaW1lbnNpw7NuIDFcIilcbnBsdC55bGFiZWwoXCJEaW1lbnNpw7NuIDJcIilcbnBsdC5sZWdlbmQoKVxucGx0LmdyaWQoKVxuXG4jIEdyw6FmaWNvIDI6IERhdG9zIHJlY29uc3RydWlkb3NcbnBsdC5zdWJwbG90KDEsIDIsIDIpXG5wbHQuc2NhdHRlcihkYXRhX3JlY29uc3RydWN0ZWRbOiwgMF0sIGRhdGFfcmVjb25zdHJ1Y3RlZFs6LCAxXSwgYWxwaGE9MC42LCBjb2xvcj1cIm9yYW5nZVwiLCBsYWJlbD1cIkRhdG9zIHJlY29uc3RydWlkb3NcIilcbnBsdC50aXRsZShcIkRhdG9zIHJlY29uc3RydWlkb3NcIilcbnBsdC54bGFiZWwoXCJEaW1lbnNpw7NuIDFcIilcbnBsdC55bGFiZWwoXCJEaW1lbnNpw7NuIDJcIilcbnBsdC5sZWdlbmQoKVxucGx0LmdyaWQoKVxuXG5wbHQudGlnaHRfbGF5b3V0KClcbnBsdC5zaG93KClcblxuIyBHcsOhZmljbyAzOiBWYXJpYW56YSBleHBsaWNhZGEgYWN1bXVsYWRhXG52YXJpYW5jZXMgPSBucC52YXIoZGF0YV9yZWNvbnN0cnVjdGVkLCBheGlzPTApXG5leHBsYWluZWRfdmFyaWFuY2VfcmF0aW8gPSB2YXJpYW5jZXMgLyB0b3RhbF92YXJpYW5jZVxuY3VtdWxhdGl2ZV9leHBsYWluZWRfdmFyaWFuY2UgPSBucC5jdW1zdW0oZXhwbGFpbmVkX3ZhcmlhbmNlX3JhdGlvKVxuXG5wbHQuZmlndXJlKGZpZ3NpemU9KDYsIDQpKVxucGx0LnBsb3QocmFuZ2UoMSwgbGVuKGN1bXVsYXRpdmVfZXhwbGFpbmVkX3ZhcmlhbmNlKSArIDEpLCBjdW11bGF0aXZlX2V4cGxhaW5lZF92YXJpYW5jZSwgbWFya2VyPVwib1wiLCBsYWJlbD1cIlZhcmlhbnphIGFjdW11bGFkYVwiKVxucGx0LmF4aGxpbmUoMSwgY29sb3I9XCJyZWRcIiwgbGluZXN0eWxlPVwiLS1cIiwgbGFiZWw9XCIxMDAlIFZhcmlhbnphXCIpXG5wbHQudGl0bGUoXCJWYXJpYW56YSBleHBsaWNhZGEgYWN1bXVsYWRhXCIpXG5wbHQueGxhYmVsKFwiTsO6bWVybyBkZSBkaW1lbnNpb25lcyBsYXRlbnRlc1wiKVxucGx0LnlsYWJlbChcIlByb3BvcmNpw7NuIGRlIHZhcmlhbnphIGV4cGxpY2FkYVwiKVxucGx0LmxlZ2VuZCgpXG5wbHQuZ3JpZCgpXG5wbHQuc2hvdygpIn0=
+</script>
+</div>
+</section>
+<section id="ejemplo-del-mundo-real" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-del-mundo-real">Ejemplo del Mundo Real</h2>
+<p>Usaremos el conjunto de datos Iris para aplicar el modelo y evaluar su rendimiento:</p>
+<div>
+<div id="pyodide-5" class="exercise-cell">
+
+</div>
+<script type="pyodide-5-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImluY2x1ZGUiOnRydWV9LCJjb2RlIjoiZnJvbSBza2xlYXJuLmRlY29tcG9zaXRpb24gaW1wb3J0IEZhY3RvckFuYWx5c2lzXG5mcm9tIHNrbGVhcm4uZGF0YXNldHMgaW1wb3J0IGxvYWRfaXJpc1xuZnJvbSBza2xlYXJuLm1ldHJpY3MgaW1wb3J0IG1lYW5fc3F1YXJlZF9lcnJvciwgZXhwbGFpbmVkX3ZhcmlhbmNlX3Njb3JlXG5mcm9tIHNrbGVhcm4ucHJlcHJvY2Vzc2luZyBpbXBvcnQgU3RhbmRhcmRTY2FsZXJcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHRcbmltcG9ydCBudW1weSBhcyBucFxuXG4jIENhcmdhciBkYXRvcyBJcmlzXG5pcmlzID0gbG9hZF9pcmlzKClcbmRhdGEgPSBpcmlzLmRhdGFcbnRhcmdldCA9IGlyaXMudGFyZ2V0XG5cbiMgRXN0YW5kYXJpemFyIGxvcyBkYXRvc1xuc2NhbGVyID0gU3RhbmRhcmRTY2FsZXIoKVxuZGF0YV9zY2FsZWQgPSBzY2FsZXIuZml0X3RyYW5zZm9ybShkYXRhKVxuXG4jIEFwbGljYXIgQW7DoWxpc2lzIGRlIEZhY3RvcmVzXG5mYSA9IEZhY3RvckFuYWx5c2lzKG5fY29tcG9uZW50cz0yLCByYW5kb21fc3RhdGU9NDIpXG5kYXRhX3JlZHVjZWQgPSBmYS5maXRfdHJhbnNmb3JtKGRhdGFfc2NhbGVkKVxuXG4jIFJlY29uc3RydWNjacOzbiBtYW51YWwgZGUgbG9zIGRhdG9zXG5kYXRhX3JlY29uc3RydWN0ZWQgPSBkYXRhX3JlZHVjZWQgQCBmYS5jb21wb25lbnRzXyArIG5wLm1lYW4oZGF0YV9zY2FsZWQsIGF4aXM9MClcblxuIyBSZWVzY2FsYXIgbG9zIGRhdG9zIHJlY29uc3RydWlkb3MgYWwgZXNwYWNpbyBvcmlnaW5hbFxuZGF0YV9yZWNvbnN0cnVjdGVkX29yaWdpbmFsID0gc2NhbGVyLmludmVyc2VfdHJhbnNmb3JtKGRhdGFfcmVjb25zdHJ1Y3RlZClcblxuIyBDYWxjdWxhciBtw6l0cmljYXMgZGUgYWp1c3RlXG5lcnJvciA9IG1lYW5fc3F1YXJlZF9lcnJvcihkYXRhLCBkYXRhX3JlY29uc3RydWN0ZWRfb3JpZ2luYWwpXG5leHBsYWluZWRfdmFyaWFuY2UgPSBleHBsYWluZWRfdmFyaWFuY2Vfc2NvcmUoZGF0YSwgZGF0YV9yZWNvbnN0cnVjdGVkX29yaWdpbmFsKVxudG90YWxfdmFyaWFuY2UgPSBucC52YXIoZGF0YSwgYXhpcz0wKS5zdW0oKVxuZXhwbGFpbmVkX3ZhcmlhbmNlX3JhdGlvID0gZXhwbGFpbmVkX3ZhcmlhbmNlIC8gdG90YWxfdmFyaWFuY2VcblxucHJpbnQoZlwiRXJyb3IgZGUgcmVjb25zdHJ1Y2Npw7NuIChNU0UpOiB7ZXJyb3I6LjRmfVwiKVxucHJpbnQoZlwiVmFyaWFuemEgZXhwbGljYWRhOiB7ZXhwbGFpbmVkX3ZhcmlhbmNlOi40Zn1cIilcbnByaW50KGZcIlByb3BvcmNpw7NuIGRlIHZhcmlhbnphIGV4cGxpY2FkYToge2V4cGxhaW5lZF92YXJpYW5jZV9yYXRpbzouMiV9XCIpXG5cbiMgR3LDoWZpY29zXG5wbHQuZmlndXJlKGZpZ3NpemU9KDEyLCA1KSlcblxuIyBHcsOhZmljbyAxOiBEYXRvcyByZWR1Y2lkb3NcbnBsdC5zdWJwbG90KDEsIDIsIDEpXG5zY2F0dGVyID0gcGx0LnNjYXR0ZXIoZGF0YV9yZWR1Y2VkWzosIDBdLCBkYXRhX3JlZHVjZWRbOiwgMV0sIGM9dGFyZ2V0LCBjbWFwPSd2aXJpZGlzJywgYWxwaGE9MC44LCBlZGdlY29sb3I9J2snKVxucGx0LnRpdGxlKFwiRGF0b3MgSXJpcyByZWR1Y2lkb3MgYSAyIGRpbWVuc2lvbmVzXCIpXG5wbHQueGxhYmVsKFwiRmFjdG9yIDFcIilcbnBsdC55bGFiZWwoXCJGYWN0b3IgMlwiKVxucGx0LmNvbG9yYmFyKHNjYXR0ZXIsIGxhYmVsPVwiQ2xhc2VcIilcbnBsdC5ncmlkKClcblxuIyBHcsOhZmljbyAyOiBSZWNvbnN0cnVjY2nDs24gdnMgT3JpZ2luYWxcbnBsdC5zdWJwbG90KDEsIDIsIDIpXG5wbHQuc2NhdHRlcihkYXRhWzosIDBdLCBkYXRhWzosIDFdLCBhbHBoYT0wLjUsIGxhYmVsPVwiT3JpZ2luYWxcIiwgZWRnZWNvbG9yPSdrJylcbnBsdC5zY2F0dGVyKGRhdGFfcmVjb25zdHJ1Y3RlZF9vcmlnaW5hbFs6LCAwXSwgZGF0YV9yZWNvbnN0cnVjdGVkX29yaWdpbmFsWzosIDFdLCBhbHBoYT0wLjUsIGxhYmVsPVwiUmVjb25zdHJ1aWRvXCIsIGVkZ2Vjb2xvcj0naycsIGNvbG9yPSdvcmFuZ2UnKVxucGx0LnRpdGxlKFwiQ29tcGFyYWNpw7NuOiBEYXRvcyBPcmlnaW5hbGVzIHZzIFJlY29uc3RydWlkb3NcIilcbnBsdC54bGFiZWwoXCJEaW1lbnNpw7NuIDFcIilcbnBsdC55bGFiZWwoXCJEaW1lbnNpw7NuIDJcIilcbnBsdC5sZWdlbmQoKVxucGx0LmdyaWQoKVxuXG5wbHQudGlnaHRfbGF5b3V0KClcbnBsdC5zaG93KCkifQ==
+</script>
+</div>
+</section>
+<section id="conclusiones" class="level2">
+<h2 class="anchored" data-anchor-id="conclusiones">Conclusiones</h2>
+<p>El análisis de factores es una técnica poderosa para modelar datos complejos y de alta dimensionalidad. Su implementación mediante el algoritmo EM permite:</p>
+<ol type="1">
+<li>Capturar la estructura latente de los datos.</li>
+<li>Reducir la dimensionalidad de forma eficiente.</li>
+<li>Manejar matrices de covarianza problemáticas en escenarios con pocos datos.</li>
+</ol>
+<p>Los ejemplos muestran su aplicación en contextos simulados y reales, evaluando su rendimiento con errores de reconstrucción y visualizaciones.</p>
+
+
+<script type="pyodide-data">
+eyJvcHRpb25zIjp7ImVudiI6eyJQTE9UTFlfUkVOREVSRVIiOiJwbG90bHlfbWltZXR5cGUifSwiaW5kZXhVUkwiOiJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvcHlvZGlkZS92MC4yNy4wL2Z1bGwvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsicHlvZGlkZV9odHRwIiwibWljcm9waXAiLCJpcHl0aG9uIl19fQ==
+</script>
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl81ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS01LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzUgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzUsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTQiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl80ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS00LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNC1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzQgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzQsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTMiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8zID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0zLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzMgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzMsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTIiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8yID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0yLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMi1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzIgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzIsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8xID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzEgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLXByZWx1ZGUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJweW9kaWRlT2pzID0ge1xuICBjb25zdCB7XG4gICAgUHlvZGlkZUV2YWx1YXRvcixcbiAgICBQeW9kaWRlRW52aXJvbm1lbnRNYW5hZ2VyLFxuICAgIHNldHVwUHl0aG9uLFxuICAgIHN0YXJ0UHlvZGlkZVdvcmtlcixcbiAgICBiNjREZWNvZGUsXG4gICAgY29sbGFwc2VQYXRoLFxuICB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzdGF0dXNDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctc3RhdHVzXCIpO1xuICBjb25zdCBpbmRpY2F0b3JDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpbmRpY2F0b3JDb250YWluZXIuY2xhc3NMaXN0LnJlbW92ZShcImQtbm9uZVwiKTtcblxuICBsZXQgc3RhdHVzVGV4dCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIilcbiAgc3RhdHVzVGV4dC5jbGFzc0xpc3QgPSBcImV4ZXJjaXNlLWxvYWRpbmctZGV0YWlsc1wiO1xuICBzdGF0dXNUZXh0ID0gc3RhdHVzQ29udGFpbmVyLmFwcGVuZENoaWxkKHN0YXR1c1RleHQpO1xuICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYEluaXRpYWxpc2VgO1xuXG4gIC8vIEhvaXN0IGluZGljYXRvciBvdXQgZnJvbSBmaW5hbCBzbGlkZSB3aGVuIHJ1bm5pbmcgdW5kZXIgcmV2ZWFsXG4gIGNvbnN0IHJldmVhbFN0YXR1cyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsIC5leGVyY2lzZS1sb2FkaW5nLWluZGljYXRvclwiKTtcbiAgaWYgKHJldmVhbFN0YXR1cykge1xuICAgIHJldmVhbFN0YXR1cy5yZW1vdmUoKTtcbiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnJldmVhbCA+IC5zbGlkZXNcIikuYXBwZW5kQ2hpbGQocmV2ZWFsU3RhdHVzKTtcbiAgfVxuXG4gIC8vIE1ha2UgYW55IHJldmVhbCBzbGlkZXMgd2l0aCBsaXZlIGNlbGxzIHNjcm9sbGFibGVcbiAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbChcIi5yZXZlYWwgLmV4ZXJjaXNlLWNlbGxcIikuZm9yRWFjaCgoZWwpID0+IHtcbiAgICBlbC5jbG9zZXN0KCdzZWN0aW9uLnNsaWRlJykuY2xhc3NMaXN0LmFkZChcInNjcm9sbGFibGVcIik7XG4gIH0pXG5cbiAgLy8gUHlvZGlkZSBzdXBwbGVtZW50YWwgZGF0YSBhbmQgb3B0aW9uc1xuICBjb25zdCBkYXRhQ29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLWRhdGFcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBkYXRhID0gSlNPTi5wYXJzZShiNjREZWNvZGUoZGF0YUNvbnRlbnQpKTtcblxuICAvLyBHcmFiIGxpc3Qgb2YgcmVzb3VyY2VzIHRvIGJlIGRvd25sb2FkZWRcbiAgY29uc3QgZmlsZXNDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInZmcy1maWxlXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgZmlsZXMgPSBKU09OLnBhcnNlKGI2NERlY29kZShmaWxlc0NvbnRlbnQpKTtcblxuICBsZXQgcHlvZGlkZVByb21pc2UgPSAoYXN5bmMgKCkgPT4ge1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgUHlvZGlkZWA7XG4gICAgY29uc3QgcHlvZGlkZSA9IGF3YWl0IHN0YXJ0UHlvZGlkZVdvcmtlcihkYXRhLm9wdGlvbnMpO1xuXG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiBtaWNyb3BpcGA7XG4gICAgYXdhaXQgcHlvZGlkZS5sb2FkUGFja2FnZShcIm1pY3JvcGlwXCIpO1xuICAgIGNvbnN0IG1pY3JvcGlwID0gYXdhaXQgcHlvZGlkZS5weWltcG9ydChcIm1pY3JvcGlwXCIpO1xuICAgIGF3YWl0IGRhdGEucGFja2FnZXMucGtncy5tYXAoKHBrZykgPT4gKCkgPT4ge1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiAke3BrZ31gO1xuICAgICAgcmV0dXJuIG1pY3JvcGlwLmluc3RhbGwocGtnKTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcbiAgICBhd2FpdCBtaWNyb3BpcC5kZXN0cm95KCk7XG5cbiAgICAvLyBEb3dubG9hZCBhbmQgaW5zdGFsbCByZXNvdXJjZXNcbiAgICBhd2FpdCBmaWxlcy5tYXAoKGZpbGUpID0+IGFzeW5jICgpID0+IHtcbiAgICAgIGNvbnN0IG5hbWUgPSBmaWxlLnN1YnN0cmluZyhmaWxlLmxhc3RJbmRleE9mKCcvJykgKyAxKTtcbiAgICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgcmVzb3VyY2U6ICR7bmFtZX1gO1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChmaWxlKTtcbiAgICAgIGlmICghcmVzcG9uc2Uub2spIHtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBDYW4ndCBkb3dubG9hZCBcXGAke2ZpbGV9XFxgLiBFcnJvciAke3Jlc3BvbnNlLnN0YXR1c306IFwiJHtyZXNwb25zZS5zdGF0dXNUZXh0fVwiLmApO1xuICAgICAgfVxuICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IHJlc3BvbnNlLmFycmF5QnVmZmVyKCk7XG5cbiAgICAgIC8vIFN0b3JlIFVSTHMgaW4gdGhlIGN3ZCB3aXRob3V0IGFueSBzdWJkaXJlY3Rvcnkgc3RydWN0dXJlXG4gICAgICBpZiAoZmlsZS5pbmNsdWRlcyhcIjovL1wiKSkge1xuICAgICAgICBmaWxlID0gbmFtZTtcbiAgICAgIH1cblxuICAgICAgLy8gQ29sbGFwc2UgaGlnaGVyIGRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGZpbGUgPSBjb2xsYXBzZVBhdGgoZmlsZSk7XG5cbiAgICAgIC8vIENyZWF0ZSBkaXJlY3RvcnkgdHJlZSwgaWdub3JpbmcgXCJkaXJlY3RvcnkgZXhpc3RzXCIgVkZTIGVycm9yc1xuICAgICAgY29uc3QgcGFydHMgPSBmaWxlLnNwbGl0KCcvJykuc2xpY2UoMCwgLTEpO1xuICAgICAgbGV0IHBhdGggPSAnJztcbiAgICAgIHdoaWxlIChwYXJ0cy5sZW5ndGggPiAwKSB7XG4gICAgICAgIHBhdGggKz0gcGFydHMuc2hpZnQoKSArICcvJztcbiAgICAgICAgdHJ5IHtcbiAgICAgICAgICBhd2FpdCBweW9kaWRlLkZTLm1rZGlyKHBhdGgpO1xuICAgICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgICAgaWYgKGUuZXJybm8gIT09IDIwKSB7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICAgICAgY29uc3QgZXJyb3JUZXh0ID0gYXdhaXQgcHlvZGlkZS5fbW9kdWxlLlVURjhUb1N0cmluZyhlcnJvclRleHRQdHIpO1xuICAgICAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgIH1cblxuICAgICAgLy8gV3JpdGUgdGhpcyBmaWxlIHRvIHRoZSBWRlNcbiAgICAgIHRyeSB7XG4gICAgICAgIHJldHVybiBhd2FpdCBweW9kaWRlLkZTLndyaXRlRmlsZShmaWxlLCBuZXcgVWludDhBcnJheShkYXRhKSk7XG4gICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgIGlmIChlLm5hbWUgIT09IFwiRXJybm9FcnJvclwiKSB0aHJvdyBlO1xuICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgIHRocm93IG5ldyBFcnJvcihgRmlsZXN5c3RlbSBFcnJvciAke2UuZXJybm99IFwiJHtlcnJvclRleHR9XCIuYCk7XG4gICAgICB9XG4gICAgfSkucmVkdWNlKChjdXIsIG5leHQpID0+IGN1ci50aGVuKG5leHQpLCBQcm9taXNlLnJlc29sdmUoKSk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYFB5b2RpZGUgZW52aXJvbm1lbnQgc2V0dXBgO1xuICAgIGF3YWl0IHNldHVwUHl0aG9uKHB5b2RpZGUpO1xuXG4gICAgc3RhdHVzVGV4dC5yZW1vdmUoKTtcbiAgICBpZiAoc3RhdHVzQ29udGFpbmVyLmNoaWxkcmVuLmxlbmd0aCA9PSAwKSB7XG4gICAgICBzdGF0dXNDb250YWluZXIucGFyZW50Tm9kZS5yZW1vdmUoKTtcbiAgICB9XG4gICAgcmV0dXJuIHB5b2RpZGU7XG4gIH0pKCkuY2F0Y2goKGVycikgPT4ge1xuICAgIHN0YXR1c1RleHQuc3R5bGUuY29sb3IgPSBcInZhcigtLWV4ZXJjaXNlLWVkaXRvci1obC1lciwgI0FEMDAwMClcIjtcbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gZXJyLm1lc3NhZ2U7XG4gICAgLy9pbmRpY2F0b3JDb250YWluZXIucXVlcnlTZWxlY3RvcihcIi5zcGlubmVyLWdyb3dcIikuY2xhc3NMaXN0LmFkZChcImQtbm9uZVwiKTtcbiAgICB0aHJvdyBlcnI7XG4gIH0pO1xuXG4gIC8vIEtlZXAgdHJhY2sgb2YgaW5pdGlhbCBPSlMgYmxvY2sgcmVuZGVyXG4gIGNvbnN0IHJlbmRlcmVkT2pzID0ge307XG5cbiAgY29uc3QgcHJvY2VzcyA9IGFzeW5jIChjb250ZXh0LCBpbnB1dHMpID0+IHtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgcHlvZGlkZVByb21pc2U7XG4gICAgY29uc3QgZXZhbHVhdG9yID0gbmV3IFB5b2RpZGVFdmFsdWF0b3IocHlvZGlkZSwgY29udGV4dCk7XG4gICAgYXdhaXQgZXZhbHVhdG9yLnByb2Nlc3MoaW5wdXRzKTtcbiAgICByZXR1cm4gZXZhbHVhdG9yLmNvbnRhaW5lcjtcbiAgfVxuXG4gIHJldHVybiB7XG4gICAgcHlvZGlkZVByb21pc2UsXG4gICAgcmVuZGVyZWRPanMsXG4gICAgcHJvY2VzcyxcbiAgfTtcbn1cbiJ9XX0=
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+W10=
+</script>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../CAPITULO_3";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "..";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/isaiasibanez\.github\.io\/OML2\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../CAPITULO_3/C2_gmm.html" class="pagination-link" aria-label="3.1-3.2 Mezclado GDA/GMM">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">3.1-3.2 Mezclado GDA/GMM</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

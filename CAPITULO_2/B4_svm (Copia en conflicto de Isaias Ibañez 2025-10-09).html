@@ -64,7 +64,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../CAPITULO_3/C2_gmm.html" rel="next">
 <link href="../CAPITULO_2/B3_ridge_lasso.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -246,18 +245,6 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../CAPITULO_2/B4_svm.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">2.4 Máquinas de vectores soporte</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../CAPITULO_3/C2_gmm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.1-3.2 Mezclado GDA/GMM</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../CAPITULO_3/C3_em.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.3 Algoritmo EM</span></a>
   </div>
 </li>
       </ul>
@@ -664,7 +651,7 @@ y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)=1,
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Datos linealmente separables </span></p>
 <p>Vamos a simular un conjunto de datos linealmente separables. Luego, obtendremos el hiperplano separador óptimo e identificaremos los vectores soporte.</p>
-<div id="33d0d64f" class="cell" data-execution_count="1">
+<div id="e8cc98ca" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -816,9 +803,9 @@ y_i((\bfbeta^\star)^\top\xx_i+\beta_0^\star)-(1-\xi_i^\star)\geq 0\qquad\forall 
 <li><p>Se obtiene el punto óptimo <span class="math inline">\(\bfbeta^\star\)</span> mediante la condición de estacionariedad <span class="math display">\[
 \bfbeta^\star=\sum_{\substack{i=1\\\lambda_i^\star\neq 0}}^n\lambda_i^\star y_i\xx_i.
 \]</span></p></li>
-<li><p>Se calcula el intercepto <span class="math inline">\(\beta_0^\star\)</span>, mediante el promedio <span class="math display">\[
-\beta_0^\star=\sum_{\substack{i=1\\\lambda_i^\star\neq 0}}^n \left(y_i-(\bfbeta^\star)^\top\xx_i\right),
-\]</span> cuyos términos se obtienen al despejar <span class="math inline">\(\beta_0^\star\)</span> de la condición de holgura complementaria para los puntos que verifican <span class="math inline">\(\lambda_i^\star\neq 0\)</span> y <span class="math inline">\(\xi_i^\star=0\)</span>.</p></li>
+<li><p>Se calcula el intercepto <span class="math inline">\(\beta_0^\star\)</span>, promediando sobre los vectores soporte con <span class="math inline">\(\xi_i=0\)</span> el valor <span class="math display">\[
+\beta_0^\star=y_i-\bfbeta^\top\xx_i,
+\]</span> que resulta de despejar <span class="math inline">\(\beta_0^\star\)</span> de la condición de holgura complementaria.</p></li>
 </ol>
 </div>
 <p>Luego, una vez obtenidos los puntos óptimos <span class="math inline">\(\bfbeta^\star\)</span> y <span class="math inline">\(\beta_0^\star\)</span>, resultan:</p>
@@ -1084,7 +1071,7 @@ Z = X_1^2+X_2^2.
 <h3 class="anchored" data-anchor-id="núcleos-reproductores">Núcleos reproductores</h3>
 <p>El cálculo de productos internos en (11) será fundamental para la generalización de SVM. Para un <span class="math inline">\(\calH\)</span> arbitrario, esto significa que necesitamos conocer explícitamente su producto interno <span class="math inline">\(\langle\cdot,\cdot\rangle_{\calH}\)</span>, lo cual resulta ser una limitación práctica. Una manera de sortear esto es utilizar un <em>espacio de Hilbert con núcleo reproductor</em> (RKHS).</p>
 <div class="definicion">
-<p><strong>Definición 5.</strong> (RKHS) Un espacio de Hilbert <span class="math inline">\(\calH\)</span> es un <em>espacio de Hilbert con núcleo reproductor</em> (RKHS) si admite un <em>núcleo reproductor</em> <span class="math inline">\(k:\RR^p\times\RR^p\to\RR\)</span> que verifica las siguientes propiedades:</p>
+<p><strong>Definición 3.</strong> (RKHS) Un espacio de Hilbert <span class="math inline">\(\calH\)</span> es un <em>espacio de Hilbert con núcleo reproductor</em> (RKHS) si admite un <em>núcleo reproductor</em> <span class="math inline">\(k:\RR^p\times\RR^p\to\RR\)</span> que verifica las siguientes propiedades:</p>
 <ul>
 <li><p>Para todo <span class="math inline">\(\xx\in\RR^p\)</span>, <span class="math inline">\(k(\xx,\cdot)\in\calH\)</span>.</p></li>
 <li><p>Para todo <span class="math inline">\(\xx\in\RR^p\)</span> y toda <span class="math inline">\(h\in\calH\)</span>, <span class="math display">\[
@@ -1092,7 +1079,7 @@ h(\xx)=\langle h,k(\xx,\cdot)\rangle_{\calH}.
 \]</span></p></li>
 </ul>
 </div>
-<p>Veamos el efecto de trabajar con RKHS para el cálculo de productos internos en (11). Las propiedades de la Definición 5 implican que</p>
+<p>Veamos el efecto de trabajar con RKHS para el cálculo de productos internos en (11). Las propiedades de la Definición 3 implican que</p>
 <div class="myhighlight">
 <p><span class="math display">\[
 k(\xx_1,\xx_2)=\langle k(\xx_1,\cdot),k(\xx_2,\cdot)\rangle_{\calH}\qquad\forall \xx_1,\xx_2\in\RR^p.
@@ -1122,8 +1109,8 @@ k(\xx_1,\xx_2)=\langle k(\xx_1,\cdot),k(\xx_2,\cdot)\rangle_{\calH}\qquad\forall
 </div>
 <p>Para responder a esta pregunta, es necesario introducir la siguiente definición.</p>
 <div class="definicion">
-<p><strong>Definición 6.</strong> Una función <span class="math inline">\(k:\RR^p\times\RR^p\to\RR\)</span> se dice <em>definida positiva</em> si para todo <span class="math inline">\(n\in\NN\)</span>, <span class="math inline">\(\alpha_1,\ldots,\alpha_n\in\RR\)</span> y <span class="math inline">\(\xx_1,\ldots,\xx_n\in\RR^p\)</span> resulta <span class="math display">\[
-\sum_{i=1}^n\sum_{j=1}^n\alpha_i\alpha_jk(\xx_i,\xx_j)\geq 0.
+<p><strong>Definición 4.</strong> Una función <span class="math inline">\(k:\RR^p\times\RR^p\to\RR\)</span> se dice <em>definida positiva</em> si para todo <span class="math inline">\(n\in\NN\)</span>, <span class="math inline">\(\alpha_1,\ldots,\alpha_n\in\RR\)</span> y <span class="math inline">\(\xx_1,\ldots,\xx_n\in\RR^p\)</span> resulta <span class="math display">\[
+\sum_{i=1}^n\sum_{j=1}^m\alpha_i\alpha_jk(\xx_i,\xx_j)\geq 0.
 \tag{12}
 \]</span></p>
 <p>Por otra parte, <span class="math inline">\(k\)</span> es <em>simétrica</em> si <span class="math display">\[
@@ -1133,7 +1120,7 @@ k(\xx_1,\xx_2)=k(\xx_2,\xx_1)\qquad\forall\xx_1,\xx_2\in\RR^p.
 <div style="margin-top:2em;">
 
 </div>
-<p>Dado <span class="math inline">\(\xx_1,\ldots,\xx_n\in\RR^p\)</span>, la matriz <span class="math inline">\(K\in\RR^{n\times n}\)</span> definida por <span class="math display">\[
+<p>Dado <span class="math inline">\(\xx_1,\ldots,\xx_n\in\RR^p\)</span>, la matriz <span class="math inline">\(K\in\RR^{p\times p}\)</span> definida por <span class="math display">\[
 K_{ij}=k(\xx_i,\xx_j)
 \]</span> se conoce como <mark>matriz de Gram</mark>. La expresión (12) es equivalente a <span class="math inline">\(K\succeq 0\)</span>.</p>
 <div class="alert alert-light text-dark" role="important">
@@ -1181,9 +1168,9 @@ k(\xx_1,\xx_2)=\tanh(\gamma\,\xx_1^\top\xx_2+b).
 <li><p>Se obtiene el punto óptimo <span class="math inline">\(\bfbeta^\star\)</span> mediante la condición de estacionariedad <span class="math display">\[
 \bfbeta^\star=\sum_{\substack{i=1\\\lambda_i^\star\neq 0}}^n\lambda_i^\star y_ik(\xx_i,\cdot).
 \]</span></p></li>
-<li><p>Se calcula el intercepto <span class="math inline">\(\beta_0^\star\)</span> mediante el promedio <span class="math display">\[
-\beta_0^\star=\sum_{\substack{i=1\\\lambda_i^\star\neq 0}}^n\left(y_i-\langle \bfbeta^\star, k(\xx_i,\cdot)\rangle_{\calH}\right)=\sum_{\substack{i=1\\\lambda_i^\star\neq 0}}^n\left(y_i-\sum_{\substack{j=1\\\lambda_j^\star\neq 0}}^n\lambda_i^\star y_i k(\xx_i,\xx_j)\right),
-\]</span> que resulta de despejar <span class="math inline">\(\beta_0^\star\)</span> de la condición de holgura complementaria para los puntos que verifican <span class="math inline">\(\lambda_i^\star\neq 0\)</span> y <span class="math inline">\(\xi_i^\star=0\)</span>.</p></li>
+<li><p>Se calcula el intercepto <span class="math inline">\(\beta_0^\star\)</span>, promediando sobre los puntos soporte el valor <span class="math display">\[
+\beta_0^\star=y_i-\langle \bfbeta^\star, k(\xx_i,\cdot)\rangle_{\calH}=y_j-\sum_{\substack{i=1\\\lambda_i^\star\neq 0}}^n\lambda_i^\star y_i k(\xx_i,\xx_j) ,
+\]</span> que resulta de despejar <span class="math inline">\(\beta_0^\star\)</span> de la condición de holgura complementaria.</p></li>
 </ol>
 </div>
 <div style="margin-top:2em;">
@@ -1964,9 +1951,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../CAPITULO_3/C2_gmm.html" class="pagination-link" aria-label="3.1-3.2 Mezclado GDA/GMM">
-        <span class="nav-page-text">3.1-3.2 Mezclado GDA/GMM</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

@@ -1,0 +1,2182 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Modelos de mezcla gaussiana (GMM) – Optimización y Aprendizaje Automático II</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../CAPITULO_3/C3_em.html" rel="next">
+<link href="../CAPITULO_2/B4_svm.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-327735d1480bff6f7510335fe22ad292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../CAPITULO_2/B1_regresion_lineal_logistica.html">2. MODELOS DISCRIMINATIVOS</a></li><li class="breadcrumb-item"><a href="../CAPITULO_3/C2_gmm.html">3.1-3.2 Mezclado GDA/GMM</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Optimización y Aprendizaje Automático II</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">1. OPTIMIZACIÓN MATEMÁTICA</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_1/A1_intro_optimizacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.1 Introducción a la optimización</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_1/A2_optimizacion_convexa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.2 Optimización convexa</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_1/A3_resolucion_computacional.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.3 Resolución computacional y problemas clásicos de optimización convexa</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_1/A4_condiciones_optimalidad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.4 Condiciones de optimalidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_1/A5_metodos_optimizacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.5 Métodos de optimización</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">2. MODELOS DISCRIMINATIVOS</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B1_regresion_lineal_logistica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.1 Regresión lineal y regresión logística</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B2_glm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.2 Modelos lineales generalizados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B3_ridge_lasso.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.3 Métodos de regularización</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_2/B4_svm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.4 Máquinas de vectores soporte</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_3/C2_gmm.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">3.1-3.2 Mezclado GDA/GMM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CAPITULO_3/C3_em.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3.3 Algoritmo EM</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#análisis-discriminante-gaussiano" id="toc-análisis-discriminante-gaussiano" class="nav-link active" data-scroll-target="#análisis-discriminante-gaussiano"><strong>Análisis Discriminante Gaussiano</strong></a></li>
+  <li><a href="#revisando-modelos-generativos" id="toc-revisando-modelos-generativos" class="nav-link" data-scroll-target="#revisando-modelos-generativos">1. Revisando Modelos Generativos</a>
+  <ul class="collapse">
+  <li><a href="#el-conjunto-de-datos-iris" id="toc-el-conjunto-de-datos-iris" class="nav-link" data-scroll-target="#el-conjunto-de-datos-iris">1.1. El conjunto de datos Iris</a></li>
+  <li><a href="#revisión-modelos-discriminativos" id="toc-revisión-modelos-discriminativos" class="nav-link" data-scroll-target="#revisión-modelos-discriminativos">1.2. Revisión: Modelos Discriminativos</a></li>
+  <li><a href="#review-generative-models" id="toc-review-generative-models" class="nav-link" data-scroll-target="#review-generative-models">7.1.3. Review: Generative Models</a>
+  <ul class="collapse">
+  <li><a href="#probabilistic-interpretations" id="toc-probabilistic-interpretations" class="nav-link" data-scroll-target="#probabilistic-interpretations">7.1.3.1. Probabilistic Interpretations</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#gaussian-mixture-models" id="toc-gaussian-mixture-models" class="nav-link" data-scroll-target="#gaussian-mixture-models">7.2. Gaussian Mixture Models</a>
+  <ul class="collapse">
+  <li><a href="#review-and-motivation" id="toc-review-and-motivation" class="nav-link" data-scroll-target="#review-and-motivation">7.2.1. Review and Motivation</a>
+  <ul class="collapse">
+  <li><a href="#review-of-distributions" id="toc-review-of-distributions" class="nav-link" data-scroll-target="#review-of-distributions">7.2.1.1. Review of Distributions</a></li>
+  <li><a href="#a-generative-model-for-iris-flowers" id="toc-a-generative-model-for-iris-flowers" class="nav-link" data-scroll-target="#a-generative-model-for-iris-flowers">7.2.1.2. A Generative Model for Iris Flowers</a></li>
+  </ul></li>
+  <li><a href="#gaussian-mixture-model" id="toc-gaussian-mixture-model" class="nav-link" data-scroll-target="#gaussian-mixture-model">7.2.2. Gaussian Mixture Model</a>
+  <ul class="collapse">
+  <li><a href="#gmms-are-mixtures-of-gaussians-distributions" id="toc-gmms-are-mixtures-of-gaussians-distributions" class="nav-link" data-scroll-target="#gmms-are-mixtures-of-gaussians-distributions">7.2.2.1. GMMs Are Mixtures of Gaussians Distributions</a></li>
+  <li><a href="#predictions-out-of-gaussian-mixture-models" id="toc-predictions-out-of-gaussian-mixture-models" class="nav-link" data-scroll-target="#predictions-out-of-gaussian-mixture-models">7.2.2.2. Predictions Out of Gaussian Mixture Models</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#gaussian-discriminant-analysis" id="toc-gaussian-discriminant-analysis" class="nav-link" data-scroll-target="#gaussian-discriminant-analysis">7.3. Gaussian Discriminant Analysis</a>
+  <ul class="collapse">
+  <li><a href="#review-maximum-likelihood-learning" id="toc-review-maximum-likelihood-learning" class="nav-link" data-scroll-target="#review-maximum-likelihood-learning">7.3.1. Review: Maximum Likelihood Learning</a></li>
+  <li><a href="#optimizing-the-log-likelihood" id="toc-optimizing-the-log-likelihood" class="nav-link" data-scroll-target="#optimizing-the-log-likelihood">7.3.2. Optimizing the Log Likelihood</a>
+  <ul class="collapse">
+  <li><a href="#learning-the-parameters-phi" id="toc-learning-the-parameters-phi" class="nav-link" data-scroll-target="#learning-the-parameters-phi">7.3.2.1. Learning the Parameters <span class="math inline">\(\phi\)</span></a></li>
+  <li><a href="#learning-the-parameters-mu_k-sigma_k" id="toc-learning-the-parameters-mu_k-sigma_k" class="nav-link" data-scroll-target="#learning-the-parameters-mu_k-sigma_k">7.3.2.2. Learning the Parameters <span class="math inline">\(\mu_k, \Sigma_k\)</span></a></li>
+  <li><a href="#querying-the-model" id="toc-querying-the-model" class="nav-link" data-scroll-target="#querying-the-model">7.3.2.3. Querying the Model</a></li>
+  </ul></li>
+  <li><a href="#algorithm-gaussian-discriminant-analysis-gda" id="toc-algorithm-gaussian-discriminant-analysis-gda" class="nav-link" data-scroll-target="#algorithm-gaussian-discriminant-analysis-gda">7.3.3. Algorithm: Gaussian Discriminant Analysis (GDA)</a>
+  <ul class="collapse">
+  <li><a href="#example-iris-flower-classification" id="toc-example-iris-flower-classification" class="nav-link" data-scroll-target="#example-iris-flower-classification">7.3.3.1. Example: Iris Flower Classification</a></li>
+  <li><a href="#special-cases-of-gda" id="toc-special-cases-of-gda" class="nav-link" data-scroll-target="#special-cases-of-gda">7.3.3.2. Special Cases of GDA</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#discriminative-vs.-generative-algorithms" id="toc-discriminative-vs.-generative-algorithms" class="nav-link" data-scroll-target="#discriminative-vs.-generative-algorithms">7.4. Discriminative vs.&nbsp;Generative Algorithms</a>
+  <ul class="collapse">
+  <li><a href="#linear-discriminant-analysis" id="toc-linear-discriminant-analysis" class="nav-link" data-scroll-target="#linear-discriminant-analysis">7.4.1. Linear Discriminant Analysis</a>
+  <ul class="collapse">
+  <li><a href="#what-is-the-lda-model-class" id="toc-what-is-the-lda-model-class" class="nav-link" data-scroll-target="#what-is-the-lda-model-class">7.4.1.1. What Is the LDA Model Class?</a></li>
+  </ul></li>
+  <li><a href="#generative-models-vs.-discriminative-models" id="toc-generative-models-vs.-discriminative-models" class="nav-link" data-scroll-target="#generative-models-vs.-discriminative-models">7.4.2. Generative Models vs.&nbsp;Discriminative Models</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../CAPITULO_2/B1_regresion_lineal_logistica.html">2. MODELOS DISCRIMINATIVOS</a></li><li class="breadcrumb-item"><a href="../CAPITULO_3/C2_gmm.html">3.1-3.2 Mezclado GDA/GMM</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Modelos de mezcla gaussiana (GMM)</h1>
+<p class="subtitle lead">Capítulo 3 - Sección 2</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<hr style="border: 1px solid rgba(50, 0, 0, 1);">
+<div class="hidden">
+<p><span class="math display">\[
+\def\NN{\mathbb{N}}
+\def\ZZ{\mathbb{Z}}
+\def\RR{\mathbb{R}}
+\def\media{\mathbb{E}}
+\def\cov{\text{Cov}}
+\def\prob{\mathbb{P}}
+\def\calL{\mathcal{L}}
+\def\calG{\mathcal{G}}
+\def\calH{\mathcal{H}}
+\def\calD{\mathcal{D}}
+\def\calN{\mathcal{N}}
+\def\aa{{\bf a}}
+\def\bb{{\bf b}}
+\def\cc{{\bf c}}
+\def\dd{{\bf d}}
+\def\hh{{\bf h}}
+\def\qq{{\bf q}}
+\def\xx{{\bf x}}
+\def\yy{{\bf y}}
+\def\zz{{\bf z}}
+\def\uu{{\bf u}}
+\def\vv{{\bf v}}
+\def\ww{{\bf w}}
+\def\XX{{\bf X}}
+\def\TT{{\bf T}}
+\def\SS{{\bf S}}
+\def\bfZ{{\bf Z}}
+\def\bfg{{\bf g}}
+\def\bftheta{\boldsymbol{\theta}}
+\def\bfphi{\boldsymbol{\phi}}
+\def\bfmu{\boldsymbol{\mu}}
+\def\bfxi{\boldsymbol{\xi}}
+\def\bflambda{\boldsymbol{\lambda}}
+\def\bfgamma{\boldsymbol{\gamma}}
+\def\bfbeta{\boldsymbol{\beta}}
+\def\bfalpha{\boldsymbol{\alpha}}
+\def\bfeta{\boldsymbol{\eta}}
+\def\bfmu{\boldsymbol{\mu}}
+\def\bfnu{\boldsymbol{\nu}}
+\def\bfTheta{\boldsymbol{\Theta}}
+\def\bfSigma{\boldsymbol{\Sigma}}
+\def\bfone{\mathbf{1}}
+\def\bfzero{\mathbf{0}}
+\def\argmin{\mathop{\mathrm{arg\,min\,}}}
+\def\argmax{\mathop{\mathrm{arg\,max\,}}}
+\]</span></p>
+</div>
+<p><span style="color:darkred;"> SIN EDICION (<a href="https://kuleshov-group.github.io/aml-book/intro.html">https://kuleshov-group.github.io/aml-book/intro.html</a>, esto es lecture 7, chequear lecture 6,8,10 para extender section y/o separar)…. este quarto tiene cosas de 3.1 y 3.2 (hay que separar) </span></p>
+<section id="análisis-discriminante-gaussiano" class="level1">
+<h1><strong>Análisis Discriminante Gaussiano</strong></h1>
+<p>Hemos hablado anteriormente del modelado generativo y el método de Naive Bayes. Ahora exploraremos un segundo algoritmo de aprendizaje basado en modelado generativo llamado Análisis Discriminante Gaussiano (GDA).</p>
+</section>
+<section id="revisando-modelos-generativos" class="level1">
+<h1>1. Revisando Modelos Generativos</h1>
+<p>Primero, repasemos los modelos generativos y cómo se diferencian de los modelos discriminativos. Ilustraremos estas diferencias en una tarea de clasificación simple.</p>
+<section id="el-conjunto-de-datos-iris" class="level2">
+<h2 class="anchored" data-anchor-id="el-conjunto-de-datos-iris">1.1. El conjunto de datos Iris</h2>
+<p>Como ejemplo práctico en esta clase, utilizaremos nuevamente el conjunto de datos de flores Iris (<a href="https://en.wikipedia.org/wiki/Ronald_Fisher">R. A. Fisher, 1936</a>). Recordemos que nuestra tarea es clasificar las subespecies de las flores Iris basándonos en sus mediciones.</p>
+<p>Primero, carguemos el conjunto de datos e imprimamos algunos ejemplos del mismo.</p>
+<div id="3cae8815" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> datasets</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Llamar a la base de datos</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>iris <span class="op">=</span> datasets.load_iris(as_frame<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimir parte de la base de dato</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>iris_X, iris_y <span class="op">=</span> iris.data, iris.target</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>pd.concat([iris_X, iris_y], axis<span class="op">=</span><span class="dv">1</span>).head()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">sepal length (cm)</th>
+<th data-quarto-table-cell-role="th">sepal width (cm)</th>
+<th data-quarto-table-cell-role="th">petal length (cm)</th>
+<th data-quarto-table-cell-role="th">petal width (cm)</th>
+<th data-quarto-table-cell-role="th">target</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>5.1</td>
+<td>3.5</td>
+<td>1.4</td>
+<td>0.2</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>4.9</td>
+<td>3.0</td>
+<td>1.4</td>
+<td>0.2</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>4.7</td>
+<td>3.2</td>
+<td>1.3</td>
+<td>0.2</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4.6</td>
+<td>3.1</td>
+<td>1.5</td>
+<td>0.2</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5.0</td>
+<td>3.6</td>
+<td>1.4</td>
+<td>0.2</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Si solo consideramos las dos primeras columnas de características, podemos visualizar el conjunto de datos en 2D.</p>
+<div id="d78b72f9" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://scikit-learn.org/stable/auto_examples/neighbors/plot_classification.html</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> [<span class="dv">12</span>, <span class="dv">4</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># create 2d version of dataset</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> iris_X.to_numpy()[:,:<span class="dv">2</span>]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>x_min, x_max <span class="op">=</span> X[:, <span class="dv">0</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="fl">.5</span>, X[:, <span class="dv">0</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="fl">.5</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>y_min, y_max <span class="op">=</span> X[:, <span class="dv">1</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="fl">.5</span>, X[:, <span class="dv">1</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="fl">.5</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot also the training points</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> plt.scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], c<span class="op">=</span>iris_y, edgecolor<span class="op">=</span><span class="st">'k'</span>, s<span class="op">=</span><span class="dv">60</span>, cmap<span class="op">=</span>plt.cm.Paired)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Sepal Length (cm)'</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Sepal Width (cm)'</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>plt.legend(handles<span class="op">=</span>p1.legend_elements()[<span class="dv">0</span>], labels<span class="op">=</span>[<span class="st">'Setosa'</span>, <span class="st">'Versicolour'</span>, <span class="st">'Virginica'</span>], loc<span class="op">=</span><span class="st">'lower right'</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="C2_gmm_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="revisión-modelos-discriminativos" class="level2">
+<h2 class="anchored" data-anchor-id="revisión-modelos-discriminativos">1.2. Revisión: Modelos Discriminativos</h2>
+<p>La mayoría de los modelos que hemos visto hasta ahora han sido <em>discriminativos</em>:</p>
+<ul>
+<li><p>Transforman directamente (x) en un puntaje para cada clase (y) (por ejemplo, mediante la fórmula (y = (^x))).</p></li>
+<li><p>Pueden interpretarse como una probabilidad <em>condicional</em> definida (P_(y | x)).</p></li>
+</ul>
+<p>Por ejemplo, la regresión logística es un algoritmo de clasificación binaria que utiliza un modelo (f_: ) de la forma:</p>
+<p><span class="math display">\[
+f_\theta(x) = \sigma(\theta^\top x) = \frac{1}{1 + \exp(-\theta^\top x)},
+\]</span></p>
+<p>donde <span class="math inline">\(\sigma(z) = \frac{1}{1 + \exp(-z)}\)</span> es la función <em>sigmoid</em> o <em>logistic</em>.</p>
+<p>El modelo logístico define (o “parametriza”) una distribución de probabilidad (P_(y|x) : ) de la siguiente manera:</p>
+<p><span class="math display">\[
+\begin{align*}
+P_\theta(y=1 | x) &amp; = \sigma(\theta^\top x) \\
+P_\theta(y=0 | x) &amp; = 1-\sigma(\theta^\top x).
+\end{align*}
+\]</span></p>
+<p>La regresión logística optimiza el siguiente objetivo definido sobre un conjunto de datos de clasificación binaria ( = {(x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), , (x^{(n)}, y^{(n)})}).</p>
+<p><span class="math display">\[
+\begin{align*}
+\ell(\theta) &amp; = \frac{1}{n}\sum_{i=1}^n \log P_\theta (y^{(i)} \mid x^{(i)}) \\
+&amp; = \frac{1}{n}\sum_{i=1}^n {y^{(i)}} \cdot \log \sigma(\theta^\top x^{(i)}) + (1-y^{(i)}) \cdot \log (1-\sigma(\theta^\top x^{(i)})).
+\end{align*}
+\]</span></p>
+<p>This objective is also often called the log-loss, or cross-entropy. This asks the model to ouput a large score <span class="math inline">\(\sigma(\theta^\top x^{(i)})\)</span> (a score that’s close to one) if <span class="math inline">\(y^{(i)}=1\)</span>, and a score that’s small (close to zero) if <span class="math inline">\(y^{(i)}=0\)</span>.</p>
+<p>Now, let’s train logistic/softmax regression on this dataset.</p>
+<div id="62472804" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> [<span class="dv">12</span>, <span class="dv">4</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>logreg <span class="op">=</span> LogisticRegression(C<span class="op">=</span><span class="fl">1e5</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an instance of Logistic Regression Classifier and fit the data.</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> iris_X.to_numpy()[:,:<span class="dv">2</span>]</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># rename class two to class one</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> iris_y.copy()</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>logreg.fit(X, Y) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<style>#sk-container-id-1 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-1 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-1 pre {
+  padding: 0;
+}
+
+#sk-container-id-1 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-1 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-1 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-1 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-1 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-1 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-1 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-1 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-1 label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+#sk-container-id-1 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-1 div.sk-toggleable__content {
+  display: none;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label label.sk-toggleable__label,
+#sk-container-id-1 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-1 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-1 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-1 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-1 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-1 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-1 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-1 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+
+.estimator-table summary {
+    padding: .5rem;
+    font-family: monospace;
+    cursor: pointer;
+}
+
+.estimator-table details[open] {
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+    padding-bottom: 0.3rem;
+}
+
+.estimator-table .parameters-table {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.estimator-table .parameters-table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.estimator-table .parameters-table tr:nth-child(even) {
+    background-color: #f6f6f6;
+}
+
+.estimator-table .parameters-table tr:hover {
+    background-color: #e0e0e0;
+}
+
+.estimator-table table td {
+    border: 1px solid rgba(106, 105, 104, 0.232);
+}
+
+.user-set td {
+    color:rgb(255, 94, 0);
+    text-align: left;
+}
+
+.user-set td.value pre {
+    color:rgb(255, 94, 0) !important;
+    background-color: transparent !important;
+}
+
+.default td {
+    color: black;
+    text-align: left;
+}
+
+.user-set td i,
+.default td i {
+    color: black;
+}
+
+.copy-paste-icon {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNy4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjUgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZD0iTTIwOCAwTDMzMi4xIDBjMTIuNyAwIDI0LjkgNS4xIDMzLjkgMTQuMWw2Ny45IDY3LjljOSA5IDE0LjEgMjEuMiAxNC4xIDMzLjlMNDQ4IDMzNmMwIDI2LjUtMjEuNSA0OC00OCA0OGwtMTkyIDBjLTI2LjUgMC00OC0yMS41LTQ4LTQ4bDAtMjg4YzAtMjYuNSAyMS41LTQ4IDQ4LTQ4ek00OCAxMjhsODAgMCAwIDY0LTY0IDAgMCAyNTYgMTkyIDAgMC0zMiA2NCAwIDAgNDhjMCAyNi41LTIxLjUgNDgtNDggNDhMNDggNTEyYy0yNi41IDAtNDgtMjEuNS00OC00OEwwIDE3NmMwLTI2LjUgMjEuNS00OCA0OC00OHoiLz48L3N2Zz4=);
+    background-repeat: no-repeat;
+    background-size: 14px 14px;
+    background-position: 0;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+}
+</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>LogisticRegression(C=100000.0)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked=""><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>LogisticRegression</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.7/modules/generated/sklearn.linear_model.LogisticRegression.html">?<span>Documentation for LogisticRegression</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted" data-param-prefix="">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                
+<table class="parameters-table caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param">penalty&nbsp;</td>
+<td class="value">'l2'</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param">dual&nbsp;</td>
+<td class="value">False</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param">tol&nbsp;</td>
+<td class="value">0.0001</td>
+</tr>
+<tr class="user-set even">
+<td><em></em></td>
+<td class="param">C&nbsp;</td>
+<td class="value">100000.0</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param">fit_intercept&nbsp;</td>
+<td class="value">True</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param">intercept_scaling&nbsp;</td>
+<td class="value">1</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param">class_weight&nbsp;</td>
+<td class="value">None</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param">random_state&nbsp;</td>
+<td class="value">None</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param">solver&nbsp;</td>
+<td class="value">'lbfgs'</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param">max_iter&nbsp;</td>
+<td class="value">100</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param">multi_class&nbsp;</td>
+<td class="value">'deprecated'</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param">verbose&nbsp;</td>
+<td class="value">0</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param">warm_start&nbsp;</td>
+<td class="value">False</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param">n_jobs&nbsp;</td>
+<td class="value">None</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param">l1_ratio&nbsp;</td>
+<td class="value">None</td>
+</tr>
+</tbody>
+</table>
+
+            </details>
+        </div>
+    </div></div></div></div></div><script>function copyToClipboard(text, element) {
+    // Get the parameter prefix from the closest toggleable content
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+    const fullParamName = paramPrefix ? `${paramPrefix}${text}` : text;
+
+    const originalStyle = element.style;
+    const computedStyle = window.getComputedStyle(element);
+    const originalWidth = computedStyle.width;
+    const originalHTML = element.innerHTML.replace('Copied!', '');
+
+    navigator.clipboard.writeText(fullParamName)
+        .then(() => {
+            element.style.width = originalWidth;
+            element.style.color = 'green';
+            element.innerHTML = "Copied!";
+
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy:', err);
+            element.style.color = 'red';
+            element.innerHTML = "Failed!";
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        });
+    return false;
+}
+
+document.querySelectorAll('.fa-regular.fa-copy').forEach(function(element) {
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+    const paramName = element.parentElement.nextElementSibling.textContent.trim();
+    const fullParamName = paramPrefix ? `${paramPrefix}${paramName}` : paramName;
+
+    element.setAttribute('title', fullParamName);
+});
+</script>
+</div>
+</div>
+<p>We visualize the regions predicted to be associated with the blue, brown, and yellow classes and the lines between them are the decision boundaries.</p>
+<div id="efed93d7" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(np.arange(<span class="dv">4</span>, <span class="fl">8.2</span>, <span class="fl">.02</span>), np.arange(<span class="fl">1.8</span>, <span class="fl">4.5</span>, <span class="fl">.02</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> logreg.predict(np.c_[xx.ravel(), yy.ravel()])</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Put the result into a color plot</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> Z.reshape(xx.shape)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plt.pcolormesh(xx, yy, Z, cmap<span class="op">=</span>plt.cm.Paired)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot also the training points</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], c<span class="op">=</span>Y, edgecolors<span class="op">=</span><span class="st">'k'</span>, cmap<span class="op">=</span>plt.cm.Paired, s<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Sepal length'</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Sepal width'</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="C2_gmm_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="review-generative-models" class="level2">
+<h2 class="anchored" data-anchor-id="review-generative-models">7.1.3. Review: Generative Models</h2>
+<p>Another approach to classification is to use <em>generative</em> models.</p>
+<ul>
+<li>A generative approach first defines a probabilistic model of <span class="math inline">\(x\)</span> for each class:</li>
+</ul>
+<p><span class="math display">\[
+P_\theta(x | y=k) \; \text{for each class $k$}.
+\]</span></p>
+<ul>
+<li><p><span class="math inline">\(P_\theta(x | y=k)\)</span> assigns a probability to each <span class="math inline">\(x\)</span> depending on how likely it is to originate from class <span class="math inline">\(k\)</span>. The <span class="math inline">\(x\)</span> that are deemed to be more likely to be of class <span class="math inline">\(k\)</span> get a higher probability.</p></li>
+<li><p>A generative model also requires specifying a class probability <span class="math inline">\(P_\theta(y=k)\)</span> that encodes our prior beliefs</p></li>
+</ul>
+<p><span class="math display">\[
+P_\theta(y=k) \; \text{for each class $k$}.
+\]</span></p>
+<p>These are often just the % of each class in the data.</p>
+<p>In the context of Iris flower classification, we would fit three models on a labeled corpus:</p>
+<p><span class="math display">\[
+\begin{align*}
+P_\theta(x|y=\text{0}) &amp;&amp; P_\theta(x|y=\text{1}) &amp;&amp; P_\theta(x|y=\text{2})
+\end{align*}
+\]</span></p>
+<p>We would also define priors <span class="math inline">\(P_\theta(y=\text{0}), P_\theta(y=\text{1}),P_\theta(y=\text{2})\)</span>.</p>
+<p><span class="math inline">\(P_\theta(x | y=k)\)</span> <em>scores</em> each <span class="math inline">\(x\)</span> based on how much it looks like class <span class="math inline">\(k\)</span>.</p>
+<section id="probabilistic-interpretations" class="level3">
+<h3 class="anchored" data-anchor-id="probabilistic-interpretations">7.1.3.1. Probabilistic Interpretations</h3>
+<p>A <em>generative</em> model defines <span class="math inline">\(P_\theta(x|y)\)</span> and <span class="math inline">\(P_\theta(y)\)</span>, thus it also defines a distribution of the form <span class="math inline">\(P_\theta(x,y)\)</span>.</p>
+<!-- $$
+\begin{align*}
+\underbrace{P_\theta(x,y) : \mathcal{X} \times \mathcal{Y} \to [0,1]}_\text{generative model} & \;\; & \underbrace{P_\theta(y|x) : \mathcal{X} \times \mathcal{Y} \to [0,1]}_\text{discriminative model}
+\end{align*}
+$$ -->
+<p><span class="math display">\[
+\underbrace{P_\theta(x, y): \mathcal{X} \times \mathcal{Y} \rightarrow[0,1]}_{\text {generative model }} \quad \underbrace{P_\theta(y \mid x): \mathcal{X} \times \mathcal{Y} \rightarrow[0,1]}_{\text {discriminative model }}
+\]</span></p>
+<p>Discriminative models don’t define any probability over the <span class="math inline">\(x\)</span>’s. Generative models do.</p>
+<p>We can learn a generative model <span class="math inline">\(P_\theta(x, y)\)</span> by maximizing the <em>likelihood</em>:</p>
+<p><span class="math display">\[
+\max_\theta \frac{1}{n}\sum_{i=1}^n \log P_\theta({x}^{(i)}, y^{(i)}).
+\]</span></p>
+<p>This says that we should choose parameters <span class="math inline">\(\theta\)</span> such that the model <span class="math inline">\(P_\theta\)</span> assigns a high probability to each training example <span class="math inline">\((x^{(i)}, y^{(i)})\)</span> in the dataset <span class="math inline">\(\mathcal{D}\)</span>.</p>
+</section>
+</section>
+</section>
+<section id="gaussian-mixture-models" class="level1">
+<h1>7.2. Gaussian Mixture Models</h1>
+<p>We are now going to introduce a second generative model called the Gaussian mixture model and see why it might be better than the Naive Bayes model introduced in the previous lecture.</p>
+<section id="review-and-motivation" class="level2">
+<h2 class="anchored" data-anchor-id="review-and-motivation">7.2.1. Review and Motivation</h2>
+<p>Let’s start by reminding ourselves of the formulas for two important probability distributions.</p>
+<section id="review-of-distributions" class="level3">
+<h3 class="anchored" data-anchor-id="review-of-distributions">7.2.1.1. Review of Distributions</h3>
+<section id="categorical-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="categorical-distribution">Categorical Distribution</h4>
+<p>A <a href="https://en.wikipedia.org/wiki/Categorical_distribution">Categorical</a> distribution with parameters <span class="math inline">\(\theta\)</span> is a probability over <span class="math inline">\(K\)</span> discrete outcomes <span class="math inline">\(x \in \{1,2,...,K\}\)</span>:</p>
+<p><span class="math display">\[
+P_\theta(x = j) = \theta_j.
+\]</span></p>
+<p>When <span class="math inline">\(K=2\)</span> this is called the <a href="https://en.wikipedia.org/wiki/Bernoulli_distribution">Bernoulli</a>. #### Normal (Gaussian) Distribution</p>
+<p>A <a href="https://en.wikipedia.org/wiki/Multivariate_normal_distribution">multivariate normal</a> distribution <span class="math inline">\(P_\theta(x) : \mathcal{X} \to [0,1]\)</span> with parameters <span class="math inline">\(\theta = (\mu, \Sigma)\)</span> is a probability over a <span class="math inline">\(d\)</span>-dimensional <span class="math inline">\(x \in \mathbb{R}^d\)</span></p>
+<p><span class="math display">\[
+P_\theta(x; \mu, \Sigma) = \frac{1}{\sqrt{(2 \pi)^d | \Sigma |}} \exp\left(-\frac{1}{2} (x - \mu)^\top \Sigma^{-1} (x-\mu) \right)
+\]</span></p>
+<p>In one dimension, this reduces to <span class="math inline">\(\frac{1}{\sqrt{2 \pi}\sigma} \exp\left(-\frac{(x - \mu)^2}{2\sigma^2} \right)\)</span>.</p>
+<p>This what the density of a Normal distribution looks like in 2D:</p>
+<center>
+<img width="70%" src="https://kuleshov-group.github.io/aml-resources/img/multivariate_gaussian1.png">
+</center>
+<p>This is how we can visualize it in a 2D plane:</p>
+<center>
+<img width="70%" src="https://kuleshov-group.github.io/aml-resources/img/multivariate_gaussian2.png">
+</center>
+</section>
+</section>
+<section id="a-generative-model-for-iris-flowers" class="level3">
+<h3 class="anchored" data-anchor-id="a-generative-model-for-iris-flowers">7.2.1.2. A Generative Model for Iris Flowers</h3>
+<p>To define a generative model for Iris flowers, we need to define three probabilities:</p>
+<p><span class="math display">\[
+\begin{align*}
+P_\theta(x|y=\text{0}) &amp;&amp; P_\theta(x|y=\text{1}) &amp;&amp; P_\theta(x|y=\text{2})
+\end{align*}
+\]</span></p>
+<p>We also define priors <span class="math inline">\(P_\theta(y=\text{0}), P_\theta(y=\text{1}), P_\theta(y=\text{2})\)</span>.</p>
+<p>Each model <span class="math inline">\(P_\theta(x | y=k)\)</span> <em>scores</em> <span class="math inline">\(x\)</span> based on how much it looks like class <span class="math inline">\(k\)</span>. The inputs <span class="math inline">\(x\)</span> are vectors of features for the flowers.</p>
+<p>How do we choose <span class="math inline">\(P_\theta(x|y=k)\)</span>? One possible approach could be to use Naive Bayes. However Naive Bayes defines <span class="math inline">\(P_\theta(x|y=k)\)</span> as a product of Bernoulli distributions. These are only defined for vectors of discrete binary inputs <span class="math inline">\(x\)</span>. In the iris flower example, <span class="math inline">\(x\)</span> consists of flower measurements, which are continuous numbers. Hence, we need to define a different family of models <span class="math inline">\(P_\theta(x|y=k)\)</span>.</p>
+</section>
+</section>
+<section id="gaussian-mixture-model" class="level2">
+<h2 class="anchored" data-anchor-id="gaussian-mixture-model">7.2.2. Gaussian Mixture Model</h2>
+<p>A <em>Gaussian mixture</em> model (GMM) <span class="math inline">\(P_\theta(x,y)\)</span> is defined for <em>real-valued data</em> <span class="math inline">\(x \in \mathbb{R}^d\)</span>.</p>
+<ul>
+<li>The probability of the data <span class="math inline">\(x\)</span> for each class is a multivariate Gaussian</li>
+</ul>
+<p><span class="math display">\[
+P_\theta(x|y=k) = \mathcal{N}(x ; \mu_k, \Sigma_k).
+\]</span></p>
+<ul>
+<li>The probability over <span class="math inline">\(y\)</span> is Categorical: <span class="math inline">\(P_\theta(y=k) = \phi_k\)</span>.</li>
+</ul>
+<p>Thus the full set of parameter <span class="math inline">\(\theta\)</span> consists of the prior parameters <span class="math inline">\(\vec\phi = (\phi_1,...,\phi_K)\)</span> and <span class="math inline">\(K\)</span> tuples of per-class Gaussian parameters <span class="math inline">\((\mu_k, \Sigma_k)\)</span>.</p>
+<section id="gmms-are-mixtures-of-gaussians-distributions" class="level3">
+<h3 class="anchored" data-anchor-id="gmms-are-mixtures-of-gaussians-distributions">7.2.2.1. GMMs Are Mixtures of Gaussians Distributions</h3>
+<p>The GMM is an example of a mixture of <span class="math inline">\(K\)</span> distributions with mixing weights <span class="math inline">\(\phi_k = P(y=k)\)</span>:</p>
+<p><span class="math display">\[
+P_\theta(x) = \sum_{k=1}^K P_\theta(y=k) P_\theta(x|y=k) = \sum_{k=1}^K \phi_k \mathcal{N}(x; \mu_k, \Sigma_k)
+\]</span></p>
+<ul>
+<li>The distribution <span class="math inline">\(P_\theta(y=k) = \pi_k\)</span> encodes the mixture weights.</li>
+<li>The distribution <span class="math inline">\(P_\theta(x|y=k) = P_k(x; \theta_k)\)</span> encodes the <span class="math inline">\(k\)</span>-th mixed distribution.</li>
+</ul>
+<p>Mixtures can express distributions that a single mixture component can’t:</p>
+<center>
+<img width="65%" src="https://kuleshov-group.github.io/aml-resources/img/mogdensity1d_v2.png">
+</center>
+<p>Here, we have a mixture of 3 Gaussians.</p>
+<p>Mixtures of Gaussians fit more complex distributions than one Gaussian.</p>
+<p>The figures below illustrate how the mixture of two Gaussians can model the distribution composed of two separate clusters, which are poorly represented by a single Gaussian.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 28%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Raw data</th>
+<th>Single Gaussian</th>
+<th>Mixture of Gaussians</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img width="90%" src="https://kuleshov-group.github.io/aml-resources/img/oldfaithful_v2.png"></td>
+<td><img width="90%" src="https://kuleshov-group.github.io/aml-resources/img/oldfSingle_v2.png"></td>
+<td><img width="90%" src="https://kuleshov-group.github.io/aml-resources/img/oldfMOG_v2.png"></td>
+</tr>
+</tbody>
+</table>
+<p>A Gaussian mixture model also defines a story for how the data was generated. To obtain a data point,</p>
+<ul>
+<li><p>First, we sample a class <span class="math inline">\(y \sim \text{Categorical}(\phi_1, \phi_2, ..., \phi_K)\)</span> with class proportions given by the <span class="math inline">\(\phi_k\)</span>.</p></li>
+<li><p>Then, we sample an <span class="math inline">\(x\)</span> from a Gaussian distribution <span class="math inline">\(\mathcal{N}(\mu_k, \Sigma_k)\)</span> specific to that class.</p></li>
+</ul>
+<p>Such a story can be constructed for most generative algorithms and helps understand them.</p>
+</section>
+<section id="predictions-out-of-gaussian-mixture-models" class="level3">
+<h3 class="anchored" data-anchor-id="predictions-out-of-gaussian-mixture-models">7.2.2.2. Predictions Out of Gaussian Mixture Models</h3>
+<p>Given a trained model <span class="math inline">\(P_\theta (x,y) = P_\theta (x | y) P_\theta (y)\)</span>, we can look at the <em>posterior</em> probability</p>
+<p><span class="math display">\[
+P_\theta(y = k\mid x) = \frac{P_\theta(y=k, x)}{P_\theta(x)} = \frac{P_\theta(x | y=k) P_\theta(y=k)}{\sum_{l=1}^K P_\theta(x | y=l) P_\theta(y=l)}
+\]</span></p>
+<p>of a point <span class="math inline">\(x\)</span> belonging to class <span class="math inline">\(k\)</span>.</p>
+</section>
+</section>
+</section>
+<section id="gaussian-discriminant-analysis" class="level1">
+<h1>7.3. Gaussian Discriminant Analysis</h1>
+<p>Next, we will use GMMs as the basis for a new generative classification algorithm, Gaussian Discriminant Analysis (GDA).</p>
+<section id="review-maximum-likelihood-learning" class="level2">
+<h2 class="anchored" data-anchor-id="review-maximum-likelihood-learning">7.3.1. Review: Maximum Likelihood Learning</h2>
+<p>We can learn a generative model <span class="math inline">\(P_\theta(x, y)\)</span> by maximizing the <em>maximum likelihood</em>:</p>
+<p><span class="math display">\[
+\max_\theta \frac{1}{n}\sum_{i=1}^n \log P_\theta({x}^{(i)}, y^{(i)}).
+\]</span></p>
+<p>This seeks to find parameters <span class="math inline">\(\theta\)</span> such that the model assigns high probability to the training data.</p>
+<p>Let’s use maximum likelihood to fit the Guassian Discriminant model. Note that model parameters <span class="math inline">\(\theta\)</span> are the union of the parameters of each sub-model:</p>
+<p><span class="math display">\[\theta = (\mu_1, \Sigma_1, \phi_1, \ldots, \mu_K, \Sigma_K, \phi_K).\]</span></p>
+<p>Mathematically, the components of the model <span class="math inline">\(P_\theta(x,y)\)</span> are as follows.</p>
+<p><span class="math display">\[
+\begin{align*}
+P_\theta(y) &amp; = \frac{\prod_{k=1}^K \phi_k^{\mathbb{I}\{y = y_k\}}}{\sum_{k=1}^k \phi_k} \\
+P_\theta(x|y=k) &amp; = \frac{1}{(2\pi)^{d/2}|\Sigma|^{1/2}} \exp(-\frac{1}{2}(x-\mu_k)^\top\Sigma_k^{-1}(x-\mu_k))
+\end{align*}
+\]</span></p>
+</section>
+<section id="optimizing-the-log-likelihood" class="level2">
+<h2 class="anchored" data-anchor-id="optimizing-the-log-likelihood">7.3.2. Optimizing the Log Likelihood</h2>
+<p>Given a dataset <span class="math inline">\(\mathcal{D} = \{(x^{(i)}, y^{(i)})\mid i=1,2,\ldots,n\}\)</span>, we want to optimize the log-likelihood <span class="math inline">\(\ell(\theta)\)</span>:</p>
+<p><span class="math display">\[
+\begin{align*}
+\ell(\theta) &amp; = \sum_{i=1}^n \log P_\theta(x^{(i)}, y^{(i)}) = \sum_{i=1}^n \log P_\theta(x^{(i)} | y^{(i)}) + \sum_{i=1}^n \log P_\theta(y^{(i)}) \\
+&amp; = \sum_{k=1}^K  \underbrace{\sum_{i : y^{(i)} = k} \log P(x^{(i)} | y^{(i)} ; \mu_k, \Sigma_k)}_\text{all the terms that involve $\mu_k, \Sigma_k$} + \underbrace{\sum_{i=1}^n \log P(y^{(i)} ; \vec \phi)}_\text{all the terms that involve $\vec \phi$}.
+\end{align*}
+\]</span></p>
+<p>In equality #2, we use the fact that <span class="math inline">\(P_\theta(x,y)=P_\theta(y) P_\theta(x|y)\)</span>; in the third one, we change the order of summation.</p>
+<p>Each <span class="math inline">\(\mu_k, \Sigma_k\)</span> for <span class="math inline">\(k=1,2,\ldots,K\)</span> is found in only the following subset of the terms that comprise the full log-likelihood definition:</p>
+<p><span class="math display">\[
+\begin{align*}
+\max_{\mu_k, \Sigma_k} \sum_{i=1}^n \log P_\theta(x^{(i)}, y^{(i)})
+&amp; = \max_{\mu_k, \Sigma_k} \sum_{l=1}^K  \sum_{i : y^{(i)} = l} \log P_\theta(x^{(i)} | y^{(i)} ; \mu_l, \Sigma_l) \\
+&amp; = \max_{\mu_k, \Sigma_k} \sum_{i : y^{(i)} = k} \log P_\theta(x^{(i)} | y^{(i)} ; \mu_k, \Sigma_k).
+\end{align*}
+\]</span></p>
+<p>Thus, optimization over <span class="math inline">\(\mu_k, \Sigma_k\)</span> can be carried out independently of all the other parameters by just looking at these terms.</p>
+<p>Similarly, optimizing for <span class="math inline">\(\vec \phi = (\phi_1, \phi_2, \ldots, \phi_K)\)</span> only involves a small subset of all the terms that comprise the full log-likelihood:</p>
+<p><span class="math display">\[
+\max_{\vec \phi} \sum_{i=1}^n \log P_\theta(x^{(i)}, y^{(i)} ; \theta) = \max_{\vec\phi} \
+\sum_{i=1}^n  \log P_\theta(y^{(i)} ; \vec \phi).
+\]</span></p>
+<section id="learning-the-parameters-phi" class="level3">
+<h3 class="anchored" data-anchor-id="learning-the-parameters-phi">7.3.2.1. Learning the Parameters <span class="math inline">\(\phi\)</span></h3>
+<p>Let’s first consider the optimization over <span class="math inline">\(\vec \phi = (\phi_1, \phi_2, \ldots, \phi_K)\)</span>.</p>
+<p><span class="math display">\[
+\max_{\vec \phi} \sum_{i=1}^n  \log P_\theta(y=y^{(i)} ; \vec \phi).
+\]</span></p>
+<ul>
+<li><p>We have <span class="math inline">\(n\)</span> datapoints. Each point has a label <span class="math inline">\(k\in\{1,2,...,K\}\)</span>.</p></li>
+<li><p>Our model is a categorical and assigns a probability <span class="math inline">\(\phi_k\)</span> to each outcome <span class="math inline">\(k\in\{1,2,...,K\}\)</span>.</p></li>
+<li><p>We want to infer <span class="math inline">\(\phi_k\)</span> assuming our dataset is sampled from the model.</p></li>
+</ul>
+<p>What are the maximum likelihood <span class="math inline">\(\phi_k\)</span> that are most likely to have generated our data? Intuitively, the maximum likelihood class probabilities <span class="math inline">\(\phi\)</span> should just be the class proportions that we see in the data.</p>
+<p>Note that this is analogous to an earlier example in which we used the principle of maximum likelihood to estimate the probability of the biased coin falling heads: that probability was equal to the frequency of observing heads in our dataset. Similarly, the maximum likelihood estimate of sampling a datapoint with class <span class="math inline">\(k\)</span> corresponds to the fraction of datapoints in our training set that are labeled as class <span class="math inline">\(k\)</span>.</p>
+<p>Let’s calculate this formally. Our objective <span class="math inline">\(J(\vec \phi)\)</span> equals</p>
+<p><span class="math display">\[
+\begin{align*}
+J(\vec\phi) &amp; = \sum_{i=1}^n  \log P_\theta(y^{(i)} ; \vec \phi) \\
+&amp; = \sum_{i=1}^n \log \phi_{y^{(i)}} - n \cdot \log \sum_{k=1}^K \phi_k \\
+&amp; = \sum_{k=1}^K \sum_{i : y^{(i)} = k} \log \phi_k - n \cdot \log \sum_{k=1}^K \phi_k
+\end{align*}
+\]</span></p>
+<p>Taking the partial derivative with respect to <span class="math inline">\(\phi_k\)</span>:</p>
+<p><span class="math display">\[
+\begin{align*}
+\frac{\partial}{\partial_{\phi_k}} J(\vec\phi)
+&amp; = \frac{\partial}{\partial_{\phi_k}} \left (\sum_{l=1}^K \sum_{i : y^{(i)} = l} \log \phi_l - n \cdot \log \sum_{l=1}^K \phi_l \right) \\
+&amp; = \frac{\partial}{\partial_{\phi_k}} \sum_{i : y^{(i)} = k} \log \phi_k - \frac{\partial}{\partial_{\phi_k}} n \cdot \log \sum_{l=1}^K \phi_l \\
+&amp; = n_k \cdot \frac{\partial}{\partial_{\phi_k}} \log \phi_k - n \cdot \frac{\partial}{\partial_{\phi_k}}  \log \sum_{l=1}^K \phi_l \\
+&amp; =  \frac{n_k}{\phi_k} - \frac{n}{\sum_{l=1}^K \phi_l}
+\end{align*}
+\]</span></p>
+<p>Setting this derivative to zero, we obtain</p>
+<p><span class="math display">\[
+\frac{\phi_k}{\sum_l \phi_l} = \frac{n_k}{n}
+\]</span></p>
+<p>for each <span class="math inline">\(k\)</span>, where <span class="math inline">\(n_k = |\{i : y^{(i)} = k\}|\)</span> is the number of training targets with class <span class="math inline">\(k\)</span>.</p>
+<p>Thus, the maximum likelihood set of parameters <span class="math inline">\(\phi_k\)</span> must satisfy the above constraint. Because we know that the set of parameters <span class="math inline">\(\sum_{l=1}^K \phi_l\)</span> must also sum to one, we plug this fact into the above equation to conclude that:</p>
+<p><span class="math display">\[
+\phi_k = \frac{n_k}{n}
+\]</span></p>
+<p>Thus, the optimal <span class="math inline">\(\phi_k\)</span> is just the proportion of data points with class <span class="math inline">\(k\)</span> in the training set!</p>
+</section>
+<section id="learning-the-parameters-mu_k-sigma_k" class="level3">
+<h3 class="anchored" data-anchor-id="learning-the-parameters-mu_k-sigma_k">7.3.2.2. Learning the Parameters <span class="math inline">\(\mu_k, \Sigma_k\)</span></h3>
+<p>Next, let’s look at the maximum likelihood term</p>
+<p><span class="math display">\[
+\max_{\mu_k, \Sigma_k} \sum_{i : y^{(i)} = k} \log \mathcal{N}(x^{(i)} | \mu_k, \Sigma_k)
+\]</span></p>
+<p>over the Gaussian parameters <span class="math inline">\(\mu_k, \Sigma_k\)</span>.</p>
+<ul>
+<li><p>Our dataset are all the points <span class="math inline">\(x\)</span> for which <span class="math inline">\(y=k\)</span>.</p></li>
+<li><p>We want to learn the mean and variance <span class="math inline">\(\mu_k, \Sigma_k\)</span> of a normal distribution that generates this data.</p></li>
+</ul>
+<p>What is the maximum likelihood <span class="math inline">\(\mu_k, \Sigma_k\)</span> in this case?</p>
+<p>Computing the derivative and setting it to zero (the mathematical proof is left as an exercise to the reader), we obtain closed form solutions:</p>
+<p><span class="math display">\[
+\begin{align*}
+\mu_k &amp; = \frac{\sum_{i: y^{(i)} = k} x^{(i)}}{n_k} \\
+\Sigma_k &amp; = \frac{\sum_{i: y^{(i)} = k} (x^{(i)} - \mu_k)(x^{(i)} - \mu_k)^\top}{n_k} \\
+\end{align*}
+\]</span></p>
+<p>These are just the observed means and covariances within each class.</p>
+</section>
+<section id="querying-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="querying-the-model">7.3.2.3. Querying the Model</h3>
+<p>How do we ask the model for predictions? As discussed earlier, we can apply Bayes’ rule:</p>
+<p><span class="math display">\[\arg\max_y P_\theta(y|x) = \arg\max_y P_\theta(x|y)P(y).\]</span></p>
+<p>Thus, we can estimate the probability of <span class="math inline">\(x\)</span> and under each <span class="math inline">\(P_\theta(x|y=k)P(y=k)\)</span> and choose the class that explains the data best.</p>
+</section>
+</section>
+<section id="algorithm-gaussian-discriminant-analysis-gda" class="level2">
+<h2 class="anchored" data-anchor-id="algorithm-gaussian-discriminant-analysis-gda">7.3.3. Algorithm: Gaussian Discriminant Analysis (GDA)</h2>
+<p>The above procedure describes an example of generative models—Gaussian Discriminant Analysis (GDA). We can succinctly define GDA in terms of the algorithm components.</p>
+<ul>
+<li><p><strong>Type</strong>: Supervised learning (multi-class classification)</p></li>
+<li><p><strong>Model family</strong>: Mixtures of Gaussians.</p></li>
+<li><p><strong>Objective function</strong>: Log-likelihood.</p></li>
+<li><p><strong>Optimizer</strong>: Closed form solution.</p></li>
+</ul>
+<section id="example-iris-flower-classification" class="level3">
+<h3 class="anchored" data-anchor-id="example-iris-flower-classification">7.3.3.1. Example: Iris Flower Classification</h3>
+<p>Let’s see how this approach can be used in practice on the Iris dataset.</p>
+<ul>
+<li><p>We will learn the maximum likelihood GDA parameters</p></li>
+<li><p>We will compare the outputs to the true predictions.</p></li>
+</ul>
+<p>Let’s first start by computing the model parameters on our dataset. It only takes a few lines of code!</p>
+<div id="49116719" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we can implement these formulas over the Iris dataset</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="dv">2</span> <span class="co"># number of features in our toy dataset</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="dv">3</span> <span class="co"># number of classes</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> X.shape[<span class="dv">0</span>] <span class="co"># size of the dataset</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># these are the shapes of the parameters</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>mus <span class="op">=</span> np.zeros([K,d])</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>Sigmas <span class="op">=</span> np.zeros([K,d,d])</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>phis <span class="op">=</span> np.zeros([K])</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># we now compute the parameters</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    X_k <span class="op">=</span> X[iris_y <span class="op">==</span> k]</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    mus[k] <span class="op">=</span> np.mean(X_k, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    Sigmas[k] <span class="op">=</span> np.cov(X_k.T)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    phis[k] <span class="op">=</span> X_k.shape[<span class="dv">0</span>] <span class="op">/</span> <span class="bu">float</span>(n)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># print out the means</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(mus)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[5.006 3.428]
+ [5.936 2.77 ]
+ [6.588 2.974]]</code></pre>
+</div>
+</div>
+<p>We can compute predictions using Bayes’ rule.</p>
+<div id="7005360b" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we can implement this in numpy</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gda_predictions(x, mus, Sigmas, phis):</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""This returns class assignments and p(y|x) under the GDA model.</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">    We compute </span><span class="ch">\a</span><span class="co">rg\max_y p(y|x) as </span><span class="ch">\a</span><span class="co">rg\max_y p(x|y)p(y)</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># adjust shapes</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    n, d <span class="op">=</span> x.shape</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.reshape(x, (<span class="dv">1</span>, n, d, <span class="dv">1</span>))</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    mus <span class="op">=</span> np.reshape(mus, (K, <span class="dv">1</span>, d, <span class="dv">1</span>))</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    Sigmas <span class="op">=</span> np.reshape(Sigmas, (K, <span class="dv">1</span>, d, d))    </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># compute probabilities</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    py <span class="op">=</span> np.tile(phis.reshape((K,<span class="dv">1</span>)), (<span class="dv">1</span>,n)).reshape([K,n,<span class="dv">1</span>,<span class="dv">1</span>])</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    pxy <span class="op">=</span> (</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        np.sqrt(np.<span class="bu">abs</span>((<span class="dv">2</span><span class="op">*</span>np.pi)<span class="op">**</span>d<span class="op">*</span>np.linalg.det(Sigmas))).reshape((K,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)) </span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="op">*</span> <span class="op">-</span><span class="fl">.5</span><span class="op">*</span>np.exp(</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>            np.matmul(np.matmul((x<span class="op">-</span>mus).transpose([<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">2</span>]), np.linalg.inv(Sigmas)), x<span class="op">-</span>mus)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    pyx <span class="op">=</span> pxy <span class="op">*</span> py</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pyx.argmax(axis<span class="op">=</span><span class="dv">0</span>).flatten(), pyx.reshape([K,n])</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>idx, pyx <span class="op">=</span> gda_predictions(X, mus, Sigmas, phis)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(idx)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 1 0 0 0 0 0 0 0 0 2 2 2 1 2 1 2 1 2 1 1 1 1 1 1 2 1 1 1 1 1 1 2 1
+ 2 2 2 2 1 1 1 1 1 1 1 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 2 1 2 2 2 2 1 2 2 2 2
+ 2 2 1 1 2 2 2 2 1 2 1 2 1 2 2 1 1 2 2 2 2 2 1 1 2 2 2 1 2 2 2 1 2 2 2 2 2
+ 2 1]</code></pre>
+</div>
+</div>
+<p>We visualize the decision boundaries like we did earlier. The figure illustrates that three Gaussians learned through Gaussian Discriminant Analysis split the data points from three classes reasonably.</p>
+<div id="499febe5" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> LogNorm</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(np.arange(x_min, x_max, <span class="fl">.02</span>), np.arange(y_min, y_max, <span class="fl">.02</span>))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Z, pyx <span class="op">=</span> gda_predictions(np.c_[xx.ravel(), yy.ravel()], mus, Sigmas, phis)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>logpy <span class="op">=</span> np.log(<span class="op">-</span><span class="fl">1.</span><span class="op">/</span><span class="dv">3</span><span class="op">*</span>pyx)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Put the result into a color plot</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> Z.reshape(xx.shape)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>contours <span class="op">=</span> np.zeros([K, xx.shape[<span class="dv">0</span>], xx.shape[<span class="dv">1</span>]])</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(K):</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    contours[k] <span class="op">=</span> logpy[k].reshape(xx.shape)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>plt.pcolormesh(xx, yy, Z, cmap<span class="op">=</span>plt.cm.Paired)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(K):</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    plt.contour(xx, yy, contours[k], levels<span class="op">=</span>np.logspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot also the training points</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], c<span class="op">=</span>iris_y, edgecolors<span class="op">=</span><span class="st">'k'</span>, cmap<span class="op">=</span>plt.cm.Paired)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Sepal length'</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Sepal width'</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="C2_gmm_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="special-cases-of-gda" class="level3">
+<h3 class="anchored" data-anchor-id="special-cases-of-gda">7.3.3.2. Special Cases of GDA</h3>
+<p>Many important generative algorithms are special cases of Gaussian Discriminative Analysis</p>
+<ul>
+<li><p>Linear discriminant analysis (LDA): all the covariance matrices <span class="math inline">\(\Sigma_k\)</span> take the same value.</p></li>
+<li><p>Gaussian Naive Bayes: all the covariance matrices <span class="math inline">\(\Sigma_k\)</span> are diagonal.</p></li>
+<li><p>Quadratic discriminant analysis (QDA): another term for GDA.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="discriminative-vs.-generative-algorithms" class="level1">
+<h1>7.4. Discriminative vs.&nbsp;Generative Algorithms</h1>
+<p>We conclude our lectures on generative algorithms by revisiting the question of how they compare to discriminative algorithms.</p>
+<section id="linear-discriminant-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="linear-discriminant-analysis">7.4.1. Linear Discriminant Analysis</h2>
+<p>When the covariances <span class="math inline">\(\Sigma_k\)</span> in GDA are equal, we have an algorithm called Linear Discriminant Analysis or LDA. The probability of the data <span class="math inline">\(x\)</span> for each class is a multivariate Gaussian with the same covariance <span class="math inline">\(\Sigma\)</span>.</p>
+<p><span class="math display">\[
+P_\theta(x|y=k) = \mathcal{N}(x ; \mu_k, \Sigma).
+\]</span></p>
+<p>The probability over <span class="math inline">\(y\)</span> is Categorical: <span class="math inline">\(P_\theta(y=k) = \phi_k\)</span>.</p>
+<p>Let’s apply this algorithm on the Iris flower dataset. We compute the model parameters similarly to how we did for GDA.</p>
+<div id="90db106e" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we can implement these formulas over the Iris dataset</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="dv">2</span> <span class="co"># number of features in our toy dataset</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="dv">3</span> <span class="co"># number of classes</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> X.shape[<span class="dv">0</span>] <span class="co"># size of the dataset</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># these are the shapes of the parameters</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>mus <span class="op">=</span> np.zeros([K,d])</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>Sigmas <span class="op">=</span> np.zeros([K,d,d])</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>phis <span class="op">=</span> np.zeros([K])</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># we now compute the parameters</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    X_k <span class="op">=</span> X[iris_y <span class="op">==</span> k]</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    mus[k] <span class="op">=</span> np.mean(X_k, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    Sigmas[k] <span class="op">=</span> np.cov(X.T) <span class="co"># this is now X.T instead of X_k.T</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    phis[k] <span class="op">=</span> X_k.shape[<span class="dv">0</span>] <span class="op">/</span> <span class="bu">float</span>(n)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co"># print out the means</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(mus)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[5.006 3.428]
+ [5.936 2.77 ]
+ [6.588 2.974]]</code></pre>
+</div>
+</div>
+<p>We can compute predictions using Bayes’ rule.</p>
+<div id="3a6bab7a" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we can implement this in numpy</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gda_predictions(x, mus, Sigmas, phis):</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""This returns class assignments and p(y|x) under the GDA model.</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">    We compute </span><span class="ch">\a</span><span class="co">rg\max_y p(y|x) as </span><span class="ch">\a</span><span class="co">rg\max_y p(x|y)p(y)</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># adjust shapes</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    n, d <span class="op">=</span> x.shape</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.reshape(x, (<span class="dv">1</span>, n, d, <span class="dv">1</span>))</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    mus <span class="op">=</span> np.reshape(mus, (K, <span class="dv">1</span>, d, <span class="dv">1</span>))</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    Sigmas <span class="op">=</span> np.reshape(Sigmas, (K, <span class="dv">1</span>, d, d))    </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># compute probabilities</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    py <span class="op">=</span> np.tile(phis.reshape((K,<span class="dv">1</span>)), (<span class="dv">1</span>,n)).reshape([K,n,<span class="dv">1</span>,<span class="dv">1</span>])</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    pxy <span class="op">=</span> (</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>        np.sqrt(np.<span class="bu">abs</span>((<span class="dv">2</span><span class="op">*</span>np.pi)<span class="op">**</span>d<span class="op">*</span>np.linalg.det(Sigmas))).reshape((K,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)) </span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>        <span class="op">*</span> <span class="op">-</span><span class="fl">.5</span><span class="op">*</span>np.exp(</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>            np.matmul(np.matmul((x<span class="op">-</span>mus).transpose([<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">2</span>]), np.linalg.inv(Sigmas)), x<span class="op">-</span>mus)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    pyx <span class="op">=</span> pxy <span class="op">*</span> py</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pyx.argmax(axis<span class="op">=</span><span class="dv">0</span>).flatten(), pyx.reshape([K,n])</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>idx, pyx <span class="op">=</span> gda_predictions(X, mus, Sigmas, phis)</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(idx)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 1 0 0 0 0 0 0 0 0 2 2 2 1 2 1 2 1 2 1 1 1 1 1 1 2 1 1 1 1 2 1 1 1
+ 2 2 2 2 1 1 1 1 1 1 1 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 2 2 2 2 1 2 1 2 2
+ 1 2 1 1 2 2 2 2 1 2 1 2 1 2 2 1 1 2 2 2 2 2 1 1 2 2 2 1 2 2 2 1 2 2 2 1 2
+ 2 1]</code></pre>
+</div>
+</div>
+<p>We visualize predictions like we did earlier.</p>
+<div id="ffa755ba" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> LogNorm</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(np.arange(x_min, x_max, <span class="fl">.02</span>), np.arange(y_min, y_max, <span class="fl">.02</span>))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>Z, pyx <span class="op">=</span> gda_predictions(np.c_[xx.ravel(), yy.ravel()], mus, Sigmas, phis)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>logpy <span class="op">=</span> np.log(<span class="op">-</span><span class="fl">1.</span><span class="op">/</span><span class="dv">3</span><span class="op">*</span>pyx)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Put the result into a color plot</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> Z.reshape(xx.shape)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>contours <span class="op">=</span> np.zeros([K, xx.shape[<span class="dv">0</span>], xx.shape[<span class="dv">1</span>]])</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(K):</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    contours[k] <span class="op">=</span> logpy[k].reshape(xx.shape)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>plt.pcolormesh(xx, yy, Z, cmap<span class="op">=</span>plt.cm.Paired)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot also the training points</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], c<span class="op">=</span>iris_y, edgecolors<span class="op">=</span><span class="st">'k'</span>, cmap<span class="op">=</span>plt.cm.Paired)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Sepal length'</span>)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Sepal width'</span>)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="C2_gmm_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Linear Discriminant Analysis outputs decision boundaries that are linear, just like Logistic/Softmax Regression. Softmax or Logistic regression also produce linear boundaries. Is this a coincidence?</p>
+<!-- Softmax or Logistic regression also produce linear boundaries. In fact, both types of algorithms make use of the same model class.
+
+What is their difference then? -->
+<section id="what-is-the-lda-model-class" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-the-lda-model-class">7.4.1.1. What Is the LDA Model Class?</h3>
+<p>We can derive an analytic formula for <span class="math inline">\(P_\theta(y|x)\)</span> in a Bernoulli Naive Bayes or LDA model when <span class="math inline">\(K=2\)</span>. After some algebra, we can show that</p>
+<p><span class="math display">\[
+P_\theta(y|x) = \frac{P_\theta(x|y)P_\theta(y)}{\sum_{y'\in \mathcal{Y}}P_\theta(x|y')P_\theta(y')} = \frac{1}{1+\exp(-\gamma^\top x)}
+\]</span></p>
+<p>for some set of parameters <span class="math inline">\(\gamma\)</span> (whose expression can be derived from <span class="math inline">\(\theta\)</span>).</p>
+<p>This is the same form as Logistic Regression! Does it mean that the two sets of algorithms are equivalent?</p>
+<p>No! They assume the same model class <span class="math inline">\(\mathcal{M}\)</span>, they use a different objective <span class="math inline">\(J\)</span> to select a model in <span class="math inline">\(\mathcal{M}\)</span>. More specifically, we can make the following conclusions:</p>
+<ul>
+<li><p>Bernoulli Naive Bayes or LDA assumes a logistic form for <span class="math inline">\(P(y|x)\)</span>. But the converse is not true: logistic regression does not assume a NB or LDA model for <span class="math inline">\(P(x,y)\)</span>.</p></li>
+<li><p>Generative models make stronger modeling assumptions. If these assumptions hold true, the generative models will perform better.</p></li>
+<li><p>But if they don’t, logistic regression will be more robust to outliers and model misspecification, and achieve higher accuracy.</p></li>
+</ul>
+</section>
+</section>
+<section id="generative-models-vs.-discriminative-models" class="level2">
+<h2 class="anchored" data-anchor-id="generative-models-vs.-discriminative-models">7.4.2. Generative Models vs.&nbsp;Discriminative Models</h2>
+<p>Finally, we are revisiting the question of when we want to use generative models or discriminative models.</p>
+<p>Discriminative algorithms are deservingly very popular.</p>
+<ul>
+<li><p>Most state-of-the-art algorithms for classification are discriminative (including neural nets, boosting, SVMs, etc.)</p></li>
+<li><p>They are often more accurate because they make fewer modeling assumptions.</p></li>
+</ul>
+<p>But generative models can do things that discriminative models can’t do.</p>
+<ul>
+<li><p><strong>Generation</strong>: we can sample <span class="math inline">\(x \sim p(x|y)\)</span> to generate new data (images, audio).</p></li>
+<li><p><strong>Missing value imputation</strong>: if <span class="math inline">\(x_j\)</span> is missing, we infer it using <span class="math inline">\(p(x|y)\)</span>.</p></li>
+<li><p><strong>Outlier detection</strong>: we may detect via <span class="math inline">\(p(x')\)</span> if <span class="math inline">\(x'\)</span> is an outlier.</p></li>
+<li><p><strong>Scalability</strong>: Simple formulas for maximum likelihood parameters.</p></li>
+</ul>
+<p>And generative algorithms also have many other advantages:</p>
+<ul>
+<li><p>Can do more than just prediction: generation, fill-in missing features, etc.</p></li>
+<li><p>Can include extra prior knowledge; if prior knowledge is correct, model will be more accurate.</p></li>
+<li><p>Often have closed-form solutions, hence are faster to train.</p></li>
+</ul>
+
+
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+W10=
+</script>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../CAPITULO_3";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "..";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/isaiasibanez\.github\.io\/OML2\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../CAPITULO_2/B4_svm.html" class="pagination-link" aria-label="2.4 Máquinas de vectores soporte">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2.4 Máquinas de vectores soporte</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../CAPITULO_3/C3_em.html" class="pagination-link" aria-label="3.3 Algoritmo EM">
+        <span class="nav-page-text">3.3 Algoritmo EM</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
