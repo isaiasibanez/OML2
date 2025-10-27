@@ -262,12 +262,9 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../CAPITULO_3/C1_gda.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Modelos generativos para clasificación</span></a>
+ <span class="menu-text">3.1 Modelos generativos para clasificación</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
- <span class="menu-text">3.1 Modelos generativos para clasificación</span>
-  </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../CAPITULO_3/C2_gmm.html" class="sidebar-item-text sidebar-link">
@@ -603,7 +600,7 @@ X^\top X\hat{\bftheta} &amp;=X^\top\yy\\
 <p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Regresión lineal en datos <em>California Housing</em> </span></p>
 <p>Utilizaremos el conjunto de datos de <em>California Housing</em> (<a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_california_housing.html">disponible aquí</a>), el cual consiste en 20640 observaciones con 8 variables predictoras que miden características de las viviendas y su entorno. La variable respuesta es el valor mediano de la vivienda en cada bloque censal, por lo que este problema es de regresión.</p>
 <p>Ajustaremos un modelo de regresión lineal a los datos, evaluaremos el MSE en test y presentaremos los coeficientes estimados del modelo.</p>
-<div id="3ea2151b" class="cell" data-execution_count="1">
+<div id="7da67ea8" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> fetch_california_housing</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
@@ -707,7 +704,7 @@ Coeficientes estimados (θ̂):
 <p>Para <span class="math inline">\(z\in\RR\)</span>, se define la <em>función logística</em> o <em>función sigmoide</em> <span class="math inline">\(\sigma:\RR\to\RR\)</span> mediante <span class="math display">\[
 \sigma(z) := \frac{1}{1 + e^{-z}} = \frac{e^z}{1+e^z}.
 \]</span></p>
-<div id="136bdc08" class="cell" data-execution_count="2">
+<div id="22d06267" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -898,7 +895,7 @@ J(\bftheta)=\log(1+e^{\bftheta^\top\xx_i})-\bftheta^\top\xx_iy_i,
 <p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Regresión logística en datos de cáncer </span></p>
 <p>El conjunto de datos de Breast Cancer (<a href="https://sklearner.com/scikit-learn-load_breast_cancer/">disponible aquí</a>) contiene información de tumores de mama. Consta de 569 observaciones y 30 variables predictoras. La variable respuesta indica el tipo de tumor (0 para benigno y 1 para maligno), lo que convierte este problema en una tarea de clasificación binaria.</p>
 <p>Ajustaremos un modelo de regresión lineal a los datos, evaluaremos el <em>accuracy</em> en test y presentaremos los coeficientes estimados del modelo.</p>
-<div id="0f735d30" class="cell" data-execution_count="3">
+<div id="c94714f0" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_breast_cancer</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>

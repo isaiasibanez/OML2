@@ -261,12 +261,9 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../CAPITULO_3/C1_gda.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Modelos generativos para clasificación</span></a>
+ <span class="menu-text">3.1 Modelos generativos para clasificación</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
- <span class="menu-text">3.1 Modelos generativos para clasificación</span>
-  </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../CAPITULO_3/C2_gmm.html" class="sidebar-item-text sidebar-link">
@@ -710,7 +707,7 @@ b^{\star}
 \]</span></p>
 <p><br></p>
 <p>En Python, podemos resolver problemas de mínimos cuadrados con la función <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"><code>numpy.linalg.lstsq</code></a>.</p>
-<div id="e4fa85fc" class="cell" data-execution_count="1">
+<div id="96340a98" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos:</span></span>
@@ -817,7 +814,7 @@ Mostrar detalles
 <p>La relación geométrica en este ejemplo no es casual: en programación lineal, el óptimo (si existe) se alcanza siempre en alguno de los vértices de la región factible. Este hecho constituye la base del método del simplex y de otros algoritmos clásicos.</p>
 <p><br></p>
 <p>En Python, se pueden resolver problemas de este tipo utilizando <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linprog.html"><code>scipy.optimize.linprog</code></a>.</p>
-<div id="19cc175c" class="cell" data-execution_count="2">
+<div id="c75d9e58" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> linprog</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Coeficientes de la función objetivo (negativos porque linprog minimiza):</span></span>
@@ -857,11 +854,11 @@ Formule el siguiente problema y resuélvalo geométricamente. Luego, verifique s
 
 Una nutricionista debe diseñar una dieta usando dos alimentos, A y B. El alimento A cuesta $2 por unidad y contiene 3g de proteína y 1g de carbohidratos por unidad. El alimento B cuesta $3 por unidad y contiene 2g de proteína y 2g de carbohidratos por unidad. La dieta debe contener al menos 60g de proteína y 30g de carbohidratos. ¿Cuántas unidades de cada alimento debe incluir para minimizar el costo?
 
-```gxjlccenuwxklusz
+```vxvuijawsgsoltwn
 # Grafique aquí.
 ``` 
 
-```gxjlccenuwxklusz
+```vxvuijawsgsoltwn
 # Verifique la solución aquí.
 ``` 
 

@@ -265,12 +265,9 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../CAPITULO_3/C1_gda.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Modelos generativos para clasificación</span></a>
+ <span class="menu-text">3.1 Modelos generativos para clasificación</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
- <span class="menu-text">3.1 Modelos generativos para clasificación</span>
-  </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../CAPITULO_3/C2_gmm.html" class="sidebar-item-text sidebar-link active">
@@ -429,7 +426,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="el-conjunto-de-datos-iris">1.1. El conjunto de datos Iris</h2>
 <p>Como ejemplo práctico en esta clase, utilizaremos nuevamente el conjunto de datos de flores Iris (<a href="https://en.wikipedia.org/wiki/Ronald_Fisher">R. A. Fisher, 1936</a>). Recordemos que nuestra tarea es clasificar las subespecies de las flores Iris basándonos en sus mediciones.</p>
 <p>Primero, carguemos el conjunto de datos e imprimamos algunos ejemplos del mismo.</p>
-<div id="67a976fe" class="cell" data-execution_count="1">
+<div id="1b4db946" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
@@ -505,7 +502,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Si solo consideramos las dos primeras columnas de características, podemos visualizar el conjunto de datos en 2D.</p>
-<div id="eb18b829" class="cell" data-execution_count="2">
+<div id="73e827e7" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://scikit-learn.org/stable/auto_examples/neighbors/plot_classification.html</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
@@ -558,7 +555,7 @@ P_\theta(y=0 | x) &amp; = 1-\sigma(\theta^\top x).
 \]</span></p>
 <p>This objective is also often called the log-loss, or cross-entropy. This asks the model to ouput a large score <span class="math inline">\(\sigma(\theta^\top x^{(i)})\)</span> (a score that’s close to one) if <span class="math inline">\(y^{(i)}=1\)</span>, and a score that’s small (close to zero) if <span class="math inline">\(y^{(i)}=0\)</span>.</p>
 <p>Now, let’s train logistic/softmax regression on this dataset.</p>
-<div id="dc322942" class="cell" data-execution_count="3">
+<div id="7045c905" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> [<span class="dv">12</span>, <span class="dv">4</span>]</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
@@ -989,7 +986,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 <p>We visualize the regions predicted to be associated with the blue, brown, and yellow classes and the lines between them are the decision boundaries.</p>
-<div id="d21674dc" class="cell" data-execution_count="4">
+<div id="424e8d57" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(np.arange(<span class="dv">4</span>, <span class="fl">8.2</span>, <span class="fl">.02</span>), np.arange(<span class="fl">1.8</span>, <span class="fl">4.5</span>, <span class="fl">.02</span>))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> logreg.predict(np.c_[xx.ravel(), yy.ravel()])</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1299,7 +1296,7 @@ J(\vec\phi) &amp; = \sum_{i=1}^n  \log P_\theta(y^{(i)} ; \vec \phi) \\
 <li><p>We will compare the outputs to the true predictions.</p></li>
 </ul>
 <p>Let’s first start by computing the model parameters on our dataset. It only takes a few lines of code!</p>
-<div id="e8796f8f" class="cell" data-execution_count="5">
+<div id="10604024" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we can implement these formulas over the Iris dataset</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="dv">2</span> <span class="co"># number of features in our toy dataset</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="dv">3</span> <span class="co"># number of classes</span></span>
@@ -1326,7 +1323,7 @@ J(\vec\phi) &amp; = \sum_{i=1}^n  \log P_\theta(y^{(i)} ; \vec \phi) \\
 </div>
 </div>
 <p>We can compute predictions using Bayes’ rule.</p>
-<div id="a9fc6bee" class="cell" data-execution_count="6">
+<div id="6f00b915" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we can implement this in numpy</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gda_predictions(x, mus, Sigmas, phis):</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""This returns class assignments and p(y|x) under the GDA model.</span></span>
@@ -1361,7 +1358,7 @@ J(\vec\phi) &amp; = \sum_{i=1}^n  \log P_\theta(y^{(i)} ; \vec \phi) \\
 </div>
 </div>
 <p>We visualize the decision boundaries like we did earlier. The figure illustrates that three Gaussians learned through Gaussian Discriminant Analysis split the data points from three classes reasonably.</p>
-<div id="ee9f8086" class="cell" data-execution_count="7">
+<div id="198c5d8c" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> LogNorm</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(np.arange(x_min, x_max, <span class="fl">.02</span>), np.arange(y_min, y_max, <span class="fl">.02</span>))</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Z, pyx <span class="op">=</span> gda_predictions(np.c_[xx.ravel(), yy.ravel()], mus, Sigmas, phis)</span>
@@ -1413,7 +1410,7 @@ P_\theta(x|y=k) = \mathcal{N}(x ; \mu_k, \Sigma).
 \]</span></p>
 <p>The probability over <span class="math inline">\(y\)</span> is Categorical: <span class="math inline">\(P_\theta(y=k) = \phi_k\)</span>.</p>
 <p>Let’s apply this algorithm on the Iris flower dataset. We compute the model parameters similarly to how we did for GDA.</p>
-<div id="3f7339e4" class="cell" data-execution_count="8">
+<div id="377a31be" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we can implement these formulas over the Iris dataset</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="dv">2</span> <span class="co"># number of features in our toy dataset</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="dv">3</span> <span class="co"># number of classes</span></span>
@@ -1440,7 +1437,7 @@ P_\theta(x|y=k) = \mathcal{N}(x ; \mu_k, \Sigma).
 </div>
 </div>
 <p>We can compute predictions using Bayes’ rule.</p>
-<div id="c71e4202" class="cell" data-execution_count="9">
+<div id="6be8a72a" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we can implement this in numpy</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gda_predictions(x, mus, Sigmas, phis):</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""This returns class assignments and p(y|x) under the GDA model.</span></span>
@@ -1475,7 +1472,7 @@ P_\theta(x|y=k) = \mathcal{N}(x ; \mu_k, \Sigma).
 </div>
 </div>
 <p>We visualize predictions like we did earlier.</p>
-<div id="1af7d9f4" class="cell" data-execution_count="10">
+<div id="53e9a5ee" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> LogNorm</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(np.arange(x_min, x_max, <span class="fl">.02</span>), np.arange(y_min, y_max, <span class="fl">.02</span>))</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>Z, pyx <span class="op">=</span> gda_predictions(np.c_[xx.ravel(), yy.ravel()], mus, Sigmas, phis)</span>
@@ -1993,8 +1990,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../CAPITULO_3/C1_gda.html" class="pagination-link" aria-label="Modelos generativos para clasificación">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Modelos generativos para clasificación</span>
+      <a href="../CAPITULO_3/C1_gda.html" class="pagination-link" aria-label="3.1 Modelos generativos para clasificación">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">3.1 Modelos generativos para clasificación</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
