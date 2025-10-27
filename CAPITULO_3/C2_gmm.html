@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-327735d1480bff6f7510335fe22ad292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -420,7 +420,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="el-conjunto-de-datos-iris">1.1. El conjunto de datos Iris</h2>
 <p>Como ejemplo práctico en esta clase, utilizaremos nuevamente el conjunto de datos de flores Iris (<a href="https://en.wikipedia.org/wiki/Ronald_Fisher">R. A. Fisher, 1936</a>). Recordemos que nuestra tarea es clasificar las subespecies de las flores Iris basándonos en sus mediciones.</p>
 <p>Primero, carguemos el conjunto de datos e imprimamos algunos ejemplos del mismo.</p>
-<div id="81fc2262" class="cell" data-execution_count="1">
+<div id="5a22cdfd" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
@@ -496,7 +496,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Si solo consideramos las dos primeras columnas de características, podemos visualizar el conjunto de datos en 2D.</p>
-<div id="3eaf2451" class="cell" data-execution_count="2">
+<div id="26810bae" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://scikit-learn.org/stable/auto_examples/neighbors/plot_classification.html</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
@@ -515,7 +515,7 @@ window.Quarto = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="C2_gmm_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="C2_gmm_files/figure-html/cell-3-output-1.png" width="961" height="358" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -549,7 +549,7 @@ P_\theta(y=0 | x) &amp; = 1-\sigma(\theta^\top x).
 \]</span></p>
 <p>This objective is also often called the log-loss, or cross-entropy. This asks the model to ouput a large score <span class="math inline">\(\sigma(\theta^\top x^{(i)})\)</span> (a score that’s close to one) if <span class="math inline">\(y^{(i)}=1\)</span>, and a score that’s small (close to zero) if <span class="math inline">\(y^{(i)}=0\)</span>.</p>
 <p>Now, let’s train logistic/softmax regression on this dataset.</p>
-<div id="63b139e5" class="cell" data-execution_count="3">
+<div id="20fddaf4" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> [<span class="dv">12</span>, <span class="dv">4</span>]</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
@@ -741,7 +741,9 @@ clickable and can be expanded/collapsed.
 /* Toggleable content - dropdown */
 
 #sk-container-id-1 div.sk-toggleable__content {
-  display: none;
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
   text-align: left;
   /* unfitted */
   background-color: var(--sklearn-color-unfitted-level-0);
@@ -767,9 +769,9 @@ clickable and can be expanded/collapsed.
 
 #sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
   /* Expand drop-down */
-  display: block;
-  width: 100%;
-  overflow: visible;
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
 }
 
 #sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
@@ -974,204 +976,11 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-
-.estimator-table summary {
-    padding: .5rem;
-    font-family: monospace;
-    cursor: pointer;
-}
-
-.estimator-table details[open] {
-    padding-left: 0.1rem;
-    padding-right: 0.1rem;
-    padding-bottom: 0.3rem;
-}
-
-.estimator-table .parameters-table {
-    margin-left: auto !important;
-    margin-right: auto !important;
-}
-
-.estimator-table .parameters-table tr:nth-child(odd) {
-    background-color: #fff;
-}
-
-.estimator-table .parameters-table tr:nth-child(even) {
-    background-color: #f6f6f6;
-}
-
-.estimator-table .parameters-table tr:hover {
-    background-color: #e0e0e0;
-}
-
-.estimator-table table td {
-    border: 1px solid rgba(106, 105, 104, 0.232);
-}
-
-.user-set td {
-    color:rgb(255, 94, 0);
-    text-align: left;
-}
-
-.user-set td.value pre {
-    color:rgb(255, 94, 0) !important;
-    background-color: transparent !important;
-}
-
-.default td {
-    color: black;
-    text-align: left;
-}
-
-.user-set td i,
-.default td i {
-    color: black;
-}
-
-.copy-paste-icon {
-    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNy4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjUgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZD0iTTIwOCAwTDMzMi4xIDBjMTIuNyAwIDI0LjkgNS4xIDMzLjkgMTQuMWw2Ny45IDY3LjljOSA5IDE0LjEgMjEuMiAxNC4xIDMzLjlMNDQ4IDMzNmMwIDI2LjUtMjEuNSA0OC00OCA0OGwtMTkyIDBjLTI2LjUgMC00OC0yMS41LTQ4LTQ4bDAtMjg4YzAtMjYuNSAyMS41LTQ4IDQ4LTQ4ek00OCAxMjhsODAgMCAwIDY0LTY0IDAgMCAyNTYgMTkyIDAgMC0zMiA2NCAwIDAgNDhjMCAyNi41LTIxLjUgNDgtNDggNDhMNDggNTEyYy0yNi41IDAtNDgtMjEuNS00OC00OEwwIDE3NmMwLTI2LjUgMjEuNS00OCA0OC00OHoiLz48L3N2Zz4=);
-    background-repeat: no-repeat;
-    background-size: 14px 14px;
-    background-position: 0;
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    cursor: pointer;
-}
-</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>LogisticRegression(C=100000.0)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked=""><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>LogisticRegression</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.7/modules/generated/sklearn.linear_model.LogisticRegression.html">?<span>Documentation for LogisticRegression</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted" data-param-prefix="">
-        <div class="estimator-table">
-            <details>
-                <summary>Parameters</summary>
-                
-<table class="parameters-table caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<tbody>
-<tr class="default odd">
-<td><em></em></td>
-<td class="param">penalty&nbsp;</td>
-<td class="value">'l2'</td>
-</tr>
-<tr class="default even">
-<td><em></em></td>
-<td class="param">dual&nbsp;</td>
-<td class="value">False</td>
-</tr>
-<tr class="default odd">
-<td><em></em></td>
-<td class="param">tol&nbsp;</td>
-<td class="value">0.0001</td>
-</tr>
-<tr class="user-set even">
-<td><em></em></td>
-<td class="param">C&nbsp;</td>
-<td class="value">100000.0</td>
-</tr>
-<tr class="default odd">
-<td><em></em></td>
-<td class="param">fit_intercept&nbsp;</td>
-<td class="value">True</td>
-</tr>
-<tr class="default even">
-<td><em></em></td>
-<td class="param">intercept_scaling&nbsp;</td>
-<td class="value">1</td>
-</tr>
-<tr class="default odd">
-<td><em></em></td>
-<td class="param">class_weight&nbsp;</td>
-<td class="value">None</td>
-</tr>
-<tr class="default even">
-<td><em></em></td>
-<td class="param">random_state&nbsp;</td>
-<td class="value">None</td>
-</tr>
-<tr class="default odd">
-<td><em></em></td>
-<td class="param">solver&nbsp;</td>
-<td class="value">'lbfgs'</td>
-</tr>
-<tr class="default even">
-<td><em></em></td>
-<td class="param">max_iter&nbsp;</td>
-<td class="value">100</td>
-</tr>
-<tr class="default odd">
-<td><em></em></td>
-<td class="param">multi_class&nbsp;</td>
-<td class="value">'deprecated'</td>
-</tr>
-<tr class="default even">
-<td><em></em></td>
-<td class="param">verbose&nbsp;</td>
-<td class="value">0</td>
-</tr>
-<tr class="default odd">
-<td><em></em></td>
-<td class="param">warm_start&nbsp;</td>
-<td class="value">False</td>
-</tr>
-<tr class="default even">
-<td><em></em></td>
-<td class="param">n_jobs&nbsp;</td>
-<td class="value">None</td>
-</tr>
-<tr class="default odd">
-<td><em></em></td>
-<td class="param">l1_ratio&nbsp;</td>
-<td class="value">None</td>
-</tr>
-</tbody>
-</table>
-
-            </details>
-        </div>
-    </div></div></div></div></div><script>function copyToClipboard(text, element) {
-    // Get the parameter prefix from the closest toggleable content
-    const toggleableContent = element.closest('.sk-toggleable__content');
-    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
-    const fullParamName = paramPrefix ? `${paramPrefix}${text}` : text;
-
-    const originalStyle = element.style;
-    const computedStyle = window.getComputedStyle(element);
-    const originalWidth = computedStyle.width;
-    const originalHTML = element.innerHTML.replace('Copied!', '');
-
-    navigator.clipboard.writeText(fullParamName)
-        .then(() => {
-            element.style.width = originalWidth;
-            element.style.color = 'green';
-            element.innerHTML = "Copied!";
-
-            setTimeout(() => {
-                element.innerHTML = originalHTML;
-                element.style = originalStyle;
-            }, 2000);
-        })
-        .catch(err => {
-            console.error('Failed to copy:', err);
-            element.style.color = 'red';
-            element.innerHTML = "Failed!";
-            setTimeout(() => {
-                element.innerHTML = originalHTML;
-                element.style = originalStyle;
-            }, 2000);
-        });
-    return false;
-}
-
-document.querySelectorAll('.fa-regular.fa-copy').forEach(function(element) {
-    const toggleableContent = element.closest('.sk-toggleable__content');
-    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
-    const paramName = element.parentElement.nextElementSibling.textContent.trim();
-    const fullParamName = paramPrefix ? `${paramPrefix}${paramName}` : paramName;
-
-    element.setAttribute('title', fullParamName);
-});
-</script>
+</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>LogisticRegression(C=100000.0)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked=""><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>LogisticRegression</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.linear_model.LogisticRegression.html">?<span>Documentation for LogisticRegression</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>LogisticRegression(C=100000.0)</pre></div> </div></div></div></div>
 </div>
 </div>
 <p>We visualize the regions predicted to be associated with the blue, brown, and yellow classes and the lines between them are the decision boundaries.</p>
-<div id="a7067cb5" class="cell" data-execution_count="4">
+<div id="cd17ca9b" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(np.arange(<span class="dv">4</span>, <span class="fl">8.2</span>, <span class="fl">.02</span>), np.arange(<span class="fl">1.8</span>, <span class="fl">4.5</span>, <span class="fl">.02</span>))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> logreg.predict(np.c_[xx.ravel(), yy.ravel()])</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1188,7 +997,7 @@ document.querySelectorAll('.fa-regular.fa-copy').forEach(function(element) {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="C2_gmm_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="C2_gmm_files/figure-html/cell-5-output-1.png" width="961" height="356" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1481,7 +1290,7 @@ J(\vec\phi) &amp; = \sum_{i=1}^n  \log P_\theta(y^{(i)} ; \vec \phi) \\
 <li><p>We will compare the outputs to the true predictions.</p></li>
 </ul>
 <p>Let’s first start by computing the model parameters on our dataset. It only takes a few lines of code!</p>
-<div id="7dfadee4" class="cell" data-execution_count="5">
+<div id="51ad50b9" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we can implement these formulas over the Iris dataset</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="dv">2</span> <span class="co"># number of features in our toy dataset</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="dv">3</span> <span class="co"># number of classes</span></span>
@@ -1508,7 +1317,7 @@ J(\vec\phi) &amp; = \sum_{i=1}^n  \log P_\theta(y^{(i)} ; \vec \phi) \\
 </div>
 </div>
 <p>We can compute predictions using Bayes’ rule.</p>
-<div id="50e52e4b" class="cell" data-execution_count="6">
+<div id="c6ab3a90" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we can implement this in numpy</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gda_predictions(x, mus, Sigmas, phis):</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""This returns class assignments and p(y|x) under the GDA model.</span></span>
@@ -1543,7 +1352,7 @@ J(\vec\phi) &amp; = \sum_{i=1}^n  \log P_\theta(y^{(i)} ; \vec \phi) \\
 </div>
 </div>
 <p>We visualize the decision boundaries like we did earlier. The figure illustrates that three Gaussians learned through Gaussian Discriminant Analysis split the data points from three classes reasonably.</p>
-<div id="f7404dd4" class="cell" data-execution_count="7">
+<div id="2d37b68e" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> LogNorm</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(np.arange(x_min, x_max, <span class="fl">.02</span>), np.arange(y_min, y_max, <span class="fl">.02</span>))</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Z, pyx <span class="op">=</span> gda_predictions(np.c_[xx.ravel(), yy.ravel()], mus, Sigmas, phis)</span>
@@ -1567,7 +1376,7 @@ J(\vec\phi) &amp; = \sum_{i=1}^n  \log P_\theta(y^{(i)} ; \vec \phi) \\
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="C2_gmm_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="C2_gmm_files/figure-html/cell-8-output-1.png" width="961" height="356" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1595,7 +1404,7 @@ P_\theta(x|y=k) = \mathcal{N}(x ; \mu_k, \Sigma).
 \]</span></p>
 <p>The probability over <span class="math inline">\(y\)</span> is Categorical: <span class="math inline">\(P_\theta(y=k) = \phi_k\)</span>.</p>
 <p>Let’s apply this algorithm on the Iris flower dataset. We compute the model parameters similarly to how we did for GDA.</p>
-<div id="38bdef21" class="cell" data-execution_count="8">
+<div id="80a4eb31" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we can implement these formulas over the Iris dataset</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="dv">2</span> <span class="co"># number of features in our toy dataset</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="dv">3</span> <span class="co"># number of classes</span></span>
@@ -1622,7 +1431,7 @@ P_\theta(x|y=k) = \mathcal{N}(x ; \mu_k, \Sigma).
 </div>
 </div>
 <p>We can compute predictions using Bayes’ rule.</p>
-<div id="f7027921" class="cell" data-execution_count="9">
+<div id="0754e8be" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we can implement this in numpy</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gda_predictions(x, mus, Sigmas, phis):</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""This returns class assignments and p(y|x) under the GDA model.</span></span>
@@ -1657,7 +1466,7 @@ P_\theta(x|y=k) = \mathcal{N}(x ; \mu_k, \Sigma).
 </div>
 </div>
 <p>We visualize predictions like we did earlier.</p>
-<div id="1e146f05" class="cell" data-execution_count="10">
+<div id="86c16e86" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> LogNorm</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(np.arange(x_min, x_max, <span class="fl">.02</span>), np.arange(y_min, y_max, <span class="fl">.02</span>))</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>Z, pyx <span class="op">=</span> gda_predictions(np.c_[xx.ravel(), yy.ravel()], mus, Sigmas, phis)</span>
@@ -1679,7 +1488,7 @@ P_\theta(x|y=k) = \mathcal{N}(x ; \mu_k, \Sigma).
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="C2_gmm_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="C2_gmm_files/figure-html/cell-11-output-1.png" width="961" height="356" class="figure-img"></p>
 </figure>
 </div>
 </div>
