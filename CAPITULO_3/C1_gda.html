@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-327735d1480bff6f7510335fe22ad292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -289,15 +289,22 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#análisis-discriminante-lineal-lda" id="toc-análisis-discriminante-lineal-lda" class="nav-link active" data-scroll-target="#análisis-discriminante-lineal-lda">Análisis discriminante lineal (LDA)</a>
+  <li><a href="#la-normal-multivariada" id="toc-la-normal-multivariada" class="nav-link active" data-scroll-target="#la-normal-multivariada">La Normal multivariada</a></li>
+  <li><a href="#análisis-discriminante-lineal-lda" id="toc-análisis-discriminante-lineal-lda" class="nav-link" data-scroll-target="#análisis-discriminante-lineal-lda">Análisis discriminante lineal (LDA)</a>
   <ul class="collapse">
+  <li><a href="#regla-de-decisión" id="toc-regla-de-decisión" class="nav-link" data-scroll-target="#regla-de-decisión">Regla de decisión</a></li>
   <li><a href="#estimación-por-máxima-verosimilitud" id="toc-estimación-por-máxima-verosimilitud" class="nav-link" data-scroll-target="#estimación-por-máxima-verosimilitud">Estimación por máxima verosimilitud</a></li>
   </ul></li>
-  <li><a href="#análisis-discriminante-cuadrático-qda" id="toc-análisis-discriminante-cuadrático-qda" class="nav-link" data-scroll-target="#análisis-discriminante-cuadrático-qda">Análisis discriminante cuadrático (QDA)</a></li>
+  <li><a href="#análisis-discriminante-cuadrático-qda" id="toc-análisis-discriminante-cuadrático-qda" class="nav-link" data-scroll-target="#análisis-discriminante-cuadrático-qda">Análisis discriminante cuadrático (QDA)</a>
+  <ul class="collapse">
+  <li><a href="#regla-de-decisión-1" id="toc-regla-de-decisión-1" class="nav-link" data-scroll-target="#regla-de-decisión-1">Regla de decisión</a></li>
+  <li><a href="#estimación-por-máxima-verosimilitud-1" id="toc-estimación-por-máxima-verosimilitud-1" class="nav-link" data-scroll-target="#estimación-por-máxima-verosimilitud-1">Estimación por máxima verosimilitud</a></li>
+  </ul></li>
   <li><a href="#naive-bayes" id="toc-naive-bayes" class="nav-link" data-scroll-target="#naive-bayes">Naive Bayes</a>
   <ul class="collapse">
   <li><a href="#clasificación-de-texto" id="toc-clasificación-de-texto" class="nav-link" data-scroll-target="#clasificación-de-texto">Clasificación de texto</a></li>
   </ul></li>
+  <li><a href="#actividades" id="toc-actividades" class="nav-link" data-scroll-target="#actividades">Actividades</a></li>
   </ul>
 </nav>
     </div>
@@ -374,34 +381,39 @@ window.Quarto = {
 \def\argmax{\mathop{\mathrm{arg\,max\,}}}
 \]</span></p>
 </div>
-<p>EEn el capítulo anerior hemos trabajado con métodos que modelan la distribución condicional <span class="math inline">\(p(y\mid \xx,\bftheta)\)</span>. Como caso general, los modelos lineales generalizados asumen dicha distribución en una familia exponencial con parámetro natural <span class="math inline">\(\bfeta=\bfTheta^\top\xx\)</span>.</p>
+<p>En el capítulo anerior hemos trabajado con métodos que modelan la distribución condicional <span class="math inline">\(p(y\mid \xx; \bftheta)\)</span>. Como caso general, los modelos lineales generalizados asumen dicha distribución en una familia exponencial con parámetro natural <span class="math inline">\(\bfeta=\bfTheta^\top\xx\)</span>.</p>
 <p>En este capítulo adoptaremos un enfoque diferente. Dado un problema de clasificación <span class="math inline">\(Y|\XX\)</span>, el propósito será modelar la distribución conjunta <span class="math display">\[
 p(\xx,y):=p(\xx\mid y)\, p(y),
-\]</span> donde <span class="math inline">\(p(\xx\mid y)\)</span> es la distribución condicional de las variables predictoras para la clase <span class="math inline">\(Y=y\)</span>, y <span class="math inline">\(p(y)\)</span> es la probabilidad <em>a priori</em> de dicha clase. Esto conduce a modelos generativos que describen el proceso de generación de los datos. No obstante, a la hora de construir un clasificador, la <em>regla de Bayes</em> nos indica que <span class="math display">\[
-p(y\mid\xx)=\frac{p(\xx,y)\,p(y)}{p(\xx)}.
+\]</span> donde <span class="math inline">\(p(\xx\mid y)\)</span> es la distribución condicional de las variables predictoras para la clase <span class="math inline">\(Y=y\)</span>, y <span class="math inline">\(p(y)\)</span> es la distribución de probabilidad <em>a priori</em> de dicha clase. Esto conduce a modelos generativos que describen el proceso de generación de los datos. No obstante, para fines de clasificación, lo que nos interesa es determinar la clase más probable dada una observación. En este contexto, la * Bayes* nos indica que <span class="math display">\[
+p(y\mid\xx)=\frac{p(\xx\mid y)\,p(y)}{p(\xx)}.
 \]</span></p>
 <p>Observar que, al momento de clasificar una observación <span class="math inline">\(\xx\)</span>, es suficiente comparar los numeradores <span class="math inline">\(p(\xx\mid y)\,p(y)\)</span> para cada clase, puesto que <span class="math inline">\(p(\xx)\)</span> actúa como una constante de normalización que no depende de <span class="math inline">\(y\)</span>. De esta forma, la regla de decisión bayesiana es <span class="math display">\[
-\hat{y}(\xx):=\arg\max_{y} p(\xx\mid y)\,p(y).
+h*(\xx):=\arg\max_{y} p(\xx\mid y)\,p(y).
 \]</span></p>
 <p>En esta sección estudiaremos tres ejemplos representativos de modelos generativos utilizados en clasificación: los modelos discriminativos gaussianos (LDA y QDA) y Naive Bayes.</p>
 <div style="margin-top:2em;">
 
 </div>
 <hr>
-<p>En lo que sigue, vamos a asumir que estamos trabajando con un conjunto de datos de entrenamiento <span class="math inline">\(\{(\xx_i,y_i)\}_{i=1}^n\)</span> de un problema de clasificación binaria cuya variable respuesta es <span class="math inline">\(Y\in\{0,1\}\)</span>. No obstante, los modelos presentados se extienden de forma natural a problemas multiclase.</p>
+<p>En lo que sigue, vamos a asumir que estamos trabajando con un conjunto de datos de entrenamiento <span class="math inline">\(\{(\xx_i,y_i)\}_{i=1}^n\)</span> de un problema de clasificación binaria cuya variable respuesta es <span class="math inline">\(Y\in\{0,1\}\)</span>. Por supuesto, los modelos presentados se extienden de forma natural a problemas multiclase.</p>
 <p>Además, es importante remarcar que <span class="math inline">\(p(\xx\mid y)\)</span> implica trabajar con distribuciones multivariadas de <span class="math inline">\(\XX\in\RR^p\)</span>. En particular, la distribución Normal multivariada será la base para los modelos discriminativos gaussianos que estudiaremos en esta sección.</p>
-<div style="margin-top:2em;">
+<div style="margin-top:2.5em;">
 
 </div>
-<div class="alert alert-light text-dark" role="important">
-<p><span class="badge bg-warning text-dark">Importante</span></p>
-<p>Una variable aleatoria <span class="math inline">\(\XX\in\RR^p\)</span> se distribuye normal multivariada con media <span class="math inline">\(\bfmu\in\RR^p\)</span> y matriz de covarianza <span class="math inline">\(\Sigma\in\mathbf{S}_+^p\)</span>, y denotamos <span class="math display">\[
-X\sim \calN(\bfmu,\Sigma),
+<section id="la-normal-multivariada" class="level2">
+<h2 class="anchored" data-anchor-id="la-normal-multivariada">La Normal multivariada</h2>
+<div class="definicion">
+<p><strong>Definición 1.</strong> (Distribución Normal multivariada) Una variable aleatoria <span class="math inline">\(\XX\in\RR^p\)</span> se distribuye normal multivariada con media <span class="math inline">\(\bfmu\in\RR^p\)</span> y matriz de covarianza <span class="math inline">\(\Sigma\in\mathbf{S}_+^p\)</span>, y denotamos <span class="math display">\[
+\XX\sim \calN(\bfmu,\Sigma),
 \]</span></p>
 <p>si su función de densidad está dada por</p>
 <p><span class="math display">\[
 p(\xx\mid\bfmu,\Sigma)=\frac{1}{(2\pi)^{p/2}|\Sigma|^{1/2}}\exp\left\{-\frac{1}{2}(\xx-\bfmu)^\top\Sigma^{-1}(\xx-\bfmu)\right\}.
 \]</span></p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
 <p>En el siguiente gráfico interactivo, se puede visualizar la densidad de una normal bivariada con parámetros <span class="math display">\[
 \bfmu=\begin{pmatrix}
 \mu_1 \\
@@ -422,22 +434,22 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </script>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="111" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 110;"><span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>viewof mu1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">2</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {</span>
-<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
-<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"μ₁:"</span><span class="op">,</span></span>
-<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">0</span></span>
-<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>viewof mu2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">2</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {</span>
-<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
-<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"μ₂:"</span><span class="op">,</span></span>
-<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">0</span></span>
-<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a><span class="co">// Matriz Σ</span></span>
-<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>viewof sigma11 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.1</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"σ₁₁:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span>})</span>
-<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>viewof sigma12 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"σ₁₂=σ₂₁:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">0</span>})</span>
-<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>viewof sigma22 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.1</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"σ₂₂:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="115" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 114;"><span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>viewof mu1 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">2</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {</span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"μ₁:"</span><span class="op">,</span></span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">0</span></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>viewof mu2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">2</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {</span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"μ₂:"</span><span class="op">,</span></span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">0</span></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="co">// Matriz Σ</span></span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>viewof sigma11 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.1</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"σ₁₁:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span>})</span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>viewof sigma12 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"σ₁₂=σ₂₁:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">0</span>})</span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a>viewof sigma22 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.1</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"σ₂₂:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-1-1" data-nodetype="declaration">
@@ -477,45 +489,79 @@ eyJhdHRyIjp7ImNvbnRleHQiOiJvanMiLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 <div style="margin-top:2em;">
 
 </div>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Curvas de nivel de una normal bivariada </span></p>
+<p>Sea <span class="math inline">\(\XX\in\RR^2\)</span>, <span class="math inline">\(\XX\sim\calN(\bfmu,\Sigma)\)</span>, con <span class="math display">\[
+\bfmu=\begin{pmatrix}
+0\\
+0
+\end{pmatrix}
+\qquad
+\Sigma=\begin{pmatrix}
+1 &amp; 0.5 \\
+0.5 &amp; 2
+\end{pmatrix}.
+\tag{1}
+\]</span></p>
+<p>La función de densidad es <span class="math display">\[
+\begin{align*}
+p(\xx)&amp;=\frac{1}{2\pi\sqrt{\frac{7}{4}}}\exp\left\{-\frac{1}{2}(x_1,x_2)^\top\begin{pmatrix}\frac{8}{7} &amp; -\frac{2}{7} \\ -\frac{2}{7} &amp; \frac{4}{7} \end{pmatrix} (x_1,x_2)\right\} \\[3pt]
+&amp;=\frac{1}{\sqrt{7}\pi}\exp\left\{-\frac{1}{2}\left(\frac{8}{7}x_1^2-\frac{4}{7}x_1x_2+\frac{4}{7}x_2^2\right)\right\}
+\end{align*},
+\]</span></p>
+<p>y, por lo tanto, las curvas de nivel son elipses de ecuación <span class="math display">\[
+2x_1^2-x_1x_2+x_2^2 = \text{cte}.
+\]</span></p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/curvas_nivel_normal_bivariada.svg" alt="…" width="400px" class="figure-img">
+<figcaption>
+<strong>Figura 1</strong>. Curvas de nivel de la función de densidad de la distribución normal bivariada con parámetros dados por (1).
+</figcaption>
+</figure>
+</div>
+<div style="margin-top:2em;">
+
+</div>
 <p>Veamos a continuación cómo obtener los estimadores MLE de los parámetros <span class="math inline">\(\bfmu\)</span> y <span class="math inline">\(\Sigma\)</span> a partir de un conjunto de datos <span class="math inline">\(\{\xx_1,\ldots,\xx_n\}\)</span>. La función de log-verosimilitud es <span class="math display">\[
-\ell(\bfmu,\Sigma)=\sum_{i=1}^n\left(-\frac{p}{2}\log(2\pi)-\frac{1}{2}\log|\Sigma|-\frac{1}{2}(\xx-\bfmu)^\top\Sigma^{-1}(\xx-\bfmu)\right)
+\ell(\bfmu,\Sigma)=\sum_{i=1}^n\left(-\frac{p}{2}\log(2\pi)-\frac{1}{2}\log|\Sigma|-\frac{1}{2}(\xx_i-\bfmu)^\top\Sigma^{-1}(\xx_i-\bfmu)\right)
 \]</span></p>
 <p>En primer lugar, mantendremos <span class="math inline">\(\Sigma\)</span> fijo, de manera tal de trabajar con el problema <span class="math display">\[
 \begin{array}{ll}
-\text{maximizar } &amp; -\frac{1}{2}\displaystyle\sum_{i=1}^n(\xx-\bfmu)^\top\Sigma^{-1}(\xx-\bfmu).
+\text{maximizar } &amp; -\frac{1}{2}\displaystyle\sum_{i=1}^n(\xx_i-\bfmu)^\top\Sigma^{-1}(\xx_i  -\bfmu).
 \end{array}
 \]</span></p>
 <p>La condición de optimalidad resulta <span class="math display">\[
 \begin{align}
-\sum_{i=1}^n\Sigma^{-1}(\xx-\hat{\bfmu})&amp;=0\\
-\Sigma^{-1}\left(\sum_{i=1}^n\xx-n\hat{\bfmu}\right) &amp;=0 \\
+\sum_{i=1}^n\Sigma^{-1}(\xx_i-\hat{\bfmu})&amp;=0\\
+\Sigma^{-1}\left(\sum_{i=1}^n\xx_i-n\hat{\bfmu}\right) &amp;=0 \\
 \hat{\bfmu} &amp;=\frac{1}{n}\sum_{i=1}^n\xx_i.
 \end{align}
 \]</span></p>
 <p>Dado que el estimador obtenido es independiente de <span class="math inline">\(\Sigma\)</span>, podemos reemplazarlo en la función de log-verosimilitud y, a partir de allí, optimizar respecto a <span class="math inline">\(\Sigma\)</span>. Esto deriva en el problema <span class="math display">\[
 \begin{array}{ll}
-\text{maximizar } &amp; -\frac{n}{2}\log|\Sigma|-\frac{1}{2}\sum_{i=1}^n(\xx-\hat{\bfmu})^\top\Sigma^{-1}(\xx-\hat{\bfmu}).
+\text{maximizar } &amp; -\frac{n}{2}\log|\Sigma|-\frac{1}{2}\sum_{i=1}^n(\xx_i-\hat{\bfmu})^\top\Sigma^{-1}(\xx_i-\hat{\bfmu}).
 \end{array}
+\tag{2}
 \]</span></p>
-<p>Es conveniente derivar respecto de <span class="math inline">\(\Sigma^{-1}\)</span> y tener en cuenta algunos resultados importantes de análisis matricial: <span class="math display">\[
+<p>Es conveniente derivar la función objetivo en (2) respecto de <span class="math inline">\(\Sigma^{-1}\)</span> y tener en cuenta algunos resultados importantes de análisis matricial: <span class="math display">\[
 \nabla_{A^{-1}} \log |A|=-A,\qquad\nabla_A\text{tr}(BA)=B^\top.
 \]</span></p>
-<p>Para usar la segunda expresión, hay que tener en cuenta que <span class="math display">\[
-(\xx-\hat{\bfmu})^\top\Sigma^{-1}(\xx-\hat{\bfmu})=\text{tr}((\xx-\hat{\bfmu})^\top\Sigma^{-1}(\xx-\hat{\bfmu}))=\text{tr}((\xx-\hat{\bfmu})(\xx-\hat{\bfmu})^\top\Sigma^{-1})
+<p>En particular, para poder usar la segunda expresión, hay que tener en cuenta que <span class="math display">\[
+(\xx-\hat{\bfmu})^\top\Sigma^{-1}(\xx-\hat{\bfmu})=\text{tr}((\xx-\hat{\bfmu})^\top\Sigma^{-1}(\xx-\hat{\bfmu}))=\text{tr}((\xx-\hat{\bfmu})(\xx-\hat{\bfmu})^\top\Sigma^{-1}).
 \]</span></p>
-<p>Así, obtenemos <span class="math display">\[
+<p>Resulta: <span class="math display">\[
 \begin{align}
-\frac{n}{2}\hat{\Sigma}-\frac{1}{2}\sum_{i=1}^n(\xx-\hat{\bfmu})(\xx-\hat{\bfmu})^\top &amp;= \bfzero \\
-\hat{\Sigma} &amp;= \frac{1}{n}\sum_{i=1}^n(\xx-\hat{\bfmu})(\xx-\hat{\bfmu})^\top.
+\frac{n}{2}\hat{\Sigma}-\frac{1}{2}\sum_{i=1}^n(\xx_i-\hat{\bfmu})(\xx_i-\hat{\bfmu})^\top &amp;= \bfzero \\
+\hat{\Sigma} &amp;= \frac{1}{n}\sum_{i=1}^n(\xx_i-\hat{\bfmu})(\xx_i-\hat{\bfmu})^\top.
 \end{align}
 \]</span></p>
-</div>
 <div style="margin-top:2.5em;">
 
 </div>
+</section>
 <section id="análisis-discriminante-lineal-lda" class="level2">
 <h2 class="anchored" data-anchor-id="análisis-discriminante-lineal-lda">Análisis discriminante lineal (LDA)</h2>
-<p>En este modelo, asumiremos que <span class="math inline">\(p(\xx\mid y)\)</span> es una distribución normal multivariada, con matriz de covarianza <span class="math inline">\(\Sigma\)</span> constante para las clases.</p>
+<p>En este modelo, asumiremos que <span class="math inline">\(p(\xx\mid y)\)</span> es una distribución normal multivariada, con matriz de covarianza <span class="math inline">\(\Sigma\)</span> constante para todas las clases.</p>
 <div class="myhighlight2">
 <span style="font-size:0.8em;"><em>Supuestos del modelo</em></span>
 <div style="margin-top:-0.1em;">
@@ -529,7 +575,16 @@ Y\sim\text{Bernoulli}(\varphi) \\[2pt]
 \end{array}
 \]</span></p>
 </div>
-<p>Así, las distribuciones son: <span class="math display">\[
+<figure style="text-align: center;" class="figure">
+<img src="figuras/lda_toy.svg" alt="…" width="500px" class="figure-img">
+<figcaption>
+<strong>Figura 2</strong>. Modelo LDA para clasificación binaria.
+</figcaption>
+</figure>
+<div style="margin-top:2em;">
+
+</div>
+<p>Así, las distribuciones de este modelo son: <span class="math display">\[
 p(y)=\varphi^y(1-\varphi)^{1-y},
 \]</span> <span class="math display">\[
 p(\xx\mid y=0)=\frac{1}{(2\pi)^{d/2}|\Sigma|^{1/2}}\exp\left\{-\frac{1}{2}(\xx-\bfmu_0)^\top\Sigma^{-1}(\xx-\bfmu_0)\right\},
@@ -576,20 +631,75 @@ p(y=1\mid\xx)&amp;=\frac{e^{\bftheta^\top\xx+\theta_0}}{1+e^{\bftheta^\top\xx+\t
 <div style="margin-top:2em;">
 
 </div>
+<section id="regla-de-decisión" class="level3">
+<h3 class="anchored" data-anchor-id="regla-de-decisión">Regla de decisión</h3>
+<p>Como hemos visto al comienzo de esta sección, la regla de Bayes es el vínculo entre el modelo generativo y la regla de decisión utilizada para clasificar nuevas observaciones, de manera que se asigna <span class="math inline">\(\xx\)</span> a la clase que maximiza <span class="math display">\[
+p(y\mid\xx)\propto p(\xx\mid y)\,p(y).
+\]</span></p>
+<p>Otro punto de vista es el <em>cociente de verosimilitudes</em>, que determina el criterio de decisión de la siguiente manera: <span class="math display">\[
+G(\xx)=1\quad\text{si}\quad \log\frac{p(y=1\mid \xx)}{p(y=0\mid \xx)}&gt;0.
+\tag{3}
+\]</span></p>
+<p>Claramente, la frontera de decisión está determinada por <span class="math display">\[
+\begin{align*}
+\log p(y=1\mid \xx) &amp;= \log p(y=0\mid \xx) \\[3pt]
+-\frac{1}{2}(\xx-\bfmu_1)^\top\Sigma^{-1}(\xx-\bfmu_1) + \log p(y=1) &amp;= -\frac{1}{2}(\xx-\bfmu_0)^\top\Sigma^{-1}(\xx-\bfmu_0) + \log p(y=0) \\[3pt]
+(\xx-\bfmu_0)^\top \Sigma^{-1}(\xx-\bfmu_0)-(\xx-\bfmu_1)^\top \Sigma^{-1}(\xx-\bfmu_1) &amp;= 2\log\frac{p(y=0)}{p(y=1)} \\[3pt]
+\underbrace{(\bfmu_1-\bfmu_0)^\top\Sigma^{-1}}_{\bfbeta^\top}\xx &amp;=\underbrace{\log\frac{p(y=0)}{p(y=1)}+\frac{1}{2}\left(\bfmu_1^\top\Sigma^{-1}\bfmu_1-\bfmu_0^\top\Sigma^{-1}\bfmu_0\right)}_{-\beta_0}
+\end{align*}
+\]</span></p>
+<p>Esto es un hiperplano de la forma <span class="math inline">\(f(\xx)=\bfbeta^\top\xx+\beta_0=0\)</span>, con vector normal <span class="math display">\[
+\bfbeta=\Sigma^{-1}(\bfmu_1-\bfmu_0).
+\]</span></p>
+<div style="margin-top:2em;">
+
+</div>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/lda_toy_frontera.svg" alt="…" width="500px" class="figure-img">
+<figcaption>
+<strong>Figura 3</strong>. Frontera de decisión lineal del modelo LDA en clasificación binaria.
+</figcaption>
+</figure>
+<div style="margin-top:2em;">
+
+</div>
+<p>Para concluir, haremos énfasis en la regla de clasificación para un <mark>problema multiclase</mark>:</p>
+<p><span class="math display">\[
+\begin{align*}
+G(x) &amp;= \arg\max_{y} p(y\mid \xx) \\
+&amp;=\arg\max_{y} p(\xx\mid y)\,p(y) \\
+&amp; = \arg\max_{y} \left[\log p(\xx\mid y)+\log p(y)\right]
+\end{align*}
+\]</span></p>
+<p>Además, denotamos <span class="math inline">\(\pi_y:=\mathbb{P}\{Y=y\}\)</span> las probabilidades <em>a priori</em> de cada clase. De esta manera, y tras eliminar los términos constantes que no dependen de <span class="math inline">\(\xx\)</span>, se obtiene el siguiente resultado.</p>
+<div style="margin-top:2em;">
+
+</div>
+<div class="myhighlight">
+<p>Para un problema de clasificación multiclase, la regla de decisión del modelo LDA es <span class="math display">\[
+G(\xx)=\arg\max_{y}\left[-\frac{1}{2}(\xx-\bfmu_y)^\top\Sigma^{-1}(\xx-\bfmu_y)+\log\pi_y\right].
+\]</span></p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+</section>
 <section id="estimación-por-máxima-verosimilitud" class="level3">
 <h3 class="anchored" data-anchor-id="estimación-por-máxima-verosimilitud">Estimación por máxima verosimilitud</h3>
 <p>Los parámetros del modelo son <span class="math inline">\(\varphi\in\RR\)</span>, <span class="math inline">\(\bfmu_0,\bfmu_1\in\RR^p\)</span> y <span class="math inline">\(\Sigma\in\mathbf{S}_{++}^p\)</span>. La estimación por máxima verosimilitud resulta de maximizar <span class="math display">\[
 \begin{align}
 \ell(\varphi,\bfmu_0,\bfmu_1,\Sigma)&amp;=\sum_{i=1}^n\log p(\xx_i,y_i\mid\varphi,\bfmu_0,\bfmu_1,\Sigma) \\
-&amp; = \sum_{i=1}^n\log p(y\mid\varphi)+\sum_{i=1}^n\log p(\xx_i\mid y_i,\bfmu_{y_i},\Sigma).
+&amp; = \sum_{i=1}^n\log\left[p(\xx_i\mid y_i;\bfmu_{y_i},\Sigma)\,p(y_i\mid\varphi)\right]\\
+&amp; = \sum_{i=1}^n\log p(\xx_i\mid y_i;\bfmu_{y_i},\Sigma) + \sum_{i=1}^n\log p(y_i\mid\varphi).
 \end{align}
-\tag{1}
+\tag{4}
 \]</span></p>
 <p>Obtengamos en primer lugar el MLE de <span class="math inline">\(\varphi\)</span>. Este es el punto óptimo de <span class="math display">\[
 \begin{array}{ll}
-\text{maximizar } &amp; \displaystyle\sum_{i=1}^n\log p(y\mid\varphi),
+\text{maximizar } &amp; \displaystyle\sum_{i=1}^n\log p(y_i\mid\varphi),
 \end{array}
-\]</span> la cual es la función de verosimilitud de <span class="math inline">\(Y\sim\text{Bernoulli}(\varphi)\)</span>. Es fácil ver que <span class="math display">\[
+\]</span></p>
+<p>cuya función objetivo es la función de verosimilitud de <span class="math inline">\(Y\sim\text{Bernoulli}(\varphi)\)</span>. Es fácil ver que <span class="math display">\[
 \hat{\varphi}=\frac{1}{n}\sum_{i=1}^n y_i=\frac{1}{n}\sum_{i=1}^n\bfone\{y_i=1\}.
 \]</span></p>
 <div class="question callout callout-style-simple callout-none no-icon">
@@ -606,30 +716,30 @@ p(y=1\mid\xx)&amp;=\frac{e^{\bftheta^\top\xx+\theta_0}}{1+e^{\bftheta^\top\xx+\t
 <div style="margin-top:2em;">
 
 </div>
-<p>Ahora bien, si fijamos <span class="math inline">\(\Sigma\)</span> en (1), el problema de optimización para hallar <span class="math inline">\(\bfmu_y\)</span>, para <span class="math inline">\(y\in\{0,1\}\)</span>, es</p>
+<p>Ahora bien, si fijamos <span class="math inline">\(\Sigma\)</span> en (4), el problema de optimización para hallar <span class="math inline">\(\bfmu_y\)</span>, para <span class="math inline">\(y\in\{0,1\}\)</span>, es</p>
 <p><span class="math display">\[
 \begin{array}{ll}
 \text{maximizar } &amp; -\displaystyle\frac{1}{2}\sum_{i:y_i=y}^n(\xx_i-\bfmu_y)^\top\Sigma^{-1}(\xx_i-\bfmu_y)
 \end{array}
-\tag{2}
+\tag{5}
 \]</span></p>
-<p>La función objetivo en (2) es claramente cóncava, ya que <span class="math inline">\(\Sigma\succ 0\)</span> implica <span class="math inline">\(\Sigma^{-1}\succ 0\)</span>. Por lo tanto, al igualar el gradiente a cero obtenemos <span class="math display">\[
+<p>La función objetivo en (5) es claramente cóncava, ya que <span class="math inline">\(\Sigma\succ 0\)</span> implica <span class="math inline">\(\Sigma^{-1}\succ 0\)</span>. Por lo tanto, al igualar el gradiente a cero obtenemos <span class="math display">\[
 \begin{align}
 \sum_{i:y_i=y}^n\Sigma^{-1}(\xx_i-\hat{\bfmu}_y)&amp;=0 \\
 \sum_{i:y_i=y}^n(\xx_i-\hat{\bfmu}_y)&amp;=0 \\
 \hat{\bfmu}_y &amp;= \frac{\sum_{i=1}^n\bfone\{y_i=y\}\xx_i}{\sum_{i=1}^n\bfone\{y_i=y\}},
-\tag{3}
+\tag{6}
 \end{align}
 \]</span></p>
-<p>lo cual es la media muestral de la clase <span class="math inline">\(Y=y\)</span>, es decir, del conjunto <span class="math inline">\(\{\xx_i\mid y_i=y\}\)</span>. Observar que (3) no depende de <span class="math inline">\(\Sigma\)</span>, lo cual valida este resultado para nuestro objetivo de maximizar la verosimilitud.</p>
-<p>Por último, reemplazaremos (3) en (1) para construir el siguiente problema de optimización:</p>
+<p>lo cual es la media muestral de la clase <span class="math inline">\(Y=y\)</span>, es decir, del conjunto <span class="math inline">\(\{\xx_i\mid y_i=y\}\)</span>. Observar que (6) no depende de <span class="math inline">\(\Sigma\)</span>, lo cual valida este resultado para nuestro objetivo de maximizar la verosimilitud.</p>
+<p>Por último, reemplazaremos (6) en (4) para construir el siguiente problema de optimización:</p>
 <p><span class="math display">\[
 \begin{array}{ll}
 \text{maximizar } &amp; -\displaystyle\frac{1}{2}\sum_{i=1}^n(\xx_i-\hat{\bfmu}_{y_i})^\top\Sigma^{-1}(\xx_i+\hat{\bfmu}_{y_i})-\frac{n}{2}\log |\Sigma|.
 \end{array}
-\tag{4}
+\tag{7}
 \]</span></p>
-<p>Vamos a reformular (4), utilizando que:</p>
+<p>Vamos a reformular (7), utilizando que:</p>
 <ul>
 <li><p><span class="math inline">\(\log|\Sigma^{-1}|=\log(1/|\Sigma|)=-\log|\Sigma|\)</span>.</p></li>
 <li><p><span class="math inline">\(\begin{align*}\sum_{i=1}^n(\xx_i-\hat{\bfmu}_{y_i})^\top\Sigma^{-1}(\xx_i+\hat{\bfmu}_{y_i})&amp;=\sum_{i=1}^n\text{tr}[(\xx_i-\hat{\bfmu}_{y_i})^\top\Sigma^{-1}(\xx_i+\hat{\bfmu}_{y_i})]\\&amp;=\sum_{i=1}^n\text{tr}[\Sigma^{-1}(\xx_i-\hat{\bfmu}_{y_i})(\xx_i+\hat{\bfmu}_{y_i})^\top]\\&amp;=\text{tr}\left[\Sigma^{-1}\sum_{i=1}^n(\xx_i-\hat{\bfmu}_{y_i})(\xx_i+\hat{\bfmu}_{y_i})^\top\right]\end{align*}\)</span></p></li>
@@ -638,9 +748,9 @@ p(y=1\mid\xx)&amp;=\frac{e^{\bftheta^\top\xx+\theta_0}}{1+e^{\bftheta^\top\xx+\t
 \begin{array}{ll}
 \text{maximizar } &amp; \displaystyle\frac{n}{2}\log|\Sigma^{-1}|-\frac{1}{2}\text{tr}\left[\Sigma^{-1}\sum_{i=1}^n(\xx_i-\hat{\bfmu}_{y_i})(\xx_i+\hat{\bfmu}_{y_i})^\top\right]
 \end{array}
-\tag{5}
+\tag{8}
 \]</span></p>
-<p>Si consideramos como variable de optimización a <span class="math inline">\(\Sigma^{-1}\)</span>, la función objetivo en (5) es estrictamente cóncava. Luego, al igualar el gradiente a cero obtenemos <span class="math display">\[
+<p>Si consideramos como variable de optimización a <span class="math inline">\(\Sigma^{-1}\)</span>, la función objetivo en (8) es estrictamente cóncava. Luego, al igualar el gradiente a cero obtenemos <span class="math display">\[
 \begin{align*}
 \frac{n}{2}\hat{\Sigma}-\frac{1}{2}\sum_{i=1}^n(\xx_i-\hat{\bfmu}_{y_i})(\xx_i+\hat{\bfmu}_{y_i})^\top&amp;=0 \\
 \hat{\Sigma}&amp;=\frac{1}{n}\sum_{i=1}^n(\xx_i-\hat{\bfmu}_{y_i})(\xx_i+\hat{\bfmu}_{y_i})^\top.
@@ -660,8 +770,120 @@ p(y=1\mid\xx)&amp;=\frac{e^{\bftheta^\top\xx+\theta_0}}{1+e^{\bftheta^\top\xx+\t
 
 </div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 1</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Título de ejemplo </span></p>
-<p>Ejemplo.</p>
+<p><span class="badge bg-primary">Ejemplo 2</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> LDA en datos simulados de clasificación binaria </span></p>
+<p>Simulamos un conjunto de datos en <span class="math inline">\(\RR^2\)</span> perteneciente a dos clases. Al aplicar LDA, el modelo estima una frontera lineal de decisión que separa ambas regiones.</p>
+<div id="6d0443dc" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.discriminant_analysis <span class="im">import</span> LinearDiscriminantAnalysis <span class="im">as</span> LDA</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_classification</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos:</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_classification(</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    n_samples<span class="op">=</span><span class="dv">200</span>, n_features<span class="op">=</span><span class="dv">2</span>, n_redundant<span class="op">=</span><span class="dv">0</span>, n_informative<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    n_clusters_per_class<span class="op">=</span><span class="dv">1</span>, class_sep<span class="op">=</span><span class="fl">2.0</span>, random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo LDA:</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>lda <span class="op">=</span> LDA()</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>lda.fit(X, y)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 📈:</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>x_min, x_max <span class="op">=</span> X[:, <span class="dv">0</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="dv">1</span>, X[:, <span class="dv">0</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>y_min, y_max <span class="op">=</span> X[:, <span class="dv">1</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="dv">1</span>, X[:, <span class="dv">1</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(np.linspace(x_min, x_max, <span class="dv">300</span>),</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>                     np.linspace(y_min, y_max, <span class="dv">300</span>))</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> lda.predict(np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Colores:</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>bg_colors <span class="op">=</span> [<span class="st">'lightcoral'</span>, <span class="st">'lightblue'</span>]   <span class="co"># regiones</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>pt_colors <span class="op">=</span> [<span class="st">'darkred'</span>, <span class="st">'navy'</span>]           <span class="co"># puntos (clases)</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>cmap_bg <span class="op">=</span> ListedColormap(bg_colors)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>cmap_pts <span class="op">=</span> ListedColormap(pt_colors)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">7</span>,<span class="dv">5</span>))</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>plt.contourf(xx, yy, Z, levels<span class="op">=</span>[<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1.5</span>], colors<span class="op">=</span>bg_colors, alpha<span class="op">=</span><span class="fl">0.35</span>)</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c<span class="op">=</span>y, cmap<span class="op">=</span>cmap_pts, edgecolor<span class="op">=</span><span class="st">'k'</span>, s<span class="op">=</span><span class="dv">60</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"$x_1$"</span>, size<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"$x_2$"</span>, size<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="C1_gda_files/figure-html/cell-2-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-example">
+<p><span class="badge bg-primary">Ejemplo 3</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> LDA en datos de clasificación multiclase </span></p>
+<p>En este ejemplo utilizamos el conjunto de datos <em>wine</em> disponible en <code>scikit-learn</code>, que contiene mediciones químicas de tres tipos de vino. Para visualizar el resultado de la clasificación, consideramos únicamente dos variables predictoras: la intensidad de color y el matiz.</p>
+<p>El modelo LDA estima las fronteras lineales que separan las tres clases, utilizando la comparación de a pares.</p>
+<div id="e7c45fff" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_wine</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.discriminant_analysis <span class="im">import</span> LinearDiscriminantAnalysis <span class="im">as</span> LDA</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos:</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>wine <span class="op">=</span> load_wine()</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> wine.data[:, [<span class="dv">9</span>, <span class="dv">10</span>]]  </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> wine.target</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>target_names <span class="op">=</span> wine.target_names</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo LDA:</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>lda <span class="op">=</span> LDA()</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>lda.fit(X, y)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 📈:</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>x_min, x_max <span class="op">=</span> X[:, <span class="dv">0</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="fl">0.5</span>, X[:, <span class="dv">0</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="fl">0.5</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>y_min, y_max <span class="op">=</span> X[:, <span class="dv">1</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="fl">0.5</span>, X[:, <span class="dv">1</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="fl">0.5</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(np.linspace(x_min, x_max, <span class="dv">500</span>),</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>                     np.linspace(y_min, y_max, <span class="dv">500</span>))</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> lda.predict(np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>bg_colors <span class="op">=</span> [<span class="st">'#FDEDEC'</span>, <span class="st">'#EBF5FB'</span>, <span class="st">'#E8F8F5'</span>]</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>pt_colors <span class="op">=</span> [<span class="st">'#E74C3C'</span>, <span class="st">'#3498DB'</span>, <span class="st">'#16A085'</span>]</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>cmap_bg <span class="op">=</span> ListedColormap(bg_colors)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>cmap_pts <span class="op">=</span> ListedColormap(pt_colors)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">7</span>,<span class="dv">5</span>))</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>plt.contourf(xx, yy, Z, alpha<span class="op">=</span><span class="fl">0.7</span>, cmap<span class="op">=</span>cmap_bg)</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>plt.contour(xx, yy, Z, levels<span class="op">=</span>np.arange(<span class="op">-</span><span class="fl">0.5</span>, <span class="dv">3</span>), colors<span class="op">=</span><span class="st">'gray'</span>, linewidths<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, name <span class="kw">in</span> <span class="bu">enumerate</span>(target_names):</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    plt.scatter(X[y<span class="op">==</span>i,<span class="dv">0</span>], X[y<span class="op">==</span>i,<span class="dv">1</span>], label<span class="op">=</span>name,</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>                c<span class="op">=</span>pt_colors[i], edgecolor<span class="op">=</span><span class="st">'k'</span>, s<span class="op">=</span><span class="dv">60</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Intensidad del color"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Matiz"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="C1_gda_files/figure-html/cell-3-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 </div>
 <div style="margin-top:2.5em;">
 
@@ -684,6 +906,15 @@ Y\sim\text{Bernoulli}(\varphi) \\[2pt]
 \end{array}
 \]</span></p>
 </div>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/qda_toy.svg" alt="…" width="500px" class="figure-img">
+<figcaption>
+<strong>Figura 4</strong>. Modelo QDA para clasificación binaria.
+</figcaption>
+</figure>
+<div style="margin-top:2em;">
+
+</div>
 <p>Las distribuciones son: <span class="math display">\[
 p(y)=\varphi^y(1-\varphi)^{1-y},
 \]</span> <span class="math display">\[
@@ -691,26 +922,110 @@ p(\xx\mid y=0)=\frac{1}{(2\pi)^{d/2}|\Sigma_0|^{1/2}}\exp\left\{-\frac{1}{2}(\xx
 \]</span> <span class="math display">\[
 p(\xx\mid y=1)=\frac{1}{(2\pi)^{d/2}|\Sigma_1|^{1/2}}\exp\left\{-\frac{1}{2}(\xx-\bfmu_1)^\top\Sigma_1^{-1}(\xx-\bfmu_1)\right\}.
 \]</span></p>
-<p>De manera similar al caso de LDA, se obtienen los estimadores por máxima verosimilitud para los parámetros <span class="math inline">\(\varphi\in\RR\)</span>, <span class="math inline">\(\bfmu_0, \bfmu_1\in\RR^p\)</span> y <span class="math inline">\(\Sigma_0, \Sigma_1\in\mathbf{S}_{++}^p\)</span>.</p>
+<section id="regla-de-decisión-1" class="level3">
+<h3 class="anchored" data-anchor-id="regla-de-decisión-1">Regla de decisión</h3>
+<div style="margin-top:2em;">
+
+</div>
+<p>El no suponer la misma matriz de covarianza para todas las clases tiene las siguientes consecuencias a la hora de determinar la regla de decisión:</p>
+<ul>
+<li><p>El término <span class="math inline">\(-\log |\Sigma_y|\)</span> no puede ser descartado, pues es diferente para cada clase.</p></li>
+<li><p>Los términos cuadráticos <span class="math inline">\(\xx^\top\Sigma_y^{-1}\xx\)</span> no se cancelan y, por lo tanto, la frontera de decisión es cuadrática con término cuadrático <span class="math inline">\(\xx^\top(\Sigma_1-\Sigma_0)^{-1}\xx\)</span>.</p></li>
+</ul>
+<div style="margin-top:2em;">
+
+</div>
 <div class="myhighlight">
-<p>Los MLE de los parámetros del modelo QDA son <span class="math display">\[
-\hat{\varphi}=\frac{1}{n}\sum_{i=1}^n\bfone\{y_i=1\},
-\]</span> <span class="math display">\[
-\hat{\bfmu}_y = \frac{\sum_{i=1}^n\bfone\{y_i=y\}\xx_i}{\sum_{i=1}^n\bfone\{y_i=y\}},
-\]</span> <span class="math display">\[
-\hat{\Sigma} =\frac{1}{n}\sum_{i=1}^n(\xx_i-\hat{\bfmu}_{y_i})(\xx_i+\hat{\bfmu}_{y_i})^\top.
+<p>Para un problema de clasificación multiclase, la regla de decisión del modelo QDA es <span class="math display">\[
+G(\xx)=\arg\max_{y}\left[-\frac{1}{2}\log |\Sigma_y|-\frac{1}{2}(\xx-\bfmu_y)^\top\Sigma_y^{-1}(\xx-\bfmu_y)+\log\pi_y\right].
 \]</span></p>
 </div>
 <div style="margin-top:2em;">
 
 </div>
+</section>
+<section id="estimación-por-máxima-verosimilitud-1" class="level3">
+<h3 class="anchored" data-anchor-id="estimación-por-máxima-verosimilitud-1">Estimación por máxima verosimilitud</h3>
+<p>De manera similar al caso de LDA, se obtienen los estimadores por máxima verosimilitud para los parámetros <span class="math inline">\(\varphi\in\RR\)</span>, <span class="math inline">\(\bfmu_0, \bfmu_1\in\RR^p\)</span> y <span class="math inline">\(\Sigma_0, \Sigma_1\in\mathbf{S}_{++}^p\)</span>.</p>
+<div style="margin-top:2em;">
+
+</div>
+<div class="myhighlight">
+<p>Los MLE de los parámetros del modelo QDA son <span class="math display">\[
+\hat{\varphi}=\frac{1}{n}\sum_{i=1}^n\bfone\{y_i=1\},
+\]</span> <span class="math display">\[
+\hat{\bfmu}_y = \frac{\sum_{i=1}^n\bfone\{y_i=y\}\xx_i}{\sum_{i=1}^n\bfone\{y_i=y\}},
+\]</span> <span class="math display">\[\hat{\Sigma}_y =
+    \frac{\sum_{i=1}^{n} \mathbf{1}\{ y_i = y \}
+    (\mathbf{x}_i - \hat{\boldsymbol{\mu}}_{y})
+    (\mathbf{x}_i - \hat{\boldsymbol{\mu}}_{y})^{\top}}
+    {\sum_{i=1}^{n} \mathbf{1}\{ y_i = y \}}.
+    \]</span></p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
 <div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 2</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Título de ejemplo </span></p>
-<p>Ejemplo.</p>
+<p><span class="badge bg-primary">Ejemplo 4</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> QDA en datos de clasificación multiclase </span></p>
+<p>En este ejemplo utilizamos los mismos datos del Ejemplo 3, pero aplicamos el modelo QDA. A diferencia del LDA, este modelo permite que cada clase tenga su propia matriz de covarianza, lo que da lugar a fronteras de decisión no lineales que se adaptan mejor a la estructura de los datos.</p>
+<div id="6005fc2b" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_wine</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.discriminant_analysis <span class="im">import</span> QuadraticDiscriminantAnalysis <span class="im">as</span> QDA</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos:</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>wine <span class="op">=</span> load_wine()</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> wine.data[:, [<span class="dv">9</span>, <span class="dv">10</span>]]  <span class="co"># Intensidad de color y matiz</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> wine.target</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>target_names <span class="op">=</span> wine.target_names</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo QDA:</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>qda <span class="op">=</span> QDA()</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>qda.fit(X, y)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 📈:</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>x_min, x_max <span class="op">=</span> X[:, <span class="dv">0</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="fl">0.5</span>, X[:, <span class="dv">0</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="fl">0.5</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>y_min, y_max <span class="op">=</span> X[:, <span class="dv">1</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="fl">0.5</span>, X[:, <span class="dv">1</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="fl">0.5</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(np.linspace(x_min, x_max, <span class="dv">500</span>),</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>                     np.linspace(y_min, y_max, <span class="dv">500</span>))</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> qda.predict(np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>bg_colors <span class="op">=</span> [<span class="st">'#FDEDEC'</span>, <span class="st">'#EBF5FB'</span>, <span class="st">'#E8F8F5'</span>]</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>pt_colors <span class="op">=</span> [<span class="st">'#E74C3C'</span>, <span class="st">'#3498DB'</span>, <span class="st">'#16A085'</span>]</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>cmap_bg <span class="op">=</span> ListedColormap(bg_colors)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>cmap_pts <span class="op">=</span> ListedColormap(pt_colors)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">7</span>,<span class="dv">5</span>))</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>plt.contourf(xx, yy, Z, alpha<span class="op">=</span><span class="fl">0.7</span>, cmap<span class="op">=</span>cmap_bg)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>plt.contour(xx, yy, Z, levels<span class="op">=</span>np.arange(<span class="op">-</span><span class="fl">0.5</span>, <span class="dv">3</span>), colors<span class="op">=</span><span class="st">'gray'</span>, linewidths<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, name <span class="kw">in</span> <span class="bu">enumerate</span>(target_names):</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    plt.scatter(X[y<span class="op">==</span>i,<span class="dv">0</span>], X[y<span class="op">==</span>i,<span class="dv">1</span>], label<span class="op">=</span>name,</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>                c<span class="op">=</span>pt_colors[i], edgecolor<span class="op">=</span><span class="st">'k'</span>, s<span class="op">=</span><span class="dv">60</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Intensidad del color"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Matiz"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="C1_gda_files/figure-html/cell-4-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 </div>
 <div style="margin-top:2.5em;">
 
 </div>
+</section>
 </section>
 <section id="naive-bayes" class="level2">
 <h2 class="anchored" data-anchor-id="naive-bayes">Naive Bayes</h2>
@@ -758,7 +1073,7 @@ p(\xx\mid y)=\prod_{i=1}^p p(x_i\mid y).
 \vdots \\
 \text{perro}\end{matrix}
 \]</span></p>
-<p>representa un documento que contiene las palabras “casa” y “comprar”, pero no “bicicleta”, “zapato” y “perro”. Ahora bien, si suponemos que el vocabulario está compuesto por 50000 palabras, modelar cada observación <span class="math inline">\(\xx\)</span> por separado y utilizar la distribución multinomial da lugar a <span class="math inline">\(2^{50000}-1\)</span> parámetros. Por tal motivo, el uso de Naive Bayes simplifica mucho el problema; el precio a pagar es la suposición ingenua de independencia: se asume que saber si la <span class="math inline">\(i\)</span>-ésima palabra aparece o no en un documento no aporta información sobre la presencia o ausencia de la <span class="math inline">\(j\)</span>-ésima palabra.</p>
+<p>representa un documento que contiene las palabras “casa” y “comprar”, pero no “bicicleta”, “zapato” y “perro”. Ahora bien, si suponemos que el vocabulario está compuesto por 50000 palabras, modelar cada observación <span class="math inline">\(\xx\)</span> por separado para obtener la distribución conjunta da lugar a <span class="math inline">\(2^{50000}-1\)</span> parámetros. Por tal motivo, el uso de Naive Bayes simplifica mucho el problema; el precio a pagar es la suposición ingenua de independencia: se asume que saber si la <span class="math inline">\(i\)</span>-ésima palabra aparece o no en un documento no aporta información sobre la presencia o ausencia de la <span class="math inline">\(j\)</span>-ésima palabra.</p>
 <div class="myhighlight2">
 <span style="font-size:0.8em;"><em>Supuesto del modelo</em></span>
 <div style="margin-top:-0.1em;">
@@ -781,8 +1096,16 @@ p(\xx_i\mid y_i)=\prod_{j=1}^p p(x_{ij}\mid y_i)\qquad \forall i=1,\ldots, n
 \]</span> <span class="math display">\[
 \phi_y:=p(y=1).
 \]</span></p>
-<section id="estimación-por-máxima-verosimilitud-1" class="level4">
-<h4 class="anchored" data-anchor-id="estimación-por-máxima-verosimilitud-1">Estimación por máxima verosimilitud</h4>
+<section id="regla-de-decisión-2" class="level4">
+<h4 class="anchored" data-anchor-id="regla-de-decisión-2">Regla de decisión</h4>
+<div class="myhighlight">
+<p>Para un problema de clasificación multiclase, la regla de decisión del modelo Naive Bayes con características Bernoulli es <span class="math display">\[
+G(\xx)=\arg\max_{y} \left(\varphi^{y}(1-\varphi)^{1-y}\prod_{j=1}^p\phi_{j\mid y}^{x_{j}}(1-\phi_{j\mid y})^{1-x_{j}}\right).
+\]</span></p>
+</div>
+</section>
+<section id="estimación-por-máxima-verosimilitud-2" class="level4">
+<h4 class="anchored" data-anchor-id="estimación-por-máxima-verosimilitud-2">Estimación por máxima verosimilitud</h4>
 <p>La función de verosimilitud es <span class="math display">\[
 \begin{align}
 L(\varphi,\phi_{i\mid y=0},\phi_{i\mid y=1})&amp;=\prod_{i=1}^n p(\xx_i\mid y_i; \phi_{i\mid y=0}, \phi_{i\mid y=1})\,p(y_i\mid\varphi) \\
@@ -808,10 +1131,8 @@ L(\varphi,\phi_{i\mid y=0},\phi_{i\mid y=1})&amp;=\prod_{i=1}^n p(\xx_i\mid y_i;
 <div style="margin-top:2em;">
 
 </div>
-<p>Luego, dada una nueva observación <span class="math inline">\(\xx\)</span>, el clasificador es <span class="math display">\[
-\hat{y}(\xx)=\arg\max_{y} p(\xx\mid y)\,p(y)=\arg\max_{y} \left(\hat{\varphi}^{y}(1-\hat{\varphi})^{1-y}\prod_{j=1}^p\hat{\phi}_{j\mid y}^{x_{j}}(1-\hat{\phi}_{j\mid y})^{1-x_{j}}\right).
-\]</span></p>
-<p>Con esto hemos desarrollado el método de Naive Bayes para el caso de características binarias <span class="math inline">\(X_i\)</span>. La generalización al caso de variables discretas que toman valores en <span class="math inline">\(\{1,2,\ldots,k\}\)</span> es directa, mediante el uso de la <em>distribución categórica</em>.</p>
+<p>Con esto hemos desarrollado el método de Naive Bayes para el caso de características binarias <span class="math inline">\(X_i\)</span>. La generalización al caso de variables discretas que toman valores en <span class="math inline">\(\{1,2,\ldots,k\}\)</span> es directa, mediante el uso de la <em>distribución categórica</em>, aplicable a otros tipos de problemas donde cada variable puede asumir más de dos categorías (clasificación de encuestas, diagnóstico médico, entre otros).</p>
+<p>En el caso particular de <em>clasificación de textos</em>, es común modelar las variables como <mark>conteos</mark> de palabras en lugar de variables binarias de presencia/auscencia. En ese contexto, se utiliza el <em>Naive Bayes Multinomial</em>, que asume independencia entre apariciones de palabras, lo cual permite modelar <span class="math inline">\(p(\xx\mid y)\)</span> mediante la distribución Multinomial.</p>
 <div style="margin-top:2em;">
 
 </div>
@@ -835,9 +1156,249 @@ p(y=1\mid \xx)=\frac{\prod_{j=1}^p p(x_j\mid y=1)\,p(y=1)}{\prod_{j=1}^p p(x_j\m
 \]</span></p>
 <p>En particular, <span class="math inline">\(\text{Beta}(1,1)\)</span> conduce al suavizado de Laplace. Dado que <span class="math inline">\(\text{Beta}(1,1)=\text{Uniforme}([0,1])\)</span>, esto equivale a no introducir sesgo a priori sobre los parámetros <span class="math inline">\(\phi_j\)</span>, de manera que cada valor entre <span class="math inline">\(0\)</span> y <span class="math inline">\(1\)</span> es igualmente probable antes de observar los datos.</p>
 </div>
-<div class="callout-example">
-<p><span class="badge bg-primary">Ejemplo 3</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Título de ejemplo </span></p>
-<p>Ejemplo.</p>
+<p><br><br></p>
+</section>
+</section>
+</section>
+<section id="actividades" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="actividades">Actividades</h2>
+✏️ <strong>Conceptuales</strong><br>
+
+<hr class="linea-corta">
+<details>
+<summary>
+Mostrar
+</summary>
+<div style="margin-top:1em;">
+
+</div>
+<ol type="1">
+<li><p>Construya un clasificador para <span class="math inline">\(Y \in \{0,1\}\)</span> dado <span class="math inline">\(X \in [0,6)\)</span> utilizando el Teorema de Bayes. Las funciones de densidad condicional para cada clase son las siguientes: <span class="math display">\[
+P(X=x \mid Y=0) =
+\begin{cases}
+\dfrac{1}{6}, &amp; 0 \le x &lt; 6,\\[6pt]
+0, &amp; \text{en otro caso.}
+\end{cases}
+\]</span> <span class="math display">\[
+P(X=x \mid Y=1) =
+\begin{cases}
+\dfrac{x-1}{4}, &amp; 1 \le x &lt; 3,\\[6pt]
+\dfrac{5-x}{4}, &amp; 3 \le x &lt; 5,\\[6pt]
+0, &amp; \text{en otro caso.}
+\end{cases}
+\]</span></p>
+<ol type="a">
+<li><p>Suponiendo probabilidades a priori iguales, <span class="math inline">\(P(Y=0)=P(Y=1)=0.5\)</span>, clasificar una observación con <span class="math inline">\(x=2.5\)</span>.</p></li>
+<li><p>Suponiendo probabilidades a priori desiguales, <span class="math inline">\(P(Y=0)=0.7\)</span> y <span class="math inline">\(P(Y=1)=0.3\)</span>, clasificar una observación con <span class="math inline">\(x=4\)</span>.</p></li>
+</ol></li>
+<li><p>Considere el modelo QDA.</p>
+<ol type="a">
+<li>Demuestre que los MLE de los parámetros son: <span class="math display">\[
+\widehat{\varphi} = \frac{1}{n} \sum_{i=1}^{n} \mathbf{1}\{ y_i = 1 \},
+\]</span> <span class="math display">\[
+\widehat{\boldsymbol{\mu}}_y =
+\frac{\sum_{i=1}^{n} \mathbf{1}\{ y_i = y \} \mathbf{x}_i}
+{\sum_{i=1}^{n} \mathbf{1}\{ y_i = y \}},
+\]</span> <span class="math display">\[
+\widehat{\boldsymbol{\Sigma}}_y =
+\frac{\sum_{i=1}^{n} \mathbf{1}\{ y_i = y \}
+(\mathbf{x}_i - \widehat{\boldsymbol{\mu}}_{y})
+(\mathbf{x}_i - \widehat{\boldsymbol{\mu}}_{y})^{\top}}
+{\sum_{i=1}^{n} \mathbf{1}\{ y_i = y \}}.
+\]</span></li>
+</ol>
+<p><em>Ayuda</em>: sean <span class="math inline">\(\mathbf{x} \in \mathbb{R}^{n}\)</span>, <span class="math inline">\(\mathbf{A} \in \mathbb{R}^{n \times n}\)</span> simétrica y <span class="math inline">\(\mathbf{X}, \mathbf{B} \in \mathbb{R}^{n \times n}\)</span>, se cumple:</p>
+<ul>
+<li><span class="math inline">\(\frac{\partial (\mathbf{x}^\top\mathbf{A}\mathbf{x})}{\partial \mathbf{x}} = 2\mathbf{A}\mathbf{x}\)</span>.</li>
+<li><span class="math inline">\(\frac{\partial \ \text{tr}(\mathbf{X}^{-1}\mathbf{B})}{\partial \mathbf{X}} = -\mathbf{X}^{-1}\mathbf{B}\mathbf{X}^{-1}\)</span>.</li>
+<li><span class="math inline">\(\frac{\partial \ \ln|\mathbf{X}|}{\partial \mathbf{X}} = \mathbf{X}^{-1}\)</span>.</li>
+</ul>
+<ol start="2" type="a">
+<li><p>Construya el clasificador de Bayes usando los estimadores obtenidos.</p></li>
+<li><p>Encuentre la frontera de decisión e indique las diferencias con la hallada para el modelo LDA.</p></li>
+</ol></li>
+<li><p>En un estudio médico, 100 pacientes fueron clasificados en una de tres clases: <strong>Neumonía</strong>, <strong>Gripe</strong> o <strong>Sano</strong>. La siguiente base de datos indica cuántos pacientes en cada clase presentaron fiebre y dolor de cabeza.</p>
+<p><strong>Neumonía</strong>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Fiebre</th>
+<th style="text-align: center;">Dolor de cabeza</th>
+<th style="text-align: center;">Frecuencia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><strong>—</strong></td>
+<td style="text-align: center;"><strong>Total:</strong></td>
+<td style="text-align: center;"><strong>10</strong></td>
+</tr>
+</tbody>
+</table>
+<div style="margin-top:2em;">
+
+</div>
+<p><strong>Gripe</strong>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Fiebre</th>
+<th style="text-align: center;">Dolor de cabeza</th>
+<th style="text-align: center;">Frecuencia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><strong>—</strong></td>
+<td style="text-align: center;"><strong>Total:</strong></td>
+<td style="text-align: center;"><strong>20</strong></td>
+</tr>
+</tbody>
+</table>
+<div style="margin-top:2em;">
+
+</div>
+<p><strong>Sano</strong>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Fiebre</th>
+<th style="text-align: center;">Dolor de cabeza</th>
+<th style="text-align: center;">Frecuencia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">58</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><strong>—</strong></td>
+<td style="text-align: center;"><strong>Total:</strong></td>
+<td style="text-align: center;"><strong>70</strong></td>
+</tr>
+</tbody>
+</table>
+<div style="margin-top:2em;">
+
+</div>
+<p>Considere un paciente con fiebre pero sin dolor de cabeza.</p>
+<ol type="a">
+<li><p>¿Qué valores asignaría un clasificador Bayesiano óptimo a los tres diagnósticos? (un clasificador Bayesiano óptimo no realiza ninguna suposición de independencia sobre las variables). <em>Sus respuestas no necesitan sumar 1 — explique por qué.</em></p></li>
+<li><p>¿Qué probabilidad asignaría un clasificador Bayesiano óptimo a la proposición de que un paciente es sano? Muestre su procedimiento (los tres valores deben sumar 1).</p></li>
+<li><p>¿Qué valores asignaría un clasificador naive Bayes a los tres posibles diagnósticos? Muestre su procedimiento.</p></li>
+<li><p>¿Qué probabilidad asignaría un clasificador naive Bayes a la proposición de que un paciente es sano? Muestre su procedimiento.</p></li>
+</ol></li>
+<li><p>Se quiere predecir si a una persona le gusta <em>Pokémon</em>, utilizando información sobre sus preferencias por otros programas populares. Para ello, se recolectaron datos de <span class="math inline">\(n=30\)</span> individuos, registrando si a cada uno le gusta <em>Star Wars</em> y <em>Harry Potter</em>, además de si le gusta <em>Pokémon</em>. Considere <span class="math inline">\(X_1 = 1\)</span> si le gusta <em>Star Wars</em>, <span class="math inline">\(X_2 = 1\)</span> si le gusta <em>Harry Potter</em> e <span class="math inline">\(Y = 1\)</span> si le gusta <em>Pokémon</em> (en caso negativo toman el valor 0). Los datos de entrenamiento son:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Y/X1</th>
+<th style="text-align: center;">0</th>
+<th style="text-align: center;">1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">13</td>
+</tr>
+</tbody>
+</table>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Y/X2</th>
+<th style="text-align: center;">0</th>
+<th style="text-align: center;">1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">10</td>
+</tr>
+</tbody>
+</table>
+<p>Suponga que a una nueva persona le gusta <em>Star Wars</em> pero no le gusta <em>Harry Potter</em>. ¿Le gustará <em>Pokémon</em>? ¿Qué tipo de clasificador de Bayes (naive u óptimo) puede construir con la información dada para responder a la pregunta?</p></li>
+</ol>
+</details>
+<div style="margin-top:2em;">
+
+</div>
+💻 <strong>Prácticas</strong><br>
+
+<hr class="linea-corta">
+<div style="text-align:left;">
+<p><a href="https://colab.research.google.com/drive/1N_Ne6Aop8DJ39X0xMIHADey6dgqu_Gch?usp=drive_link" target="_blank"> <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab" style="height:1.4em;"> </a></p>
 </div>
 <div style="margin-top: 5em;">
 
@@ -865,8 +1426,6 @@ eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2RO
 <script type="vfs-file">
 W10=
 </script>
-</section>
-</section>
 </section>
 
 </main> <!-- /main -->
