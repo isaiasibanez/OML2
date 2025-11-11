@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -64,14 +64,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../CAPITULO_3/C2_gmm.html" rel="next">
+<link href="../CAPITULO_3/C2_clustering.html" rel="next">
 <link href="../CAPITULO_2/B4_svm.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-327735d1480bff6f7510335fe22ad292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -267,8 +267,8 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../CAPITULO_3/C2_gmm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.2 Clustering</span></a>
+  <a href="../CAPITULO_3/C2_clustering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3.2 Métodos de clustering</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -772,7 +772,7 @@ G(\xx)=\arg\max_{y}\left[-\frac{1}{2}(\xx-\bfmu_y)^\top\Sigma^{-1}(\xx-\bfmu_y)+
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 2</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> LDA en datos simulados de clasificación binaria </span></p>
 <p>Simulamos un conjunto de datos en <span class="math inline">\(\RR^2\)</span> perteneciente a dos clases. Al aplicar LDA, el modelo estima una frontera lineal de decisión que separa ambas regiones.</p>
-<div id="6d0443dc" class="cell" data-execution_count="1">
+<div id="85956fa3" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -820,7 +820,7 @@ G(\xx)=\arg\max_{y}\left[-\frac{1}{2}(\xx-\bfmu_y)^\top\Sigma^{-1}(\xx-\bfmu_y)+
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="C1_gda_files/figure-html/cell-2-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+<p><img src="C1_gda_files/figure-html/cell-2-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="663" height="471"></p>
 </figure>
 </div>
 </div>
@@ -830,7 +830,7 @@ G(\xx)=\arg\max_{y}\left[-\frac{1}{2}(\xx-\bfmu_y)^\top\Sigma^{-1}(\xx-\bfmu_y)+
 <p><span class="badge bg-primary">Ejemplo 3</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> LDA en datos de clasificación multiclase </span></p>
 <p>En este ejemplo utilizamos el conjunto de datos <em>wine</em> disponible en <code>scikit-learn</code>, que contiene mediciones químicas de tres tipos de vino. Para visualizar el resultado de la clasificación, consideramos únicamente dos variables predictoras: la intensidad de color y el matiz.</p>
 <p>El modelo LDA estima las fronteras lineales que separan las tres clases, utilizando la comparación de a pares.</p>
-<div id="e7c45fff" class="cell" data-execution_count="2">
+<div id="6e88feda" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -879,7 +879,7 @@ G(\xx)=\arg\max_{y}\left[-\frac{1}{2}(\xx-\bfmu_y)^\top\Sigma^{-1}(\xx-\bfmu_y)+
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="C1_gda_files/figure-html/cell-3-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+<p><img src="C1_gda_files/figure-html/cell-3-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="662" height="470"></p>
 </figure>
 </div>
 </div>
@@ -968,7 +968,7 @@ G(\xx)=\arg\max_{y}\left[-\frac{1}{2}\log |\Sigma_y|-\frac{1}{2}(\xx-\bfmu_y)^\t
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 4</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> QDA en datos de clasificación multiclase </span></p>
 <p>En este ejemplo utilizamos los mismos datos del Ejemplo 3, pero aplicamos el modelo QDA. A diferencia del LDA, este modelo permite que cada clase tenga su propia matriz de covarianza, lo que da lugar a fronteras de decisión no lineales que se adaptan mejor a la estructura de los datos.</p>
-<div id="6005fc2b" class="cell" data-execution_count="3">
+<div id="f459344c" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1016,7 +1016,7 @@ G(\xx)=\arg\max_{y}\left[-\frac{1}{2}\log |\Sigma_y|-\frac{1}{2}(\xx-\bfmu_y)^\t
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="C1_gda_files/figure-html/cell-4-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+<p><img src="C1_gda_files/figure-html/cell-4-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="662" height="470"></p>
 </figure>
 </div>
 </div>
@@ -1864,8 +1864,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../CAPITULO_3/C2_gmm.html" class="pagination-link" aria-label="3.2 Clustering">
-        <span class="nav-page-text">3.2 Clustering</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../CAPITULO_3/C2_clustering.html" class="pagination-link" aria-label="3.2 Métodos de clustering">
+        <span class="nav-page-text">3.2 Métodos de clustering</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
