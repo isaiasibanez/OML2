@@ -549,6 +549,15 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiZmlnLWFsaWduIjoi
 <p>Los métodos de clustering basado en densidad identifican grupos de observaciones como regiones densas del espacio de datos, separadas por áreas donde los puntos son escasos. Esto permite detectar clusters de forma arbitraria, no necesariamente esféricos, y además identificar puntos aislados o ruido que no pertenecen a ningún cluster.</p>
 <p>Uno de los métodos más conocidos es DBSCAN (<em>Density-Based Spatial Clustering of Applications with Noise</em>), el cual define un vecindario de radio <span class="math inline">\(\varepsilon&gt;0\)</span> alrededor de cada punto y considera <em>densos</em> aquellos puntos cuyo vecindario contiene al menos un número mínimo de puntos. Los puntos que cumplen esta condición se denominan <mark><em>objetos núcleos</em></mark> y sirven como semilla para formar clusters.</p>
 <p>Es importante remarcar que la idea de <em>vecindario</em> requiere trabajar con una métrica <span class="math inline">\(d:\RR^p\times\RR^p\to\RR\)</span>.</p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/dbscan_1.svg" alt="…" width="500px" class="figure-img">
+<figcaption>
+<strong>Figura 1</strong>. Interpretación geométrica de objetos núcleos (en verde) y objetos no núcleos (en gris), considerando un número mínimo de 3 vecinos.
+</figcaption>
+</figure>
+<div style="margin-top:2em;">
+
+</div>
 <p>Las siguientes definiciones son la base del método:</p>
 <ul>
 <li><p>Dos objetos núcleos <span class="math inline">\(\mathbf{p}_1\)</span> y <span class="math inline">\(\mathbf{p}_2\)</span> son <em><span class="math inline">\(\varepsilon\)</span>-alcanzables</em> si <span class="math inline">\(d(\mathbf{p}_1,\mathbf{p}_2)&lt;\varepsilon\)</span>.</p></li>
@@ -561,14 +570,35 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiZmlnLWFsaWduIjoi
 <div style="margin-top:2em;">
 
 </div>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/dbscan_2.svg" alt="…" width="500px" class="figure-img">
+<figcaption>
+<strong>Figura 2</strong>. Clusters formados por objetos núcleos de un conjunto de puntos.
+</figcaption>
+</figure>
+<div style="margin-top:2em;">
+
+</div>
 <p>Observar que un cluster contiene únicamente objetos núcleos. Para el resto de los puntos se procede de la siguiente manera:</p>
 <ul>
 <li><p>Un <em>objeto de frontera</em> es un punto que no es núcleo, pero que se encuentra dentro del vecindario de al menos un objeto núcleo. Los objetos de frontera se asignan al cluster correspondiente al objeto núcleo del cual son vecinos.</p></li>
 <li><p>Un <em>ruido</em> es un punto que no pertenece al vecindario de ningún objeto núcleo y, por lo tanto, no se asigna a ningún cluster.</p></li>
 </ul>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/dbscan_3.svg" alt="…" width="500px" class="figure-img">
+<figcaption>
+<strong>Figura 3</strong>. Interpretación geométrica de objetos frontera (uno por cada cluster) y ruidos (en gris), considerando un número mínimo de 3 vecinos.
+</figcaption>
+</figure>
 <div style="margin-top: 2em;">
 
 </div>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/dbscan_4.svg" alt="…" width="500px" class="figure-img">
+<figcaption>
+<strong>Figura 4</strong>. Agrupamiento obtenido por DBSCAN. Los hiperparámetros son <span class="math inline">\(\varepsilon&gt;0\)</span> y el número mínimo de vecinos.
+</figcaption>
+</figure>
 <div class="callout-example">
 <p><span class="badge bg-primary">Ejemplo 3</span> <span style="color: #0d6efd; font-family: Arial; font-weight: bold; font-size: 0.85em;"> Aplicación de DBSCAN </span></p>
 <p>Aplicaremos DBSCAN a los mismos datos de los Ejemplos 1 y 2. Utilizaremos un valor de <span class="math inline">\(\varepsilon\)</span> adecuado que permita distinguir al menos 3 clusters.</p>
