@@ -292,6 +292,12 @@ window.Quarto = {
   <li><a href="#k-medias" id="toc-k-medias" class="nav-link active" data-scroll-target="#k-medias"><span class="math inline">\(K\)</span>-medias</a></li>
   <li><a href="#mezcla-de-gaussianas-gmm" id="toc-mezcla-de-gaussianas-gmm" class="nav-link" data-scroll-target="#mezcla-de-gaussianas-gmm">Mezcla de Gaussianas (GMM)</a></li>
   <li><a href="#dbscan" id="toc-dbscan" class="nav-link" data-scroll-target="#dbscan">DBSCAN</a></li>
+  <li><a href="#biclustering" id="toc-biclustering" class="nav-link" data-scroll-target="#biclustering">Biclustering</a>
+  <ul class="collapse">
+  <li><a href="#estructuras-de-soluciones" id="toc-estructuras-de-soluciones" class="nav-link" data-scroll-target="#estructuras-de-soluciones">Estructuras de soluciones</a></li>
+  <li><a href="#biclustering-espectral" id="toc-biclustering-espectral" class="nav-link" data-scroll-target="#biclustering-espectral">Biclustering espectral</a></li>
+  </ul></li>
+  <li><a href="#evaluación" id="toc-evaluación" class="nav-link" data-scroll-target="#evaluación">Evaluación</a></li>
   <li><a href="#actividades" id="toc-actividades" class="nav-link" data-scroll-target="#actividades">Actividades</a></li>
   </ul>
 </nav>
@@ -624,6 +630,111 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiZmlnLWFsaWduIjoi
 </script>
 </div>
 </div>
+<div style="margin-top:2.5em;">
+
+</div>
+</section>
+<section id="biclustering" class="level2">
+<h2 class="anchored" data-anchor-id="biclustering">Biclustering</h2>
+<p>El <em>biclustering</em> es una técnica que agrupa de forma simultánea filas y columnas de una matriz de datos. Este enfoque presenta dos claras ventajas:</p>
+<ul>
+<li><p>Reconoce similaridades locales, identificando grupos de observaciones que presentan comportamientos similares exclusivamente en un subconjunto de atributos.</p></li>
+<li><p>Permite solapamientos: tanto las observaciones como los atributos pueden pertenecer a más de un grupo.</p></li>
+</ul>
+<p>El biclustering ha demostrado una notable versatilidad al permitir detectar contribuciones simultáneas de procesos biológicos superpuestos y descubrir diversos patrones locales en los datos. Desde su introducción en la década del 70 y su popularización con el <a href="https://www.cs.princeton.edu/courses/archive/fall03/cs597F/Articles/biclustering_of_expression_data.pdf">algoritmo de Cheng y Church (2000)</a> aplicado a datos de expresión génica, se ha consolidado como una herramienta fundamental en bioinformática para analizar correlaciones entre subconjuntos de genes y condiciones experimentales, identificar módulos biológicos, estratificar pacientes y estudiar asociaciones gen–fármaco. Más recientemente, su aplicación se ha extendido a otros campos como el análisis de textos, los sistemas de recomendación y las ciencias del clima.</p>
+<div class="definicion">
+<p><strong>Definición 1.</strong> (Bicluster) Dada una matriz de datos <span class="math inline">\(X\in\RR^{n\times p}\)</span>, un bicluster <span class="math inline">\(B=(I,J)\)</span> está determinado por un subconjunto <span class="math inline">\(I\subset\{1,\ldots,n\}\)</span> de filas y un subconjunto <span class="math inline">\(J\subset\{1,\ldots,p\}\)</span> de columnas.</p>
+</div>
+<div style="margin-top:2em;">
+
+</div>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/biclusters.png" alt="…" width="500px" class="figure-img">
+<figcaption>
+<strong>Figura 5</strong>. Ejemplo de una matriz de datos con 8 biclusters sin solapamiento.
+</figcaption>
+</figure>
+<div style="margin-top:2em;">
+
+</div>
+<p>Algunas características de los biclusters son:</p>
+<ul>
+<li><p><strong>Tamaño</strong>: está determinado por el número de filas <span class="math inline">\(N\)</span> en <span class="math inline">\(I\)</span> y el número de columnas <span class="math inline">\(M\)</span> en <span class="math inline">\(J\)</span> que forman un <em>área</em> <span class="math inline">\(N\times M\)</span>.</p></li>
+<li><p><strong>Tipo</strong>: los biclusters pueden ser <em>homogéneos</em> (mismo tipo de datos) o <em>heterogéneos</em>. Por ejemplo, las matrices numéricas son datos homogéneos, así como también las matrices binarias, estas últimas utilizadas en estudios de presencia o ausencia. Por su parte, los datos heterogéneos combinan distintos tipos de información o incorporan dimensiones adicionales, como el tiempo o el espacio, algo frecuentes en análisis de datos clínicos.</p></li>
+<li><p><strong>Contigüidad</strong>: un <em>bicluster contiguo</em> (C-Bicluster) tiene un orden entre sus filas o columnas. Este tipo de biclusters es especialmente útil en dominios donde existe una secuencia natural, como en las series temporales.</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figuras/biclusters_contiguo.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="180"></p>
+</figure>
+</div>
+<ul>
+<li><p><strong>Coherencia</strong>: describe correlaciones entre los elementos de un bicluster en ausencia de ruido.</p>
+<ul>
+<li><p>un bicluster <em>constante</em> es aquel en que todos sus elementos tienen el mismo valor. También pueden ser constantes por fila o por columna. te tipo de biclusters permite detectar regiones estables o comportamientos uniformes en los datos.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figuras/biclusters_constantes.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="400"></p>
+</figure>
+</div></li>
+<li><p>un bicluster <em>coherente</em> en datos numéricos refleja relaciones proporcionales o comportamientos sistemáticos. Puede ser aditivo (<em>shifting</em>) o multiplicativo (<em>scaling</em>). Este tipo de biclusters permite identificar patrones consistentes incluso cuando los valores absolutos difieren entre las observaciones.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figuras/biclusters_coherentes.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="300"></p>
+</figure>
+</div></li>
+<li><p>un bicluster que <em>preserva el orden</em> en datos numéricos o categóricos ordinales permite que sus filas o columnas puedan reordenarse de manera tal que los valores sigan una tendencia monótona. Este tipo de coherencia permite identificar tendencias o patrones de evolución en los datos.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figuras/biclusters_orden_2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="350"></p>
+</figure>
+</div></li>
+<li><p>un bicluster <em>compuesto</em> combina distintos tipos de coherencia. Puede dividirse en varios sub-biclusters, cada uno con su propio patrón. Este tipo de estructura permite captar relaciones mixtas o jerárquicas entre las variables.</p></li>
+</ul></li>
+<li><p><strong>Calidad</strong>: la calidad de un bicluster evalúa cuánto se ajustan sus valores al patrón asumido. Puede verse afectada por la presencia de ruido o valores faltantes dentro del bicluster.</p></li>
+</ul>
+<section id="estructuras-de-soluciones" class="level3">
+<h3 class="anchored" data-anchor-id="estructuras-de-soluciones">Estructuras de soluciones</h3>
+<p>La estructura de una solución de biclustering describe cómo se relacionan los distintos biclusters entre sí (por ejemplo, si se superponen o si cubren toda la matriz). Esta estructura depende tanto de la naturaleza de los datos como del criterio de búsqueda del algoritmo empleado. Elegir un algoritmo con las restricciones adecuadas es fundamental, ya que condiciona el tipo de patrones y relaciones que podrán descubrirse.</p>
+<figure style="text-align: center;" class="figure">
+<img src="figuras/biclustering_estructuras.png" alt="…" width="600px" class="figure-img">
+<figcaption>
+<strong>Figura 6</strong>. Diferentes estructuras de biclustering.
+</figcaption>
+</figure>
+<div style="margin-top:2em;">
+
+</div>
+</section>
+<section id="biclustering-espectral" class="level3">
+<h3 class="anchored" data-anchor-id="biclustering-espectral">Biclustering espectral</h3>
+<p>Los métodos espectrales de biclustering se basan en analizar la estructura algebraica de la matriz de datos mediante descomposición en valores propios o singulares. En <a href="https://scikit-learn.org/stable/modules/biclustering.html"><code>scikit-learn</code></a> se incluyen dos variantes principales de este enfoque:</p>
+<ul>
+<li><p><code>SpectralCoclustering</code>: los datos se interpretan como un grafo bipartito, donde las filas y columnas constituyen dos conjuntos de vértices y cada entrada representa una conexión entre ellos. El método busca subgrafos densos, produciendo una partición disjunta de la matriz.</p>
+<p><small> 📖 Dhillon, I. S. (2001). Co-clustering documents and words using bipartite spectral graph partitioning. <em>Proceedings of the Seventh ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD’01)</em>, 269–274. Association for Computing Machinery. </small></p></li>
+<li><p><code>SpectralBiclustering</code>: asume que la matriz presenta una estructura oculta tipo tablero de ajedrez. Las filas y columnas de una matriz con esta estructura pueden particionarse de manera que los elementos de cualquier bicluster (formado por el producto cartesiano de los grupos de filas y columnas) sean aproximadamente constantes.</p>
+<p><small> 📖 Kluger, Y., Basri, R., Chang, J. T., &amp; Gerstein, M. (2003). Spectral biclustering of microarray data: Coclustering genes and conditions. <em>Genome Research</em>, 13(4), 703–716. </small></p></li>
+</ul>
+<div style="margin-top:2em;">
+
+</div>
+<p>El algoritmo Spectral Coclustering fue desarrollado originalmente para el análisis de textos, donde las filas representan documentos y las columnas palabras, permitiendo identificar grupos de documentos que comparten cierto vocabulario. Por su parte, Spectral Biclustering fue introducido en el contexto del análisis de expresión génica, con el fin de detectar subconjuntos de genes que muestran comportamientos coherentes. Actualmente, ambos enfoques se aplican en una amplia variedad de dominios, como la biología computacional, la minería de textos, los sistemas de recomendación y el análisis de redes.</p>
+</section>
+</section>
+<section id="evaluación" class="level2">
+<h2 class="anchored" data-anchor-id="evaluación">Evaluación</h2>
+<p>Los resultados obtenidos por un algoritmo de biclustering pueden evaluarse desde dos perspectivas: interna y externa. Las medidas internas analizan la calidad del resultado, teniendo en cuenta el análisis de las características de los biclusters obtenidos. Las medidas externas, en cambio, comparan el resultado con la solución verdadera, lo cual es especialmente útil al trabajar con datos simulados.</p>
+<p>En la evaluación externa, es importante contar con una medida entre biclusters individuales. La métrica más común es el <em>índice de Jaccard</em>, definido como <span class="math display">\[
+J(A,B):=\frac{|A\cap B|}{|A\cup B|},
+\]</span></p>
+<p>donde <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> son los biclusters. El índice vale 0 cuando los biclusters no se superponen y 1 cuando son idénticos.</p>
+<p>Una vez que se han medido los biclusters de forma individual, es necesario implementar una medida que combine los resultados obtenidos en un puntaje total. <code>scikit-learn</code> utiliza <code>consensus_score</code>, que realiza el siguiente procedimiento:</p>
+<ol type="1">
+<li><p>Calcula las similitudes entre todos los pares de biclusters mediante el índice de Jaccard.</p></li>
+<li><p>Encuentre la asignación de los biclusters entre conjuntos (solución obtenida vs solución verdadera) que maximice la suma de similitudes (esto mediante el algoritmo de Jonker-Volgenant).</p></li>
+<li><p>Divide la suma obtenida por el tamaño del conjunto más grande.</p></li>
+</ol>
+<p>El puntaje final toma valores entre 0 y 1: el valor 0 indica ausencia total de coincidencia, mientras que 1 señala una correspondencia perfecta entre conjuntos de biclusters.</p>
 <p><br><br></p>
 </section>
 <section id="actividades" class="level2 unnumbered">
@@ -631,14 +742,27 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiZmlnLWFsaWduIjoi
 💻 <strong>Prácticas</strong><br>
 
 <hr class="linea-corta">
-<div style="text-align:left;">
-<p><a href="https://colab.research.google.com/drive/1dGzSEjz_aqWtJrZsGYcoLdYIwllit1JW?usp=sharing" target="_blank"> <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab" style="height:1.4em;"> </a></p>
+<div style="display:flex; align-items:center; text-align:left;">
+<a href="https://colab.research.google.com/drive/1dGzSEjz_aqWtJrZsGYcoLdYIwllit1JW?usp=sharing" target="_blank"> <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab" style="height:1.4em; margin-right:0.5em;"> </a>
+<p style="margin:0; font-size:1em;">
+<span class="math inline">\(K\)</span>-medias. GMM.
+</p>
+</div>
+<div style="margin-top:0.5em;">
+
+</div>
+<div style="display:flex; align-items:center; text-align:left;">
+<a href="" target="_blank"> <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab" style="height:1.4em; margin-right:0.5em;"> </a>
+<p style="margin:0; font-size:1em;">
+DBSCAN. Biclustering.
+</p>
 </div>
 <div style="margin-top: 5em;">
 
 </div>
 <div class="refs">
 <p><span style="color: #444;"><strong>Referencias</strong></span></p>
+<p>Castanho, E. N., Aidos, H., &amp; Madeira, S. C. (2020). Biclustering data analysis: A comprehensive survey. Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery, 10(2), e1344. Disponible <a href="https://academic.oup.com/bib/article/25/4/bbae342/7713725">aquí</a>.</p>
 <p>Han, J., Kamber, M., &amp; Pei, J. (2012). <em>Data Mining: Concepts and Techniques</em> (3rd ed.). Morgan Kaufmann.</p>
 <p>Hastie, T., Tibshirani, R., &amp; Friedman, J. (2009). <em>The Elements of Statistical Learning: Data Mining, Inference, and Prediction</em> (2nd ed.). Springer.</p>
 <p>Ng, A. Apuntes del curso Stanford CS229: Machine Learning. Disponible <a href="https://cs229.stanford.edu/notes2022fall/main_notes.pdf">aquí</a>.</p>
