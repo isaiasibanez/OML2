@@ -296,8 +296,8 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#estructuras-de-soluciones" id="toc-estructuras-de-soluciones" class="nav-link" data-scroll-target="#estructuras-de-soluciones">Estructuras de soluciones</a></li>
   <li><a href="#biclustering-espectral" id="toc-biclustering-espectral" class="nav-link" data-scroll-target="#biclustering-espectral">Biclustering espectral</a></li>
-  </ul></li>
   <li><a href="#evaluación" id="toc-evaluación" class="nav-link" data-scroll-target="#evaluación">Evaluación</a></li>
+  </ul></li>
   <li><a href="#actividades" id="toc-actividades" class="nav-link" data-scroll-target="#actividades">Actividades</a></li>
   </ul>
 </nav>
@@ -720,9 +720,8 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiZmlnLWFsaWduIjoi
 </div>
 <p>El algoritmo Spectral Coclustering fue desarrollado originalmente para el análisis de textos, donde las filas representan documentos y las columnas palabras, permitiendo identificar grupos de documentos que comparten cierto vocabulario. Por su parte, Spectral Biclustering fue introducido en el contexto del análisis de expresión génica, con el fin de detectar subconjuntos de genes que muestran comportamientos coherentes. Actualmente, ambos enfoques se aplican en una amplia variedad de dominios, como la biología computacional, la minería de textos, los sistemas de recomendación y el análisis de redes.</p>
 </section>
-</section>
-<section id="evaluación" class="level2">
-<h2 class="anchored" data-anchor-id="evaluación">Evaluación</h2>
+<section id="evaluación" class="level3">
+<h3 class="anchored" data-anchor-id="evaluación">Evaluación</h3>
 <p>Los resultados obtenidos por un algoritmo de biclustering pueden evaluarse desde dos perspectivas: interna y externa. Las medidas internas analizan la calidad del resultado, teniendo en cuenta el análisis de las características de los biclusters obtenidos. Las medidas externas, en cambio, comparan el resultado con la solución verdadera, lo cual es especialmente útil al trabajar con datos simulados.</p>
 <p>En la evaluación externa, es importante contar con una medida entre biclusters individuales. La métrica más común es el <em>índice de Jaccard</em>, definido como <span class="math display">\[
 J(A,B):=\frac{|A\cap B|}{|A\cup B|},
@@ -736,6 +735,7 @@ J(A,B):=\frac{|A\cap B|}{|A\cup B|},
 </ol>
 <p>El puntaje final toma valores entre 0 y 1: el valor 0 indica ausencia total de coincidencia, mientras que 1 señala una correspondencia perfecta entre conjuntos de biclusters.</p>
 <p><br><br></p>
+</section>
 </section>
 <section id="actividades" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="actividades">Actividades</h2>
